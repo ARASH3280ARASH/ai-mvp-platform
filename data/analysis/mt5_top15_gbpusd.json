@@ -1,0 +1,281 @@
+{
+  "symbol": "GBPUSD",
+  "broker": "GBPUSD+",
+  "lot": 0.01,
+  "pip_size": 0.0001,
+  "spread": 1,
+  "magic": 202604,
+  "stop_level": 20,
+  "strategies": [
+    {
+      "strategy_name": "ADX_03_GBPUSD_H1",
+      "strategy_id": "ADX_03_GBPUSD_H1",
+      "count": 3,
+      "total_net_pips": 176.8,
+      "total_net_usd": 17.32,
+      "avg_net_pips": 58.9,
+      "avg_rr": 0,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "score": 187.4,
+      "category": "ADX",
+      "rank": 1
+    },
+    {
+      "strategy_name": "FIB_01_GBPUSD_H1",
+      "strategy_id": "FIB_01_GBPUSD_H1",
+      "count": 3,
+      "total_net_pips": 175.7,
+      "total_net_usd": 17.21,
+      "avg_net_pips": 58.6,
+      "avg_rr": 0,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "score": 186.2,
+      "category": "Fibonacci",
+      "rank": 2
+    },
+    {
+      "strategy_name": "MA_02_GBPUSD_H1",
+      "strategy_id": "MA_02_GBPUSD_H1",
+      "count": 3,
+      "total_net_pips": 175.3,
+      "total_net_usd": 17.17,
+      "avg_net_pips": 58.4,
+      "avg_rr": 0,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "score": 185.8,
+      "category": "Moving Avg",
+      "rank": 3
+    },
+    {
+      "strategy_name": "ADX_02_GBPUSD_H1",
+      "strategy_id": "ADX_02_GBPUSD_H1",
+      "count": 3,
+      "total_net_pips": 175.0,
+      "total_net_usd": 17.14,
+      "avg_net_pips": 58.3,
+      "avg_rr": 0,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "score": 185.5,
+      "category": "ADX",
+      "rank": 4
+    },
+    {
+      "strategy_name": "FIB_02_GBPUSD_H1",
+      "strategy_id": "FIB_02_GBPUSD_H1",
+      "count": 3,
+      "total_net_pips": 174.8,
+      "total_net_usd": 17.12,
+      "avg_net_pips": 58.3,
+      "avg_rr": 0,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "score": 185.3,
+      "category": "Fibonacci",
+      "rank": 5
+    },
+    {
+      "strategy_name": "PVT_04_GBPUSD_H1",
+      "strategy_id": "PVT_04_GBPUSD_H1",
+      "count": 3,
+      "total_net_pips": 174.7,
+      "total_net_usd": 17.11,
+      "avg_net_pips": 58.2,
+      "avg_rr": 0,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "score": 185.2,
+      "category": "Pivot",
+      "rank": 6
+    },
+    {
+      "strategy_name": "MTF_01_GBPUSD_H1",
+      "strategy_id": "MTF_01_GBPUSD_H1",
+      "count": 3,
+      "total_net_pips": 174.6,
+      "total_net_usd": 17.1,
+      "avg_net_pips": 58.2,
+      "avg_rr": 0,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "score": 185.1,
+      "category": "Multi-TF",
+      "rank": 7
+    },
+    {
+      "strategy_name": "CP_05_GBPUSD_H1",
+      "strategy_id": "CP_05_GBPUSD_H1",
+      "count": 3,
+      "total_net_pips": 174.2,
+      "total_net_usd": 17.06,
+      "avg_net_pips": 58.1,
+      "avg_rr": 0,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "score": 184.7,
+      "category": "Chart Pattern",
+      "rank": 8
+    },
+    {
+      "strategy_name": "FIB_05_GBPUSD_H1",
+      "strategy_id": "FIB_05_GBPUSD_H1",
+      "count": 3,
+      "total_net_pips": 173.9,
+      "total_net_usd": 17.03,
+      "avg_net_pips": 58.0,
+      "avg_rr": 0,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "score": 184.3,
+      "category": "Fibonacci",
+      "rank": 9
+    },
+    {
+      "strategy_name": "MS_03_GBPUSD_H1",
+      "strategy_id": "MS_03_GBPUSD_H1",
+      "count": 2,
+      "total_net_pips": 119.1,
+      "total_net_usd": 11.67,
+      "avg_net_pips": 59.5,
+      "avg_rr": 0,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "score": 123.9,
+      "category": "Other",
+      "rank": 10
+    },
+    {
+      "strategy_name": "ATR_01_GBPUSD_H1",
+      "strategy_id": "ATR_01_GBPUSD_H1",
+      "count": 2,
+      "total_net_pips": 118.5,
+      "total_net_usd": 11.61,
+      "avg_net_pips": 59.2,
+      "avg_rr": 0,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "score": 123.2,
+      "category": "ATR",
+      "rank": 11
+    },
+    {
+      "strategy_name": "MA_07_GBPUSD_H1",
+      "strategy_id": "MA_07_GBPUSD_H1",
+      "count": 2,
+      "total_net_pips": 118.5,
+      "total_net_usd": 11.61,
+      "avg_net_pips": 59.2,
+      "avg_rr": 0,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "score": 123.2,
+      "category": "Moving Avg",
+      "rank": 12
+    },
+    {
+      "strategy_name": "MA_12_GBPUSD_H1",
+      "strategy_id": "MA_12_GBPUSD_H1",
+      "count": 2,
+      "total_net_pips": 118.2,
+      "total_net_usd": 11.58,
+      "avg_net_pips": 59.1,
+      "avg_rr": 0,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "score": 122.9,
+      "category": "Moving Avg",
+      "rank": 13
+    },
+    {
+      "strategy_name": "ICH_07_GBPUSD_H1",
+      "strategy_id": "ICH_07_GBPUSD_H1",
+      "count": 2,
+      "total_net_pips": 117.6,
+      "total_net_usd": 11.52,
+      "avg_net_pips": 58.8,
+      "avg_rr": 0,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "score": 122.3,
+      "category": "Ichimoku",
+      "rank": 14
+    },
+    {
+      "strategy_name": "MTF_04_GBPUSD_H1",
+      "strategy_id": "MTF_04_GBPUSD_H1",
+      "count": 2,
+      "total_net_pips": 117.6,
+      "total_net_usd": 11.52,
+      "avg_net_pips": 58.8,
+      "avg_rr": 0,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "score": 122.3,
+      "category": "Multi-TF",
+      "rank": 15
+    }
+  ]
+}

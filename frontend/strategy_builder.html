@@ -1,0 +1,2738 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Whilber-AI | Strategy Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══ NAV ═══ */
+/* ═══ UNIVERSAL NAV ═══ */
+.wnav{position:sticky;top:0;z-index:1000;background:rgba(8,11,18,.92);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid rgba(30,42,69,.6);padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;}
+.wnav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.wnav-logo-box{width:32px;height:32px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(0,212,255,.25);}
+.wnav-logo-txt{font-size:17px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.3px;}
+.wnav-links{display:flex;align-items:center;gap:1px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.wnav-links::-webkit-scrollbar{display:none;}
+.wnav-links a{color:#8892a8;padding:6px 10px;border-radius:7px;font-size:12.5px;font-weight:500;white-space:nowrap;transition:all .2s;text-decoration:none;}
+.wnav-links a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-links a.wn-active{color:#00d4ff;background:rgba(0,212,255,.08);font-weight:600;}
+.wnav-cta{background:linear-gradient(135deg,#00d4ff,#a855f7) !important;color:#000 !important;font-weight:700 !important;padding:6px 14px !important;border-radius:7px !important;font-size:12px !important;}
+.wnav-back{display:flex;align-items:center;gap:5px;color:#8892a8;font-size:12px;padding:5px 10px;border-radius:7px;cursor:pointer;background:rgba(255,255,255,.03);border:1px solid rgba(30,42,69,.5);transition:all .2s;text-decoration:none;flex-shrink:0;margin-left:6px;}
+.wnav-back:hover{color:#00d4ff;border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);}
+.wnav-ham{display:none;background:none;border:none;color:#e8ecf4;font-size:22px;cursor:pointer;padding:4px;}
+.wnav-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:999;}
+.wnav-mob-overlay.open{display:block;}
+.wnav-mob{position:fixed;top:0;right:0;width:270px;height:100vh;background:#0f1320;border-left:1px solid #1e2a45;z-index:1001;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:64px 14px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.wnav-mob-overlay.open .wnav-mob{transform:translateX(0);}
+.wnav-mob a{display:flex;align-items:center;gap:9px;color:#8892a8;padding:11px 14px;border-radius:9px;font-size:13.5px;text-decoration:none;transition:all .15s;}
+.wnav-mob a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-mob a.wn-active{background:rgba(0,212,255,.08);color:#00d4ff;font-weight:600;}
+.wnav-mob-close{position:absolute;top:14px;left:14px;background:#161b2e;border:1px solid #1e2a45;color:#8892a8;width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+@media(max-width:900px){.wnav-links{display:none;}.wnav-ham{display:block;}.wnav-back{font-size:11px;padding:4px 8px;}}
+
+/* ═══ ORIGINAL BUILDER CSS ═══ */
+
+:root{--bg:#0a0c10;--bg2:#12151c;--bg3:#1a1e2a;--bg4:#222738;--border:#2a2f42;--text:#e2e5f0;--text2:#7f849c;--text3:#565a6e;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;--cyan:#06b6d4;--purple:#a78bfa;--blue:#3b82f6;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;}
+
+/* Header */
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.logo a{color:var(--cyan);text-decoration:none;font-weight:700;font-size:17px;}
+.nav{display:flex;gap:6px;}
+.nav a{color:var(--text2);text-decoration:none;padding:5px 12px;border-radius:7px;font-size:12px;}
+.nav a:hover,.nav a.active{color:var(--cyan);background:rgba(6,182,212,.08);}
+
+/* Layout */
+.main{display:flex;gap:12px;padding:12px;max-width:1400px;margin:0 auto;min-height:calc(100vh - 50px);}
+.sidebar{width:260px;flex-shrink:0;}
+.content{flex:1;min-width:0;}
+
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+.card-head{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg3);}
+.card-head h3{font-size:13px;color:var(--cyan);font-weight:600;}
+.card-body{padding:12px;}
+
+/* Form */
+.form-row{margin-bottom:10px;}
+.form-row label{display:block;font-size:11px;color:var(--text2);margin-bottom:3px;}
+.form-row input,.form-row select,.form-row textarea{width:100%;padding:7px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:12px;font-family:inherit;}
+.form-row textarea{min-height:50px;resize:vertical;}
+.form-cols{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.form-cols-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+
+/* Buttons */
+.btn{padding:6px 14px;border-radius:7px;border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;transition:.2s;}
+.btn-cyan{background:var(--cyan);color:#000;}
+.btn-green{background:var(--green);color:#000;}
+.btn-red{background:var(--red);color:#fff;}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text2);}
+.btn-sm{padding:4px 10px;font-size:11px;}
+.btn:hover{opacity:.85;}
+
+/* Condition Card */
+.cond-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:8px;position:relative;}
+.cond-card .cond-num{position:absolute;top:8px;left:8px;width:22px;height:22px;background:var(--cyan);color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;}
+.cond-card .cond-del{position:absolute;top:8px;left:36px;background:var(--red);color:#fff;border:none;width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;}
+.cond-logic{text-align:center;padding:4px;font-size:11px;color:var(--yellow);font-weight:700;}
+
+/* Exit item */
+.exit-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.exit-item .exit-label{font-size:11px;color:var(--cyan);font-weight:600;min-width:80px;}
+.exit-item input,.exit-item select{padding:5px 8px;border-radius:5px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:11px;width:80px;font-family:inherit;}
+.exit-item .exit-del{background:var(--red);color:#fff;border:none;width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:10px;margin-right:auto;}
+
+/* Filter item */
+.filter-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:6px;}
+.filter-item .fi-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.filter-item .fi-name{font-size:12px;color:var(--yellow);font-weight:600;}
+
+/* Risk preset */
+.risk-presets{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;}
+.risk-preset{padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);text-align:center;cursor:pointer;transition:.2s;}
+.risk-preset:hover,.risk-preset.active{border-color:var(--cyan);background:rgba(6,182,212,.08);}
+.risk-preset .rp-name{font-size:12px;font-weight:700;color:var(--text);}
+.risk-preset .rp-detail{font-size:10px;color:var(--text3);margin-top:2px;}
+
+/* Strategy list */
+.strat-list-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);margin-bottom:6px;cursor:pointer;transition:.2s;}
+.strat-list-item:hover{border-color:var(--cyan);}
+.strat-list-item .sli-name{font-size:12px;font-weight:600;flex:1;}
+.strat-list-item .sli-date{font-size:10px;color:var(--text3);}
+
+/* Summary */
+.summary{font-size:11px;color:var(--text2);line-height:1.8;padding:8px;background:var(--bg3);border-radius:8px;}
+.summary strong{color:var(--cyan);}
+
+/* Toast */
+.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);padding:10px 24px;border-radius:8px;font-weight:700;z-index:400;display:none;font-size:12px;}
+.toast.ok{background:var(--green);color:#000;display:block;}
+.toast.err{background:var(--red);color:#fff;display:block;}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:10px;border-bottom:1px solid var(--border);padding-bottom:6px;}
+.tab{padding:5px 12px;border-radius:6px 6px 0 0;font-size:12px;color:var(--text3);cursor:pointer;border:1px solid transparent;border-bottom:none;font-family:inherit;background:transparent;}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--cyan);background:var(--bg3);border-color:var(--border);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+@media(max-width:900px){.main{flex-direction:column;}.sidebar{width:100%;}}
+
+.bt-controls{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-bottom:12px;}
+.bt-controls .form-row{margin:0;}
+.bt-controls input,.bt-controls select{width:100px;}
+.bt-stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;margin-bottom:14px;}
+.bt-stat{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;text-align:center;}
+.bt-stat .sv{font-size:18px;font-weight:700;}
+.bt-stat .sv.green{color:var(--green);}
+.bt-stat .sv.red{color:var(--red);}
+.bt-stat .sv.cyan{color:var(--cyan);}
+.bt-stat .sl{font-size:10px;color:var(--text3);margin-top:2px;}
+.bt-chart-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:12px;}
+.bt-trades-table{width:100%;border-collapse:collapse;font-size:11px;}
+.bt-trades-table th{background:var(--bg3);padding:6px 8px;text-align:right;color:var(--text2);border-bottom:1px solid var(--border);}
+.bt-trades-table td{padding:5px 8px;border-bottom:1px solid var(--border);}
+.bt-trades-table .win{color:var(--green);}
+.bt-trades-table .loss{color:var(--red);}
+.bt-loading{text-align:center;padding:40px;color:var(--cyan);font-size:14px;}
+.bt-empty{text-align:center;padding:40px;color:var(--text3);font-size:13px;}
+
+.cg-buttons{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.cg-btn{padding:10px 20px;border-radius:10px;border:2px solid var(--border);background:var(--bg3);cursor:pointer;text-align:center;transition:.2s;flex:1;min-width:140px;}
+.cg-btn:hover{border-color:var(--cyan);background:rgba(6,182,212,.06);}
+.cg-btn .cg-icon{font-size:28px;display:block;margin-bottom:4px;}
+.cg-btn .cg-label{font-size:12px;font-weight:700;color:var(--text);}
+.cg-btn .cg-sub{font-size:10px;color:var(--text3);margin-top:2px;}
+.cg-code-wrap{position:relative;background:#0d1117;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:10px;}
+.cg-code-head{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:var(--bg3);border-bottom:1px solid var(--border);}
+.cg-code-head .cg-fname{font-size:12px;color:var(--cyan);font-weight:600;}
+.cg-code-head .cg-actions{display:flex;gap:6px;}
+.cg-code{padding:14px;font-family:'Consolas','Courier New',monospace;font-size:11px;color:#c9d1d9;line-height:1.6;overflow-x:auto;max-height:500px;overflow-y:auto;white-space:pre;tab-size:3;}
+.cg-code .kw{color:#ff7b72;}
+.cg-code .str{color:#a5d6ff;}
+.cg-code .cmt{color:#8b949e;}
+.cg-code .fn{color:#d2a8ff;}
+.cg-code .num{color:#79c0ff;}
+.cg-code .type{color:#ffa657;}
+.cg-info{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:10px;font-size:11px;color:var(--text2);line-height:1.8;}
+.cg-info strong{color:var(--cyan);}
+.tag-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;background:rgba(6,182,212,.1);color:var(--cyan);}
+.tag-badge.green{background:rgba(34,197,94,.1);color:var(--green);}
+.tag-badge.red{background:rgba(239,68,68,.1);color:var(--red);}
+.tag-badge.text3{background:var(--bg3);color:var(--text3);}
+
+.pv-status{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;}
+.pv-status-card{flex:1;min-width:160px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+.pv-status-card.active-buy{border-color:var(--green);background:rgba(34,197,94,.06);}
+.pv-status-card.active-sell{border-color:var(--red);background:rgba(239,68,68,.06);}
+.pv-status-card .pv-icon{font-size:28px;margin-bottom:4px;}
+.pv-status-card .pv-label{font-size:10px;color:var(--text3);}
+.pv-status-card .pv-val{font-size:18px;font-weight:700;}
+.pv-score-ring{width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:22px;font-weight:800;}
+.pv-score-ring.good{background:conic-gradient(var(--green) var(--pct),var(--bg) 0);color:var(--green);}
+.pv-score-ring.mid{background:conic-gradient(var(--yellow) var(--pct),var(--bg) 0);color:var(--yellow);}
+.pv-score-ring.bad{background:conic-gradient(var(--red) var(--pct),var(--bg) 0);color:var(--red);}
+.pv-score-inner{width:54px;height:54px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;}
+.pv-cond-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px;margin-bottom:12px;}
+.pv-cond{padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;gap:8px;font-size:11px;}
+.pv-cond .pv-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.pv-cond .pv-dot.ok{background:var(--green);}
+.pv-cond .pv-dot.no{background:var(--red);}
+.pv-signals{max-height:350px;overflow-y:auto;}
+.pv-sig{display:flex;align-items:center;gap:8px;padding:6px 10px;border-bottom:1px solid var(--border);font-size:11px;}
+.pv-sig:hover{background:var(--bg3);}
+.pv-sig .pv-badge{padding:2px 8px;border-radius:4px;font-weight:700;font-size:10px;}
+.pv-sig .pv-badge.buy{background:rgba(34,197,94,.15);color:var(--green);}
+.pv-sig .pv-badge.sell{background:rgba(239,68,68,.15);color:var(--red);}
+.pv-sig .pv-outcome{padding:2px 6px;border-radius:4px;font-size:9px;font-weight:600;}
+.pv-sig .pv-outcome.win{background:rgba(34,197,94,.15);color:var(--green);}
+.pv-sig .pv-outcome.loss{background:rgba(239,68,68,.15);color:var(--red);}
+.pv-sig .pv-outcome.open{background:rgba(245,158,11,.15);color:var(--yellow);}
+.pv-compare{display:grid;grid-template-columns:1fr 60px 1fr;gap:10px;align-items:start;}
+.pv-compare-col{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;}
+.pv-compare-vs{display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:var(--text3);}
+.pv-compare-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:11px;}
+.pv-compare-row .pv-cl{color:var(--text2);}
+
+.opt-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.opt-method{background:var(--bg3);border:2px solid var(--border);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:.2s;}
+.opt-method:hover,.opt-method.active{border-color:#f472b6;background:rgba(244,114,182,.06);}
+.opt-method .om-icon{font-size:30px;margin-bottom:6px;}
+.opt-method .om-name{font-size:13px;font-weight:700;color:var(--text);}
+.opt-method .om-desc{font-size:10px;color:var(--text3);margin-top:3px;}
+.opt-param-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;margin-bottom:12px;}
+.opt-param{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:8px;}
+.opt-param input[type=checkbox]{accent-color:#f472b6;}
+.opt-param .op-name{font-size:11px;font-weight:600;flex:1;}
+.opt-param .op-val{font-size:10px;color:var(--text3);}
+.opt-result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px;margin-bottom:12px;}
+.opt-result-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;}
+.opt-result-card .orc-val{font-size:16px;font-weight:700;}
+.opt-result-card .orc-label{font-size:10px;color:var(--text3);margin-top:2px;}
+.opt-table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:12px;}
+.opt-table th{background:var(--bg3);padding:6px 8px;text-align:right;color:var(--text2);border-bottom:1px solid var(--border);}
+.opt-table td{padding:5px 8px;border-bottom:1px solid var(--border);}
+.opt-table tr:first-child td{background:rgba(244,114,182,.05);font-weight:700;}
+.opt-table tr:hover{background:var(--bg3);}
+.opt-bar{height:6px;border-radius:3px;background:var(--border);margin-top:3px;}
+.opt-bar-fill{height:100%;border-radius:3px;}
+.mc-hist{display:flex;align-items:flex-end;gap:2px;height:80px;margin:10px 0;}
+.mc-hist-bar{flex:1;background:#f472b6;border-radius:2px 2px 0 0;min-width:8px;transition:.2s;opacity:.7;}
+.mc-hist-bar:hover{opacity:1;}
+.wf-window{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:6px;display:flex;align-items:center;gap:10px;font-size:11px;}
+.wf-window .wf-num{width:26px;height:26px;background:#f472b6;color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;}
+
+.tpl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-bottom:10px;}
+.tpl-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:.2s;}
+.tpl-card:hover{border-color:var(--cyan);transform:translateY(-2px);}
+.tpl-card .tpl-icon{font-size:26px;margin-bottom:4px;}
+.tpl-card .tpl-name{font-size:13px;font-weight:700;color:var(--text);}
+.tpl-card .tpl-desc{font-size:10px;color:var(--text3);margin-top:3px;line-height:1.4;}
+.tpl-card .tpl-badge{display:inline-block;padding:1px 6px;border-radius:4px;font-size:9px;font-weight:600;margin-top:4px;}
+.ms-sym-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:4px;margin-bottom:10px;}
+.ms-sym{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 8px;display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer;}
+.ms-sym:hover{border-color:var(--cyan);}
+.ms-sym input{accent-color:#60a5fa;}
+.ms-sym .ms-name{font-weight:600;}
+.ms-sym .ms-sub{color:var(--text3);font-size:10px;}
+.ms-results{max-height:400px;overflow-y:auto;}
+.ms-row{display:grid;grid-template-columns:90px repeat(7,1fr);gap:4px;padding:6px 8px;font-size:11px;border-bottom:1px solid var(--border);align-items:center;}
+.ms-row:hover{background:var(--bg3);}
+.ms-row.ms-header{background:var(--bg3);font-weight:700;color:var(--text2);position:sticky;top:0;}
+.ms-row .ms-sym-name{font-weight:700;color:var(--cyan);}
+.ms-summary{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px;margin-bottom:12px;}
+.ms-summary-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;}
+.ms-summary-card .msc-val{font-size:16px;font-weight:700;}
+.ms-summary-card .msc-label{font-size:10px;color:var(--text3);margin-top:2px;}
+.export-btns{display:flex;gap:6px;margin-top:8px;}
+
+.mon-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+.mon-card .mon-status{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.mon-card .mon-status.on{background:var(--green);}
+.mon-card .mon-status.off{background:var(--text3);}
+.mon-card .mon-info{flex:1;}
+.mon-card .mon-name{font-size:12px;font-weight:600;}
+.mon-card .mon-detail{font-size:10px;color:var(--text3);}
+.alert-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid var(--border);font-size:11px;}
+.alert-item:hover{background:var(--bg3);}
+.alert-item.unread{background:rgba(251,191,36,.04);}
+.alert-badge{padding:2px 8px;border-radius:4px;font-weight:700;font-size:10px;}
+.alert-badge.buy{background:rgba(34,197,94,.15);color:var(--green);}
+.alert-badge.sell{background:rgba(239,68,68,.15);color:var(--red);}
+.alert-count{display:inline-flex;align-items:center;justify-content:center;background:var(--red);color:#fff;font-size:9px;font-weight:800;width:16px;height:16px;border-radius:50%;margin-right:4px;}
+.live-signal{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:2px solid;margin-bottom:10px;font-size:13px;font-weight:700;}
+.live-signal.buy{border-color:var(--green);background:rgba(34,197,94,.06);color:var(--green);}
+.live-signal.sell{border-color:var(--red);background:rgba(239,68,68,.06);color:var(--red);}
+.live-signal.none{border-color:var(--border);background:var(--bg3);color:var(--text3);}
+.live-pulse{width:12px;height:12px;border-radius:50%;animation:pulse 1.5s infinite;}
+.live-pulse.buy{background:var(--green);}
+.live-pulse.sell{background:var(--red);}
+.live-pulse.none{background:var(--text3);animation:none;}
+@keyframes pulse{0%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.3);}100%{opacity:1;transform:scale(1);}}
+
+.ch-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+.ch-box{background:var(--bg3);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.ch-box.full{grid-column:span 2;}
+.ch-head{padding:8px 12px;border-bottom:1px solid var(--border);font-size:12px;font-weight:700;color:#34d399;display:flex;align-items:center;gap:6px;}
+.ch-body{padding:10px;position:relative;min-height:200px;}
+.ch-body canvas{max-height:220px;}
+.heatmap-grid{display:grid;gap:2px;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));}
+.hm-cell{padding:6px;border-radius:6px;text-align:center;font-size:10px;font-weight:600;}
+.hm-cell .hm-month{font-size:9px;color:rgba(255,255,255,.6);margin-bottom:2px;}
+.hm-cell .hm-pnl{font-size:12px;}
+.hm-cell .hm-detail{font-size:8px;opacity:.7;margin-top:1px;}
+.exit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;}
+.exit-card{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;}
+.exit-card .ec-pct{font-size:18px;font-weight:800;}
+.exit-card .ec-name{font-size:10px;color:var(--text3);margin-top:2px;}
+.exit-card .ec-detail{font-size:9px;margin-top:3px;}
+.streak-bar{display:flex;align-items:flex-end;gap:2px;height:60px;}
+.streak-item{min-width:8px;flex:1;border-radius:2px 2px 0 0;transition:.2s;cursor:default;}
+.streak-item:hover{opacity:.8;}
+.day-bars{display:flex;gap:8px;align-items:flex-end;justify-content:center;height:100px;}
+.day-bar-wrap{text-align:center;flex:1;}
+.day-bar{margin:0 auto;width:30px;border-radius:4px 4px 0 0;transition:.2s;}
+.day-bar:hover{opacity:.8;}
+.day-label{font-size:9px;color:var(--text3);margin-top:4px;}
+.day-val{font-size:9px;font-weight:600;margin-top:2px;}
+@media(max-width:900px){.ch-grid{grid-template-columns:1fr;}.ch-box.full{grid-column:span 1;}}
+
+
+/* ═══ HIDE OLD HEADER ═══ */
+.header{display:none !important;}
+
+/* ═══ FOOTER ═══ */
+.wfooter{background:#0f1320;border-top:1px solid #1e2a45;padding:28px 20px 14px;width:100%;}
+.wfooter-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:28px;margin-bottom:22px;}
+.wfooter-brand p{font-size:12px;color:#5a6480;margin-top:8px;line-height:1.8;}
+.wfooter-col h4{font-size:12px;font-weight:700;color:#e8ecf4;margin-bottom:10px;}
+.wfooter-col a{display:block;color:#5a6480;font-size:12px;padding:3px 0;text-decoration:none;transition:color .2s;}
+.wfooter-col a:hover{color:#00d4ff;}
+.wfooter-bottom{max-width:1100px;margin:0 auto;border-top:1px solid #1e2a45;padding-top:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.wfooter-bottom p{font-size:11px;color:#5a6480;}
+.wfooter-bottom a{color:#00d4ff;text-decoration:none;font-size:11px;}
+@media(max-width:768px){.wfooter-grid{grid-template-columns:1fr 1fr;gap:16px;}}
+@media(max-width:480px){.wfooter-grid{grid-template-columns:1fr;}}
+
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:300;}
+</style>
+</head>
+<body>
+<!-- ═══ UNIVERSAL TOP NAV ═══ -->
+<nav class="wnav" id="wTopNav">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <a href="/" class="wnav-logo">
+      <div class="wnav-logo-box">W</div>
+      <span class="wnav-logo-txt">Whilber-AI</span>
+    </a>
+    <a href="javascript:history.back()" class="wnav-back" title="بازگشت">→ برگشت</a>
+  </div>
+  <div class="wnav-links">
+    <a href="/">خانه</a>
+    <a href="/dashboard" >تحلیل بازار</a>
+    <a href="/track-record">سوابق</a>
+    <a href="/builder" class="wn-active">استراتژی‌ساز</a>
+    <a href="/risk-manager">مدیریت ریسک</a>
+    <a href="/journal">ژورنال</a>
+    <a href="/performance">عملکرد زنده</a>
+    <a href="/alerts">هشدارها</a>
+    <a href="/guide">راهنما</a>
+    <a href="/services">خدمات</a>
+    <a href="/about">درباره ما</a>
+    <a href="/contact">تماس</a>
+    <a href="/robots">ربات‌ها</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/login">ورود</a>
+    <a href="/register">ثبت‌نام</a>
+    <a href="/dashboard" class="wnav-cta">🚀 تحلیل</a>
+  </div>
+  <button class="wnav-ham" onclick="document.getElementById('wMobOverlay').classList.add('open')">☰</button>
+</nav>
+<div class="wnav-mob-overlay" id="wMobOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="wnav-mob">
+    <button class="wnav-mob-close" onclick="document.getElementById('wMobOverlay').classList.remove('open')">✕</button>
+    <a href="javascript:history.back()" style="color:#00d4ff;border:1px solid rgba(0,212,255,.2);margin-bottom:8px;">→ برگشت به صفحه قبل</a>
+    <a href="/">🏠 خانه</a>
+    <a href="/dashboard" >📊 تحلیل بازار</a>
+    <a href="/track-record">📜 سوابق</a>
+    <a href="/builder" class="wn-active">🔧 استراتژی‌ساز</a>
+    <a href="/risk-manager">🛡️ مدیریت ریسک</a>
+    <a href="/journal">📒 ژورنال</a>
+    <a href="/performance">📈 عملکرد زنده</a>
+    <a href="/alerts">🔔 هشدارها</a>
+    <a href="/robots">&#x1F916; ربات‌ها</a>
+    <a href="/guide">📖 راهنما</a>
+    <a href="/services">⭐ خدمات</a>
+    <a href="/about">👤 درباره ما</a>
+    <a href="/contact">📞 تماس</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/admin">⚙️ ادمین</a>
+    <a href="/login">&#x1F511; ورود</a>
+    <a href="/register">&#x1F4DD; ثبت‌نام</a>
+  </div>
+</div>
+
+
+<!-- REGISTRATION MODAL -->
+<div class="modal-overlay" id="regModal" style="display:none;"></div>
+
+<style>
+.builder-lock-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(8,11,18,.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;text-align:center;flex-direction:column;gap:16px;}
+.builder-lock-overlay.show{display:flex;}
+.builder-lock-box{background:var(--bg2,#0f1320);border:1px solid rgba(0,212,255,.25);border-radius:16px;padding:40px 32px;max-width:400px;}
+.builder-lock-box h2{font-size:20px;font-weight:900;margin-bottom:8px;color:#e8ecf4;}
+.builder-lock-box p{font-size:13px;color:#8892a8;margin-bottom:20px;line-height:1.8;}
+.builder-lock-box a{display:inline-block;background:linear-gradient(135deg,#00d4ff,#a855f7);color:#000;font-weight:800;padding:10px 28px;border-radius:10px;font-size:14px;transition:all .2s;}
+.builder-lock-box a:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,212,255,.3);}
+</style>
+<div class="builder-lock-overlay" id="builderLockOverlay">
+  <div class="builder-lock-box">
+    <h2>مخصوص پلن Pro و بالاتر</h2>
+    <p>استراتژی‌ساز ابزار حرفه‌ای ساخت و بک‌تست استراتژی‌های شخصی است. برای دسترسی، پلن خود را ارتقا دهید.</p>
+    <a href="/pricing">مشاهده پلن‌ها</a>
+  </div>
+</div>
+<script>
+(function(){try{var ui=localStorage.getItem('userInfo');if(ui){var u=JSON.parse(ui);if(u.plan==='free'||!u.plan){document.getElementById('builderLockOverlay').classList.add('show');}}else{document.getElementById('builderLockOverlay').classList.add('show');}}catch(e){}})();
+</script>
+<script src="/static/plan-ui.js"></script>
+<script>
+document.addEventListener('whilber-plan-ready', function(){
+  var P = window.WHILBER_PLAN; if(!P) return;
+  if(!P.limits.builder){
+    document.getElementById('builderLockOverlay').classList.add('show');
+  } else {
+    document.getElementById('builderLockOverlay').classList.remove('show');
+  }
+});
+</script>
+
+<div class="main">
+  <!-- Sidebar: Strategy List + Info -->
+  <div class="sidebar">
+    <div class="card">
+      <div class="card-head"><h3>📋 استراتژی‌های من</h3><div style="display:flex;gap:4px;"><button class="btn btn-cyan btn-sm" onclick="newStrategy()">+ جدید</button><button class="btn btn-sm" style="background:var(--purple);color:#000;" onclick="showTemplates()">📦 قالب</button></div></div>
+      <div class="card-body" id="stratList"><div style="color:var(--text3);font-size:11px;text-align:center;padding:20px;">بدون استراتژی</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>📝 خلاصه</h3></div>
+      <div class="card-body" id="summaryBox"><div class="summary">استراتژی جدید بسازید</div></div>
+    </div>
+    <div style="padding:4px;">
+      <button class="btn btn-green" style="width:100%;padding:10px;font-size:13px;" onclick="saveStrategy()">💾 ذخیره استراتژی</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content">
+    <!-- Strategy Name & Settings -->
+    <div class="card">
+      <div class="card-head"><h3>⚙️ تنظیمات اصلی</h3></div>
+      <div class="card-body">
+        <div class="form-cols-3">
+          <div class="form-row"><label>نام استراتژی</label><input type="text" id="sName" placeholder="مثال: Golden Cross + RSI"></div>
+          <div class="form-row"><label>نماد</label><select id="sSymbol">
+              <optgroup label="Forex Major — جفت‌ارز اصلی">
+                <option value="EURUSD">EURUSD</option>
+                <option value="GBPUSD">GBPUSD</option>
+                <option value="USDJPY">USDJPY</option>
+                <option value="USDCHF">USDCHF</option>
+                <option value="AUDUSD">AUDUSD</option>
+                <option value="NZDUSD">NZDUSD</option>
+                <option value="USDCAD">USDCAD</option>
+              </optgroup>
+              <optgroup label="Forex Minor — جفت‌ارز فرعی">
+                <option value="EURGBP">EURGBP</option>
+                <option value="EURJPY">EURJPY</option>
+                <option value="GBPJPY">GBPJPY</option>
+                <option value="EURAUD">EURAUD</option>
+                <option value="EURCAD">EURCAD</option>
+                <option value="EURCHF">EURCHF</option>
+                <option value="EURNZD">EURNZD</option>
+                <option value="GBPAUD">GBPAUD</option>
+                <option value="GBPCAD">GBPCAD</option>
+                <option value="GBPCHF">GBPCHF</option>
+                <option value="GBPNZD">GBPNZD</option>
+                <option value="AUDJPY">AUDJPY</option>
+                <option value="AUDNZD">AUDNZD</option>
+                <option value="AUDCAD">AUDCAD</option>
+                <option value="AUDCHF">AUDCHF</option>
+                <option value="NZDJPY">NZDJPY</option>
+                <option value="NZDCAD">NZDCAD</option>
+                <option value="NZDCHF">NZDCHF</option>
+                <option value="CADJPY">CADJPY</option>
+                <option value="CADCHF">CADCHF</option>
+                <option value="CHFJPY">CHFJPY</option>
+              </optgroup>
+              <optgroup label="Metals — فلزات">
+                <option value="XAUUSD" selected>XAUUSD — طلا</option>
+                <option value="XAGUSD">XAGUSD — نقره</option>
+              </optgroup>
+              <optgroup label="Indices — شاخص‌ها">
+                <option value="US100">US100 — نزدک</option>
+                <option value="US30">US30 — داوجونز</option>
+                <option value="US500">US500 — S&P 500</option>
+              </optgroup>
+              <optgroup label="Crypto — رمزارز">
+                <option value="BTCUSD">BTCUSD — بیت‌کوین</option>
+                <option value="ETHUSD">ETHUSD — اتریوم</option>
+                <option value="SOLUSD">SOLUSD — سولانا</option>
+                <option value="XRPUSD">XRPUSD — ریپل</option>
+                <option value="ADAUSD">ADAUSD — کاردانو</option>
+                <option value="DOGEUSD">DOGEUSD — دوج‌کوین</option>
+                <option value="DOTUSD">DOTUSD — پولکادات</option>
+                <option value="LINKUSD">LINKUSD — چین‌لینک</option>
+                <option value="LTCUSD">LTCUSD — لایت‌کوین</option>
+                <option value="BCHUSD">BCHUSD — بیت‌کوین کش</option>
+              </optgroup>
+            </select></div>
+          <div class="form-row"><label>تایم‌فریم</label><select id="sTF"><option value="M1">M1</option><option value="M5">M5</option><option value="M15">M15</option><option value="M30">M30</option><option value="H1" selected>H1</option><option value="H4">H4</option><option value="D1">D1</option><option value="W1">W1</option></select></div>
+        </div>
+        <div class="form-cols-3">
+          <div class="form-row"><label>جهت</label><select id="sDir" onchange="toggleDirOptions()"><option value="both">هر دو (Buy + Sell)</option><option value="buy_only">فقط Buy</option><option value="sell_only">فقط Sell</option></select></div>
+          <div class="form-row"><label>توضیحات</label><input type="text" id="sDesc" placeholder="اختیاری"></div>
+          <div class="form-row"><label>شناسه</label><input type="text" id="sId" disabled style="color:var(--text3);"></div>
+        </div>
+        <div id="dirOptionsWrap" style="display:none;margin-top:8px;">
+          <div class="form-cols-3">
+            <div class="form-row"><label>روش تشخیص جهت</label><select id="sDirMethod" onchange="updateSummary()">
+              <option value="ma_trend">MA Trend (میانگین متحرک)</option>
+              <option value="entry_signal">سیگنال ورود (خرید/فروش خودکار)</option>
+              <option value="always_both">هر دو جهت همزمان</option>
+            </select></div>
+            <div class="form-row" id="dirMAPeriodWrap"><label>دوره MA</label><input type="number" id="sDirMAPeriod" value="200" min="5" max="500" onchange="updateSummary()"></div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('entry',this)">🟢 شرایط ورود</div>
+      <div class="tab" onclick="switchTab('preview',this)" style="color:var(--yellow);">👁 پیش‌نمایش</div>
+      <div class="tab" onclick="switchTab('exit',this)">🔴 شرایط خروج</div>
+      <div class="tab" onclick="switchTab('filters',this)">🔍 فیلترها</div>
+      <div class="tab" onclick="switchTab('risk',this)">💰 مدیریت ریسک</div>
+      <div class="tab" onclick="switchTab('backtest',this)" style="color:var(--green);">🧪 بک‌تست</div>
+      <div class="tab" onclick="switchTab('charts',this)" style="color:#34d399;">📊 چارت‌ها</div>
+      <div class="tab" onclick="switchTab('codegen',this)" style="color:var(--purple);">💻 تولید کد EA</div>
+      <div class="tab" onclick="switchTab('optimize',this)" style="color:#f472b6;">🎯 بهینه‌سازی</div>
+      <div class="tab" onclick="switchTab('multi',this)" style="color:#60a5fa;">🌍 چند نمادی</div>
+      <div class="tab" onclick="switchTab('monitor',this)" style="color:#fbbf24;">🔔 مانیتور</div>
+    </div>
+
+    <!-- TAB: Entry Conditions -->
+    <div class="tab-content active" id="tab-entry">
+      <div class="card">
+        <div class="card-head">
+          <h3>🟢 شرایط ورود</h3>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <select id="entryLogic" style="padding:4px 8px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--yellow);font-size:11px;font-weight:700;">
+              <option value="AND">AND (همه شرایط)</option>
+              <option value="OR">OR (یکی از شرایط)</option>
+            </select>
+            <button class="btn btn-cyan btn-sm" onclick="addEntryCondition()">+ شرط جدید</button>
+          </div>
+        </div>
+        <div class="card-body" id="entryConditions">
+          <div style="text-align:center;padding:30px;color:var(--text3);font-size:12px;">روی "+ شرط جدید" کلیک کنید</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: Exit Conditions -->
+    <div class="tab-content" id="tab-exit">
+      <div class="card">
+        <div class="card-head"><h3>🎯 Take Profit</h3><div style="display:flex;gap:4px;align-items:center;"><span id="tpPctInfo" style="font-size:10px;color:var(--text3);"></span><button class="btn btn-green btn-sm" onclick="addExit('tp')">+ TP Level</button></div></div>
+        <div class="card-body" id="tpList"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>🛑 Stop Loss</h3><button class="btn btn-red btn-sm" onclick="addExit('sl')">+ SL</button></div>
+        <div class="card-body" id="slList"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>📐 Trailing / Break Even / زمانی</h3></div>
+        <div class="card-body">
+          <div class="form-cols-3">
+            <div class="form-row"><label>Trailing Stop</label><select id="trailType" onchange="updateTrailParams()"><option value="">غیرفعال</option><option value="trailing_fixed">ثابت (پیپ)</option><option value="trailing_atr">ATR</option></select></div>
+            <div class="form-row" id="trailP1Wrap" style="display:none;"><label id="trailP1Label">مقدار</label><input type="number" id="trailP1" value="20"></div>
+            <div class="form-row" id="trailP2Wrap" style="display:none;"><label id="trailP2Label">دوره ATR</label><input type="number" id="trailP2" value="14"></div>
+          </div>
+          <div class="form-cols-3">
+            <div class="form-row"><label>Break Even</label><select id="beEnabled" onchange="toggleBE()"><option value="">غیرفعال</option><option value="1">فعال</option></select></div>
+            <div class="form-row" id="beP1Wrap" style="display:none;"><label>فعال‌سازی (پیپ سود)</label><input type="number" id="beTrigger" value="20"></div>
+            <div class="form-row" id="beP2Wrap" style="display:none;"><label>قفل (پیپ سود)</label><input type="number" id="beLock" value="5"></div>
+          </div>
+          <div class="form-cols-3">
+            <div class="form-row"><label>خروج زمانی</label><select id="timeExitEnabled" onchange="toggleTimeExit()"><option value="">غیرفعال</option><option value="1">فعال</option></select></div>
+            <div class="form-row" id="timeExitWrap" style="display:none;"><label>بعد از چند کندل</label><input type="number" id="timeExitBars" value="10" min="1" max="500"></div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: Filters -->
+    <div class="tab-content" id="tab-filters">
+      <div class="card">
+        <div class="card-head"><h3>🔍 فیلترهای معامله</h3><button class="btn btn-cyan btn-sm" onclick="addFilter()">+ فیلتر</button></div>
+        <div class="card-body" id="filterList">
+          <div style="text-align:center;padding:20px;color:var(--text3);font-size:12px;">فیلتر اضافه کنید (اختیاری)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: Risk Management -->
+    <div class="tab-content" id="tab-risk">
+      <div class="card">
+        <div class="card-head"><h3>💰 مدیریت ریسک و سرمایه</h3></div>
+        <div class="card-body">
+          <label style="font-size:11px;color:var(--text2);margin-bottom:6px;display:block;">پیش‌فرض:</label>
+          <div class="risk-presets" id="riskPresets"></div>
+          <div class="form-cols-3">
+            <div class="form-row"><label>نوع حجم</label><select id="rLotType"><option value="risk_percent">درصد ریسک</option><option value="balance_percent">درصد بالانس</option><option value="fixed">لات ثابت</option></select></div>
+            <div class="form-row"><label>ریسک هر معامله (%)</label><input type="number" id="rRiskPct" value="2" min="0.1" max="10" step="0.1"></div>
+            <div class="form-row"><label>لات ثابت</label><input type="number" id="rFixedLot" value="0.01" min="0.01" max="100" step="0.01" disabled></div>
+          </div>
+          <div class="form-cols-3">
+            <div class="form-row"><label>حداکثر معامله روزانه</label><input type="number" id="rMaxDaily" value="5" min="1" max="50"></div>
+            <div class="form-row"><label>حداکثر معامله باز</label><input type="number" id="rMaxOpen" value="3" min="1" max="20"></div>
+            <div class="form-row"><label>حداکثر افت سرمایه (%)</label><input type="number" id="rMaxDD" value="20" min="1" max="80"></div>
+          </div>
+          <div class="form-cols-3">
+            <div class="form-row"><label>حداقل R:R</label><input type="number" id="rMinRR" value="1.5" min="0.5" max="10" step="0.1"></div>
+            <div></div><div></div>
+          </div>
+        </div>
+      </div>
+    
+    <!-- TAB: Backtest -->
+    <div class="tab-content" id="tab-backtest">
+      <div class="card">
+        <div class="card-head"><h3>🧪 بک‌تست استراتژی</h3></div>
+        <div class="card-body">
+          <div class="bt-controls">
+            <div class="form-row"><label>تعداد کندل</label><select id="btBars"><option value="200">200</option><option value="500" selected>500</option><option value="1000">1,000</option><option value="2000">2,000</option></select></div>
+            <div class="form-row"><label>سرمایه اولیه ($)</label><input type="number" id="btBalance" value="10000"></div>
+            <div class="form-row"><label>اسپرد (پیپ)</label><input type="number" id="btSpread" value="2" step="0.1"></div>
+            <button class="btn btn-green" onclick="runBacktest()" style="padding:7px 24px;font-size:13px;">▶ اجرای بک‌تست</button>
+          </div>
+          <div id="btResults"><div class="bt-empty">استراتژی بسازید و بک‌تست بگیرید</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div> <!-- /main -->
+
+
+
+    <!-- TAB: Code Generator -->
+    <div class="tab-content" id="tab-codegen">
+      <div class="card">
+        <div class="card-head"><h3>💻 تولید کد Expert Advisor</h3></div>
+        <div class="card-body">
+          <div class="cg-buttons">
+            <div class="cg-btn" onclick="generateCode('mql5')">
+              <span class="cg-icon">📘</span>
+              <div class="cg-label">MQL5 Expert Advisor</div>
+              <div class="cg-sub">MetaTrader 5</div>
+            </div>
+            <div class="cg-btn" onclick="generateCode('mql4')">
+              <span class="cg-icon">📗</span>
+              <div class="cg-label">MQL4 Expert Advisor</div>
+              <div class="cg-sub">MetaTrader 4</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap;">
+            <label style="font-size:11px;display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" id="cgMultiSymbol" onchange="toggleCGMultiSymbol()" style="accent-color:#60a5fa;"> <span style="color:#60a5fa;font-weight:600;">Multi-Symbol EA</span></label>
+            <div id="cgMultiSymGrid" style="display:none;flex:1;min-width:200px;">
+              <div style="display:flex;gap:4px;margin-bottom:4px;flex-wrap:wrap;">
+                <button class="btn btn-sm btn-ghost" onclick="cgSelectGroup('forex')" style="font-size:10px;">Forex</button>
+                <button class="btn btn-sm btn-ghost" onclick="cgSelectGroup('metals')" style="font-size:10px;">Metals</button>
+                <button class="btn btn-sm btn-ghost" onclick="cgSelectGroup('indices')" style="font-size:10px;">Indices</button>
+                <button class="btn btn-sm btn-ghost" onclick="cgSelectGroup('crypto')" style="font-size:10px;">Crypto</button>
+                <button class="btn btn-sm btn-ghost" onclick="cgSelectGroup('all')" style="font-size:10px;">All</button>
+              </div>
+              <div id="cgSymbolPicker" style="display:flex;flex-wrap:wrap;gap:3px;max-height:80px;overflow-y:auto;"></div>
+            </div>
+          </div>
+          <div id="cgResult">
+            <div class="cg-info">
+              <strong>راهنما:</strong><br>
+              1. استراتژی خود را کامل تنظیم کنید (ورود، خروج، فیلتر، ریسک)<br>
+              2. روی MQL5 یا MQL4 کلیک کنید<br>
+              3. کد تولید شده را کپی یا دانلود کنید<br>
+              4. در MetaEditor پیست کنید و کامپایل کنید<br>
+              5. EA را به چارت اضافه کنید و تست بگیرید
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- TAB: Preview -->
+    <div class="tab-content" id="tab-preview">
+      <div class="card">
+        <div class="card-head">
+          <h3>👁 پیش‌نمایش زنده</h3>
+          <div style="display:flex;gap:6px;">
+            <select id="pvBars" style="padding:4px 8px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:11px;">
+              <option value="100">100 کندل</option>
+              <option value="200" selected>200 کندل</option>
+              <option value="500">500 کندل</option>
+            </select>
+            <button class="btn btn-cyan btn-sm" onclick="runPreview()">▶ پیش‌نمایش</button>
+          </div>
+        </div>
+        <div class="card-body" id="pvResults">
+          <div class="bt-empty">استراتژی بسازید و پیش‌نمایش بگیرید</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3>⚔ مقایسه استراتژی‌ها</h3>
+          <button class="btn btn-cyan btn-sm" onclick="runCompare()">مقایسه</button>
+        </div>
+        <div class="card-body">
+          <div class="form-cols">
+            <div class="form-row"><label>استراتژی ۱</label><select id="cmpS1" style="font-size:11px;"></select></div>
+            <div class="form-row"><label>استراتژی ۲</label><select id="cmpS2" style="font-size:11px;"></select></div>
+          </div>
+          <div id="cmpResults"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- TAB: Optimize -->
+    <div class="tab-content" id="tab-optimize">
+      <div class="card">
+        <div class="card-head"><h3>🎯 بهینه‌سازی پارامترها</h3></div>
+        <div class="card-body">
+          <div class="opt-methods">
+            <div class="opt-method active" onclick="selectOptMethod('grid',this)">
+              <div class="om-icon">🔍</div>
+              <div class="om-name">Grid Search</div>
+              <div class="om-desc">همه ترکیب‌ها</div>
+            </div>
+            <div class="opt-method" onclick="selectOptMethod('wf',this)">
+              <div class="om-icon">📐</div>
+              <div class="om-name">Walk-Forward</div>
+              <div class="om-desc">آموزش + آزمون</div>
+            </div>
+            <div class="opt-method" onclick="selectOptMethod('mc',this)">
+              <div class="om-icon">🎲</div>
+              <div class="om-name">Monte Carlo</div>
+              <div class="om-desc">شبیه‌سازی ریسک</div>
+            </div>
+          </div>
+
+          <div id="optGridPanel">
+            <h4 style="font-size:12px;color:var(--text2);margin-bottom:6px;">پارامترهای قابل بهینه‌سازی:</h4>
+            <div id="optParamList" class="opt-param-grid"><div style="color:var(--text3);font-size:11px;">اول استراتژی بسازید</div></div>
+            <div style="display:flex;gap:8px;align-items:center;margin:10px 0;">
+              <button class="btn btn-sm" style="background:#f472b6;color:#000;padding:8px 20px;" onclick="runOptimize()">▶ شروع بهینه‌سازی</button>
+              <select id="optBars" style="padding:5px 8px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:11px;">
+                <option value="300">300 کندل</option>
+                <option value="500" selected>500 کندل</option>
+                <option value="1000">1000 کندل</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="optWFPanel" style="display:none;">
+            <div style="display:flex;gap:8px;align-items:center;margin:10px 0;">
+              <div class="form-row" style="margin:0;"><label>تعداد پنجره</label><select id="wfWindows" style="padding:5px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:11px;"><option>3</option><option selected>5</option><option>7</option><option>10</option></select></div>
+              <button class="btn btn-sm" style="background:#f472b6;color:#000;padding:8px 20px;" onclick="runWalkForward()">▶ Walk-Forward</button>
+            </div>
+          </div>
+
+          <div id="optMCPanel" style="display:none;">
+            <div style="display:flex;gap:8px;align-items:center;margin:10px 0;">
+              <div class="form-row" style="margin:0;"><label>تعداد شبیه‌سازی</label><select id="mcSims" style="padding:5px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:11px;"><option>200</option><option selected>500</option><option>1000</option></select></div>
+              <button class="btn btn-sm" style="background:#f472b6;color:#000;padding:8px 20px;" onclick="runMonteCarlo()">▶ Monte Carlo</button>
+            </div>
+          </div>
+
+          <div id="optResults"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- TAB: Multi-Symbol -->
+    <div class="tab-content" id="tab-multi">
+      <div class="card">
+        <div class="card-head"><h3>🌍 تست چند نمادی</h3></div>
+        <div class="card-body">
+          <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
+            <button class="btn btn-sm btn-ghost" onclick="selectAllSymbols()">انتخاب همه</button>
+            <button class="btn btn-sm btn-ghost" onclick="deselectAllSymbols()">حذف همه</button>
+            <button class="btn btn-sm btn-ghost" onclick="selectGroup('forex')">فارکس</button>
+            <button class="btn btn-sm btn-ghost" onclick="selectGroup('metals')">فلزات</button>
+            <button class="btn btn-sm btn-ghost" onclick="selectGroup('indices')">شاخص‌ها</button>
+          </div>
+          <div class="ms-sym-grid" id="msSymbols"></div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <select id="msBars" style="padding:5px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:11px;">
+              <option value="300">300 کندل</option>
+              <option value="500" selected>500 کندل</option>
+              <option value="1000">1000 کندل</option>
+            </select>
+            <button class="btn" style="background:#60a5fa;color:#000;padding:8px 20px;" onclick="runMultiTest()">▶ تست همه نمادها</button>
+          </div>
+          <div id="msResults" style="margin-top:10px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Templates Modal -->
+    <div id="tplModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:200;display:none;align-items:center;justify-content:center;">
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;width:90%;max-width:700px;max-height:80vh;overflow-y:auto;padding:20px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+          <h3 style="font-size:16px;color:var(--purple);">📦 قالب‌های استراتژی آماده</h3>
+          <button class="btn btn-ghost btn-sm" onclick="hideTemplates()">✕</button>
+        </div>
+        <div id="tplGrid" class="tpl-grid"></div>
+      </div>
+    </div>
+
+
+    <!-- TAB: Monitor -->
+    <div class="tab-content" id="tab-monitor">
+      <div class="card">
+        <div class="card-head">
+          <h3>📡 سیگنال زنده</h3>
+          <button class="btn btn-cyan btn-sm" onclick="checkLiveSignal()">بررسی الان</button>
+        </div>
+        <div class="card-body" id="liveSignalBox">
+          <div class="live-signal none"><div class="live-pulse none"></div>بدون سیگنال</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3>🔔 مانیتور استراتژی‌ها</h3>
+          <div style="display:flex;gap:4px;">
+            <button class="btn btn-sm" style="background:#fbbf24;color:#000;" onclick="addCurrentToMonitor()">+ اضافه به مانیتور</button>
+            <button class="btn btn-ghost btn-sm" onclick="checkAllMonitors()">بررسی همه</button>
+          </div>
+        </div>
+        <div class="card-body" id="monitorList"><div style="color:var(--text3);font-size:11px;text-align:center;padding:15px;">استراتژی ذخیره‌شده‌ای اضافه نشده</div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3>📬 آلرت‌ها <span id="alertBadge"></span></h3>
+          <div style="display:flex;gap:4px;">
+            <button class="btn btn-ghost btn-sm" onclick="markAlertsRead()">خوانده شد</button>
+            <button class="btn btn-red btn-sm" onclick="clearAllAlerts()">پاک کردن</button>
+          </div>
+        </div>
+        <div class="card-body" id="alertList" style="max-height:300px;overflow-y:auto;"><div style="color:var(--text3);font-size:11px;text-align:center;padding:15px;">بدون آلرت</div></div>
+      </div>
+    </div>
+
+
+    <!-- TAB: Advanced Charts -->
+    <div class="tab-content" id="tab-charts">
+      <div class="card">
+        <div class="card-head">
+          <h3>📊 چارت‌ها و گزارشات پیشرفته</h3>
+          <div style="display:flex;gap:6px;">
+            <select id="chBars" style="padding:4px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:11px;">
+              <option value="300">300 کندل</option>
+              <option value="500" selected>500 کندل</option>
+              <option value="1000">1000 کندل</option>
+              <option value="2000">2000 کندل</option>
+            </select>
+            <button class="btn" style="background:#34d399;color:#000;padding:6px 16px;" onclick="runAdvancedCharts()">▶ تحلیل</button>
+          </div>
+        </div>
+        <div class="card-body" id="chartsResults">
+          <div class="bt-empty">استراتژی بسازید و تحلیل بگیرید</div>
+        </div>
+      </div>
+    </div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var API='';
+var config={};
+var currentStrategy=null;
+var entryConditions=[];
+var tpExits=[];
+var slExits=[];
+var filters=[];
+var userEmail='';
+
+// ══════ INIT ══════
+async function init(){
+  userEmail=localStorage.getItem('whilber_email')||'';
+  if(!userEmail){userEmail=prompt('ایمیل خود را وارد کنید:')||'guest@whilber.ai';localStorage.setItem('whilber_email',userEmail);}
+  await loadConfig();
+  loadStrategies();
+  buildRiskPresets();
+  newStrategy();
+}
+
+async function loadConfig(){
+  try{
+    var r=await fetch(API+'/api/builder/config');
+    config=await r.json();
+  }catch(e){
+    showToast('خطا در بارگذاری تنظیمات',true);
+  }
+}
+
+// ══════ TABS ══════
+function switchTab(id,el){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+  // Tab-specific hooks
+  if(id==='preview') loadCompareSelects();
+  if(id==='optimize' && optMethod==='grid') loadOptParams();
+  if(id==='multi' && !commonSymbols.length) loadSymbols();
+  if(id==='monitor'){loadMonitors();loadAlerts();}
+}
+
+// ══════ DIRECTION OPTIONS ══════
+function toggleDirOptions(){
+  var v=document.getElementById('sDir').value;
+  document.getElementById('dirOptionsWrap').style.display=v==='both'?'block':'none';
+  if(v==='both'){
+    var m=document.getElementById('sDirMethod').value;
+    document.getElementById('dirMAPeriodWrap').style.display=m==='ma_trend'?'block':'none';
+  }
+  updateSummary();
+}
+
+function getDirParams(){
+  if(document.getElementById('sDir').value!=='both') return {};
+  var method=document.getElementById('sDirMethod').value;
+  var params={method:method};
+  if(method==='ma_trend') params.ma_period=parseInt(document.getElementById('sDirMAPeriod').value)||200;
+  return params;
+}
+
+// ══════ ENTRY CONDITIONS ══════
+function addEntryCondition(){
+  var cond={indicator:'',indicator_params:{},output:'value',condition:'',compare_to:'fixed_value',compare_value:0,compare_indicator:'',compare_indicator_params:{},compare_output:'value'};
+  entryConditions.push(cond);
+  renderEntryConditions();
+}
+
+function removeEntry(idx){
+  entryConditions.splice(idx,1);
+  renderEntryConditions();
+}
+
+function renderEntryConditions(){
+  var box=document.getElementById('entryConditions');
+  if(!entryConditions.length){
+    box.innerHTML='<div style="text-align:center;padding:30px;color:var(--text3);font-size:12px;">روی \"+ شرط جدید\" کلیک کنید</div>';
+    updateSummary();return;
+  }
+  var html='';
+  for(var i=0;i<entryConditions.length;i++){
+    var c=entryConditions[i];
+    if(i>0)html+='<div class="cond-logic">'+document.getElementById('entryLogic').value+'</div>';
+    html+='<div class="cond-card"><span class="cond-num">'+(i+1)+'</span><button class="cond-del" onclick="removeEntry('+i+')">×</button>';
+    // Indicator select
+    html+='<div class="form-cols"><div class="form-row"><label>اندیکاتور</label><select onchange="setCondInd('+i+',this.value)">';
+    html+='<option value="">انتخاب...</option>';
+    var cats=config.indicator_categories||[];
+    for(var cat of cats){
+      html+='<optgroup label="'+cat.icon+' '+cat.name_fa+'">';
+      for(var key in config.indicators){
+        if(config.indicators[key].category===cat.id){
+          html+='<option value="'+key+'"'+(c.indicator===key?' selected':'')+'>'+config.indicators[key].name_fa+'</option>';
+        }
+      }
+      html+='</optgroup>';
+    }
+    html+='</select></div>';
+    // Output select
+    var outputs=(config.indicators[c.indicator]||{}).outputs||['value'];
+    if(outputs.length>1){
+      html+='<div class="form-row"><label>خروجی</label><select onchange="entryConditions['+i+'].output=this.value;updateSummary()">';
+      for(var o of outputs)html+='<option value="'+o+'"'+(c.output===o?' selected':'')+'>'+o+'</option>';
+      html+='</select></div>';
+    }else{html+='<div></div>';}
+    html+='</div>';
+    // Params
+    var params=(config.indicators[c.indicator]||{}).params||[];
+    if(params.length){
+      html+='<div class="form-cols">';
+      for(var p of params){
+        var val=c.indicator_params[p.id]!==undefined?c.indicator_params[p.id]:p.default;
+        if(p.type==='select'){
+          html+='<div class="form-row"><label>'+p.name_fa+'</label><select onchange="entryConditions['+i+'].indicator_params[\''+p.id+'\']=this.value;updateSummary()">';
+          for(var opt of p.options)html+='<option value="'+opt+'"'+(val===opt?' selected':'')+'>'+opt+'</option>';
+          html+='</select></div>';
+        }else{
+          html+='<div class="form-row"><label>'+p.name_fa+'</label><input type="number" value="'+val+'" onchange="entryConditions['+i+'].indicator_params[\''+p.id+'\']=Number(this.value);updateSummary()"></div>';
+        }
+      }
+      html+='</div>';
+    }
+    // Condition
+    html+='<div class="form-cols"><div class="form-row"><label>شرط</label><select onchange="entryConditions['+i+'].condition=this.value;updateSummary()">';
+    html+='<option value="">انتخاب...</option>';
+    for(var ck in config.conditions||{})html+='<option value="'+ck+'"'+(c.condition===ck?' selected':'')+'>'+config.conditions[ck].name_fa+'</option>';
+    html+='</select></div>';
+    // Compare to
+    html+='<div class="form-row"><label>مقایسه با</label><select onchange="entryConditions['+i+'].compare_to=this.value;renderEntryConditions()">';
+    for(var ct in config.compare_targets||{})html+='<option value="'+ct+'"'+(c.compare_to===ct?' selected':'')+'>'+config.compare_targets[ct].name_fa+'</option>';
+    html+='</select></div></div>';
+    // Compare value
+    if(c.compare_to==='fixed_value'){
+      html+='<div class="form-row"><label>مقدار</label><input type="number" value="'+c.compare_value+'" step="any" onchange="entryConditions['+i+'].compare_value=Number(this.value);updateSummary()"></div>';
+    }else if(c.compare_to==='indicator'){
+      html+='<div class="form-row"><label>اندیکاتور مقایسه</label><select onchange="entryConditions['+i+'].compare_indicator=this.value;updateSummary()">';
+      html+='<option value="">انتخاب...</option>';
+      for(var key2 in config.indicators)html+='<option value="'+key2+'"'+(c.compare_indicator===key2?' selected':'')+'>'+config.indicators[key2].name_fa+'</option>';
+      html+='</select></div>';
+    }
+    html+='</div>';
+  }
+  box.innerHTML=html;
+  updateSummary();
+}
+
+function setCondInd(idx,val){
+  entryConditions[idx].indicator=val;
+  entryConditions[idx].indicator_params={};
+  var params=(config.indicators[val]||{}).params||[];
+  for(var p of params)entryConditions[idx].indicator_params[p.id]=p.default;
+  entryConditions[idx].output=(config.indicators[val]||{}).outputs?config.indicators[val].outputs[0]:'value';
+  renderEntryConditions();
+}
+
+// ══════ EXITS ══════
+function addExit(type){
+  if(type==='tp'){
+    tpExits.push({type:'atr_tp',params:{multiplier:2.0,atr_period:14}});
+    renderExits('tp');
+  }else{
+    slExits.push({type:'atr_sl',params:{multiplier:1.5,atr_period:14}});
+    renderExits('sl');
+  }
+}
+
+function removeExit(type,idx){
+  if(type==='tp')tpExits.splice(idx,1);
+  else slExits.splice(idx,1);
+  renderExits(type);
+}
+
+function renderExits(type){
+  var list=type==='tp'?tpExits:slExits;
+  var box=document.getElementById(type==='tp'?'tpList':'slList');
+  var exitTypes=config.exit_types||{};
+  var prefix=type==='tp'?'fixed_tp,atr_tp,percent_tp,stepped_tp,indicator_exit':'fixed_sl,atr_sl,swing_sl,percent_sl';
+  var allowed=prefix.split(',');
+  if(!list.length){box.innerHTML='<div style="text-align:center;padding:10px;color:var(--text3);font-size:11px;">'+(type==='tp'?'TP اضافه کنید':'SL اضافه کنید')+'</div>';if(type==='tp')updateTPInfo();updateSummary();return;}
+  var html='';
+  var showPct=type==='tp'&&list.length>1;
+  for(var i=0;i<list.length;i++){
+    var e=list[i];
+    html+='<div class="exit-item">';
+    if(showPct){html+='<span style="background:var(--cyan);color:#000;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;min-width:20px;text-align:center;">TP'+(i+1)+'</span>';}
+    html+='<select onchange="changeExitType(\''+type+'\','+i+',this.value)" style="width:130px;">';
+    for(var a of allowed){
+      if(exitTypes[a])html+='<option value="'+a+'"'+(e.type===a?' selected':'')+'>'+exitTypes[a].name_fa+'</option>';
+    }
+    html+='</select>';
+    var ep=exitTypes[e.type]||{};
+    for(var p of (ep.params||[])){
+      var val=e.params[p.id]!==undefined?e.params[p.id]:p.default;
+      html+='<label style="font-size:10px;color:var(--text3);margin:0 2px;">'+p.name_fa+'</label><input type="number" value="'+val+'" step="any" onchange="'+(type==='tp'?'tpExits':'slExits')+'['+i+'].params[\''+p.id+'\']=Number(this.value);updateSummary()">';
+    }
+    if(showPct){
+      var pctVal=e.close_pct||Math.round(100/list.length);
+      html+='<label style="font-size:10px;color:var(--yellow);margin:0 2px;">بستن%</label><input type="number" value="'+pctVal+'" min="1" max="100" style="width:55px;" onchange="tpExits['+i+'].close_pct=Number(this.value);updateTPInfo();updateSummary()">';
+    }
+    html+='<button class="exit-del" onclick="removeExit(\''+type+'\','+i+')">×</button></div>';
+  }
+  if(showPct){
+    html+='<div style="display:flex;align-items:center;gap:6px;margin-top:4px;">';
+    var totalPct=0;
+    for(var j=0;j<list.length;j++) totalPct+=(list[j].close_pct||Math.round(100/list.length));
+    var pctColor=totalPct===100?'var(--green)':'var(--red)';
+    html+='<div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;display:flex;">';
+    var colors=['#06b6d4','#a78bfa','#f59e0b'];
+    for(var j=0;j<list.length;j++){
+      var pct=list[j].close_pct||Math.round(100/list.length);
+      html+='<div style="width:'+pct+'%;background:'+colors[j%3]+';"></div>';
+    }
+    html+='</div>';
+    html+='<span style="font-size:10px;color:'+pctColor+';font-weight:700;">'+totalPct+'%</span>';
+    html+='</div>';
+  }
+  box.innerHTML=html;
+  if(type==='tp')updateTPInfo();
+  updateSummary();
+}
+
+function updateTPInfo(){
+  var info=document.getElementById('tpPctInfo');
+  if(!info)return;
+  if(tpExits.length>1){
+    info.textContent=tpExits.length+' سطح TP (Partial Close)';
+    info.style.color='var(--yellow)';
+  }else{
+    info.textContent='';
+  }
+}
+
+function changeExitType(type,idx,newType){
+  var list=type==='tp'?tpExits:slExits;
+  var exitTypes=config.exit_types||{};
+  var ep=exitTypes[newType]||{};
+  var params={};
+  for(var p of (ep.params||[]))params[p.id]=p.default;
+  list[idx]={type:newType,params:params};
+  renderExits(type);
+}
+
+// ══════ TRAILING / BE / TIME ══════
+function updateTrailParams(){
+  var v=document.getElementById('trailType').value;
+  document.getElementById('trailP1Wrap').style.display=v?'block':'none';
+  document.getElementById('trailP2Wrap').style.display=v==='trailing_atr'?'block':'none';
+  if(v==='trailing_fixed'){document.getElementById('trailP1Label').textContent='پیپ';}
+  else if(v==='trailing_atr'){document.getElementById('trailP1Label').textContent='ضریب ATR';}
+  updateSummary();
+}
+function toggleBE(){
+  var v=document.getElementById('beEnabled').value;
+  document.getElementById('beP1Wrap').style.display=v?'block':'none';
+  document.getElementById('beP2Wrap').style.display=v?'block':'none';
+  updateSummary();
+}
+function toggleTimeExit(){
+  var v=document.getElementById('timeExitEnabled').value;
+  document.getElementById('timeExitWrap').style.display=v?'block':'none';
+  updateSummary();
+}
+
+// ══════ FILTERS ══════
+function addFilter(){
+  var keys=Object.keys(config.trade_filters||{});
+  if(!keys.length)return;
+  var used=filters.map(function(f){return f.type;});
+  var available=keys.filter(function(k){return used.indexOf(k)===-1;});
+  if(!available.length){showToast('همه فیلترها اضافه شده',true);return;}
+  var type=available[0];
+  var tf=config.trade_filters[type];
+  var params={};
+  for(var p of (tf.params||[]))params[p.id]=p.default;
+  filters.push({type:type,params:params});
+  renderFilters();
+}
+
+function removeFilter(idx){
+  filters.splice(idx,1);
+  renderFilters();
+}
+
+function renderFilters(){
+  var box=document.getElementById('filterList');
+  if(!filters.length){box.innerHTML='<div style="text-align:center;padding:20px;color:var(--text3);font-size:12px;">فیلتر اضافه کنید (اختیاری)</div>';updateSummary();return;}
+  var html='';
+  for(var i=0;i<filters.length;i++){
+    var f=filters[i];
+    var tf=config.trade_filters[f.type]||{};
+    html+='<div class="filter-item"><div class="fi-head"><span class="fi-name">'+tf.name_fa+'</span>';
+    html+='<div><select onchange="changeFilterType('+i+',this.value)" style="padding:3px 6px;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:10px;">';
+    for(var k in config.trade_filters)html+='<option value="'+k+'"'+(f.type===k?' selected':'')+'>'+config.trade_filters[k].name_fa+'</option>';
+    html+='</select> <button class="btn btn-red btn-sm" onclick="removeFilter('+i+')">×</button></div></div>';
+    html+='<div class="form-cols">';
+    for(var p of (tf.params||[])){
+      var val=f.params[p.id]!==undefined?f.params[p.id]:p.default;
+      if(p.type==='select'){
+        html+='<div class="form-row"><label>'+p.name_fa+'</label><select onchange="filters['+i+'].params[\''+p.id+'\']=this.value;updateSummary()">';
+        for(var o of p.options)html+='<option value="'+o+'"'+(val===o?' selected':'')+'>'+o+'</option>';
+        html+='</select></div>';
+      }else if(p.type==='multi_select'){
+        html+='<div class="form-row"><label>'+p.name_fa+'</label><div style="display:flex;flex-wrap:wrap;gap:4px;">';
+        for(var o of p.options){
+          var oid=typeof o==='object'?o.id:o;
+          var oname=typeof o==='object'?o.name_fa:o;
+          var checked=Array.isArray(val)&&val.indexOf(oid)!==-1;
+          html+='<label style="font-size:10px;background:var(--bg);padding:2px 6px;border-radius:4px;cursor:pointer;"><input type="checkbox" '+(checked?'checked':'')+' onchange="toggleFilterMulti('+i+',\''+p.id+'\',\''+oid+'\',this.checked)"> '+oname+'</label>';
+        }
+        html+='</div></div>';
+      }else{
+        html+='<div class="form-row"><label>'+p.name_fa+'</label><input type="number" value="'+val+'" step="any" onchange="filters['+i+'].params[\''+p.id+'\']=Number(this.value);updateSummary()"></div>';
+      }
+    }
+    html+='</div></div>';
+  }
+  box.innerHTML=html;
+  updateSummary();
+}
+
+function changeFilterType(idx,newType){
+  var tf=config.trade_filters[newType]||{};
+  var params={};
+  for(var p of (tf.params||[]))params[p.id]=p.default;
+  filters[idx]={type:newType,params:params};
+  renderFilters();
+}
+
+function toggleFilterMulti(idx,paramId,val,checked){
+  var arr=filters[idx].params[paramId]||[];
+  if(checked&&arr.indexOf(val)===-1)arr.push(val);
+  if(!checked)arr=arr.filter(function(v){return v!==val;});
+  filters[idx].params[paramId]=arr;
+  updateSummary();
+}
+
+// ══════ RISK PRESETS ══════
+function buildRiskPresets(){
+  var box=document.getElementById('riskPresets');
+  var html='';
+  for(var k in config.risk_presets||{}){
+    var rp=config.risk_presets[k];
+    html+='<div class="risk-preset'+(k==='moderate'?' active':'')+'" onclick="applyRiskPreset(\''+k+'\',this)"><div class="rp-name">'+rp.name_fa+'</div><div class="rp-detail">ریسک '+rp.risk_per_trade+'% | R:R '+rp.min_rr+'</div></div>';
+  }
+  box.innerHTML=html;
+}
+
+function applyRiskPreset(key,el){
+  document.querySelectorAll('.risk-preset').forEach(function(p){p.classList.remove('active');});
+  if(el)el.classList.add('active');
+  var rp=(config.risk_presets||{})[key];
+  if(!rp)return;
+  document.getElementById('rRiskPct').value=rp.risk_per_trade;
+  document.getElementById('rMaxDaily').value=rp.max_daily_trades;
+  document.getElementById('rMaxOpen').value=rp.max_open_trades;
+  document.getElementById('rMaxDD').value=rp.max_drawdown;
+  document.getElementById('rMinRR').value=rp.min_rr;
+  updateSummary();
+}
+
+// ══════ SUMMARY ══════
+function updateSummary(){
+  var s='';
+  s+='<strong>نماد:</strong> '+document.getElementById('sSymbol').value+' | '+document.getElementById('sTF').value+'<br>';
+  s+='<strong>ورود ('+document.getElementById('entryLogic').value+'):</strong> ';
+  if(entryConditions.length){
+    var parts=[];
+    for(var c of entryConditions){
+      if(c.indicator&&c.condition){
+        var ind=(config.indicators[c.indicator]||{}).name_fa||c.indicator;
+        var cond=(config.conditions[c.condition]||{}).name_fa||c.condition;
+        parts.push(ind+' '+cond+(c.compare_to==='fixed_value'?' '+c.compare_value:''));
+      }
+    }
+    s+=parts.join(' + ')||'ناقص';
+  }else{s+='تعریف نشده';}
+  s+='<br><strong>TP:</strong> ';
+  if(tpExits.length){s+=tpExits.map(function(e){return (config.exit_types[e.type]||{}).name_fa||e.type;}).join(', ');}else{s+='—';}
+  s+='<br><strong>SL:</strong> ';
+  if(slExits.length){s+=slExits.map(function(e){return (config.exit_types[e.type]||{}).name_fa||e.type;}).join(', ');}else{s+='—';}
+  s+='<br><strong>فیلتر:</strong> '+(filters.length?filters.map(function(f){return (config.trade_filters[f.type]||{}).name_fa||f.type;}).join(', '):'—');
+  s+='<br><strong>ریسک:</strong> '+document.getElementById('rRiskPct').value+'% | R:R '+document.getElementById('rMinRR').value;
+  document.getElementById('summaryBox').innerHTML='<div class="summary">'+s+'</div>';
+}
+
+// ══════ BUILD STRATEGY OBJECT ══════
+function buildStrategy(){
+  var s={
+    id:document.getElementById('sId').value||'',
+    name:document.getElementById('sName').value,
+    description:document.getElementById('sDesc').value,
+    symbol:document.getElementById('sSymbol').value,
+    timeframe:document.getElementById('sTF').value,
+    direction:document.getElementById('sDir').value,
+    direction_params:getDirParams(),
+    entry_conditions:entryConditions,
+    entry_logic:document.getElementById('entryLogic').value,
+    exit_take_profit:tpExits,
+    exit_stop_loss:slExits,
+    exit_trailing:null,
+    exit_break_even:null,
+    exit_time:null,
+    filters:filters,
+    risk:{
+      preset:'custom',
+      risk_per_trade:parseFloat(document.getElementById('rRiskPct').value),
+      lot_type:document.getElementById('rLotType').value,
+      fixed_lot:parseFloat(document.getElementById('rFixedLot').value),
+      max_daily_trades:parseInt(document.getElementById('rMaxDaily').value),
+      max_open_trades:parseInt(document.getElementById('rMaxOpen').value),
+      max_drawdown:parseFloat(document.getElementById('rMaxDD').value),
+      min_rr:parseFloat(document.getElementById('rMinRR').value),
+    },
+  };
+  var tt=document.getElementById('trailType').value;
+  if(tt){s.exit_trailing={type:tt,value:parseFloat(document.getElementById('trailP1').value),atr_period:parseInt(document.getElementById('trailP2').value)};}
+  if(document.getElementById('beEnabled').value){s.exit_break_even={trigger:parseFloat(document.getElementById('beTrigger').value),lock:parseFloat(document.getElementById('beLock').value)};}
+  if(document.getElementById('timeExitEnabled').value){s.exit_time={bars:parseInt(document.getElementById('timeExitBars').value)};}
+  return s;
+}
+
+// ══════ SAVE / LOAD ══════
+async function saveStrategy(){
+  var s=buildStrategy();
+  if(!s.name){showToast('نام استراتژی الزامیست',true);return;}
+  try{
+    var r=await fetch(API+'/api/builder/strategies',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:userEmail,strategy:s})});
+    var d=await r.json();
+    if(d.success){
+      showToast('ذخیره شد!');
+      document.getElementById('sId').value=d.strategy_id;
+      loadStrategies();
+    }else{
+      showToast((d.errors||['خطا']).join(', '),true);
+    }
+  }catch(e){showToast('خطا در ارتباط',true);}
+}
+
+async function loadStrategies(){
+  try{
+    var r=await fetch(API+'/api/builder/strategies?email='+encodeURIComponent(userEmail));
+    var d=await r.json();
+    var list=d.strategies||[];
+    var box=document.getElementById('stratList');
+    if(!list.length){box.innerHTML='<div style="color:var(--text3);font-size:11px;text-align:center;padding:20px;">بدون استراتژی</div>';return;}
+    var html='';
+    for(var s of list){
+      html+='<div class="strat-list-item" onclick="loadStrategy(\''+s.id+'\')"><span class="sli-name">'+s.name+'</span><span class="sli-date">'+s.symbol+'</span><button class="btn btn-red btn-sm" onclick="event.stopPropagation();deleteStrategy(\''+s.id+'\')">×</button></div>';
+    }
+    box.innerHTML=html;
+  }catch(e){}
+}
+
+async function loadStrategy(sid){
+  try{
+    var r=await fetch(API+'/api/builder/strategies/'+sid+'?email='+encodeURIComponent(userEmail));
+    var s=await r.json();
+    if(s.error)return;
+    document.getElementById('sId').value=s.id||'';
+    document.getElementById('sName').value=s.name||'';
+    document.getElementById('sDesc').value=s.description||'';
+    document.getElementById('sSymbol').value=s.symbol||'XAUUSD';
+    document.getElementById('sTF').value=s.timeframe||'H1';
+    document.getElementById('sDir').value=s.direction||'both';
+    document.getElementById('entryLogic').value=s.entry_logic||'AND';
+    entryConditions=s.entry_conditions||[];
+    tpExits=s.exit_take_profit||[];
+    slExits=s.exit_stop_loss||[];
+    filters=s.filters||[];
+    var risk=s.risk||{};
+    document.getElementById('rRiskPct').value=risk.risk_per_trade||2;
+    document.getElementById('rLotType').value=risk.lot_type||'risk_percent';
+    document.getElementById('rFixedLot').value=risk.fixed_lot||0.01;
+    document.getElementById('rMaxDaily').value=risk.max_daily_trades||5;
+    document.getElementById('rMaxOpen').value=risk.max_open_trades||3;
+    document.getElementById('rMaxDD').value=risk.max_drawdown||20;
+    document.getElementById('rMinRR').value=risk.min_rr||1.5;
+    if(s.exit_trailing){document.getElementById('trailType').value=s.exit_trailing.type||'';document.getElementById('trailP1').value=s.exit_trailing.value||20;document.getElementById('trailP2').value=s.exit_trailing.atr_period||14;updateTrailParams();}
+    if(s.exit_break_even){document.getElementById('beEnabled').value='1';document.getElementById('beTrigger').value=s.exit_break_even.trigger||20;document.getElementById('beLock').value=s.exit_break_even.lock||5;toggleBE();}
+    if(s.exit_time){document.getElementById('timeExitEnabled').value='1';document.getElementById('timeExitBars').value=s.exit_time.bars||10;toggleTimeExit();}
+    renderEntryConditions();renderExits('tp');renderExits('sl');renderFilters();
+    showToast('بارگذاری شد');
+  }catch(e){}
+}
+
+async function deleteStrategy(sid){
+  if(!confirm('حذف؟'))return;
+  try{
+    await fetch(API+'/api/builder/strategies/'+sid+'?email='+encodeURIComponent(userEmail),{method:'DELETE'});
+    loadStrategies();
+    showToast('حذف شد');
+  }catch(e){}
+}
+
+function newStrategy(){
+  document.getElementById('sId').value='';
+  document.getElementById('sName').value='';
+  document.getElementById('sDesc').value='';
+  entryConditions=[];tpExits=[];slExits=[];filters=[];
+  renderEntryConditions();renderExits('tp');renderExits('sl');renderFilters();
+  document.getElementById('trailType').value='';updateTrailParams();
+  document.getElementById('beEnabled').value='';toggleBE();
+  document.getElementById('timeExitEnabled').value='';toggleTimeExit();
+  updateSummary();
+}
+
+function showToast(msg,err){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast '+(err?'err':'ok');
+  setTimeout(function(){t.className='toast';},2500);
+}
+
+
+// ══════ BACKTEST ══════
+var btChart=null;
+
+async function runBacktest(){
+  var s=buildStrategy();
+  if(!s.name){showToast('اول استراتژی بسازید',true);return;}
+  if(!s.entry_conditions.length){showToast('شرایط ورود تعریف نشده',true);return;}
+
+  var box=document.getElementById('btResults');
+  box.innerHTML='<div class="bt-loading">در حال اجرای بک‌تست...</div>';
+
+  try{
+    var r=await fetch(API+'/api/backtest',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        strategy:s,
+        bars:parseInt(document.getElementById('btBars').value),
+        balance:parseFloat(document.getElementById('btBalance').value),
+        spread:parseFloat(document.getElementById('btSpread').value),
+      })
+    });
+    var d=await r.json();
+    if(d.success){
+      renderBacktestResults(d);
+    }else{
+      box.innerHTML='<div class="bt-empty" style="color:var(--red);">'+( d.error||'خطا')+'</div>';
+    }
+  }catch(e){
+    box.innerHTML='<div class="bt-empty" style="color:var(--red);">خطا در ارتباط با سرور</div>';
+  }
+}
+
+function renderBacktestResults(d){
+  var st=d.stats;
+  var html='';
+
+  // Stats grid
+  html+='<div class="bt-stat-grid">';
+  html+=btStat(st.total,'معاملات','cyan');
+  html+=btStat(st.win_rate+'%','نرخ برد',st.win_rate>=50?'green':'red');
+  html+=btStat('$'+st.total_pnl,'سود/زیان کل',st.total_pnl>=0?'green':'red');
+  html+=btStat(st.profit_factor,'Profit Factor',st.profit_factor>=1.5?'green':st.profit_factor>=1?'cyan':'red');
+  html+=btStat(st.max_drawdown_pct+'%','حداکثر افت',st.max_drawdown_pct<=15?'green':st.max_drawdown_pct<=30?'cyan':'red');
+  html+=btStat(st.sharpe,'شارپ',st.sharpe>=1?'green':st.sharpe>=0?'cyan':'red');
+  html+=btStat(st.wins+'/'+st.losses,'برد/باخت','cyan');
+  html+=btStat('$'+st.avg_win,'میانگین برد','green');
+  html+=btStat('$'+Math.abs(st.avg_loss),'میانگین باخت','red');
+  html+=btStat(st.avg_rr,'R:R میانگین','cyan');
+  html+=btStat(st.max_consec_wins,'بردهای متوالی','green');
+  html+=btStat(st.max_consec_losses,'باخت‌های متوالی','red');
+  html+=btStat('$'+st.best_trade,'بهترین معامله','green');
+  html+=btStat('$'+st.worst_trade,'بدترین معامله','red');
+  html+=btStat(st.avg_bars_held,'میانگین کندل','cyan');
+  html+=btStat('$'+d.final_balance,'بالانس نهایی',d.final_balance>=d.initial_balance?'green':'red');
+  html+='</div>';
+
+  // Equity chart + drawdown overlay
+  html+='<div class="bt-chart-wrap"><canvas id="eqChart" height="200"></canvas></div>';
+
+  // Drawdown chart (from enhanced report)
+  if(d.drawdown_curve && d.drawdown_curve.length){
+    html+='<div class="bt-chart-wrap" style="margin-top:8px;"><div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:4px;">📉 Drawdown %</div><canvas id="btDdChart" height="120"></canvas></div>';
+  }
+
+  // Monthly returns
+  if(d.monthly_returns && d.monthly_returns.length){
+    html+='<div class="card" style="margin-top:8px;"><div class="card-head"><h3>📅 بازده ماهانه</h3></div><div class="card-body"><div class="heatmap-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:4px;">';
+    for(var mi=0;mi<d.monthly_returns.length;mi++){
+      var mr=d.monthly_returns[mi];
+      var mbg=mr.pnl>100?'rgba(34,197,94,.3)':mr.pnl>0?'rgba(34,197,94,.12)':mr.pnl>-50?'rgba(239,68,68,.1)':'rgba(239,68,68,.25)';
+      var mtc=mr.pnl>=0?'var(--green)':'var(--red)';
+      html+='<div style="background:'+mbg+';border-radius:4px;padding:6px;text-align:center;"><div style="font-size:10px;color:var(--text3);">'+mr.month+'</div><div style="font-size:12px;font-weight:600;color:'+mtc+';">$'+mr.pnl+'</div><div style="font-size:9px;color:var(--text3);">'+mr.trades+' trades | '+mr.win_rate+'%</div></div>';
+    }
+    html+='</div></div></div>';
+  }
+
+  // Hourly & daily distribution
+  if((d.trade_distribution_hour && d.trade_distribution_hour.length) || (d.trade_distribution_day && d.trade_distribution_day.length)){
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">';
+    // Hourly
+    if(d.trade_distribution_hour){
+      html+='<div class="card"><div class="card-head"><h3>⏰ توزیع ساعتی</h3></div><div class="card-body"><canvas id="btHourChart" height="150"></canvas></div></div>';
+    }
+    // Daily
+    if(d.trade_distribution_day){
+      html+='<div class="card"><div class="card-head"><h3>📆 توزیع روزانه</h3></div><div class="card-body"><canvas id="btDayChart" height="150"></canvas></div></div>';
+    }
+    html+='</div>';
+  }
+
+  // Trade list
+  var trades=d.trades||[];
+  if(trades.length){
+    html+='<div class="card"><div class="card-head"><h3>لیست معاملات ('+d.total_trades+')</h3></div><div class="card-body" style="max-height:300px;overflow-y:auto;">';
+    html+='<table class="bt-trades-table"><thead><tr><th>#</th><th>نوع</th><th>ورود</th><th>خروج</th><th>TP/SL</th><th>لات</th><th>R:R</th><th>سود/زیان</th><th>خروج</th></tr></thead><tbody>';
+    for(var i=0;i<Math.min(trades.length,100);i++){
+      var t=trades[i];
+      var cls=t.pnl>=0?'win':'loss';
+      html+='<tr><td>'+(i+1)+'</td><td style="color:'+(t.type==="BUY"?"var(--green)":"var(--red)")+';">'+t.type+'</td><td>'+t.entry+'</td><td>'+(t.exit_price||'-')+'</td><td>'+t.tp+' / '+t.sl+'</td><td>'+t.lot_size+'</td><td>'+t.rr+'</td><td class="'+cls+'">$'+t.pnl+'</td><td>'+t.exit_reason+'</td></tr>';
+    }
+    html+='</tbody></table>';
+    if(d.total_trades>100)html+='<div style="text-align:center;color:var(--text3);font-size:10px;padding:6px;">نمایش ۱۰۰ از '+d.total_trades+'</div>';
+    html+='</div></div>';
+  }
+
+  document.getElementById('btResults').innerHTML=html;
+
+  // Draw equity chart
+  setTimeout(function(){
+    var ctx=document.getElementById('eqChart');
+    if(!ctx)return;
+    if(btChart)btChart.destroy();
+    btChart=new Chart(ctx,{
+      type:'line',
+      data:{
+        labels:d.equity_curve.map(function(_,i){return i;}),
+        datasets:[{
+          label:'Equity',
+          data:d.equity_curve,
+          borderColor:'#06b6d4',
+          backgroundColor:'rgba(6,182,212,0.1)',
+          fill:true,
+          pointRadius:0,
+          borderWidth:2,
+          tension:0.3,
+        },{
+          label:'Initial',
+          data:d.equity_curve.map(function(){return d.initial_balance;}),
+          borderColor:'rgba(255,255,255,0.2)',
+          borderDash:[5,5],
+          pointRadius:0,
+          borderWidth:1,
+        }]
+      },
+      options:{
+        responsive:true,
+        plugins:{legend:{display:true,labels:{color:'#7f849c',font:{size:10}}}},
+        scales:{
+          x:{display:false},
+          y:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#7f849c',font:{size:10},callback:function(v){return '$'+v;}}}
+        }
+      }
+    });
+
+    // Drawdown chart
+    var ddCtx=document.getElementById('btDdChart');
+    if(ddCtx && d.drawdown_curve && d.drawdown_curve.length){
+      if(window._btDdChart) window._btDdChart.destroy();
+      window._btDdChart=new Chart(ddCtx,{
+        type:'line',
+        data:{
+          labels:d.drawdown_curve.map(function(p){return p.bar;}),
+          datasets:[{label:'Drawdown %',data:d.drawdown_curve.map(function(p){return -p.drawdown;}),borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,.12)',fill:true,tension:.2,pointRadius:0,borderWidth:1.5}]
+        },
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#565a6e',font:{size:9},callback:function(v){return v+'%';}}}}}
+      });
+    }
+
+    // Hourly chart
+    var hCtx=document.getElementById('btHourChart');
+    if(hCtx && d.trade_distribution_hour){
+      var hd=d.trade_distribution_hour;
+      if(window._btHourChart) window._btHourChart.destroy();
+      window._btHourChart=new Chart(hCtx,{
+        type:'bar',
+        data:{
+          labels:hd.map(function(h){return h.hour+':00';}),
+          datasets:[{label:'PnL',data:hd.map(function(h){return h.pnl;}),backgroundColor:hd.map(function(h){return h.pnl>=0?'rgba(34,197,94,.5)':'rgba(239,68,68,.5)';}),borderWidth:0,borderRadius:2}]
+        },
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:'#565a6e',font:{size:7}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#565a6e',font:{size:8}}}}}
+      });
+    }
+
+    // Day of week chart
+    var dayCtx=document.getElementById('btDayChart');
+    if(dayCtx && d.trade_distribution_day){
+      var dd=d.trade_distribution_day;
+      if(window._btDayChart) window._btDayChart.destroy();
+      window._btDayChart=new Chart(dayCtx,{
+        type:'bar',
+        data:{
+          labels:dd.map(function(d){return d.day;}),
+          datasets:[{label:'PnL',data:dd.map(function(d){return d.pnl;}),backgroundColor:dd.map(function(d){return d.pnl>=0?'rgba(34,197,94,.5)':'rgba(239,68,68,.5)';}),borderWidth:0,borderRadius:3},{label:'Trades',data:dd.map(function(d){return d.count;}),type:'line',borderColor:'#60a5fa',pointRadius:3,borderWidth:1.5,yAxisID:'y1'}]
+        },
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:'#7f849c',font:{size:9}}}},scales:{x:{grid:{display:false},ticks:{color:'#565a6e',font:{size:9}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#565a6e',font:{size:8}}},y1:{position:'right',grid:{display:false},ticks:{color:'#60a5fa',font:{size:8}}}}}
+      });
+    }
+  },100);
+}
+
+function btStat(val,label,color){
+  return '<div class="bt-stat"><div class="sv '+color+'">'+val+'</div><div class="sl">'+label+'</div></div>';
+}
+
+
+// ══════ CODE GENERATOR ══════
+function toggleCGMultiSymbol(){
+  var on=document.getElementById('cgMultiSymbol').checked;
+  document.getElementById('cgMultiSymGrid').style.display=on?'block':'none';
+  if(on && !document.getElementById('cgSymbolPicker').innerHTML) buildCGSymbolPicker();
+}
+
+function buildCGSymbolPicker(){
+  var syms=[
+    {s:'EURUSD',g:'forex'},{s:'GBPUSD',g:'forex'},{s:'USDJPY',g:'forex'},{s:'USDCHF',g:'forex'},
+    {s:'AUDUSD',g:'forex'},{s:'NZDUSD',g:'forex'},{s:'USDCAD',g:'forex'},
+    {s:'EURGBP',g:'forex'},{s:'EURJPY',g:'forex'},{s:'GBPJPY',g:'forex'},
+    {s:'XAUUSD',g:'metals'},{s:'XAGUSD',g:'metals'},
+    {s:'US100',g:'indices'},{s:'US30',g:'indices'},{s:'US500',g:'indices'},
+    {s:'BTCUSD',g:'crypto'},{s:'ETHUSD',g:'crypto'},{s:'SOLUSD',g:'crypto'},{s:'XRPUSD',g:'crypto'},
+  ];
+  var html='';
+  for(var s of syms){
+    html+='<label style="font-size:9px;background:var(--bg3);padding:2px 5px;border-radius:3px;cursor:pointer;display:flex;align-items:center;gap:2px;"><input type="checkbox" class="cg-sym-cb" value="'+s.s+'" data-group="'+s.g+'" style="accent-color:#60a5fa;width:12px;height:12px;"> '+s.s+'</label>';
+  }
+  document.getElementById('cgSymbolPicker').innerHTML=html;
+}
+
+function cgSelectGroup(g){
+  document.querySelectorAll('.cg-sym-cb').forEach(function(cb){
+    if(g==='all') cb.checked=true;
+    else cb.checked=(cb.dataset.group===g);
+  });
+}
+
+function getCGSymbols(){
+  var syms=[];
+  document.querySelectorAll('.cg-sym-cb:checked').forEach(function(cb){syms.push(cb.value);});
+  return syms;
+}
+
+async function generateCode(type){
+  var s=buildStrategy();
+  if(!s.name){showToast('اول نام استراتژی را وارد کنید',true);return;}
+  if(!s.entry_conditions.length){showToast('شرایط ورود تعریف نشده',true);return;}
+
+  var box=document.getElementById('cgResult');
+  box.innerHTML='<div class="bt-loading">در حال تولید کد...</div>';
+
+  var body={strategy:s};
+  var isMulti=document.getElementById('cgMultiSymbol').checked;
+  if(isMulti){
+    var syms=getCGSymbols();
+    if(syms.length<2){showToast('حداقل ۲ نماد انتخاب کنید',true);box.innerHTML='';return;}
+    body.symbols=syms;
+  }
+
+  try{
+    var url=API+'/api/builder/generate-'+(type==='mql5'?'mql5':'mql4');
+    var r=await fetch(url,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(body)
+    });
+    var d=await r.json();
+    if(d.success){
+      renderCode(d.code, d.filename, type);
+    }else{
+      box.innerHTML='<div class="bt-empty" style="color:var(--red);">'+(d.error||'خطا در تولید کد')+'</div>';
+    }
+  }catch(e){
+    box.innerHTML='<div class="bt-empty" style="color:var(--red);">خطا در ارتباط</div>';
+  }
+}
+
+function renderCode(code, filename, type){
+  var box=document.getElementById('cgResult');
+  var highlighted=highlightMQL(code);
+  var lineCount=code.split('\n').length;
+  // Code statistics
+  var s=buildStrategy();
+  var indCount=(s.entry_conditions||[]).length;
+  var filterCount=(s.filters||[]).length;
+  var tpCount=(s.exit_take_profit||[]).length;
+  var slCount=(s.exit_stop_loss||[]).length;
+  var hasTrail=s.exit_trailing?'✓':'—';
+  var hasBE=s.exit_break_even?'✓':'—';
+  var hasTimeExit=s.exit_time?'✓':'—';
+  var html='';
+  html+='<div class="cg-info"><strong>'+filename+'</strong> | '+lineCount+' خط | '+(type==='mql5'?'MetaTrader 5':'MetaTrader 4')+'</div>';
+  html+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin:6px 0;">';
+  html+='<span class="tag-badge cyan">'+indCount+' اندیکاتور</span>';
+  html+='<span class="tag-badge '+(filterCount>0?'green':'text3')+'">'+filterCount+' فیلتر</span>';
+  html+='<span class="tag-badge cyan">TP×'+tpCount+' SL×'+slCount+'</span>';
+  html+='<span class="tag-badge '+(hasTrail==='✓'?'green':'text3')+'">Trailing '+hasTrail+'</span>';
+  html+='<span class="tag-badge '+(hasBE==='✓'?'green':'text3')+'">B/E '+hasBE+'</span>';
+  html+='<span class="tag-badge '+(hasTimeExit==='✓'?'green':'text3')+'">Time Exit '+hasTimeExit+'</span>';
+  html+='</div>';
+  html+='<div class="cg-code-wrap">';
+  html+='<div class="cg-code-head"><span class="cg-fname">'+filename+'</span>';
+  html+='<div class="cg-actions">';
+  html+='<button class="btn btn-cyan btn-sm" onclick="copyCode()">📋 کپی</button>';
+  html+='<button class="btn btn-green btn-sm" onclick="downloadCode()">💾 دانلود</button>';
+  html+='</div></div>';
+  html+='<div class="cg-code" id="codeBlock">'+highlighted+'</div>';
+  html+='</div>';
+  box.innerHTML=html;
+  box.dataset.code=code;
+  box.dataset.filename=filename;
+}
+
+function highlightMQL(code){
+  var escaped=code.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // Comments
+  escaped=escaped.replace(/(\/\/[^\n]*)/g,'<span class="cmt">$1</span>');
+  escaped=escaped.replace(/(\/\*[\s\S]*?\*\/)/g,'<span class="cmt">$1</span>');
+  // Strings
+  escaped=escaped.replace(/("(?:[^"\\]|\\.)*")/g,'<span class="str">$1</span>');
+  // Keywords
+  var kws=['input','extern','int','double','bool','void','string','datetime','return','if','else','for','while','true','false','NULL','static','const','class','struct','enum','property','include','strict'];
+  for(var k of kws){
+    var re=new RegExp('\\b'+k+'\\b','g');
+    escaped=escaped.replace(re,'<span class="kw">'+k+'</span>');
+  }
+  // Types
+  var types=['CTrade','POSITION_TYPE_BUY','POSITION_TYPE_SELL','OP_BUY','OP_SELL','INVALID_HANDLE','INIT_SUCCEEDED','INIT_FAILED','MODE_SMA','MODE_EMA','MODE_MAIN','MODE_SIGNAL','PRICE_CLOSE','PRICE_OPEN','PRICE_HIGH','PRICE_LOW','PERIOD_CURRENT','EMPTY_VALUE'];
+  for(var t of types){
+    var re2=new RegExp('\\b'+t+'\\b','g');
+    escaped=escaped.replace(re2,'<span class="type">'+t+'</span>');
+  }
+  // Functions
+  escaped=escaped.replace(/(OnInit|OnDeinit|OnTick|init|deinit|start|Print|MathAbs|MathFloor|MathMax|MathMin|NormalizeDouble|StringFormat|StringToTime|TimeCurrent|TimeDay|OrderSend|OrderSelect|OrderModify|OrdersTotal|OrderMagicNumber|OrderSymbol|OrderOpenPrice|OrderStopLoss|OrderTakeProfit|OrderTicket|OrderType|iMA|iRSI|iMACD|iStochastic|iBands|iATR|iADX|iSAR|iIchimoku|iCCI|iWPR|iMFI|iOBV|iCustom|iTime|iClose|CopyBuffer|IndicatorRelease|SymbolInfoDouble|AccountInfoDouble|AccountBalance|PositionsTotal|PositionSelectByTicket|PositionGetTicket|PositionGetDouble|PositionGetInteger|MarketInfo)/g,'<span class="fn">$1</span>');
+  // Numbers
+  escaped=escaped.replace(/(\d+\.?\d*)/g,'<span class="num">$1</span>');
+  return escaped;
+}
+
+function copyCode(){
+  var box=document.getElementById('cgResult');
+  var code=box.dataset.code||'';
+  navigator.clipboard.writeText(code).then(function(){
+    showToast('کد کپی شد!');
+  }).catch(function(){
+    // Fallback
+    var ta=document.createElement('textarea');
+    ta.value=code;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('کد کپی شد!');
+  });
+}
+
+function downloadCode(){
+  var box=document.getElementById('cgResult');
+  var code=box.dataset.code||'';
+  var filename=box.dataset.filename||'strategy.mq5';
+  var blob=new Blob([code],{type:'text/plain;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;
+  a.download=filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('دانلود شد!');
+}
+
+
+// ══════ PREVIEW ══════
+async function runPreview(){
+  var s=buildStrategy();
+  if(!s.entry_conditions.length){showToast('شرایط ورود تعریف نشده',true);return;}
+  var box=document.getElementById('pvResults');
+  box.innerHTML='<div class="bt-loading">در حال اسکن...</div>';
+
+  try{
+    var r=await fetch(API+'/api/builder/preview',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({strategy:s,bars:parseInt(document.getElementById('pvBars').value)})
+    });
+    var d=await r.json();
+    if(d.success) renderPreview(d);
+    else box.innerHTML='<div class="bt-empty" style="color:var(--red);">'+(d.error||'Error')+'</div>';
+  }catch(e){
+    box.innerHTML='<div class="bt-empty" style="color:var(--red);">Connection error</div>';
+  }
+}
+
+function renderPreview(d){
+  var box=document.getElementById('pvResults');
+  var st=d.stats;
+  var cs=d.current_signal||{};
+  var html='';
+
+  // Status cards
+  html+='<div class="pv-status">';
+  // Current signal
+  var csClass=cs.active?(cs.type==='BUY'?'active-buy':'active-sell'):'';
+  html+='<div class="pv-status-card '+csClass+'">';
+  html+='<div class="pv-icon">'+(cs.active?(cs.type==='BUY'?'🟢':'🔴'):'⚪')+'</div>';
+  html+='<div class="pv-val" style="color:'+(cs.active?(cs.type==='BUY'?'var(--green)':'var(--red)'):'var(--text3)')+';">'+(cs.active?cs.type:'بدون سیگنال')+'</div>';
+  html+='<div class="pv-label">سیگنال فعلی @ '+d.current_price+'</div>';
+  html+='</div>';
+  // Score
+  var scoreCls=st.score>=60?'good':st.score>=35?'mid':'bad';
+  html+='<div class="pv-status-card">';
+  html+='<div class="pv-score-ring '+scoreCls+'" style="--pct:'+st.score+'%"><div class="pv-score-inner">'+st.score+'</div></div>';
+  html+='<div class="pv-label">امتیاز استراتژی</div>';
+  html+='</div>';
+  // Win rate
+  html+='<div class="pv-status-card">';
+  html+='<div class="pv-icon">'+(st.win_rate>=50?'📈':'📉')+'</div>';
+  html+='<div class="pv-val" style="color:'+(st.win_rate>=50?'var(--green)':'var(--red)')+';">'+st.win_rate+'%</div>';
+  html+='<div class="pv-label">نرخ برد ('+st.total+' معامله)</div>';
+  html+='</div>';
+  // PnL
+  html+='<div class="pv-status-card">';
+  html+='<div class="pv-icon">'+(st.total_pnl_pips>=0?'💰':'💸')+'</div>';
+  html+='<div class="pv-val" style="color:'+(st.total_pnl_pips>=0?'var(--green)':'var(--red)')+';">'+st.total_pnl_pips+' pip</div>';
+  html+='<div class="pv-label">سود/زیان کل</div>';
+  html+='</div>';
+  // Total signals
+  html+='<div class="pv-status-card">';
+  html+='<div class="pv-icon">📊</div>';
+  html+='<div class="pv-val" style="color:var(--cyan);">'+d.total_signals+'</div>';
+  html+='<div class="pv-label">کل سیگنال‌ها</div>';
+  html+='</div>';
+  html+='</div>';
+
+  // Current indicator conditions
+  var inds=d.current_indicators||[];
+  if(inds.length){
+    html+='<h4 style="font-size:12px;color:var(--text2);margin:10px 0 6px;">وضعیت فعلی شرایط ورود:</h4>';
+    html+='<div class="pv-cond-grid">';
+    for(var ind of inds){
+      var met=ind.met;
+      html+='<div class="pv-cond"><div class="pv-dot '+(met?'ok':'no')+'"></div>';
+      html+='<span>'+ind.indicator+' '+ind.condition+' '+(ind.value!==null?ind.value:'?')+' vs '+(ind.compare!==null?ind.compare:'?')+'</span>';
+      html+='</div>';
+    }
+    html+='</div>';
+  }
+
+  // Signal list
+  var sigs=d.signals||[];
+  if(sigs.length){
+    html+='<h4 style="font-size:12px;color:var(--text2);margin:10px 0 6px;">آخرین سیگنال‌ها ('+sigs.length+'):</h4>';
+    html+='<div class="pv-signals">';
+    for(var i=sigs.length-1;i>=0;i--){
+      var sg=sigs[i];
+      html+='<div class="pv-sig">';
+      html+='<span class="pv-badge '+(sg.type==='BUY'?'buy':'sell')+'">'+sg.type+'</span>';
+      html+='<span style="color:var(--text2);min-width:60px;">'+sg.price+'</span>';
+      html+='<span style="color:var(--text3);font-size:10px;min-width:55px;">R:R '+sg.rr+'</span>';
+      html+='<span class="pv-outcome '+sg.outcome+'">'+
+        (sg.outcome==='win'?'+'+sg.pnl_pips+'p':sg.outcome==='loss'?sg.pnl_pips+'p':'...')+
+        '</span>';
+      html+='<span style="color:var(--text3);font-size:9px;margin-right:auto;">'+sg.time+'</span>';
+      html+='</div>';
+    }
+    html+='</div>';
+  }else{
+    html+='<div class="bt-empty">سیگنالی یافت نشد</div>';
+  }
+
+  box.innerHTML=html;
+}
+
+// ══════ COMPARE ══════
+async function loadCompareSelects(){
+  try{
+    var r=await fetch(API+'/api/builder/strategies?email='+encodeURIComponent(userEmail));
+    var d=await r.json();
+    var list=d.strategies||[];
+    var s1=document.getElementById('cmpS1');
+    var s2=document.getElementById('cmpS2');
+    s1.innerHTML='<option value="">انتخاب...</option>';
+    s2.innerHTML='<option value="">انتخاب...</option>';
+    for(var s of list){
+      s1.innerHTML+='<option value="'+s.id+'">'+s.name+'</option>';
+      s2.innerHTML+='<option value="'+s.id+'">'+s.name+'</option>';
+    }
+  }catch(e){}
+}
+
+async function runCompare(){
+  var id1=document.getElementById('cmpS1').value;
+  var id2=document.getElementById('cmpS2').value;
+  if(!id1||!id2){showToast('دو استراتژی انتخاب کنید',true);return;}
+  if(id1===id2){showToast('دو استراتژی متفاوت انتخاب کنید',true);return;}
+
+  var box=document.getElementById('cmpResults');
+  box.innerHTML='<div class="bt-loading">در حال مقایسه...</div>';
+
+  try{
+    var r1=await fetch(API+'/api/builder/strategies/'+id1+'?email='+encodeURIComponent(userEmail));
+    var s1=await r1.json();
+    var r2=await fetch(API+'/api/builder/strategies/'+id2+'?email='+encodeURIComponent(userEmail));
+    var s2=await r2.json();
+
+    var r=await fetch(API+'/api/builder/compare',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({strategy1:s1,strategy2:s2})
+    });
+    var d=await r.json();
+    if(d.success) renderCompare(d);
+    else box.innerHTML='<div class="bt-empty" style="color:var(--red);">'+(d.error||'Error')+'</div>';
+  }catch(e){
+    box.innerHTML='<div class="bt-empty" style="color:var(--red);">Connection error</div>';
+  }
+}
+
+function renderCompare(d){
+  var box=document.getElementById('cmpResults');
+  var a=d.strategy1;
+  var b=d.strategy2;
+  var html='<div class="pv-compare" style="margin-top:10px;">';
+
+  html+='<div class="pv-compare-col">';
+  html+='<h4 style="color:var(--cyan);font-size:13px;margin-bottom:8px;">'+a.name+'</h4>';
+  html+=cmpRow('نرخ برد',a.stats.win_rate+'%',a.stats.win_rate>=b.stats.win_rate);
+  html+=cmpRow('سیگنال‌ها',a.total_signals,a.total_signals>=b.total_signals);
+  html+=cmpRow('برد/باخت',a.stats.wins+'/'+a.stats.losses,a.stats.wins>=b.stats.wins);
+  html+=cmpRow('پیپ/معامله',a.stats.avg_pnl_pips,a.stats.avg_pnl_pips>=b.stats.avg_pnl_pips);
+  html+=cmpRow('کل پیپ',a.stats.total_pnl_pips,a.stats.total_pnl_pips>=b.stats.total_pnl_pips);
+  html+=cmpRow('امتیاز',a.stats.score,a.stats.score>=b.stats.score);
+  var csA=a.current_signal||{};
+  html+='<div style="text-align:center;margin-top:8px;font-size:12px;font-weight:700;color:'+(csA.active?(csA.type==='BUY'?'var(--green)':'var(--red)'):'var(--text3)')+';">'+(csA.active?csA.type:'---')+'</div>';
+  html+='</div>';
+
+  html+='<div class="pv-compare-vs">VS</div>';
+
+  html+='<div class="pv-compare-col">';
+  html+='<h4 style="color:var(--purple);font-size:13px;margin-bottom:8px;">'+b.name+'</h4>';
+  html+=cmpRow('نرخ برد',b.stats.win_rate+'%',b.stats.win_rate>=a.stats.win_rate);
+  html+=cmpRow('سیگنال‌ها',b.total_signals,b.total_signals>=a.total_signals);
+  html+=cmpRow('برد/باخت',b.stats.wins+'/'+b.stats.losses,b.stats.wins>=a.stats.wins);
+  html+=cmpRow('پیپ/معامله',b.stats.avg_pnl_pips,b.stats.avg_pnl_pips>=a.stats.avg_pnl_pips);
+  html+=cmpRow('کل پیپ',b.stats.total_pnl_pips,b.stats.total_pnl_pips>=a.stats.total_pnl_pips);
+  html+=cmpRow('امتیاز',b.stats.score,b.stats.score>=a.stats.score);
+  var csB=b.current_signal||{};
+  html+='<div style="text-align:center;margin-top:8px;font-size:12px;font-weight:700;color:'+(csB.active?(csB.type==='BUY'?'var(--green)':'var(--red)'):'var(--text3)')+';">'+(csB.active?csB.type:'---')+'</div>';
+  html+='</div>';
+
+  html+='</div>';
+  box.innerHTML=html;
+}
+
+function cmpRow(label,val,winner){
+  return '<div class="pv-compare-row"><span class="pv-cl">'+label+'</span><span style="font-weight:700;color:'+(winner?'var(--green)':'var(--text3)')+';">'+val+(winner?' ✓':'')+'</span></div>';
+}
+
+// Compare selects loaded via switchTab hook
+
+
+// ══════ OPTIMIZER ══════
+var optMethod='grid';
+
+function selectOptMethod(m,el){
+  optMethod=m;
+  document.querySelectorAll('.opt-method').forEach(function(e){e.classList.remove('active');});
+  el.classList.add('active');
+  document.getElementById('optGridPanel').style.display=m==='grid'?'block':'none';
+  document.getElementById('optWFPanel').style.display=m==='wf'?'block':'none';
+  document.getElementById('optMCPanel').style.display=m==='mc'?'block':'none';
+  document.getElementById('optResults').innerHTML='';
+  if(m==='grid') loadOptParams();
+}
+
+async function loadOptParams(){
+  var s=buildStrategy();
+  if(!s.entry_conditions.length) return;
+  try{
+    var r=await fetch(API+'/api/builder/optimize/params',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({strategy:s})});
+    var d=await r.json();
+    if(d.success){
+      var box=document.getElementById('optParamList');
+      var ps=d.params||[];
+      if(!ps.length){box.innerHTML='<div style="color:var(--text3);font-size:11px;">پارامتری یافت نشد</div>';return;}
+      var html='';
+      for(var i=0;i<ps.length;i++){
+        var p=ps[i];
+        html+='<div class="opt-param"><input type="checkbox" id="optP'+i+'" value="'+p.name+'"'+(i<3?' checked':'')+'><span class="op-name">'+p.name+'</span><span class="op-val">'+p.min+' → '+p.max+' (فعلی: '+p.current+')</span></div>';
+      }
+      box.innerHTML=html;
+    }
+  }catch(e){}
+}
+
+async function runOptimize(){
+  var s=buildStrategy();
+  if(!s.entry_conditions.length){showToast('شرایط ورود نداره',true);return;}
+  var selected=[];
+  document.querySelectorAll('#optParamList input[type=checkbox]:checked').forEach(function(cb){selected.push(cb.value);});
+  if(!selected.length){showToast('حداقل یک پارامتر انتخاب کنید',true);return;}
+
+  var box=document.getElementById('optResults');
+  box.innerHTML='<div class="bt-loading">در حال بهینه‌سازی... (ممکنه طول بکشه)</div>';
+
+  try{
+    var r=await fetch(API+'/api/builder/optimize/grid',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({strategy:s,selected_params:selected,bars:parseInt(document.getElementById('optBars').value)})});
+    var d=await r.json();
+    if(d.success) renderGridResults(d);
+    else box.innerHTML='<div class="bt-empty" style="color:var(--red);">'+(d.error||'Error')+'</div>';
+  }catch(e){box.innerHTML='<div class="bt-empty" style="color:var(--red);">Connection error</div>';}
+}
+
+function renderGridResults(d){
+  var box=document.getElementById('optResults');
+  var html='';
+  var b=d.best;
+
+  if(b){
+    html+='<h4 style="font-size:12px;color:#f472b6;margin:10px 0 6px;">بهترین ترکیب:</h4>';
+    html+='<div class="opt-result-grid">';
+    for(var k in b.params) html+='<div class="opt-result-card"><div class="orc-val" style="color:#f472b6;">'+b.params[k]+'</div><div class="orc-label">'+k+'</div></div>';
+    html+='<div class="opt-result-card"><div class="orc-val" style="color:var(--green);">'+b.win_rate+'%</div><div class="orc-label">نرخ برد</div></div>';
+    html+='<div class="opt-result-card"><div class="orc-val" style="color:var(--cyan);">'+b.profit_factor+'</div><div class="orc-label">Profit Factor</div></div>';
+    html+='<div class="opt-result-card"><div class="orc-val" style="color:'+(b.total_pnl>=0?'var(--green)':'var(--red)')+';">$'+b.total_pnl+'</div><div class="orc-label">سود/زیان</div></div>';
+    html+='<div class="opt-result-card"><div class="orc-val" style="color:var(--yellow);">'+b.score+'</div><div class="orc-label">امتیاز</div></div>';
+    html+='</div>';
+
+    html+='<button class="btn btn-cyan btn-sm" onclick="applyBestParams()" style="margin-bottom:10px;">✅ اعمال بهترین پارامترها</button>';
+    box.dataset.bestParams=JSON.stringify(d.best_params);
+  }
+
+  html+='<h4 style="font-size:12px;color:var(--text2);margin:10px 0 6px;">نتایج ('+d.total_tested+' ترکیب آزمایش شد):</h4>';
+  html+='<div style="max-height:300px;overflow-y:auto;"><table class="opt-table"><thead><tr>';
+  var pnames=d.results.length?Object.keys(d.results[0].params):[];
+  for(var pn of pnames) html+='<th>'+pn+'</th>';
+  html+='<th>معاملات</th><th>برد%</th><th>PF</th><th>سود</th><th>DD%</th><th>امتیاز</th></tr></thead><tbody>';
+  for(var r of (d.results||[])){
+    html+='<tr>';
+    for(var pn of pnames) html+='<td>'+r.params[pn]+'</td>';
+    html+='<td>'+r.total_trades+'</td><td>'+r.win_rate+'%</td><td>'+r.profit_factor+'</td>';
+    html+='<td style="color:'+(r.total_pnl>=0?'var(--green)':'var(--red)')+';">$'+r.total_pnl+'</td>';
+    html+='<td>'+r.max_dd+'%</td>';
+    html+='<td>'+r.score+'</td>';
+    html+='</tr>';
+  }
+  html+='</tbody></table></div>';
+  box.innerHTML=html;
+}
+
+function applyBestParams(){
+  var box=document.getElementById('optResults');
+  var bp=JSON.parse(box.dataset.bestParams||'{}');
+  showToast('بهترین پارامترها: '+JSON.stringify(bp));
+}
+
+async function runWalkForward(){
+  var s=buildStrategy();
+  if(!s.entry_conditions.length){showToast('شرایط ورود نداره',true);return;}
+  var box=document.getElementById('optResults');
+  box.innerHTML='<div class="bt-loading">Walk-Forward Analysis...</div>';
+
+  try{
+    var r=await fetch(API+'/api/builder/optimize/walk-forward',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({strategy:s,windows:parseInt(document.getElementById('wfWindows').value)})});
+    var d=await r.json();
+    if(d.success) renderWFResults(d);
+    else box.innerHTML='<div class="bt-empty" style="color:var(--red);">'+(d.error||'Error')+'</div>';
+  }catch(e){box.innerHTML='<div class="bt-empty" style="color:var(--red);">Error</div>';}
+}
+
+function renderWFResults(d){
+  var box=document.getElementById('optResults');
+  var html='';
+
+  html+='<div class="opt-result-grid">';
+  html+='<div class="opt-result-card"><div class="orc-val" style="color:'+(d.robust?'var(--green)':'var(--red)')+';">'+(d.robust?'✅ پایدار':'⚠️ ناپایدار')+'</div><div class="orc-label">نتیجه</div></div>';
+  html+='<div class="opt-result-card"><div class="orc-val" style="color:var(--cyan);">'+d.overall_test_win_rate+'%</div><div class="orc-label">نرخ برد آزمون</div></div>';
+  html+='<div class="opt-result-card"><div class="orc-val" style="color:'+(d.overall_test_pnl>=0?'var(--green)':'var(--red)')+';">$'+d.overall_test_pnl+'</div><div class="orc-label">سود آزمون</div></div>';
+  html+='<div class="opt-result-card"><div class="orc-val" style="color:var(--cyan);">'+d.total_test_trades+'</div><div class="orc-label">معاملات آزمون</div></div>';
+  html+='</div>';
+
+  html+='<h4 style="font-size:12px;color:var(--text2);margin:10px 0 6px;">پنجره‌ها:</h4>';
+  for(var w of (d.window_results||[])){
+    var wrColor=w.test_win_rate>=50?'var(--green)':'var(--red)';
+    html+='<div class="wf-window"><span class="wf-num">'+w.window+'</span>';
+    html+='<span style="color:var(--text3);">آموزش:'+w.train_bars+' | آزمون:'+w.test_bars+'</span>';
+    html+='<span style="color:var(--text2);">امتیاز:'+w.train_score+'</span>';
+    html+='<span style="color:'+wrColor+';">برد:'+w.test_win_rate+'%</span>';
+    html+='<span style="color:'+(w.test_pnl>=0?'var(--green)':'var(--red)')+';">$'+w.test_pnl+'</span>';
+    html+='<span style="color:var(--text3);font-size:10px;margin-right:auto;">PF:'+w.test_pf+' DD:'+w.test_dd+'%</span>';
+    html+='</div>';
+  }
+  box.innerHTML=html;
+}
+
+async function runMonteCarlo(){
+  var s=buildStrategy();
+  if(!s.entry_conditions.length){showToast('شرایط ورود نداره',true);return;}
+  var box=document.getElementById('optResults');
+  box.innerHTML='<div class="bt-loading">Monte Carlo Simulation...</div>';
+
+  try{
+    var r=await fetch(API+'/api/builder/optimize/monte-carlo',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({strategy:s,simulations:parseInt(document.getElementById('mcSims').value)})});
+    var d=await r.json();
+    if(d.success) renderMCResults(d);
+    else box.innerHTML='<div class="bt-empty" style="color:var(--red);">'+(d.error||'Error')+'</div>';
+  }catch(e){box.innerHTML='<div class="bt-empty" style="color:var(--red);">Error</div>';}
+}
+
+function renderMCResults(d){
+  var box=document.getElementById('optResults');
+  var html='';
+  var p=d.percentiles;
+
+  html+='<div class="opt-result-grid">';
+  html+='<div class="opt-result-card"><div class="orc-val" style="color:'+(d.risk_of_ruin<=5?'var(--green)':d.risk_of_ruin<=15?'var(--yellow)':'var(--red)')+';">'+d.risk_of_ruin+'%</div><div class="orc-label">ریسک ورشکستگی</div></div>';
+  html+='<div class="opt-result-card"><div class="orc-val" style="color:var(--green);">'+d.profitable_pct+'%</div><div class="orc-label">احتمال سودآوری</div></div>';
+  html+='<div class="opt-result-card"><div class="orc-val" style="color:var(--cyan);">$'+d.avg_balance+'</div><div class="orc-label">میانگین بالانس</div></div>';
+  html+='<div class="opt-result-card"><div class="orc-val" style="color:var(--red);">'+d.drawdown.worst_95+'%</div><div class="orc-label">بدترین DD (95%)</div></div>';
+  html+='<div class="opt-result-card"><div class="orc-val" style="color:var(--green);">$'+p.p95+'</div><div class="orc-label">بهترین (95%)</div></div>';
+  html+='<div class="opt-result-card"><div class="orc-val" style="color:var(--cyan);">$'+p.p50+'</div><div class="orc-label">میانه</div></div>';
+  html+='<div class="opt-result-card"><div class="orc-val" style="color:var(--red);">$'+p.p5+'</div><div class="orc-label">بدترین (5%)</div></div>';
+  html+='<div class="opt-result-card"><div class="orc-val" style="color:var(--text2);">'+d.simulations+'</div><div class="orc-label">شبیه‌سازی</div></div>';
+  html+='</div>';
+
+  // Histogram
+  var hist=d.histogram||[];
+  var maxC=Math.max.apply(null,hist.map(function(h){return h.count;}));
+  html+='<h4 style="font-size:12px;color:var(--text2);margin:10px 0 6px;">توزیع بالانس نهایی:</h4>';
+  html+='<div class="mc-hist">';
+  for(var h of hist){
+    var ht=maxC>0?(h.count/maxC*100):0;
+    html+='<div class="mc-hist-bar" style="height:'+ht+'%;" title="'+h.range+': '+h.count+' ('+h.pct+'%)"></div>';
+  }
+  html+='</div>';
+  html+='<div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text3);"><span>$'+d.min_balance+'</span><span>$'+d.max_balance+'</span></div>';
+
+  // Percentile bar
+  html+='<h4 style="font-size:12px;color:var(--text2);margin:14px 0 6px;">بازه اطمینان:</h4>';
+  html+='<div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;">';
+  html+='<div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:4px;"><span>5%: $'+p.p5+'</span><span>25%: $'+p.p25+'</span><span>50%: $'+p.p50+'</span><span>75%: $'+p.p75+'</span><span>95%: $'+p.p95+'</span></div>';
+  html+='<div style="height:12px;background:var(--border);border-radius:6px;position:relative;overflow:hidden;">';
+  var range=d.max_balance-d.min_balance;
+  if(range>0){
+    var l5=(p.p5-d.min_balance)/range*100;
+    var l95=(p.p95-d.min_balance)/range*100;
+    html+='<div style="position:absolute;left:'+l5+'%;width:'+(l95-l5)+'%;height:100%;background:linear-gradient(90deg,var(--red),var(--yellow),var(--green));border-radius:6px;opacity:.7;"></div>';
+  }
+  html+='</div></div>';
+
+  box.innerHTML=html;
+}
+
+// Optimize params loaded via switchTab hook
+
+
+// ══════ TEMPLATES ══════
+var templates=[];
+
+async function loadTemplates(){
+  try{
+    var r=await fetch(API+'/api/builder/templates');
+    var d=await r.json();
+    templates=d.templates||[];
+  }catch(e){}
+}
+
+function showTemplates(){
+  loadTemplates().then(function(){
+    var box=document.getElementById('tplGrid');
+    var html='';
+    for(var t of templates){
+      var diffColor=t.difficulty==='beginner'?'#22c55e':t.difficulty==='intermediate'?'#f59e0b':'#ef4444';
+      var diffName=t.difficulty==='beginner'?'مبتدی':t.difficulty==='intermediate'?'متوسط':'حرفه‌ای';
+      html+='<div class="tpl-card" onclick="loadTemplate(\''+t.id+'\')">';
+      html+='<div class="tpl-icon">'+t.icon+'</div>';
+      html+='<div class="tpl-name">'+t.name_fa+'</div>';
+      html+='<div class="tpl-desc">'+t.description_fa+'</div>';
+      html+='<span class="tpl-badge" style="background:'+diffColor+'22;color:'+diffColor+';">'+diffName+'</span>';
+      html+='</div>';
+    }
+    box.innerHTML=html;
+    document.getElementById('tplModal').style.display='flex';
+  });
+}
+
+function hideTemplates(){
+  document.getElementById('tplModal').style.display='none';
+}
+
+async function loadTemplate(tid){
+  try{
+    var r=await fetch(API+'/api/builder/templates/'+tid);
+    var d=await r.json();
+    if(d.success){
+      var s=d.template.strategy;
+      document.getElementById('sId').value='';
+      document.getElementById('sName').value=s.name||'';
+      document.getElementById('sDesc').value='';
+      document.getElementById('sSymbol').value=s.symbol||'XAUUSD';
+      document.getElementById('sTF').value=s.timeframe||'H1';
+      document.getElementById('sDir').value=s.direction||'both';
+      document.getElementById('entryLogic').value=s.entry_logic||'AND';
+      entryConditions=s.entry_conditions||[];
+      tpExits=s.exit_take_profit||[];
+      slExits=s.exit_stop_loss||[];
+      filters=s.filters||[];
+      var risk=s.risk||{};
+      document.getElementById('rRiskPct').value=risk.risk_per_trade||2;
+      document.getElementById('rLotType').value=risk.lot_type||'risk_percent';
+      document.getElementById('rMaxDaily').value=risk.max_daily_trades||5;
+      document.getElementById('rMaxOpen').value=risk.max_open_trades||3;
+      document.getElementById('rMaxDD').value=risk.max_drawdown||20;
+      document.getElementById('rMinRR').value=risk.min_rr||1.5;
+      if(s.exit_trailing){document.getElementById('trailType').value=s.exit_trailing.type||'';document.getElementById('trailP1').value=s.exit_trailing.value||20;document.getElementById('trailP2').value=s.exit_trailing.atr_period||14;updateTrailParams();}
+      else{document.getElementById('trailType').value='';updateTrailParams();}
+      if(s.exit_break_even){document.getElementById('beEnabled').value='1';document.getElementById('beTrigger').value=s.exit_break_even.trigger||20;document.getElementById('beLock').value=s.exit_break_even.lock||5;toggleBE();}
+      else{document.getElementById('beEnabled').value='';toggleBE();}
+      if(s.exit_time){document.getElementById('timeExitEnabled').value='1';document.getElementById('timeExitBars').value=s.exit_time.bars||10;toggleTimeExit();}
+      else{document.getElementById('timeExitEnabled').value='';toggleTimeExit();}
+      renderEntryConditions();renderExits('tp');renderExits('sl');renderFilters();
+      hideTemplates();
+      showToast('قالب بارگذاری شد: '+s.name);
+    }
+  }catch(e){showToast('خطا',true);}
+}
+
+// ══════ MULTI-SYMBOL ══════
+var commonSymbols=[];
+
+async function loadSymbols(){
+  try{
+    var r=await fetch(API+'/api/builder/symbols');
+    var d=await r.json();
+    commonSymbols=d.symbols||[];
+    renderSymbolGrid();
+  }catch(e){}
+}
+
+function renderSymbolGrid(){
+  var box=document.getElementById('msSymbols');
+  var html='';
+  for(var s of commonSymbols){
+    html+='<label class="ms-sym"><input type="checkbox" value="'+s.symbol+'" data-group="'+s.group+'" checked>';
+    html+='<span class="ms-name">'+s.symbol+'</span>';
+    html+='<span class="ms-sub">'+s.name_fa+'</span></label>';
+  }
+  box.innerHTML=html;
+}
+
+function selectAllSymbols(){document.querySelectorAll('#msSymbols input').forEach(function(cb){cb.checked=true;});}
+function deselectAllSymbols(){document.querySelectorAll('#msSymbols input').forEach(function(cb){cb.checked=false;});}
+function selectGroup(g){
+  document.querySelectorAll('#msSymbols input').forEach(function(cb){cb.checked=cb.dataset.group===g;});
+}
+
+async function runMultiTest(){
+  var s=buildStrategy();
+  if(!s.entry_conditions.length){showToast('شرایط ورود نداره',true);return;}
+  var syms=[];
+  document.querySelectorAll('#msSymbols input:checked').forEach(function(cb){syms.push(cb.value);});
+  if(!syms.length){showToast('نمادی انتخاب نشده',true);return;}
+
+  var box=document.getElementById('msResults');
+  box.innerHTML='<div class="bt-loading">در حال تست '+syms.length+' نماد...</div>';
+
+  try{
+    var r=await fetch(API+'/api/builder/multi-test',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({strategy:s,symbols:syms,bars:parseInt(document.getElementById('msBars').value)})
+    });
+    var d=await r.json();
+    if(d.success) renderMultiResults(d);
+    else box.innerHTML='<div class="bt-empty" style="color:var(--red);">'+(d.error||'Error')+'</div>';
+  }catch(e){box.innerHTML='<div class="bt-empty" style="color:var(--red);">Connection error</div>';}
+}
+
+function renderMultiResults(d){
+  var box=document.getElementById('msResults');
+  var sm=d.summary;
+  var html='';
+
+  // Summary
+  html+='<div class="ms-summary">';
+  html+='<div class="ms-summary-card"><div class="msc-val" style="color:var(--cyan);">'+sm.symbols_tested+'</div><div class="msc-label">نماد تست شده</div></div>';
+  html+='<div class="ms-summary-card"><div class="msc-val" style="color:var(--green);">'+sm.symbols_profitable+'</div><div class="msc-label">نماد سودآور</div></div>';
+  html+='<div class="ms-summary-card"><div class="msc-val" style="color:var(--cyan);">'+sm.total_trades+'</div><div class="msc-label">کل معاملات</div></div>';
+  html+='<div class="ms-summary-card"><div class="msc-val" style="color:'+(sm.overall_win_rate>=50?'var(--green)':'var(--red)')+';">'+sm.overall_win_rate+'%</div><div class="msc-label">نرخ برد کل</div></div>';
+  html+='<div class="ms-summary-card"><div class="msc-val" style="color:'+(sm.total_pnl>=0?'var(--green)':'var(--red)')+';">$'+sm.total_pnl+'</div><div class="msc-label">سود/زیان کل</div></div>';
+  html+='<div class="ms-summary-card"><div class="msc-val" style="color:var(--cyan);">$'+sm.avg_pnl_per_symbol+'</div><div class="msc-label">میانگین/نماد</div></div>';
+  html+='</div>';
+
+  // Table
+  html+='<div class="ms-results">';
+  html+='<div class="ms-row ms-header"><div>نماد</div><div>معاملات</div><div>برد%</div><div>PF</div><div>سود</div><div>DD%</div><div>شارپ</div><div>بالانس</div></div>';
+  for(var r of (d.results||[])){
+    if(!r.success){
+      html+='<div class="ms-row"><div class="ms-sym-name">'+r.symbol+'</div><div colspan="7" style="color:var(--red);grid-column:span 7;">'+r.error+'</div></div>';
+      continue;
+    }
+    var pnlColor=r.total_pnl>=0?'var(--green)':'var(--red)';
+    html+='<div class="ms-row">';
+    html+='<div class="ms-sym-name">'+r.symbol+'</div>';
+    html+='<div>'+r.total_trades+'</div>';
+    html+='<div style="color:'+(r.win_rate>=50?'var(--green)':'var(--red)')+';">'+r.win_rate+'%</div>';
+    html+='<div>'+r.profit_factor+'</div>';
+    html+='<div style="color:'+pnlColor+';">$'+r.total_pnl+'</div>';
+    html+='<div>'+r.max_dd+'%</div>';
+    html+='<div>'+r.sharpe+'</div>';
+    html+='<div style="color:'+pnlColor+';">$'+r.final_balance+'</div>';
+    html+='</div>';
+  }
+  html+='</div>';
+
+  // Export
+  html+='<div class="export-btns">';
+  html+='<button class="btn btn-cyan btn-sm" onclick="exportMultiCSV()">📥 دانلود CSV</button>';
+  html+='</div>';
+
+  box.innerHTML=html;
+  box.dataset.results=JSON.stringify(d.results);
+}
+
+function exportMultiCSV(){
+  var box=document.getElementById('msResults');
+  var results=JSON.parse(box.dataset.results||'[]');
+  var csv='Symbol,Trades,WinRate%,ProfitFactor,PnL,MaxDD%,Sharpe,FinalBalance\n';
+  for(var r of results){
+    if(r.success){
+      csv+=r.symbol+','+r.total_trades+','+r.win_rate+','+r.profit_factor+','+r.total_pnl+','+r.max_dd+','+r.sharpe+','+r.final_balance+'\n';
+    }
+  }
+  var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download='multi_symbol_results.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('CSV دانلود شد');
+}
+
+// Load on init
+loadTemplates();
+loadSymbols();
+
+// Multi-symbol loaded via switchTab hook
+
+
+// ══════ MONITOR + ALERTS ══════
+async function checkLiveSignal(){
+  var s=buildStrategy();
+  if(!s.entry_conditions.length){showToast('شرایط ورود نداره',true);return;}
+  var box=document.getElementById('liveSignalBox');
+  box.innerHTML='<div class="bt-loading">بررسی...</div>';
+
+  try{
+    var r=await fetch(API+'/api/builder/check-signal',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({strategy:s})});
+    var d=await r.json();
+    if(d.success){
+      var cls=d.signal?(d.type==='BUY'?'buy':'sell'):'none';
+      var text=d.signal?(d.type+' @ '+d.price):'بدون سیگنال فعال';
+      box.innerHTML='<div class="live-signal '+cls+'"><div class="live-pulse '+cls+'"></div>'+text+'</div>';
+      if(d.conditions){
+        var html='<div style="margin-top:6px;">';
+        for(var c of d.conditions){
+          html+='<span style="display:inline-block;margin:2px;padding:2px 8px;border-radius:4px;font-size:10px;background:'+(c.met?'rgba(34,197,94,.12)':'rgba(239,68,68,.12)')+';color:'+(c.met?'var(--green)':'var(--red)')+';">'+c.indicator+(c.value!==null?' ('+c.value+')':'')+(c.met?' ✓':' ✗')+'</span>';
+        }
+        html+='</div>';
+        box.innerHTML+=html;
+      }
+    }else{
+      box.innerHTML='<div class="live-signal none"><div class="live-pulse none"></div>'+(d.error||'Error')+'</div>';
+    }
+  }catch(e){box.innerHTML='<div class="live-signal none">Connection error</div>';}
+}
+
+async function addCurrentToMonitor(){
+  var s=buildStrategy();
+  if(!s.name||!s.id){showToast('اول استراتژی را ذخیره کنید',true);return;}
+  try{
+    var r=await fetch(API+'/api/builder/monitor/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:userEmail,strategy_id:s.id,strategy:s})});
+    var d=await r.json();
+    if(d.success){showToast('به مانیتور اضافه شد');loadMonitors();}
+    else showToast(d.error||'Error',true);
+  }catch(e){showToast('Error',true);}
+}
+
+async function loadMonitors(){
+  try{
+    var r=await fetch(API+'/api/builder/monitors?email='+encodeURIComponent(userEmail));
+    var d=await r.json();
+    var list=d.monitors||[];
+    var box=document.getElementById('monitorList');
+    if(!list.length){box.innerHTML='<div style="color:var(--text3);font-size:11px;text-align:center;padding:15px;">مانیتوری اضافه نشده</div>';return;}
+    var html='';
+    for(var m of list){
+      var on=m.active;
+      html+='<div class="mon-card"><div class="mon-status '+(on?'on':'off')+'"></div>';
+      html+='<div class="mon-info"><div class="mon-name">'+m.strategy_name+'</div>';
+      html+='<div class="mon-detail">'+m.symbol+' | '+m.timeframe+(m.last_signal?' | آخرین: '+m.last_signal:'')+'</div></div>';
+      html+='<button class="btn btn-ghost btn-sm" onclick="toggleMon(\''+m.strategy_id+'\')">'+(on?'⏸':'▶')+'</button>';
+      html+='<button class="btn btn-red btn-sm" onclick="removeMon(\''+m.strategy_id+'\')">×</button>';
+      html+='</div>';
+    }
+    box.innerHTML=html;
+  }catch(e){}
+}
+
+async function toggleMon(sid){
+  try{
+    await fetch(API+'/api/builder/monitor/'+sid+'/toggle?email='+encodeURIComponent(userEmail),{method:'POST'});
+    loadMonitors();
+  }catch(e){}
+}
+
+async function removeMon(sid){
+  if(!confirm('حذف؟'))return;
+  try{
+    await fetch(API+'/api/builder/monitor/'+sid+'?email='+encodeURIComponent(userEmail),{method:'DELETE'});
+    loadMonitors();showToast('حذف شد');
+  }catch(e){}
+}
+
+async function checkAllMonitors(){
+  try{
+    var r=await fetch(API+'/api/builder/monitor/check-all',{method:'POST'});
+    var d=await r.json();
+    showToast(d.new_alerts+' آلرت جدید');
+    loadAlerts();loadMonitors();
+  }catch(e){}
+}
+
+async function loadAlerts(){
+  try{
+    var r=await fetch(API+'/api/builder/alerts?email='+encodeURIComponent(userEmail));
+    var d=await r.json();
+    var list=d.alerts||[];
+
+    // Badge
+    var cr=await fetch(API+'/api/builder/alerts/count?email='+encodeURIComponent(userEmail));
+    var cd=await cr.json();
+    var badge=document.getElementById('alertBadge');
+    if(cd.count>0) badge.innerHTML='<span class="alert-count">'+cd.count+'</span>';
+    else badge.innerHTML='';
+
+    var box=document.getElementById('alertList');
+    if(!list.length){box.innerHTML='<div style="color:var(--text3);font-size:11px;text-align:center;padding:15px;">بدون آلرت</div>';return;}
+    var html='';
+    for(var a of list){
+      html+='<div class="alert-item '+(a.read?'':'unread')+'">';
+      html+='<span class="alert-badge '+(a.signal_type==='BUY'?'buy':'sell')+'">'+a.signal_type+'</span>';
+      html+='<span style="font-weight:600;">'+a.strategy_name+'</span>';
+      html+='<span style="color:var(--cyan);">'+a.symbol+'</span>';
+      html+='<span>@'+a.price+'</span>';
+      html+='<span style="color:var(--text3);font-size:9px;margin-right:auto;">'+a.time.substring(11,19)+'</span>';
+      html+='</div>';
+    }
+    box.innerHTML=html;
+  }catch(e){}
+}
+
+async function markAlertsRead(){
+  try{
+    await fetch(API+'/api/builder/alerts/read',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:userEmail})});
+    loadAlerts();
+  }catch(e){}
+}
+
+async function clearAllAlerts(){
+  if(!confirm('پاک شود؟'))return;
+  try{
+    await fetch(API+'/api/builder/alerts/clear',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:userEmail})});
+    loadAlerts();showToast('پاک شد');
+  }catch(e){}
+}
+
+// ══════ REPORT DOWNLOAD ══════
+async function downloadReport(){
+  var s=buildStrategy();
+  var box=document.getElementById('btResults');
+  if(!box||!box.dataset){showToast('اول بک‌تست بگیرید',true);return;}
+
+  try{
+    var r=await fetch(API+'/api/builder/report',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({strategy:s,backtest_result:lastBtResult||{}})
+    });
+    var d=await r.json();
+    if(d.success){
+      var blob=new Blob([d.html],{type:'text/html;charset=utf-8'});
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement('a');
+      a.href=url;a.download=d.filename;
+      document.body.appendChild(a);a.click();document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('گزارش دانلود شد');
+    }
+  }catch(e){showToast('Error',true);}
+}
+var lastBtResult=null;
+
+// Override runBacktest to save result
+var _origRunBT=runBacktest;
+runBacktest=async function(){
+  var s=buildStrategy();
+  if(!s.name){showToast('اول استراتژی بسازید',true);return;}
+  if(!s.entry_conditions.length){showToast('شرایط ورود تعریف نشده',true);return;}
+  var box=document.getElementById('btResults');
+  box.innerHTML='<div class="bt-loading">در حال اجرای بک‌تست...</div>';
+  try{
+    var r=await fetch(API+'/api/backtest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({strategy:s,bars:parseInt(document.getElementById('btBars').value),balance:parseFloat(document.getElementById('btBalance').value),spread:parseFloat(document.getElementById('btSpread').value)})});
+    var d=await r.json();
+    if(d.success){
+      lastBtResult=d;
+      renderBacktestResults(d);
+      // Add report button
+      var rpBtn=document.createElement('div');
+      rpBtn.innerHTML='<div style="margin-top:8px;display:flex;gap:6px;"><button class="btn btn-cyan btn-sm" onclick="downloadReport()">📄 دانلود گزارش HTML</button></div>';
+      document.getElementById('btResults').appendChild(rpBtn);
+    }else{
+      box.innerHTML='<div class="bt-empty" style="color:var(--red);">'+(d.error||'Error')+'</div>';
+    }
+  }catch(e){box.innerHTML='<div class="bt-empty" style="color:var(--red);">Connection error</div>';}
+};
+
+// Monitor loaded via switchTab hook
+
+
+// ══════ ADVANCED CHARTS ══════
+var chartInstances={};
+function destroyChart(id){if(chartInstances[id]){chartInstances[id].destroy();delete chartInstances[id];}}
+
+async function runAdvancedCharts(){
+  var s=buildStrategy();
+  if(!s.entry_conditions.length){showToast('شرایط ورود نداره',true);return;}
+  var box=document.getElementById('chartsResults');
+  box.innerHTML='<div class="bt-loading">در حال تحلیل پیشرفته...</div>';
+
+  try{
+    var r=await fetch(API+'/api/builder/advanced-analytics',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({strategy:s,bars:parseInt(document.getElementById('chBars').value)})
+    });
+    var d=await r.json();
+    if(d.success) renderAdvancedCharts(d);
+    else box.innerHTML='<div class="bt-empty" style="color:var(--red);">'+(d.error||'Error')+'</div>';
+  }catch(e){box.innerHTML='<div class="bt-empty" style="color:var(--red);">Connection error</div>';}
+}
+
+function renderAdvancedCharts(d){
+  var box=document.getElementById('chartsResults');
+  var html='<div class="ch-grid">';
+
+  // 1. Cumulative PnL
+  html+='<div class="ch-box full"><div class="ch-head">📈 سود تجمعی</div><div class="ch-body"><canvas id="chCumPnl"></canvas></div></div>';
+
+  // 2. Drawdown
+  html+='<div class="ch-box full"><div class="ch-head">📉 افت سرمایه (Drawdown)</div><div class="ch-body"><canvas id="chDrawdown"></canvas></div></div>';
+
+  // 3. Monthly Heatmap
+  html+='<div class="ch-box full"><div class="ch-head">📅 نقشه حرارتی ماهانه</div><div class="ch-body" id="chHeatmap"></div></div>';
+
+  // 4. PnL Distribution
+  html+='<div class="ch-box"><div class="ch-head">📊 توزیع سود/زیان</div><div class="ch-body"><canvas id="chDist"></canvas></div></div>';
+
+  // 5. Exit Reasons
+  html+='<div class="ch-box"><div class="ch-head">🥧 دلایل خروج</div><div class="ch-body" id="chExitBox"><canvas id="chExit"></canvas></div></div>';
+
+  // 6. Daily Performance
+  html+='<div class="ch-box"><div class="ch-head">📆 عملکرد روزهای هفته</div><div class="ch-body" id="chDayBox"></div></div>';
+
+  // 7. Win/Loss Streaks
+  html+='<div class="ch-box"><div class="ch-head">🔥 بردها و باخت‌های متوالی</div><div class="ch-body" id="chStreakBox"></div></div>';
+
+  // 8. R:R Distribution
+  html+='<div class="ch-box"><div class="ch-head">🎯 توزیع R:R</div><div class="ch-body"><canvas id="chRR"></canvas></div></div>';
+
+  // 9. Trade Duration
+  html+='<div class="ch-box"><div class="ch-head">🕐 مدت معاملات</div><div class="ch-body"><canvas id="chDur"></canvas></div></div>';
+
+  // 10. Hourly
+  html+='<div class="ch-box full"><div class="ch-head">⏰ عملکرد ساعتی</div><div class="ch-body"><canvas id="chHourly"></canvas></div></div>';
+
+  html+='</div>';
+  box.innerHTML=html;
+
+  // Render all charts
+  setTimeout(function(){
+    renderCumPnl(d.cumulative_pnl||[]);
+    renderDrawdown(d.drawdown_curve||[]);
+    renderHeatmap(d.monthly_heatmap||[]);
+    renderDistribution(d.pnl_distribution||{});
+    renderExitPie(d.exit_reasons||[]);
+    renderDailyBars(d.daily_performance||[]);
+    renderStreaks(d.streak_chart||{});
+    renderRRChart(d.rr_distribution||{});
+    renderDuration(d.trade_duration||{});
+    renderHourly(d.hourly_performance||[]);
+  },100);
+}
+
+function renderCumPnl(data){
+  destroyChart('chCumPnl');
+  var ctx=document.getElementById('chCumPnl');
+  if(!ctx||!data.length)return;
+  chartInstances['chCumPnl']=new Chart(ctx,{
+    type:'line',
+    data:{labels:data.map(function(d){return d.trade;}),datasets:[{label:'Cumulative PnL',data:data.map(function(d){return d.pnl;}),borderColor:'#34d399',backgroundColor:'rgba(52,211,153,.08)',fill:true,tension:.3,pointRadius:0,borderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{display:true,grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#565a6e',font:{size:9}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#565a6e',font:{size:9},callback:function(v){return '$'+v;}}}}}
+  });
+}
+
+function renderDrawdown(data){
+  destroyChart('chDrawdown');
+  var ctx=document.getElementById('chDrawdown');
+  if(!ctx||!data.length)return;
+  chartInstances['chDrawdown']=new Chart(ctx,{
+    type:'line',
+    data:{labels:data.map(function(d){return d.bar;}),datasets:[{label:'Drawdown %',data:data.map(function(d){return -d.drawdown;}),borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,.12)',fill:true,tension:.2,pointRadius:0,borderWidth:1.5}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{display:true,grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#565a6e',font:{size:9}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#565a6e',font:{size:9},callback:function(v){return v+'%';}}}}}
+  });
+}
+
+function renderHeatmap(data){
+  var box=document.getElementById('chHeatmap');
+  if(!box||!data.length)return;
+  var html='<div class="heatmap-grid">';
+  for(var m of data){
+    var pnl=m.pnl;
+    var bg,tc;
+    if(pnl>100){bg='rgba(34,197,94,.3)';tc='#22c55e';}
+    else if(pnl>0){bg='rgba(34,197,94,.12)';tc='#22c55e';}
+    else if(pnl>-50){bg='rgba(239,68,68,.1)';tc='#ef4444';}
+    else{bg='rgba(239,68,68,.25)';tc='#ef4444';}
+    html+='<div class="hm-cell" style="background:'+bg+';"><div class="hm-month">'+m.month+'</div><div class="hm-pnl" style="color:'+tc+';">$'+pnl+'</div><div class="hm-detail">'+m.trades+' معامله | '+m.win_rate+'%</div></div>';
+  }
+  html+='</div>';
+  box.innerHTML=html;
+}
+
+function renderDistribution(data){
+  destroyChart('chDist');
+  var ctx=document.getElementById('chDist');
+  if(!ctx||!data.bins||!data.bins.length)return;
+  chartInstances['chDist']=new Chart(ctx,{
+    type:'bar',
+    data:{labels:data.bins.map(function(b){return '$'+b;}),datasets:[{data:data.counts,backgroundColor:data.colors.map(function(c){return c==='green'?'rgba(34,197,94,.6)':'rgba(239,68,68,.6)';}),borderWidth:0,borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:function(t){return 'PnL: '+t[0].label;},label:function(t){return t.raw+' معامله';}}}},scales:{x:{grid:{display:false},ticks:{color:'#565a6e',font:{size:8}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#565a6e',font:{size:9}}}}}
+  });
+}
+
+function renderExitPie(data){
+  destroyChart('chExit');
+  var ctx=document.getElementById('chExit');
+  if(!ctx||!data.length)return;
+  var colors=['#22c55e','#ef4444','#f59e0b','#06b6d4','#a78bfa','#ec4899','#64748b'];
+  chartInstances['chExit']=new Chart(ctx,{
+    type:'doughnut',
+    data:{labels:data.map(function(d){return d.label;}),datasets:[{data:data.map(function(d){return d.count;}),backgroundColor:colors.slice(0,data.length),borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#7f849c',font:{size:10},padding:8}}}}
+  });
+  // Add detail cards under chart
+  var dhtml='<div class="exit-grid" style="margin-top:8px;">';
+  for(var i=0;i<data.length;i++){
+    var ex=data[i];
+    dhtml+='<div class="exit-card"><div class="ec-pct" style="color:'+colors[i%colors.length]+';">'+ex.pct+'%</div><div class="ec-name">'+ex.label+'</div><div class="ec-detail">'+ex.count+' معامله | $'+ex.avg_pnl+'/avg</div></div>';
+  }
+  dhtml+='</div>';
+  document.getElementById('chExitBox').insertAdjacentHTML('beforeend',dhtml);
+}
+
+function renderDailyBars(data){
+  var box=document.getElementById('chDayBox');
+  if(!box||!data.length)return;
+  var maxPnl=Math.max.apply(null,data.map(function(d){return Math.abs(d.pnl);}));
+  if(!maxPnl)maxPnl=1;
+  var html='<div class="day-bars">';
+  for(var d of data){
+    var h=Math.max(10,Math.abs(d.pnl)/maxPnl*80);
+    var clr=d.pnl>=0?'#22c55e':'#ef4444';
+    html+='<div class="day-bar-wrap"><div class="day-bar" style="height:'+h+'px;background:'+clr+';"></div>';
+    html+='<div class="day-label">'+d.name_fa+'</div>';
+    html+='<div class="day-val" style="color:'+clr+';">$'+d.pnl+'</div>';
+    html+='<div style="font-size:8px;color:var(--text3);">'+d.win_rate+'% | '+d.trades+'</div></div>';
+  }
+  html+='</div>';
+  box.innerHTML=html;
+}
+
+function renderStreaks(data){
+  var box=document.getElementById('chStreakBox');
+  if(!box)return;
+  var streaks=data.streaks||[];
+  if(!streaks.length){box.innerHTML='<div style="color:var(--text3);font-size:11px;">داده‌ای نیست</div>';return;}
+  var maxLen=Math.max.apply(null,streaks.map(function(s){return s.length;}));
+  if(!maxLen)maxLen=1;
+  var html='<div class="streak-bar">';
+  for(var s of streaks){
+    var h=Math.max(6,s.length/maxLen*55);
+    var clr=s.type==='win'?'#22c55e':'#ef4444';
+    html+='<div class="streak-item" style="height:'+h+'px;background:'+clr+';" title="'+s.type+': '+s.length+'"></div>';
+  }
+  html+='</div>';
+  html+='<div style="display:flex;gap:12px;margin-top:8px;font-size:10px;">';
+  html+='<span style="color:#22c55e;">بیشترین برد: '+data.max_win_streak+' | میانگین: '+data.avg_win_streak+'</span>';
+  html+='<span style="color:#ef4444;">بیشترین باخت: '+data.max_loss_streak+' | میانگین: '+data.avg_loss_streak+'</span>';
+  html+='</div>';
+  box.innerHTML=html;
+}
+
+function renderRRChart(data){
+  destroyChart('chRR');
+  var ctx=document.getElementById('chRR');
+  if(!ctx||!data.labels||!data.labels.length)return;
+  chartInstances['chRR']=new Chart(ctx,{
+    type:'bar',
+    data:{labels:data.labels,datasets:[{label:'کل',data:data.counts,backgroundColor:'rgba(6,182,212,.4)',borderWidth:0,borderRadius:3},{label:'برد',data:data.win_counts,backgroundColor:'rgba(34,197,94,.6)',borderWidth:0,borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#7f849c',font:{size:10}}}},scales:{x:{grid:{display:false},ticks:{color:'#565a6e',font:{size:9}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#565a6e',font:{size:9}}}}}
+  });
+}
+
+function renderDuration(data){
+  destroyChart('chDur');
+  var ctx=document.getElementById('chDur');
+  if(!ctx||!data.bins||!data.bins.length)return;
+  chartInstances['chDur']=new Chart(ctx,{
+    type:'bar',
+    data:{labels:data.bins,datasets:[{data:data.counts,backgroundColor:'rgba(167,139,250,.5)',borderWidth:0,borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:'#565a6e',font:{size:8}},title:{display:true,text:'Bars',color:'#565a6e',font:{size:9}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#565a6e',font:{size:9}}}}}
+  });
+}
+
+function renderHourly(data){
+  destroyChart('chHourly');
+  var ctx=document.getElementById('chHourly');
+  if(!ctx||!data.length)return;
+  var active=data.filter(function(d){return d.trades>0;});
+  chartInstances['chHourly']=new Chart(ctx,{
+    type:'bar',
+    data:{labels:active.map(function(d){return d.label;}),datasets:[{label:'سود',data:active.map(function(d){return d.pnl;}),backgroundColor:active.map(function(d){return d.pnl>=0?'rgba(34,197,94,.5)':'rgba(239,68,68,.5)';}),borderWidth:0,borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{afterLabel:function(t){var h=active[t.dataIndex];return h.trades+' trades | WR: '+h.win_rate+'%';}}}},scales:{x:{grid:{display:false},ticks:{color:'#565a6e',font:{size:9}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#565a6e',font:{size:9},callback:function(v){return '$'+v;}}}}}
+  });
+}
+
+init();
+</script>
+
+<footer class="wfooter">
+  <div class="wfooter-grid">
+    <div class="wfooter-brand">
+      <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;"><div style="width:28px;height:28px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;">W</div><span style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Whilber-AI</span></a>
+      <p>دستیار هوشمند تحلیل بازارهای مالی</p>
+    </div>
+    <div class="wfooter-col"><h4>ابزارها</h4><a href="/dashboard">📊 تحلیل</a><a href="/track-record">📜 سوابق</a><a href="/builder">🔧 استراتژی‌ساز</a><a href="/risk-manager">🛡️ ریسک</a><a href="/journal">📒 ژورنال</a><a href="/alerts">🔔 هشدارها</a><a href="/performance">📈 عملکرد زنده</a></div>
+    <div class="wfooter-col"><h4>اطلاعات</h4><a href="/guide">📖 راهنما</a><a href="/services">⭐ خدمات</a><a href="/about">👤 درباره ما</a><a href="/contact">📞 تماس</a></div>
+    <div class="wfooter-col"><h4>ارتباط</h4><a href="https://t.me/WhilberAI" target="_blank">✈️ تلگرام</a><a href="mailto:support@whilber-ai.com">📧 ایمیل</a></div>
+  </div>
+  <div class="wfooter-bottom">
+    <p>© 2026 Whilber-AI</p>
+    <div><a href="https://t.me/WhilberAI" target="_blank">✈️</a> · <a href="mailto:support@whilber-ai.com">📧</a></div>
+  </div>
+</footer>
+
+</body>
+</html>

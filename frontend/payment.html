@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Whilber-AI | پرداخت</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080b12;--bg2:#0f1320;--bg3:#161b2e;--bg4:#1e2540;--border:#1e2a45;--border2:#2a3a5c;--text:#e8ecf4;--text2:#8892a8;--text3:#5a6480;--cyan:#00d4ff;--cyan2:#0af0ff;--green:#00e88f;--red:#ff4466;--yellow:#ffbe2e;--purple:#a855f7;--orange:#ff8844;--grad1:linear-gradient(135deg,#00d4ff 0%,#a855f7 100%);--grad2:linear-gradient(135deg,#00e88f 0%,#00d4ff 100%);--glow:0 0 30px rgba(0,212,255,.15);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:15px;scroll-behavior:smooth;}
+body{font-family:'Vazirmatn','Segoe UI',sans-serif;background:var(--bg);color:var(--text);direction:rtl;line-height:1.7;min-height:100vh;display:flex;flex-direction:column;}
+a{text-decoration:none;color:inherit;transition:all .2s;}
+::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:6px;}
+
+.wnav{background:rgba(8,11,18,.92);backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid rgba(30,42,69,.6);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:100;}
+.wnav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
+.wnav-logo-box{width:30px;height:30px;background:var(--grad1);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(0,212,255,.25);}
+.wnav-logo-txt{font-size:16px;font-weight:800;background:var(--grad1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.wnav-links{display:flex;align-items:center;gap:2px;}
+.wnav-links a{color:var(--text2);font-size:12px;padding:6px 10px;border-radius:7px;transition:all .15s;white-space:nowrap;}
+.wnav-links a:hover{color:var(--text);background:rgba(255,255,255,.04);}
+.wnav-links a.wn-active{color:var(--cyan);background:rgba(0,212,255,.08);}
+
+.pay-container{max-width:560px;margin:40px auto;padding:0 20px;}
+
+.pay-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px 28px;position:relative;}
+.pay-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad1);border-radius:16px 16px 0 0;}
+
+.pay-title{font-size:20px;font-weight:900;margin-bottom:4px;}
+.pay-subtitle{color:var(--text2);font-size:13px;margin-bottom:24px;}
+
+.steps{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:28px;}
+.step-dot{width:10px;height:10px;border-radius:50%;background:var(--bg4);border:2px solid var(--border2);transition:all .3s;}
+.step-dot.active{background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 10px rgba(0,212,255,.4);}
+.step-dot.done{background:var(--green);border-color:var(--green);}
+.step-line{width:40px;height:2px;background:var(--border2);transition:background .3s;}
+.step-line.done{background:var(--green);}
+
+.step-panel{display:none;}
+.step-panel.active{display:block;}
+
+/* Summary */
+.summary-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(30,42,69,.4);font-size:13px;}
+.summary-row:last-child{border-bottom:none;}
+.summary-label{color:var(--text2);}
+.summary-value{font-weight:700;font-family:'JetBrains Mono',monospace;}
+.summary-value.price{color:var(--cyan);font-size:15px;}
+.summary-value.discount{color:var(--green);}
+
+.discount-row{display:flex;gap:8px;margin-top:16px;}
+.discount-input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;color:var(--text);font-family:inherit;font-size:13px;outline:none;transition:border-color .2s;}
+.discount-input:focus{border-color:var(--cyan);}
+.discount-btn{background:var(--bg4);color:var(--cyan);border:1px solid var(--cyan);border-radius:8px;padding:10px 18px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.discount-btn:hover{background:rgba(0,212,255,.08);}
+.discount-msg{font-size:11px;margin-top:6px;min-height:16px;}
+.discount-msg.ok{color:var(--green);}
+.discount-msg.err{color:var(--red);}
+
+/* Method tabs */
+.method-tabs{display:flex;gap:8px;margin-bottom:20px;}
+.method-tab{flex:1;background:var(--bg3);border:1.5px solid var(--border2);border-radius:10px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .2s;font-size:12px;font-weight:700;color:var(--text2);}
+.method-tab:hover{border-color:var(--text3);}
+.method-tab.active{border-color:var(--cyan);color:var(--cyan);background:rgba(0,212,255,.06);}
+.method-tab .method-icon{font-size:22px;display:block;margin-bottom:4px;}
+
+.method-panel{display:none;}
+.method-panel.active{display:block;}
+
+/* Info box */
+.info-box{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:16px;margin-bottom:16px;}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:12px;}
+.info-label{color:var(--text2);}
+.info-value{color:var(--text);font-weight:600;font-family:'JetBrains Mono',monospace;direction:ltr;}
+.copy-btn{background:none;border:1px solid var(--border2);color:var(--cyan);font-size:10px;font-weight:700;padding:3px 10px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .2s;margin-right:6px;}
+.copy-btn:hover{background:rgba(0,212,255,.08);}
+
+/* Form inputs */
+.form-group{margin-bottom:14px;}
+.form-label{display:block;font-size:12px;color:var(--text2);font-weight:600;margin-bottom:5px;}
+.form-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;color:var(--text);font-family:inherit;font-size:13px;outline:none;transition:border-color .2s;}
+.form-input:focus{border-color:var(--cyan);}
+
+/* Buttons */
+.btn-primary{display:block;width:100%;background:var(--grad1);color:#000;font-size:14px;font-weight:800;padding:14px;border-radius:10px;border:none;cursor:pointer;font-family:inherit;transition:all .25s;margin-top:20px;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,212,255,.25);}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-secondary{display:block;width:100%;background:var(--bg3);color:var(--text);font-size:13px;font-weight:700;padding:12px;border-radius:10px;border:1px solid var(--border2);cursor:pointer;font-family:inherit;transition:all .2s;margin-top:10px;}
+.btn-secondary:hover{border-color:var(--cyan);color:var(--cyan);}
+
+/* Result */
+.result-icon{font-size:48px;text-align:center;margin-bottom:12px;}
+.result-title{font-size:18px;font-weight:800;text-align:center;margin-bottom:8px;}
+.result-msg{font-size:13px;color:var(--text2);text-align:center;margin-bottom:20px;}
+.result-success .result-icon{color:var(--green);}
+.result-success .result-title{color:var(--green);}
+.result-pending .result-icon{color:var(--yellow);}
+.result-pending .result-title{color:var(--yellow);}
+.result-failed .result-icon{color:var(--red);}
+.result-failed .result-title{color:var(--red);}
+
+/* Loading */
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid var(--border2);border-top-color:var(--cyan);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-left:6px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-overlay{display:none;position:absolute;inset:0;background:rgba(8,11,18,.8);border-radius:16px;z-index:10;justify-content:center;align-items:center;}
+.loading-overlay.show{display:flex;}
+
+.wfooter{background:var(--bg2);border-top:1px solid var(--border);padding:20px 24px;text-align:center;color:var(--text3);font-size:11px;margin-top:auto;}
+
+@media(max-width:600px){
+  .pay-container{padding:0 12px;margin:20px auto;}
+  .pay-card{padding:24px 18px;}
+  .method-tabs{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<nav class="wnav">
+  <a href="/" class="wnav-logo"><div class="wnav-logo-box">W</div><span class="wnav-logo-txt">Whilber-AI</span></a>
+  <div class="wnav-links">
+    <a href="/">داشبورد</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/payment" class="wn-active">پرداخت</a>
+  </div>
+</nav>
+
+<div class="pay-container">
+  <div class="pay-card" id="payCard">
+    <div class="loading-overlay" id="loadingOverlay"><div class="spinner" style="width:32px;height:32px;border-width:3px;"></div></div>
+
+    <div class="pay-title">پرداخت اشتراک</div>
+    <div class="pay-subtitle">ارتقای پلن Whilber-AI</div>
+
+    <div class="steps">
+      <div class="step-dot active" id="dot1"></div>
+      <div class="step-line" id="line1"></div>
+      <div class="step-dot" id="dot2"></div>
+      <div class="step-line" id="line2"></div>
+      <div class="step-dot" id="dot3"></div>
+      <div class="step-line" id="line3"></div>
+      <div class="step-dot" id="dot4"></div>
+    </div>
+
+    <!-- STEP 1: Plan Summary -->
+    <div class="step-panel active" id="step1">
+      <div class="summary-row">
+        <span class="summary-label">پلن</span>
+        <span class="summary-value" id="sumPlan">-</span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-label">دوره</span>
+        <span class="summary-value" id="sumBilling">-</span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-label">قیمت (تومان)</span>
+        <span class="summary-value price" id="sumPriceToman">-</span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-label">قیمت (USDT)</span>
+        <span class="summary-value price" id="sumPriceUsdt">-</span>
+      </div>
+      <div class="summary-row" id="discountRow" style="display:none;">
+        <span class="summary-label">تخفیف</span>
+        <span class="summary-value discount" id="sumDiscount">-</span>
+      </div>
+
+      <div class="discount-row">
+        <input type="text" class="discount-input" id="discountInput" placeholder="کد تخفیف (اختیاری)" maxlength="20">
+        <button class="discount-btn" onclick="applyDiscount()">اعمال</button>
+      </div>
+      <div class="discount-msg" id="discountMsg"></div>
+
+      <button class="btn-primary" onclick="goToStep(2)">ادامه</button>
+      <button class="btn-secondary" onclick="window.location.href='/pricing'">بازگشت به تعرفه‌ها</button>
+    </div>
+
+    <!-- STEP 2: Payment Method -->
+    <div class="step-panel" id="step2">
+      <div class="method-tabs">
+        <div class="method-tab active" onclick="selectMethod('zarinpal')" id="tabZarinpal">
+          <span class="method-icon">💳</span>
+          زرین‌پال
+        </div>
+        <div class="method-tab" onclick="selectMethod('tether')" id="tabTether">
+          <span class="method-icon">₮</span>
+          تتر USDT
+        </div>
+        <div class="method-tab" onclick="selectMethod('card')" id="tabCard">
+          <span class="method-icon">🏦</span>
+          کارت به کارت
+        </div>
+      </div>
+
+      <!-- Zarinpal panel -->
+      <div class="method-panel active" id="panelZarinpal">
+        <div class="info-box">
+          <div class="info-row">
+            <span class="info-label">مبلغ</span>
+            <span class="info-value" id="zpAmount">-</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">درگاه</span>
+            <span class="info-value">زرین‌پال</span>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--text2);margin-bottom:8px;">با کلیک روی دکمه زیر به درگاه پرداخت زرین‌پال هدایت می‌شوید.</p>
+        <button class="btn-primary" onclick="startPayment()">پرداخت با زرین‌پال</button>
+      </div>
+
+      <!-- Tether panel -->
+      <div class="method-panel" id="panelTether">
+        <div class="info-box">
+          <div class="info-row">
+            <span class="info-label">مبلغ USDT</span>
+            <span class="info-value" id="tetherAmount">-</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">شبکه</span>
+            <span class="info-value" id="tetherNetwork">TRC20</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">آدرس کیف پول</span>
+            <span class="info-value" id="tetherWallet">-</span>
+            <button class="copy-btn" onclick="copyToClipboard(document.getElementById('tetherWallet').textContent)">کپی</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">هش تراکنش (TX Hash)</label>
+          <input type="text" class="form-input" id="txHashInput" placeholder="0x..." dir="ltr">
+        </div>
+        <button class="btn-primary" onclick="submitTetherHash()">ارسال رسید</button>
+      </div>
+
+      <!-- Card panel -->
+      <div class="method-panel" id="panelCard">
+        <div class="info-box">
+          <div class="info-row">
+            <span class="info-label">مبلغ</span>
+            <span class="info-value" id="cardAmount">-</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">شماره کارت</span>
+            <span class="info-value" id="cardNumber">-</span>
+            <button class="copy-btn" onclick="copyToClipboard(document.getElementById('cardNumber').textContent.replace(/-/g,''))">کپی</button>
+          </div>
+          <div class="info-row">
+            <span class="info-label">صاحب حساب</span>
+            <span class="info-value" id="cardHolder" style="direction:rtl;">-</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">بانک</span>
+            <span class="info-value" id="cardBank" style="direction:rtl;">-</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">شماره پیگیری / ارجاع</label>
+          <input type="text" class="form-input" id="refNumberInput" placeholder="شماره پیگیری انتقال" dir="ltr">
+        </div>
+        <div class="form-group">
+          <label class="form-label">۴ رقم آخر کارت شما</label>
+          <input type="text" class="form-input" id="last4Input" placeholder="1234" maxlength="4" dir="ltr">
+        </div>
+        <div class="form-group">
+          <label class="form-label">مبلغ واریزی (تومان)</label>
+          <input type="number" class="form-input" id="cardAmountInput" placeholder="مبلغ" dir="ltr">
+        </div>
+        <button class="btn-primary" onclick="submitCardReceipt()">ارسال رسید</button>
+      </div>
+
+      <button class="btn-secondary" onclick="goToStep(1)">مرحله قبل</button>
+    </div>
+
+    <!-- STEP 3: Processing (not shown standalone, just transitions) -->
+    <div class="step-panel" id="step3">
+      <div style="text-align:center;padding:40px 0;">
+        <div class="spinner" style="width:40px;height:40px;border-width:3px;"></div>
+        <p style="margin-top:16px;color:var(--text2);font-size:13px;">در حال پردازش...</p>
+      </div>
+    </div>
+
+    <!-- STEP 4: Result -->
+    <div class="step-panel" id="step4">
+      <div id="resultContent"></div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="wfooter">Whilber-AI MVP &copy; 2026</footer>
+
+<script>
+var API = '';
+var selectedPlan = 'pro';
+var selectedBilling = 'monthly';
+var selectedMethod = 'zarinpal';
+var discountPercent = 0;
+var discountCode = '';
+var currentPaymentId = null;
+var payConfig = {};
+var currentStep = 1;
+
+var PLAN_NAMES_FA = {pro:'حرفه\u200cای', premium:'ویژه', enterprise:'سازمانی'};
+var TOMAN_PRICES = {
+  pro: {monthly:149000, yearly:1490000},
+  premium: {monthly:399000, yearly:3990000},
+  enterprise: {monthly:999000, yearly:9990000}
+};
+var USDT_PRICES = {
+  pro: {monthly:3.5, yearly:35},
+  premium: {monthly:9.5, yearly:95},
+  enterprise: {monthly:24, yearly:240}
+};
+
+function getAuthHeaders(){
+  var h = {'Content-Type':'application/json'};
+  try{var t=localStorage.getItem('userToken');if(t)h['Authorization']='Bearer '+t;}catch(e){}
+  return h;
+}
+
+function init(){
+  // Auth guard
+  if(!localStorage.getItem('userToken')){
+    window.location.href = '/login';
+    return;
+  }
+
+  // Parse URL params
+  var params = new URLSearchParams(window.location.search);
+  selectedPlan = params.get('plan') || 'pro';
+  selectedBilling = params.get('billing') || 'monthly';
+
+  if(!PLAN_NAMES_FA[selectedPlan]) selectedPlan = 'pro';
+
+  // Check for callback result
+  var result = params.get('result');
+  if(result){
+    var pid = params.get('payment_id');
+    if(result === 'success'){
+      showResult('success', 'پرداخت موفق!', 'پلن شما با موفقیت ارتقا یافت.', pid);
+    } else {
+      showResult('failed', 'پرداخت ناموفق', 'پرداخت انجام نشد. لطفا دوباره تلاش کنید.', pid);
+    }
+    return;
+  }
+
+  // Load payment config
+  fetch(API + '/api/payment/config')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      payConfig = d;
+      updateSummary();
+    })
+    .catch(function(){updateSummary();});
+}
+
+function updateSummary(){
+  var planFa = PLAN_NAMES_FA[selectedPlan] || selectedPlan;
+  var billingFa = selectedBilling === 'yearly' ? 'سالانه' : 'ماهانه';
+  var billingKey = selectedBilling === 'yearly' ? 'yearly' : 'monthly';
+
+  var toman = TOMAN_PRICES[selectedPlan] ? TOMAN_PRICES[selectedPlan][billingKey] : 0;
+  var usdt = USDT_PRICES[selectedPlan] ? USDT_PRICES[selectedPlan][billingKey] : 0;
+
+  if(discountPercent > 0){
+    toman = Math.round(toman * (100 - discountPercent) / 100);
+    usdt = Math.round(usdt * (100 - discountPercent) / 100 * 100) / 100;
+    document.getElementById('discountRow').style.display = 'flex';
+    document.getElementById('sumDiscount').textContent = discountPercent + '% تخفیف';
+  } else {
+    document.getElementById('discountRow').style.display = 'none';
+  }
+
+  document.getElementById('sumPlan').textContent = planFa;
+  document.getElementById('sumBilling').textContent = billingFa;
+  document.getElementById('sumPriceToman').textContent = toman.toLocaleString('fa-IR') + ' تومان';
+  document.getElementById('sumPriceUsdt').textContent = usdt + ' USDT';
+
+  // Update method panels
+  document.getElementById('zpAmount').textContent = toman.toLocaleString('fa-IR') + ' تومان';
+  document.getElementById('tetherAmount').textContent = usdt + ' USDT';
+  document.getElementById('cardAmount').textContent = toman.toLocaleString('fa-IR') + ' تومان';
+  document.getElementById('cardAmountInput').value = toman;
+
+  if(payConfig.usdt_wallet){
+    document.getElementById('tetherWallet').textContent = payConfig.usdt_wallet;
+    document.getElementById('tetherNetwork').textContent = payConfig.usdt_network || 'TRC20';
+  }
+  if(payConfig.card_number){
+    document.getElementById('cardNumber').textContent = payConfig.card_number;
+    document.getElementById('cardHolder').textContent = payConfig.card_holder || '-';
+    document.getElementById('cardBank').textContent = payConfig.card_bank || '-';
+  }
+}
+
+function goToStep(step){
+  currentStep = step;
+  for(var i=1;i<=4;i++){
+    var panel = document.getElementById('step'+i);
+    var dot = document.getElementById('dot'+i);
+    if(panel) panel.classList.toggle('active', i===step);
+    if(dot){
+      dot.classList.toggle('active', i===step);
+      dot.classList.toggle('done', i<step);
+    }
+    if(i<4){
+      var line = document.getElementById('line'+i);
+      if(line) line.classList.toggle('done', i<step);
+    }
+  }
+}
+
+function selectMethod(method){
+  selectedMethod = method;
+  var tabs = document.querySelectorAll('.method-tab');
+  tabs.forEach(function(t){t.classList.remove('active');});
+  document.getElementById('tab'+method.charAt(0).toUpperCase()+method.slice(1)).classList.add('active');
+
+  var panels = document.querySelectorAll('.method-panel');
+  panels.forEach(function(p){p.classList.remove('active');});
+  document.getElementById('panel'+method.charAt(0).toUpperCase()+method.slice(1)).classList.add('active');
+}
+
+function applyDiscount(){
+  var code = document.getElementById('discountInput').value.trim();
+  if(!code){
+    showDiscountMsg('کد تخفیف را وارد کنید', false);
+    return;
+  }
+  fetch(API + '/api/payment/apply-discount', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({code:code})
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d.valid){
+      discountPercent = d.percent_off;
+      discountCode = d.code || code;
+      showDiscountMsg(d.percent_off + '% تخفیف اعمال شد!', true);
+      updateSummary();
+    } else {
+      discountPercent = 0;
+      discountCode = '';
+      showDiscountMsg(d.error || 'کد نامعتبر', false);
+      updateSummary();
+    }
+  })
+  .catch(function(){
+    showDiscountMsg('خطا در بررسی کد', false);
+  });
+}
+
+function showDiscountMsg(msg, ok){
+  var el = document.getElementById('discountMsg');
+  el.textContent = msg;
+  el.className = 'discount-msg ' + (ok ? 'ok' : 'err');
+}
+
+function setLoading(on){
+  document.getElementById('loadingOverlay').classList.toggle('show', on);
+}
+
+function startPayment(){
+  setLoading(true);
+  var duration = selectedBilling === 'yearly' ? 12 : 1;
+  fetch(API + '/api/payment/create', {
+    method:'POST',
+    headers:getAuthHeaders(),
+    body:JSON.stringify({
+      plan: selectedPlan,
+      duration_months: duration,
+      method: selectedMethod,
+      discount_code: discountCode
+    })
+  })
+  .then(function(r){
+    if(r.status === 401){window.location.href='/login';throw new Error('auth');}
+    return r.json();
+  })
+  .then(function(d){
+    setLoading(false);
+    if(d.success){
+      currentPaymentId = d.payment_id;
+      if(selectedMethod === 'zarinpal' && d.redirect_url){
+        window.location.href = d.redirect_url;
+      } else if(selectedMethod === 'tether'){
+        // Already on tether panel, show payment_id
+        goToStep(2);
+      } else if(selectedMethod === 'card'){
+        // Already on card panel
+        goToStep(2);
+      }
+    } else {
+      alert(d.error || d.detail || 'خطا در ایجاد پرداخت');
+    }
+  })
+  .catch(function(e){
+    setLoading(false);
+    if(e.message !== 'auth') alert('خطا در اتصال به سرور');
+  });
+}
+
+function submitCardReceipt(){
+  if(!currentPaymentId){
+    // Need to create payment first
+    var duration = selectedBilling === 'yearly' ? 12 : 1;
+    setLoading(true);
+    fetch(API + '/api/payment/create', {
+      method:'POST',
+      headers:getAuthHeaders(),
+      body:JSON.stringify({plan:selectedPlan, duration_months:duration, method:'card', discount_code:discountCode})
+    })
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.success){
+        currentPaymentId = d.payment_id;
+        doCardConfirm();
+      } else {
+        setLoading(false);
+        alert(d.error || d.detail || 'خطا');
+      }
+    })
+    .catch(function(){setLoading(false);alert('خطا در اتصال');});
+    return;
+  }
+  setLoading(true);
+  doCardConfirm();
+}
+
+function doCardConfirm(){
+  var ref = document.getElementById('refNumberInput').value.trim();
+  var last4 = document.getElementById('last4Input').value.trim();
+  var amount = parseInt(document.getElementById('cardAmountInput').value) || 0;
+
+  if(!ref || !last4 || !amount){
+    setLoading(false);
+    alert('لطفا تمام فیلدها را پر کنید');
+    return;
+  }
+
+  fetch(API + '/api/payment/card-confirm', {
+    method:'POST',
+    headers:getAuthHeaders(),
+    body:JSON.stringify({payment_id:currentPaymentId, ref_number:ref, last4_card:last4, amount:amount})
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    setLoading(false);
+    if(d.success){
+      showResult('pending', 'رسید ارسال شد', 'رسید پرداخت شما ارسال شد. پس از تایید ادمین، پلن شما فعال می‌شود.', currentPaymentId);
+    } else {
+      alert(d.error || d.detail || 'خطا');
+    }
+  })
+  .catch(function(){setLoading(false);alert('خطا در اتصال');});
+}
+
+function submitTetherHash(){
+  var txHash = document.getElementById('txHashInput').value.trim();
+  if(!txHash){
+    alert('هش تراکنش را وارد کنید');
+    return;
+  }
+
+  if(!currentPaymentId){
+    var duration = selectedBilling === 'yearly' ? 12 : 1;
+    setLoading(true);
+    fetch(API + '/api/payment/create', {
+      method:'POST',
+      headers:getAuthHeaders(),
+      body:JSON.stringify({plan:selectedPlan, duration_months:duration, method:'tether', discount_code:discountCode})
+    })
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.success){
+        currentPaymentId = d.payment_id;
+        doTetherConfirm(txHash);
+      } else {
+        setLoading(false);
+        alert(d.error || d.detail || 'خطا');
+      }
+    })
+    .catch(function(){setLoading(false);alert('خطا در اتصال');});
+    return;
+  }
+
+  setLoading(true);
+  doTetherConfirm(txHash);
+}
+
+function doTetherConfirm(txHash){
+  fetch(API + '/api/payment/tether-confirm', {
+    method:'POST',
+    headers:getAuthHeaders(),
+    body:JSON.stringify({payment_id:currentPaymentId, tx_hash:txHash})
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    setLoading(false);
+    if(d.success){
+      showResult('pending', 'هش تراکنش ارسال شد', 'تراکنش شما ثبت شد. پس از تایید ادمین، پلن شما فعال می‌شود.', currentPaymentId);
+    } else {
+      alert(d.error || d.detail || 'خطا');
+    }
+  })
+  .catch(function(){setLoading(false);alert('خطا در اتصال');});
+}
+
+function showResult(type, title, msg, pid){
+  goToStep(4);
+  var html = '<div class="result-'+type+'">';
+  if(type==='success') html += '<div class="result-icon">&#10004;</div>';
+  else if(type==='pending') html += '<div class="result-icon">&#9203;</div>';
+  else html += '<div class="result-icon">&#10008;</div>';
+  html += '<div class="result-title">'+title+'</div>';
+  html += '<div class="result-msg">'+msg+'</div>';
+  if(pid) html += '<div style="text-align:center;font-size:11px;color:var(--text3);margin-bottom:16px;">شماره پرداخت: '+pid+'</div>';
+  if(type==='success'){
+    html += '<button class="btn-primary" onclick="window.location.href=\'/\'">بازگشت به داشبورد</button>';
+  } else if(type==='pending'){
+    html += '<button class="btn-primary" onclick="window.location.href=\'/\'">بازگشت به داشبورد</button>';
+  } else {
+    html += '<button class="btn-primary" onclick="window.location.href=\'/pricing\'">تلاش مجدد</button>';
+  }
+  html += '</div>';
+  document.getElementById('resultContent').innerHTML = html;
+}
+
+function copyToClipboard(text){
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(function(){
+      alert('کپی شد!');
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert('کپی شد!');
+  }
+}
+
+init();
+</script>
+</body>
+</html>

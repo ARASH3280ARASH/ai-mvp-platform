@@ -1,0 +1,3 @@
+Files: BTC=240, XAU=150
+Deduped total: 1907
+In window: 1790 (BTC=1063, XAU=727)

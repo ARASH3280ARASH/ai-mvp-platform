@@ -1,0 +1,2428 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Whilber-AI | سوابق معاملاتی</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<style>
+:root{--bg:#0a0c10;--bg2:#12151c;--bg3:#1a1e2a;--border:#2a2f42;--text:#e2e5f0;--text2:#7f849c;--text3:#565a6e;--muted:#6b7280;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;--cyan:#06b6d4;--purple:#a78bfa;--pink:#f472b6;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Vazirmatn','Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;}
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.logo a{color:var(--cyan);text-decoration:none;font-weight:700;font-size:17px;}
+.nav{display:flex;gap:6px;}
+.nav a{color:var(--text2);text-decoration:none;padding:5px 12px;border-radius:7px;font-size:12px;}
+.nav a:hover,.nav a.active{color:var(--cyan);background:rgba(6,182,212,.08);}
+.main{max-width:1400px;margin:0 auto;padding:12px;}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+.card-head{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg3);}
+.card-head h3{font-size:13px;color:var(--cyan);font-weight:600;}
+.card-body{padding:12px;}
+.btn{padding:5px 12px;border-radius:7px;border:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;transition:.2s;}
+.btn:hover{opacity:.85;}
+.btn-cyan{background:var(--cyan);color:#000;}.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text2);}
+/* Tracker Status */
+.ts-bar{display:flex;align-items:center;gap:12px;padding:8px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;flex-wrap:wrap;}
+.ts-bar .ts-dot{width:8px;height:8px;border-radius:50%;animation:pulse 1.5s infinite;}
+.ts-bar .ts-stat{font-size:11px;color:var(--text2);}
+.ts-bar .ts-stat b{color:var(--text);}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+/* Ranking Table */
+.rank-table{width:100%;border-collapse:collapse;font-size:11px;}
+.rank-table th{background:var(--bg3);padding:8px 10px;text-align:right;color:var(--text2);font-weight:600;border-bottom:1px solid var(--border);cursor:pointer;white-space:nowrap;}
+.rank-table th:hover{color:var(--cyan);}
+.rank-table td{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,.03);}
+.rank-table tr:hover{background:rgba(6,182,212,.03);}
+.rank-table tr.selected{background:rgba(6,182,212,.06);border-right:3px solid var(--cyan);}
+.wr-bar{display:inline-block;height:6px;border-radius:3px;min-width:4px;}
+.outcome-dots{display:flex;gap:2px;}
+.outcome-dots span{width:8px;height:8px;border-radius:50%;display:inline-block;}
+/* Detail Panel */
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.stat-mini{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;}
+.stat-mini .sv{font-size:18px;font-weight:800;}.stat-mini .sl{font-size:9px;color:var(--text3);margin-top:2px;}
+.timeline{position:relative;padding-right:24px;}
+.tl-item{position:relative;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03);}
+.tl-item::before{content:'';position:absolute;right:-18px;top:10px;width:8px;height:8px;border-radius:50%;background:var(--border);}
+.tl-item.win::before{background:var(--green);}.tl-item.loss::before{background:var(--red);}
+.tl-item .tl-head{display:flex;align-items:center;gap:6px;font-size:11px;}
+.tl-item .tl-pnl{font-weight:700;margin-right:auto;}
+.tl-item .tl-detail{font-size:9px;color:var(--text3);margin-top:2px;}
+.event-item{display:flex;align-items:flex-start;gap:8px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.02);font-size:10px;}
+.event-item .ev-icon{font-size:14px;flex-shrink:0;}.event-item .ev-time{color:var(--text3);min-width:55px;font-size:9px;}
+.chart-box{height:200px;margin:8px 0;}
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.filter-bar select,.filter-bar input{padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:11px;font-family:inherit;}
+.compare-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;}
+.compare-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;}
+.compare-card h4{font-size:12px;color:var(--cyan);margin-bottom:6px;}
+.empty{text-align:center;color:var(--text3);padding:30px;font-size:12px;}
+@media(max-width:900px){.detail-grid{grid-template-columns:1fr;}}
+
+.adv-panel{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:10px;}
+.adv-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;align-items:flex-end;}
+.adv-row .af{display:flex;flex-direction:column;}
+.adv-row .af label{font-size:9px;color:var(--text3);margin-bottom:2px;}
+.adv-row .af select,.adv-row .af input{padding:4px 7px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:10px;font-family:inherit;min-width:90px;}
+.adv-actions{display:flex;gap:4px;margin-top:4px;}
+.heatmap-grid{display:grid;grid-template-columns:50px repeat(24,1fr);gap:1px;font-size:8px;}
+.hm-cell{padding:4px 2px;text-align:center;border-radius:2px;cursor:default;min-height:22px;display:flex;align-items:center;justify-content:center;}
+.hm-header{color:var(--text3);font-weight:600;font-size:8px;padding:2px;text-align:center;}
+.compare-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:300;align-items:center;justify-content:center;padding:20px;}
+.compare-modal.show{display:flex;}
+.cmp-content{background:var(--bg);border:1px solid var(--border);border-radius:14px;width:95%;max-width:900px;max-height:85vh;overflow-y:auto;padding:16px;}
+.cmp-table{width:100%;border-collapse:collapse;font-size:11px;}
+.cmp-table th{background:var(--bg3);padding:6px 8px;text-align:right;color:var(--text2);border-bottom:1px solid var(--border);}
+.cmp-table td{padding:5px 8px;border-bottom:1px solid rgba(255,255,255,.03);}
+.cmp-table td.best{background:rgba(34,197,94,.06);color:var(--green);font-weight:700;}
+.filter-stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+.fs{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:10px;text-align:center;}
+.fs .fv{font-weight:800;font-size:14px;}.fs .fl{color:var(--text3);font-size:8px;}
+
+/* Alert Subscribe */
+.alert-bell{position:relative;cursor:pointer;font-size:18px;padding:4px;transition:.2s;}
+.alert-bell:hover{transform:scale(1.15);}
+.alert-bell .bell-count{position:absolute;top:-2px;right:-6px;background:#ef4444;color:#fff;font-size:8px;font-weight:800;padding:1px 4px;border-radius:8px;min-width:14px;text-align:center;}
+
+/* Notif Panel */
+
+.notif-panel.show{display:block;}
+.notif-head{padding:8px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg3);}
+.notif-head h4{font-size:12px;color:var(--yellow);font-weight:700;}
+.notif-list{max-height:55vh;overflow-y:auto;padding:4px 0;}
+.notif-item{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.02);cursor:pointer;transition:.15s;display:flex;gap:8px;align-items:flex-start;}
+.notif-item:hover{background:rgba(245,158,11,.03);}
+.notif-item.unread{background:rgba(245,158,11,.04);border-right:3px solid var(--yellow);}
+.notif-item .ni-icon{font-size:16px;flex-shrink:0;margin-top:2px;}
+.notif-item .ni-body{flex:1;min-width:0;}
+.notif-item .ni-title{font-size:11px;font-weight:700;color:var(--text);}
+.notif-item .ni-detail{font-size:9px;color:var(--text2);margin-top:1px;line-height:1.3;white-space:pre-line;}
+.notif-item .ni-time{font-size:8px;color:var(--text3);margin-top:2px;}
+.notif-item .ni-strat{font-size:8px;color:var(--cyan);margin-top:1px;}
+/* Subscribe Modal */
+.sub-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:400;align-items:center;justify-content:center;}
+.sub-modal.show{display:flex;}
+.sub-content{background:var(--bg);border:1px solid var(--border);border-radius:14px;width:90%;max-width:500px;max-height:80vh;overflow-y:auto;padding:16px;}
+.sub-content h3{color:var(--yellow);font-size:15px;margin-bottom:10px;}
+.sub-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03);}
+.sub-row label{font-size:11px;color:var(--text);display:flex;align-items:center;gap:6px;}
+.sub-row label .sr-icon{font-size:14px;}
+.sub-row label .sr-desc{font-size:9px;color:var(--text3);}
+.toggle{position:relative;width:36px;height:20px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:.2s;}
+.toggle.on{background:rgba(34,197,94,.2);border-color:#22c55e;}
+.toggle::after{content:'';position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:var(--text3);transition:.2s;}
+.toggle.on::after{right:auto;left:2px;background:#22c55e;}
+.sub-sym-grid{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0;}
+.sub-sym{padding:3px 8px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-size:10px;cursor:pointer;transition:.2s;}
+.sub-sym.sel{background:rgba(6,182,212,.1);border-color:var(--cyan);color:var(--cyan);}
+
+th.sortable{cursor:pointer;user-select:none;position:relative;padding-right:16px!important;transition:.15s;}
+th.sortable:hover{color:var(--yellow);background:rgba(245,158,11,.04);}
+th.sortable::after{content:'⇅';position:absolute;left:4px;top:50%;transform:translateY(-50%);font-size:8px;color:var(--text3);opacity:.5;}
+th.sortable.asc::after{content:'▲';opacity:1;color:var(--green);}
+th.sortable.desc::after{content:'▼';opacity:1;color:var(--yellow);}
+
+/* ═══ UNIVERSAL NAV ═══ */
+.wnav{position:sticky;top:0;z-index:1000;background:rgba(8,11,18,.92);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid rgba(30,42,69,.6);padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;}
+.wnav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.wnav-logo-box{width:32px;height:32px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(0,212,255,.25);}
+.wnav-logo-txt{font-size:17px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.3px;}
+.wnav-links{display:flex;align-items:center;gap:1px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.wnav-links::-webkit-scrollbar{display:none;}
+.wnav-links a{color:#8892a8;padding:6px 10px;border-radius:7px;font-size:12.5px;font-weight:500;white-space:nowrap;transition:all .2s;text-decoration:none;}
+.wnav-links a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-links a.wn-active{color:#00d4ff;background:rgba(0,212,255,.08);font-weight:600;}
+.wnav-cta{background:linear-gradient(135deg,#00d4ff,#a855f7) !important;color:#000 !important;font-weight:700 !important;padding:6px 14px !important;border-radius:7px !important;font-size:12px !important;}
+.wnav-back{display:flex;align-items:center;gap:5px;color:#8892a8;font-size:12px;padding:5px 10px;border-radius:7px;cursor:pointer;background:rgba(255,255,255,.03);border:1px solid rgba(30,42,69,.5);transition:all .2s;text-decoration:none;flex-shrink:0;margin-left:6px;}
+.wnav-back:hover{color:#00d4ff;border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);}
+.wnav-ham{display:none;background:none;border:none;color:#e8ecf4;font-size:22px;cursor:pointer;padding:4px;}
+.wnav-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:999;}
+.wnav-mob-overlay.open{display:block;}
+.wnav-mob{position:fixed;top:0;right:0;width:270px;height:100vh;background:#0f1320;border-left:1px solid #1e2a45;z-index:1001;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:64px 14px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.wnav-mob-overlay.open .wnav-mob{transform:translateX(0);}
+.wnav-mob a{display:flex;align-items:center;gap:9px;color:#8892a8;padding:11px 14px;border-radius:9px;font-size:13.5px;text-decoration:none;transition:all .15s;}
+.wnav-mob a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-mob a.wn-active{background:rgba(0,212,255,.08);color:#00d4ff;font-weight:600;}
+.wnav-mob-close{position:absolute;top:14px;left:14px;background:#161b2e;border:1px solid #1e2a45;color:#8892a8;width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+@media(max-width:900px){.wnav-links{display:none;}.wnav-ham{display:block;}.wnav-back{font-size:11px;padding:4px 8px;}}
+
+/* ═══ UNIVERSAL FOOTER ═══ */
+.wfooter{background:#0f1320;border-top:1px solid #1e2a45;padding:32px 20px 16px;margin-top:24px;}
+.wfooter-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:28px;}
+.wfooter-brand p{font-size:12px;color:#5a6480;margin-top:8px;line-height:1.8;}
+.wfooter-col h4{font-size:12px;font-weight:700;color:#e8ecf4;margin-bottom:12px;}
+.wfooter-col a{display:block;color:#5a6480;font-size:12px;padding:3px 0;text-decoration:none;transition:color .2s;}
+.wfooter-col a:hover{color:#00d4ff;}
+.wfooter-bottom{max-width:1100px;margin:0 auto;border-top:1px solid #1e2a45;padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.wfooter-bottom p{font-size:11px;color:#5a6480;}
+.wfooter-bottom a{color:#00d4ff;text-decoration:none;font-size:11px;}
+@media(max-width:768px){.wfooter-grid{grid-template-columns:1fr 1fr;gap:20px;}}
+@media(max-width:480px){.wfooter-grid{grid-template-columns:1fr;}}
+
+
+/* ═══ TRACK RECORD CHART ═══ */
+.tr-chart-wrap{display:none;margin:12px 0;animation:trChartIn .3s ease-out;}
+@keyframes trChartIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+.tr-chart-panel{background:#0f1320;border:1px solid #1e2a45;border-radius:12px;overflow:hidden;}
+.tr-chart-head{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #1e2a45;background:rgba(15,19,32,.8);flex-wrap:wrap;gap:4px;}
+.tr-chart-head .title{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;}
+.tr-chart-head .title .sym{color:#00d4ff;}
+.tr-chart-head .title .strat{color:#a855f7;font-size:11px;}
+.tr-chart-head .title .cnt{background:rgba(168,85,250,.12);color:#a855f7;padding:1px 8px;border-radius:4px;font-size:10px;}
+.tr-chart-btns{display:flex;gap:2px;}
+.tr-chart-btns button{background:#1a1e2a;border:1px solid #2a2f42;color:#8892a8;padding:3px 7px;border-radius:5px;font-size:10px;cursor:pointer;transition:all .15s;font-family:inherit;}
+.tr-chart-btns button:hover{border-color:#00d4ff;color:#00d4ff;}
+.tr-chart-btns button.active{background:rgba(0,212,255,.12);color:#00d4ff;border-color:rgba(0,212,255,.3);}
+.tr-chart-body{height:320px;width:100%;position:relative;}
+.tr-chart-legend{position:absolute;top:8px;right:10px;z-index:5;display:flex;gap:8px;font-size:9px;color:#8892a8;}
+.tr-chart-legend span{display:flex;align-items:center;gap:2px;}
+.tr-chart-legend .dot{width:6px;height:6px;border-radius:50%;}
+.tr-chart-stats{display:flex;gap:16px;padding:8px 12px;border-top:1px solid #1e2a45;font-size:11px;flex-wrap:wrap;}
+.tr-chart-stats .st{display:flex;align-items:center;gap:4px;}
+.tr-chart-stats .st .lbl{color:#5a6480;}.tr-chart-stats .st .val{font-weight:700;font-family:'JetBrains Mono',monospace;}
+.tr-chart-stats .st .val.green{color:#22c55e;}.tr-chart-stats .st .val.red{color:#ef4444;}.tr-chart-stats .st .val.cyan{color:#00d4ff;}
+@media(max-width:768px){.tr-chart-body{height:240px !important;}.tr-chart-stats{font-size:10px;gap:10px;}}
+
+
+/* ═══ ACTIVE TRADES LIVE PANEL ═══ */
+.live-panel{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px}
+.live-panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.live-panel-title{font-size:15px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#00d4aa;animation:livePulse 2s infinite}
+@keyframes livePulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.live-stats{display:flex;gap:12px;font-size:11px;color:var(--muted)}
+.live-stat{display:flex;align-items:center;gap:4px}
+.live-stat b{color:var(--text)}
+.live-grid{display:grid;gap:8px}
+.live-card{display:grid;grid-template-columns:auto 1fr auto auto auto auto;align-items:center;gap:12px;padding:10px 12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:8px;font-size:12px;transition:all .2s}
+.live-card:hover{border-color:var(--cyan);background:rgba(0,212,170,.03)}
+.live-dir{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;text-align:center;min-width:36px}
+.live-dir.buy{background:rgba(0,212,170,.15);color:#00d4aa}
+.live-dir.sell{background:rgba(255,107,53,.15);color:#ff6b35}
+.live-info{display:flex;flex-direction:column;gap:2px}
+.live-info .name{font-weight:500;color:var(--text);font-size:12px}
+.live-info .symbol{font-size:10px;color:var(--muted)}
+.live-prices{display:flex;flex-direction:column;gap:2px;font-size:10px;color:var(--muted);text-align:left}
+.live-prices span{white-space:nowrap}
+.live-status{font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;text-align:center;white-space:nowrap}
+.live-meta{display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-size:10px}
+.live-meta .rr{color:var(--cyan);font-weight:600}
+.live-meta .dur{color:var(--muted)}
+.live-empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px}
+.live-empty-icon{font-size:32px;margin-bottom:8px;opacity:.5}
+
+
+/* ═══ PHASE 1: Layout Overhaul ═══ */
+.dual-panel{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.dual-panel .panel-left,.dual-panel .panel-right{min-width:0;overflow:hidden;}
+.live-grid.collapsed .live-card:nth-child(n+6){display:none;}
+.live-toggle-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:8px;background:rgba(0,212,170,.06);border:1px dashed rgba(0,212,170,.2);border-radius:8px;color:#00d4aa;font-size:11px;cursor:pointer;transition:.2s;font-family:inherit;margin-top:8px;}
+.live-toggle-btn:hover{background:rgba(0,212,170,.12);border-color:#00d4aa;}
+.panel-scroll{max-height:600px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#2a2f42 transparent;}
+.panel-scroll::-webkit-scrollbar{width:4px;}
+.panel-scroll::-webkit-scrollbar-thumb{background:#2a2f42;border-radius:4px;}
+@media(max-width:1024px){
+  .dual-panel{grid-template-columns:1fr;gap:10px;}
+  .main{padding:8px;}
+  .rank-table th,.rank-table td{padding:5px 6px;font-size:10px;}
+  .live-card{grid-template-columns:auto 1fr auto auto;gap:8px;padding:8px;}
+  .live-meta{display:none;}
+}
+@media(max-width:768px){
+  .dual-panel{grid-template-columns:1fr;}
+  .adv-row{flex-direction:column;}
+  .adv-row .af{width:100%;}
+  .adv-row .af select,.adv-row .af input{width:100%;}
+  .ts-bar{flex-direction:column;align-items:flex-start;gap:6px;}
+  .live-card{grid-template-columns:auto 1fr auto;gap:6px;padding:6px 8px;font-size:11px;}
+  .live-prices{display:none;}
+  .rank-table th:nth-child(7),.rank-table td:nth-child(7),
+  .rank-table th:nth-child(8),.rank-table td:nth-child(8){display:none;}
+}
+@media(max-width:480px){
+  .live-card{font-size:10px;}
+  .live-status{font-size:9px;padding:2px 5px;}
+  .rank-table{font-size:9px;}
+  .main{padding:4px;}
+  .filter-bar{gap:4px;}
+  .filter-bar select,.filter-bar input{font-size:10px;padding:4px 6px;}
+  .card-head h3{font-size:12px;}
+  .sa-box,.mt5-box{width:98%;padding:16px;}
+}
+/* ═══ END PHASE 1 CSS ═══ */
+
+/* ═══ PHASE 2: Smart Alert ═══ */
+.live-alert{cursor:pointer;font-size:14px;padding:4px;border-radius:6px;transition:.2s;display:flex;align-items:center;justify-content:center;min-width:28px;}
+.live-alert:hover{background:rgba(6,182,212,.15);transform:scale(1.1);}
+.smart-alert-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.75);z-index:10001;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.smart-alert-modal.show{display:flex;}
+.sa-box{background:linear-gradient(135deg,#111827,#0f172a);border:1px solid #1e3a5f;border-radius:16px;padding:24px;width:420px;max-width:92%;direction:rtl;box-shadow:0 20px 60px rgba(0,0,0,.5);}
+.sa-box h3{color:#06b6d4;font-size:15px;margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+.sa-subtitle{font-size:10px;color:#64748b;margin-bottom:16px;}
+.sa-info{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;padding:12px;background:rgba(6,182,212,.05);border:1px solid rgba(6,182,212,.1);border-radius:10px;}
+.sa-info-item{display:flex;flex-direction:column;gap:2px;}
+.sa-info-item .lbl{font-size:9px;color:#64748b;}
+.sa-info-item .val{font-size:12px;font-weight:600;color:#e2e5f0;}
+.sa-info-item .val.buy{color:#00d4aa;}.sa-info-item .val.sell{color:#ff6b35;}
+.sa-section{margin-bottom:14px;}
+.sa-section-title{font-size:11px;color:#94a3b8;margin-bottom:8px;font-weight:600;}
+.sa-events{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.sa-evt{padding:5px 12px;border-radius:20px;font-size:10px;border:1px solid #2d3748;cursor:pointer;background:#1a2235;color:#94a3b8;transition:.2s;font-family:inherit;}
+.sa-evt:hover{border-color:#06b6d4;color:#06b6d4;}
+.sa-evt.on{background:rgba(6,182,212,.15);border-color:#06b6d4;color:#06b6d4;font-weight:600;}
+.sa-channels{display:flex;gap:8px;margin-bottom:16px;}
+.sa-ch{flex:1;padding:12px 8px;border-radius:10px;border:1px solid #2d3748;background:#1a2235;cursor:pointer;text-align:center;transition:.2s;}
+.sa-ch:hover{border-color:#06b6d4;}
+.sa-ch.on{background:rgba(6,182,212,.1);border-color:#06b6d4;}
+.sa-ch .ch-icon{font-size:24px;margin-bottom:4px;}
+.sa-ch .ch-name{font-size:10px;color:#94a3b8;font-weight:600;}
+.sa-ch.on .ch-name{color:#06b6d4;}
+.sa-tg-input{width:100%;padding:8px 12px;border-radius:8px;border:1px solid #2d3748;background:#0f172a;color:#e2e5f0;font-size:11px;font-family:inherit;margin-top:6px;display:none;}
+.sa-tg-input:focus{border-color:#06b6d4;outline:none;}
+.sa-actions{display:flex;gap:8px;margin-top:16px;}
+.sa-btn{flex:1;padding:10px;border-radius:8px;border:none;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;transition:.2s;}
+.sa-save{background:linear-gradient(135deg,#10b981,#059669);color:#fff;}
+.sa-save:hover{opacity:.9;}
+.sa-close{background:#1a2235;color:#94a3b8;border:1px solid #2d3748;}
+.sa-close:hover{border-color:#64748b;}
+.sa-status{text-align:center;font-size:11px;margin-top:8px;padding:6px;border-radius:6px;display:none;}
+/* ═══ END PHASE 2 CSS ═══ */
+
+/* ═══ PHASE 3: MT5 Connection ═══ */
+.mt5-btn{background:none;border:none;cursor:pointer;font-size:13px;padding:2px 4px;border-radius:4px;transition:.2s;opacity:.7;}
+.mt5-btn:hover{opacity:1;background:rgba(168,85,250,.15);transform:scale(1.1);}
+.mt5-btn.linked{opacity:1;color:#a855f7;text-shadow:0 0 6px rgba(168,85,250,.4);}
+.mt5-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);z-index:10002;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.mt5-modal.show{display:flex;}
+.mt5-box{background:linear-gradient(135deg,#111827,#0c0f1a);border:1px solid #2d1b69;border-radius:16px;padding:24px;width:460px;max-width:94%;direction:rtl;box-shadow:0 20px 60px rgba(0,0,0,.6);}
+.mt5-box h3{color:#a855f7;font-size:15px;margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+.mt5-sub{font-size:10px;color:#64748b;margin-bottom:16px;}
+.mt5-info{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;padding:10px;background:rgba(168,85,250,.05);border:1px solid rgba(168,85,250,.1);border-radius:10px;}
+.mt5-info .lbl{font-size:9px;color:#64748b;}.mt5-info .val{font-size:12px;font-weight:600;color:#e2e5f0;}
+.mt5-field{margin-bottom:10px;}
+.mt5-field label{display:block;font-size:10px;color:#94a3b8;margin-bottom:4px;font-weight:600;}
+.mt5-field input,.mt5-field select{width:100%;padding:9px 12px;border-radius:8px;border:1px solid #2d3748;background:#0f172a;color:#e2e5f0;font-size:12px;font-family:inherit;transition:.2s;}
+.mt5-field input:focus,.mt5-field select:focus{border-color:#a855f7;outline:none;box-shadow:0 0 0 2px rgba(168,85,250,.15);}
+.mt5-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mt5-actions{display:flex;gap:8px;margin-top:16px;}
+.mt5-save{flex:1;padding:10px;border-radius:8px;border:none;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;transition:.2s;}
+.mt5-save:hover{opacity:.9;}.mt5-cancel{flex:1;padding:10px;border-radius:8px;border:1px solid #2d3748;background:#1a2235;color:#94a3b8;cursor:pointer;font-size:12px;font-family:inherit;}
+.mt5-status{text-align:center;font-size:11px;margin-top:8px;padding:6px;border-radius:6px;display:none;}
+.mt5-accounts{margin-top:10px;max-height:150px;overflow-y:auto;}
+.mt5-acc{display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(168,85,250,.04);border:1px solid rgba(168,85,250,.08);border-radius:8px;margin-bottom:6px;font-size:11px;}
+.mt5-acc .acc-id{font-weight:600;color:#a855f7;min-width:80px;}
+.mt5-acc .acc-server{color:#64748b;flex:1;}
+.mt5-acc .acc-toggle{width:32px;height:18px;border-radius:9px;border:none;cursor:pointer;transition:.2s;}
+.mt5-acc .acc-toggle.on{background:#a855f7;}.mt5-acc .acc-toggle.off{background:#2d3748;}
+.mt5-acc .acc-del{background:none;border:none;cursor:pointer;color:#ef4444;font-size:12px;padding:2px 4px;}
+.mt5-warn{font-size:9px;color:#f59e0b;padding:8px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:6px;margin-top:10px;line-height:1.5;}
+/* ═══ END PHASE 3 CSS ═══ */
+</style>
+
+<style>
+.alert-strat-btn{background:none;border:none;cursor:pointer;font-size:14px;padding:2px 4px;border-radius:4px;transition:.2s;}
+.alert-strat-btn:hover{background:rgba(6,182,212,.2);}
+.alert-strat-btn.active{background:rgba(16,185,129,.2);}
+.alert-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:10000;display:flex;align-items:center;justify-content:center;display:none;}
+.alert-modal.show{display:flex;}
+.alert-modal-box{background:#111827;border:1px solid #2d3748;border-radius:12px;padding:20px;width:380px;max-width:90%;direction:rtl;}
+.alert-modal-box h3{color:#06b6d4;font-size:14px;margin-bottom:12px;}
+.am-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;}
+.am-row label{min-width:80px;color:#94a3b8;font-size:11px;}
+.am-toggle{position:relative;width:36px;height:20px;display:inline-block;}
+.am-toggle input{display:none;}
+.am-toggle .sl{position:absolute;inset:0;background:#1a2235;border-radius:10px;transition:.2s;cursor:pointer;}
+.am-toggle input:checked+.sl{background:#10b981;}
+.am-toggle .sl:before{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:#fff;top:3px;right:3px;transition:.2s;}
+.am-toggle input:checked+.sl:before{transform:translateX(-16px);}
+.am-events{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0;}
+.am-evt{padding:3px 8px;border-radius:12px;font-size:9px;border:1px solid #2d3748;cursor:pointer;background:#1a2235;color:#94a3b8;}
+.am-evt.on{background:rgba(6,182,212,.15);border-color:#06b6d4;color:#06b6d4;}
+.am-btn{padding:6px 14px;border-radius:6px;border:none;cursor:pointer;font-size:11px;font-weight:700;}
+.am-save{background:#10b981;color:#fff;}.am-close{background:#1a2235;color:#94a3b8;border:1px solid #2d3748;}
+</style>
+
+<script src="/static/chart_engine.js"></script>
+</head>
+<body>
+<!-- ═══ UNIVERSAL TOP NAV ═══ -->
+<nav class="wnav" id="wTopNav">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <a href="/" class="wnav-logo">
+      <div class="wnav-logo-box">W</div>
+      <span class="wnav-logo-txt">Whilber-AI</span>
+    </a>
+    <a href="javascript:history.back()" class="wnav-back" title="بازگشت">→ برگشت</a>
+  </div>
+  <div class="wnav-links">
+    <a href="/">خانه</a>
+    <a href="/dashboard">تحلیل بازار</a>
+    <a href="/track-record" class="wn-active">سوابق</a>
+    <a href="/builder">استراتژی‌ساز</a>
+    <a href="/risk-manager">مدیریت ریسک</a>
+    <a href="/journal">ژورنال</a>
+    <a href="/performance">عملکرد زنده</a>
+    <a href="/alerts">هشدارها</a>
+    <a href="/guide">راهنما</a>
+    <a href="/services">خدمات</a>
+    <a href="/about">درباره ما</a>
+    <a href="/contact">تماس</a>
+    <a href="/robots">ربات‌ها</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/login">ورود</a>
+    <a href="/register">ثبت‌نام</a>
+    <a href="/dashboard" class="wnav-cta">🚀 تحلیل</a>
+  </div>
+  <button class="wnav-ham" onclick="document.getElementById('wMobOverlay').classList.add('open')">☰</button>
+</nav>
+<div class="wnav-mob-overlay" id="wMobOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="wnav-mob">
+    <button class="wnav-mob-close" onclick="document.getElementById('wMobOverlay').classList.remove('open')">✕</button>
+    <a href="javascript:history.back()" style="color:#00d4ff;border:1px solid rgba(0,212,255,.2);margin-bottom:8px;">→ برگشت به صفحه قبل</a>
+    <a href="/">🏠 خانه</a>
+    <a href="/dashboard">📊 تحلیل بازار</a>
+    <a href="/track-record" class="wn-active">📜 سوابق</a>
+    <a href="/builder">🔧 استراتژی‌ساز</a>
+    <a href="/risk-manager">🛡️ مدیریت ریسک</a>
+    <a href="/journal">📒 ژورنال</a>
+    <a href="/performance">📈 عملکرد زنده</a>
+    <a href="/alerts">🔔 هشدارها</a>
+    <a href="/robots">&#x1F916; ربات‌ها</a>
+    <a href="/guide">📖 راهنما</a>
+    <a href="/services">⭐ خدمات</a>
+    <a href="/about">👤 درباره ما</a>
+    <a href="/contact">📞 تماس</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/admin">⚙️ ادمین</a>
+    <a href="/login">&#x1F511; ورود</a>
+    <a href="/register">&#x1F4DD; ثبت‌نام</a>
+  </div>
+</div>
+
+
+<a href="/alerts-settings" style="position:fixed;top:10px;left:10px;z-index:9999;background:rgba(6,182,212,.15);border:1px solid #06b6d4;border-radius:20px;padding:6px 12px;color:#06b6d4;text-decoration:none;font-size:11px;font-weight:bold;">🔔 آلرت</a>
+
+
+<!-- Old duplicate navs removed — using wnav above -->
+
+<div class="main">
+  <!-- Tracker Status -->
+  <div class="ts-bar" id="trackerStatus">
+    <div class="ts-dot" id="tsDot" style="background:var(--text3);"></div>
+    <span style="font-size:12px;font-weight:700;color:var(--text);">📡 Tracker</span>
+    <span class="ts-stat">معاملات فعال: <b id="tsActive">--</b></span>
+    <span class="ts-stat">سیگنال‌ها: <b id="tsSignals">--</b></span>
+    <span class="ts-stat">بسته‌شده: <b id="tsCloses">--</b></span>
+    <span class="ts-stat">سایکل: <b id="tsCycles">--</b></span>
+    <span class="ts-stat" id="tsLast"></span>
+    <div style="margin-right:auto;"></div>
+    <button class="btn btn-cyan" onclick="startTracker()">▶ شروع</button>
+    <button class="btn btn-ghost" onclick="stopTracker()">⏹ توقف</button>
+  </div>
+
+  <!-- Filters -->
+  <div class="adv-panel" id="advFilterPanel">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+    <span style="font-size:12px;font-weight:700;color:var(--cyan);">🔍 فیلتر پیشرفته</span>
+    <div style="display:flex;gap:4px;">
+      <button class="btn btn-cyan" onclick="applyAdvFilter()">اعمال فیلتر</button>
+      <button class="btn btn-ghost" onclick="resetFilters()">پاک</button>
+      <button class="btn" style="background:var(--purple);color:#fff;" onclick="openCompareModal()">📊 مقایسه</button>
+      <button class="btn btn-ghost" onclick="exportCSV()">📥 CSV</button>
+      <button class="btn btn-ghost" onclick="exportHTML()">📄 HTML</button>
+    </div>
+  </div>
+  <div class="adv-row">
+    <div class="af"><label>💱 نماد</label><select id="afSymbol" multiple style="height:50px;">
+<option value="">همه نمادها</option>
+<optgroup label="فارکس — ماژور">
+  <option value="EURUSD">EURUSD — یورو/دلار</option>
+  <option value="GBPUSD">GBPUSD — پوند/دلار</option>
+  <option value="USDJPY">USDJPY — دلار/ین</option>
+  <option value="USDCHF">USDCHF — دلار/فرانک</option>
+  <option value="AUDUSD">AUDUSD — استرالیا/دلار</option>
+  <option value="NZDUSD">NZDUSD — نیوزیلند/دلار</option>
+  <option value="USDCAD">USDCAD — دلار/کانادا</option>
+</optgroup>
+<optgroup label="فارکس — یورو کراس">
+  <option value="EURGBP">EURGBP — یورو/پوند</option>
+  <option value="EURJPY">EURJPY — یورو/ین</option>
+  <option value="EURAUD">EURAUD — یورو/استرالیا</option>
+  <option value="EURCAD">EURCAD — یورو/کانادا</option>
+  <option value="EURCHF">EURCHF — یورو/فرانک</option>
+  <option value="EURNZD">EURNZD — یورو/نیوزیلند</option>
+</optgroup>
+<optgroup label="فارکس — پوند کراس">
+  <option value="GBPJPY">GBPJPY — پوند/ین</option>
+  <option value="GBPAUD">GBPAUD — پوند/استرالیا</option>
+  <option value="GBPCAD">GBPCAD — پوند/کانادا</option>
+  <option value="GBPCHF">GBPCHF — پوند/فرانک</option>
+  <option value="GBPNZD">GBPNZD — پوند/نیوزیلند</option>
+</optgroup>
+<optgroup label="فارکس — سایر کراس">
+  <option value="AUDJPY">AUDJPY — استرالیا/ین</option>
+  <option value="AUDNZD">AUDNZD — استرالیا/نیوزیلند</option>
+  <option value="AUDCAD">AUDCAD — استرالیا/کانادا</option>
+  <option value="AUDCHF">AUDCHF — استرالیا/فرانک</option>
+  <option value="NZDJPY">NZDJPY — نیوزیلند/ین</option>
+  <option value="NZDCAD">NZDCAD — نیوزیلند/کانادا</option>
+  <option value="NZDCHF">NZDCHF — نیوزیلند/فرانک</option>
+  <option value="CADJPY">CADJPY — کانادا/ین</option>
+  <option value="CADCHF">CADCHF — کانادا/فرانک</option>
+  <option value="CHFJPY">CHFJPY — فرانک/ین</option>
+</optgroup>
+<optgroup label="فلزات">
+  <option value="XAUUSD">XAUUSD — طلا</option>
+  <option value="XAGUSD">XAGUSD — نقره</option>
+</optgroup>
+<optgroup label="کریپتو">
+  <option value="BTCUSD">BTCUSD — بیت‌کوین</option>
+</optgroup>
+<optgroup label="شاخص‌ها">
+  <option value="NAS100">NAS100 — نزدک</option>
+  <option value="US30">US30 — داوجونز</option>
+</optgroup>
+</select></div>
+    <div class="af"><label>📂 دسته</label><select id="afCategory" multiple style="height:50px;"></select></div>
+    <div class="af"><label>⏱ تایم‌فریم</label><select id="afTimeframe" multiple style="height:50px;"></select></div>
+    <div class="af"><label>↕️ جهت</label><select id="afDirection"><option value="">همه</option><option value="BUY">BUY</option><option value="SELL">SELL</option></select></div>
+    <div class="af"><label>📌 نتیجه</label><select id="afOutcome"><option value="">همه</option><option value="win">✅ برد</option><option value="loss">❌ باخت</option></select></div>
+    <div class="af"><label>🚪 دلیل خروج</label><select id="afExit"><option value="">همه</option><option value="tp">TP</option><option value="sl">SL</option><option value="trailing">Trailing</option><option value="break_even">BE</option></select></div>
+  </div>
+  <div class="adv-row">
+    <div class="af"><label>📅 از تاریخ</label><input type="date" id="afFrom"></div>
+    <div class="af"><label>📅 تا تاریخ</label><input type="date" id="afTo"></div>
+    <div class="af"><label>💛 BE استفاده شده</label><select id="afBE"><option value="">همه</option><option value="yes">بله</option></select></div>
+    <div class="af"><label>🔄 Trailing</label><select id="afTrail"><option value="">همه</option><option value="yes">بله</option></select></div>
+    <div class="af"><label>🔍 جستجو</label><input type="text" id="afSearch" placeholder="نام استراتژی..."></div>
+  </div>
+  
+<!-- ═══ TRACK RECORD CHART ═══ -->
+<div class="tr-chart-wrap" id="trChartWrap">
+  <div class="tr-chart-panel">
+    <div class="tr-chart-head">
+      <div class="title">
+        <span>📈</span>
+        <span class="sym" id="trChartSym">—</span>
+        <span class="strat" id="trChartStrat">—</span>
+        <span class="cnt" id="trChartCnt">0 trades</span>
+      </div>
+      <div class="tr-chart-btns">
+        <button onclick="trChartSetTF('M15')">M15</button>
+        <button onclick="trChartSetTF('M30')">M30</button>
+        <button onclick="trChartSetTF('H1')" class="active">H1</button>
+        <button onclick="trChartSetTF('H4')">H4</button>
+        <button onclick="trChartSetTF('D1')">D1</button>
+        <button onclick="trChartClose()" style="color:#ef4444;" title="بستن">✕</button>
+      </div>
+    </div>
+    <div class="tr-chart-body" id="trChartContainer">
+      <div class="tr-chart-legend">
+        <span><div class="dot" style="background:#22c55e;"></div> خرید</span>
+        <span><div class="dot" style="background:#ef4444;"></div> فروش</span>
+        <span><div class="dot" style="background:#06b6d4;"></div> ورود</span>
+        <span><div class="dot" style="background:#a855f7;"></div> خروج</span>
+      </div>
+    </div>
+    <div class="tr-chart-stats" id="trChartStats"></div>
+  </div>
+</div>
+
+<div id="filterStatsBar" class="filter-stats" style="display:none;"></div>
+</div>
+<div class="filter-bar" style="display:none;">
+    <select id="fSort" onchange="loadRanking()">
+      <option value="win_rate">مرتب‌سازی: Win Rate</option>
+      <option value="total_pnl">مرتب‌سازی: سود کل</option>
+      <option value="profit_factor">مرتب‌سازی: Profit Factor</option>
+      <option value="total">مرتب‌سازی: تعداد معاملات</option>
+    </select>
+    <select id="fCat" onchange="loadRanking()">
+      <option value="">همه دسته‌ها</option>
+    </select>
+    <select id="fSym" onchange="loadRanking()">
+      <option value="">همه نمادها</option>
+    </select>
+    <input type="text" id="fSearch" placeholder="🔍 جستجو..." oninput="filterTable()">
+  </div>
+
+  <div class="dual-panel">
+    <!-- LEFT: Ranking Table -->
+    <div class="panel-left">
+      <div class="card">
+        
+
+
+<div class="card-head"><h3>🏆 رنکینگ استراتژی‌ها</h3><span id="rankCount" style="font-size:10px;color:var(--text3);"></span></div>
+        <div class="card-body panel-scroll" style="padding:0;overflow-x:auto;">
+          <table class="rank-table" id="rankTable">
+            <thead><tr>
+              <th>#</th>
+              <th onclick="sortBy('strategy_name')">استراتژی</th>
+              <th onclick="sortBy('symbol')">نماد</th>
+              <th onclick="sortBy('total')">معاملات</th>
+              <th onclick="sortBy('win_rate')">Win Rate</th>
+              <th onclick="sortBy('total_pnl')">PnL</th>
+              <th>آخرین ۵</th>
+    <th style="width:70px;">🔔⚡</th>
+            </tr></thead>
+            <tbody id="rankBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+<!-- Strategy Detail Card -->
+<div class="card" id="strategyDetail" style="display:none;margin-top:10px;">
+  <div class="card-head" style="display:flex;justify-content:space-between;align-items:center;">
+    <h3 style="font-size:12px;color:#f59e0b;">📊 جزئیات استراتژی</h3>
+    <button onclick="document.getElementById('strategyDetail').style.display='none'" style="background:transparent;border:1px solid rgba(255,255,255,.08);color:#64748b;padding:2px 6px;border-radius:4px;cursor:pointer;font-size:10px;">✕</button>
+  </div>
+  <div class="card-body"></div>
+</div>
+
+
+      <!-- Category Comparison -->
+      <div class="card">
+        <div class="card-head"><h3>📊 مقایسه دسته‌ها</h3></div>
+        <div class="card-body" id="compareBody"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Active Trades + Detail -->
+    <div class="panel-right">
+<!-- ═══ ACTIVE TRADES LIVE PANEL ═══ -->
+<div class="live-panel" id="livePanel">
+  <div class="live-panel-header">
+    <div class="live-panel-title">
+      <span class="live-dot" id="liveDot"></span>
+      معاملات فعال
+      <span id="liveCount" style="font-size:12px;color:var(--muted);font-weight:400"></span>
+      <span id="mt5StatusBadge" style="font-size:10px;padding:2px 8px;border-radius:8px;margin-right:8px;cursor:pointer;background:rgba(102,102,102,.2);color:#666;" onclick="checkMT5Status()" title="وضعیت اتصال MT5">⏳ MT5</span>
+    </div>
+    <div class="live-stats" id="liveStats"></div>
+  </div>
+  <div class="live-grid collapsed" id="liveGrid">
+    <div class="live-empty">
+      <div class="live-empty-icon">📡</div>
+      در حال بارگذاری...
+    </div>
+  </div>
+</div>
+<!-- ═══ END ACTIVE TRADES LIVE ═══ -->
+
+<button class="live-toggle-btn" id="liveToggleBtn" onclick="toggleActiveTrades()">
+  <span id="liveToggleIcon">▼</span>
+  <span id="liveToggleText">نمایش همه</span>
+</button>
+
+<div id="detailPanel">
+      <div class="card"><div class="card-body"><div class="empty">📜 یک استراتژی از جدول انتخاب کنید<br><span style="font-size:10px;">تا جزئیات و تایم‌لاین معاملات را ببینید</span></div></div></div>
+    </div>
+  </div>
+
+    <!-- Heatmap -->
+    <div class="card" id="heatmapCard" style="display:none;">
+      <div class="card-head"><h3>🗓️ هیت‌مپ عملکرد (ساعت × روز)</h3><button class="btn btn-ghost" style="font-size:10px;" onclick="loadHeatmap()">🔄</button></div>
+      <div class="card-body" id="heatmapBody"></div>
+    </div>
+
+    <!-- Filtered Results -->
+    
+
+<div id="filteredCard" class="card" style="display:none;">
+      <div class="card-head"><h3>📋 نتایج فیلتر</h3><span id="filteredCount" style="font-size:10px;color:var(--text3);"></span></div>
+      <div class="card-body" style="padding:0;overflow-x:auto;">
+        <table class="rank-table" id="filteredTable" style="font-size:12px;">
+          <thead><tr><th>#</th><th class="sortable" data-sort="strategy_name" onclick="sortFiltered(this)">استراتژی</th><th class="sortable" data-sort="symbol" onclick="sortFiltered(this)">نماد</th><th class="sortable" data-sort="direction" onclick="sortFiltered(this)">جهت</th><th class="sortable" data-sort="entry_price" onclick="sortFiltered(this)">ورود→خروج</th><th class="sortable" data-sort="pnl_usd" onclick="sortFiltered(this)">PnL</th><th class="sortable" data-sort="outcome" onclick="sortFiltered(this)">نتیجه</th><th class="sortable" data-sort="exit_reason" onclick="sortFiltered(this)">دلیل</th><th class="sortable" data-sort="duration_minutes" onclick="sortFiltered(this)">مدت</th><th class="sortable" data-sort="opened_at" onclick="sortFiltered(this)">تاریخ</th><th style="width:60px;">🔔⚡</th></tr></thead>
+          <tbody id="filteredBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+<!-- Compare Modal -->
+<div class="compare-modal" id="compareModal">
+  <div class="cmp-content">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <h3 style="color:var(--purple);font-size:15px;">📊 مقایسه استراتژی‌ها</h3>
+      <button onclick="closeCompare()" style="background:transparent;border:1px solid var(--border);color:var(--text2);padding:4px 10px;border-radius:6px;cursor:pointer;">✕</button>
+    </div>
+    <div style="margin-bottom:8px;font-size:10px;color:var(--text3);">۲ تا ۵ استراتژی انتخاب کنید:</div>
+    <div id="cmpSelectList" style="max-height:150px;overflow-y:auto;margin-bottom:8px;"></div>
+    <button class="btn" style="background:var(--purple);color:#fff;width:100%;padding:8px;" onclick="runCompare()">📊 مقایسه</button>
+    <div id="cmpResult" style="margin-top:10px;"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+var API='',allRanking=[],currentSort='score',selectedSid='';
+var _lastRankingHash='';
+
+// Fix: extract symbol from ranking data
+function _getSymbol(s){
+  if(s.symbol && s.symbol!=='undefined') return s.symbol;
+  if(s.symbols && s.symbols!=='undefined') return s.symbols;
+  if(s.by_symbol){
+    var keys=Object.keys(s.by_symbol);
+    if(keys.length) return keys.join(', ');
+  }
+  if(s.last_trades && s.last_trades.length){
+    var syms=[];
+    s.last_trades.forEach(function(t){if(t.symbol && syms.indexOf(t.symbol)<0)syms.push(t.symbol);});
+    if(syms.length) return syms.join(', ');
+  }
+  if(s.strategy_id){
+    // Extract symbol from strategy_id like "RSI_Fast_EURUSD_H1"
+    var parts=s.strategy_id.split('_');
+    for(var i=0;i<parts.length;i++){
+      var p=parts[i];
+      if(['XAUUSD','EURUSD','GBPUSD','USDJPY','AUDUSD','USDCAD','NZDUSD','USDCHF','BTCUSD','XAGUSD','US30','NAS100','XAUUSD+','USDCHF+'].indexOf(p)>=0){
+        return p.replace('+','');
+      }
+    }
+  }
+  return '-';
+}
+
+function init(){
+  loadTrackerStatus();
+  loadRanking();
+  loadCompare();
+  setInterval(loadTrackerStatus,5000);
+}
+
+async function loadTrackerStatus(){
+  try{
+    var r=await fetch(API+'/api/tracker/status');
+    var d=await r.json();
+    document.getElementById('tsDot').style.background=d.is_running?'var(--green)':'var(--yellow)';
+    document.getElementById('tsActive').textContent=d.active_trades||0;
+    document.getElementById('tsSignals').textContent=d.total_signals||0;
+    document.getElementById('tsCloses').textContent=d.total_closes||0;
+    document.getElementById('tsCycles').textContent=d.total_cycles||0;
+    if(d.last_cycle)document.getElementById('tsLast').textContent='آخرین: '+(d.last_cycle||'').substring(11,19);
+  }catch(e){}
+}
+
+async function startTracker(){try{await fetch(API+'/api/tracker/start',{method:'POST'});loadTrackerStatus();}catch(e){}}
+async function stopTracker(){try{await fetch(API+'/api/tracker/stop',{method:'POST'});loadTrackerStatus();}catch(e){}}
+
+async function loadRanking(forceRender){
+  var sort=document.getElementById('fSort').value;
+  try{
+    var r=await fetch(API+'/api/fast/ranking?sort='+sort+'&limit=100');
+    var d=await r.json();
+    var newRanking=d.ranking||[];
+    // Diff check: only re-render if data actually changed
+    var newHash=JSON.stringify(newRanking.map(function(s){return s.strategy_id+'_'+s.total+'_'+s.win_rate+'_'+s.total_pnl;}));
+    if(!forceRender && newHash===_lastRankingHash) return;
+    _lastRankingHash=newHash;
+    allRanking=newRanking;
+    document.getElementById('rankCount').textContent=allRanking.length+' استراتژی';
+    buildFilters();
+    renderTable();
+  }catch(e){}
+}
+
+function buildFilters(){
+  var cats=new Set(),syms=new Set();
+  allRanking.forEach(function(s){if((s.category||""))cats.add((s.category||""));if(s.symbol)syms.add(s.symbol);});
+  var cSel=document.getElementById('fCat');
+  var curCat=cSel.value;
+  cSel.innerHTML='<option value="">همه دسته‌ها</option>';
+  cats.forEach(function(c){cSel.innerHTML+='<option value="'+c+'"'+(c===curCat?' selected':'')+'>'+c+'</option>';});
+  var sSel=document.getElementById('fSym');
+  var curSym=sSel.value;
+  sSel.innerHTML='<option value="">همه نمادها</option>';
+  syms.forEach(function(s){sSel.innerHTML+='<option value="'+s+'"'+(s===curSym?' selected':'')+'>'+s+'</option>';});
+}
+
+function renderTable(){
+  var cat=document.getElementById('fCat').value;
+  var sym=document.getElementById('fSym').value;
+  var q=(document.getElementById('fSearch').value||'').toLowerCase();
+  var filtered=allRanking.filter(function(s){
+    if(cat&&s.category!==cat)return false;
+    if(sym&&s.symbol!==sym)return false;
+    if(q&&(s.strategy_name||'').toLowerCase().indexOf(q)<0)return false;
+    return true;
+  });
+  var body=document.getElementById('rankBody');
+  var html='';
+  filtered.forEach(function(s,i){
+    var pColor=s.total_pnl>=0?'var(--green)':'var(--red)';
+    var wrColor=s.win_rate>=60?'var(--green)':s.win_rate>=45?'var(--yellow)':'var(--red)';
+    var sel=s.strategy_id===selectedSid?' selected':'';
+    html+='<tr class="'+sel+'" onclick="selectStrategy(\''+s.strategy_id+'\')" style="cursor:pointer;">';
+    html+='<td style="color:var(--text3);">'+(i+1)+'</td>';
+    html+='<td><div style="font-weight:600;font-size:11px;">'+s.strategy_name+'</div><div style="font-size:9px;color:var(--text3);">'+(s.category||"")+'</div></td>';
+    html+='<td style="font-size:10px;">'+_getSymbol(s)+'</td>';
+    html+='<td>'+s.total+'</td>';
+    html+='<td><span style="color:'+wrColor+';font-weight:700;">'+s.win_rate+'%</span> <span class="wr-bar" style="width:'+s.win_rate+'px;background:'+wrColor+';"></span></td>';
+    html+='<td style="color:'+pColor+';font-weight:700;">'+(s.total_pnl>=0?'+':'')+s.total_pnl+'pip</td>';
+    // Last 5 dots
+    html+='<td><div class="outcome-dots">';
+    if(s.last_5){s.last_5.forEach(function(t){html+='<span style="background:'+(t.outcome==='win'?'var(--green)':'var(--red)')+';" title="'+(t.outcome==='win'?'✅':'❌')+' $'+t.pnl+'"></span>';});}
+    html+='</div></td>';
+    var _sid=s.strategy_id,_sym=_getSymbol(s),_nm=(s.strategy_name||"").replace(/"/g,"").replace(/'/g,"");
+    html+='<td style="text-align:center;white-space:nowrap;"><button class="alert-strat-btn" onclick="event.stopPropagation();openSmartAlert(\''+_sid+'\',\''+_sym+'\',\''+_nm+'\')">🔔</button><button class="mt5-btn" onclick="event.stopPropagation();openMT5Modal(\''+_sid+'\',\''+_sym+'\',\''+_nm+'\')" title="اتصال MT5">⚡</button></td>';
+    html+='</tr>';
+  });
+  if(!html)html='<tr><td colspan="8" style="text-align:center;color:var(--text3);padding:20px;">هنوز سابقه‌ای ثبت نشده</td></tr>';
+  body.innerHTML=html;
+}
+
+function filterTable(){renderTable();}
+function sortBy(field){document.getElementById('fSort').value=field;loadRanking(true);}
+
+async function selectStrategy(sid){
+  selectedSid=sid;
+  renderTable();
+  var panel=document.getElementById('detailPanel');
+  panel.innerHTML='<div class="card"><div class="card-body"><div class="empty">⏳ در حال بارگذاری...</div></div></div>';
+  try{
+    var r=await fetch(API+'/api/tracker/stats/'+sid);
+    var d=await r.json();
+    var hr=await fetch(API+'/api/tracker/signal-history/'+sid+'?limit=30');
+    var hd=await hr.json();
+    renderDetail(d,hd.trades||[]);
+    // Show chart with entry/exit markers for this strategy
+    var sym=_getSymbol(d)||'XAUUSD';
+    if(typeof trChartShow==='function') trChartShow(sym, d.strategy_name||sid);
+  }catch(e){panel.innerHTML='<div class="card"><div class="card-body"><div class="empty" style="color:var(--red);">خطا</div></div></div>';}
+}
+
+function renderDetail(stats,trades){
+  var panel=document.getElementById('detailPanel');
+  var html='';
+
+  // Header
+  html+='<div class="card"><div class="card-head"><h3>📊 '+(stats.strategy_name||stats.strategy_id)+'</h3><span style="font-size:10px;color:var(--text3);">'+(stats.category||'')+'</span></div><div class="card-body">';
+
+  // Stats grid
+  var wrClr=stats.win_rate>=60?'var(--green)':stats.win_rate>=45?'var(--yellow)':'var(--red)';
+  html+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px;">';
+  html+='<div class="stat-mini"><div class="sv" style="color:'+wrClr+';">'+stats.win_rate+'%</div><div class="sl">Win Rate<br>'+stats.wins+'W / '+stats.losses+'L</div></div>';
+  html+='<div class="stat-mini"><div class="sv" style="color:'+(stats.total_pnl>=0?'var(--green)':'var(--red)')+';">'+(stats.total_pnl>=0?'+':'')+stats.total_pnl+'pip</div><div class="sl">سود کل</div></div>';
+  html+='<div class="stat-mini"><div class="sv" style="color:var(--cyan);">'+stats.profit_factor+'</div><div class="sl">Profit Factor</div></div>';
+  html+='<div class="stat-mini"><div class="sv">'+stats.total+'</div><div class="sl">کل معاملات</div></div>';
+  html+='<div class="stat-mini"><div class="sv" style="color:var(--green);">+'+stats.avg_win+'$</div><div class="sl">میانگین برد</div></div>';
+  html+='<div class="stat-mini"><div class="sv" style="color:var(--red);">'+stats.avg_loss+'$</div><div class="sl">میانگین باخت</div></div>';
+  html+='<div class="stat-mini"><div class="sv" style="color:var(--green);">'+stats.max_win_streak+'</div><div class="sl">بیشترین بردهای متوالی</div></div>';
+  html+='<div class="stat-mini"><div class="sv" style="color:var(--red);">'+stats.max_loss_streak+'</div><div class="sl">بیشترین باخت‌های متوالی</div></div>';
+  html+='</div>';
+
+  // Equity chart
+  html+='<div style="font-size:11px;color:var(--text2);margin-bottom:4px;">📈 منحنی تجمعی سود:</div>';
+  html+='<div class="chart-box"><canvas id="eqChart"></canvas></div>';
+
+  // By symbol
+  if(stats.by_symbol&&Object.keys(stats.by_symbol).length>1){
+    html+='<div style="font-size:11px;color:var(--text2);margin:8px 0 4px;">📍 عملکرد هر نماد:</div>';
+    for(var sym in stats.by_symbol){
+      var si=stats.by_symbol[sym];
+      var sc=si.pnl>=0?'var(--green)':'var(--red)';
+      html+='<div style="display:flex;align-items:center;gap:6px;padding:3px 0;font-size:10px;border-bottom:1px solid rgba(255,255,255,.02);"><span style="font-weight:600;min-width:55px;">'+sym+'</span><span style="color:var(--text3);">'+si.total+' tr</span><span style="color:'+sc+';font-weight:700;">WR: '+si.win_rate+'%</span><span style="color:'+sc+';">$'+si.pnl+'</span></div>';
+    }
+  }
+
+  // By exit reason
+  if(stats.by_exit_reason){
+    html+='<div style="font-size:11px;color:var(--text2);margin:8px 0 4px;">🚪 دلیل خروج:</div>';
+    var reasons={'tp':'✅ TP','sl':'❌ SL','trailing':'🔄 Trailing','break_even':'🟡 BE','manual':'✋ دستی','sl_recovery':'🔧 Recovery','tp_recovery':'🔧 Recovery TP'};
+    for(var r in stats.by_exit_reason){
+      var ri=stats.by_exit_reason[r];
+      html+='<div style="display:flex;gap:6px;padding:2px 0;font-size:10px;"><span style="min-width:80px;">'+(reasons[r]||r)+'</span><span style="color:var(--text3);">'+ri.count+'×</span><span style="color:'+(ri.pnl>=0?'var(--green)':'var(--red)')+';">$'+ri.pnl+'</span></div>';
+    }
+  }
+
+  html+='</div></div>';
+
+  // Trade History
+  html+='<div class="card"><div class="card-head"><h3>📋 تاریخچه معاملات</h3><span style="font-size:10px;color:var(--text3);">'+trades.length+' آخرین</span></div><div class="card-body">';
+  html+='<div class="timeline">';
+  for(var t of trades){
+    var cls=t.outcome==='win'?'win':'loss';
+    var pClr=t.pnl_usd>=0?'var(--green)':'var(--red)';
+    var reason={'tp':'TP ✅','sl':'SL ❌','trailing':'Trail 🔄','break_even':'BE 🟡','manual':'دستی','sl_recovery':'Recovery','tp_recovery':'Recovery'}[(t.exit_reason||'')]||(t.exit_reason||'-')||'-';
+    html+='<div class="tl-item '+cls+'" onclick="loadTimeline(\''+stats.strategy_id+'\',\''+t.id+'\')" style="cursor:pointer;">';
+    html+='<div class="tl-head"><span style="color:'+((t.direction||'')==='BUY'?'var(--green)':'var(--red)');+'font-size:10px;font-weight:700;">'+t.direction+'</span>';
+    html+='<span style="font-size:10px;">'+t.symbol+'</span>';
+    html+='<span style="font-size:9px;color:var(--text3);">'+(t.entry_price||'-')+' → '+(t.exit_price||'-')+'</span>';
+    html+='<span class="tl-pnl" style="color:'+pClr+';">'+(t.pnl_usd>=0?'+':'')+t.pnl_usd+'$ ('+t.pnl_pips+'p)</span>';
+    html+='<span style="font-size:9px;color:var(--text3);">'+reason+'</span>';
+    html+='</div>';
+    html+='<div class="tl-detail">'+(t.opened_at||'').substring(0,16)+' → '+(t.closed_at||'').substring(11,16)+' | '+Math.round(t.duration_minutes||0)+'m';
+    if(t.sl_moved_to_be)html+=' | BE✓';
+    if(t.trailing_active)html+=' | Trail✓';
+    if(t.partial_closes)html+=' | سیو×'+t.partial_closes;
+    html+=' | '+t.events_count+' event';
+    html+='</div></div>';
+  }
+  if(!trades.length)html+='<div class="empty">هنوز معامله‌ای ثبت نشده</div>';
+  html+='</div></div></div>';
+
+  // Timeline detail (placeholder)
+  html+='<div class="card" id="timelineCard" style="display:none;"><div class="card-head"><h3>🕐 تایم‌لاین معامله</h3></div><div class="card-body" id="timelineBody"></div></div>';
+
+  panel.innerHTML=html;
+
+  // Draw equity chart
+  if(stats.equity_curve&&stats.equity_curve.length){
+    setTimeout(function(){
+      var ctx=document.getElementById('eqChart');
+      if(!ctx)return;
+      new Chart(ctx,{type:'line',data:{labels:stats.equity_curve.map(function(_,i){return i+1;}),datasets:[{data:stats.equity_curve,borderColor:'#06b6d4',backgroundColor:'rgba(6,182,212,.08)',fill:true,tension:.3,pointRadius:0,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#7f849c',font:{size:9}}}}}});
+    },100);
+  }
+}
+
+async function loadTimeline(sid,tid){
+  try{
+    var r=await fetch(API+'/api/tracker/timeline/'+sid+'/'+tid);
+    var d=await r.json();
+    var card=document.getElementById('timelineCard');
+    var body=document.getElementById('timelineBody');
+    if(!d.trade){body.innerHTML='<div class="empty">یافت نشد</div>';card.style.display='block';return;}
+    var html='<div style="font-size:11px;margin-bottom:6px;"><b>'+d.trade.symbol+' '+d.trade.direction+'</b> | ورود: '+d.trade.entry_price+' | خروج: '+(d.trade.exit_price||'باز')+'</div>';
+    for(var ev of d.events){
+      html+='<div class="event-item"><span class="ev-icon">'+(ev.icon||'📌')+'</span><span class="ev-time">'+(ev.time||'').substring(11,19)+'</span><div><div style="font-weight:600;">'+(ev.stage_fa||ev.type)+'</div><div style="color:var(--text3);">'+ev.detail+' @ '+ev.price+'</div></div></div>';
+    }
+    body.innerHTML=html;
+    card.style.display='block';
+    card.scrollIntoView({behavior:'smooth'});
+  }catch(e){}
+}
+
+async function loadCompare(){
+  try{
+    var r=await fetch(API+'/api/tracker/compare');
+    var d=await r.json();
+    var box=document.getElementById('compareBody');
+    var html='<div class="compare-grid">';
+
+    // By category
+    html+='<div class="compare-card"><h4>📂 دسته‌ها</h4>';
+    for(var c of (d.by_category||[])){
+      var clr=c.total_pnl>=0?'var(--green)':'var(--red)';
+      var catName=c.category||c.name||'other';
+      if(!catName||catName.trim()==='') catName='other';
+      html+='<div style="display:flex;gap:6px;font-size:10px;padding:2px 0;border-bottom:1px solid rgba(255,255,255,.02);"><span style="font-weight:600;min-width:80px;">'+catName+'</span><span style="color:var(--text3);">'+c.total_trades+'tr</span><span style="color:'+clr+';">WR:'+c.win_rate+'%</span><span style="color:'+clr+';font-weight:700;">$'+c.total_pnl+'</span></div>';
+    }
+    if(!(d.by_category||[]).length)html+='<div style="color:var(--text3);font-size:10px;">هنوز داده‌ای نیست</div>';
+    html+='</div>';
+
+    // By symbol
+    html+='<div class="compare-card"><h4>💱 نمادها</h4>';
+    for(var s of (d.by_symbol||[])){
+      var clr=s.total_pnl>=0?'var(--green)':'var(--red)';
+      var symName=s.symbol||_getSymbol(s)||'-';
+      html+='<div style="display:flex;gap:6px;font-size:10px;padding:2px 0;border-bottom:1px solid rgba(255,255,255,.02);"><span style="font-weight:600;min-width:55px;">'+symName+'</span><span style="color:var(--text3);">'+s.total_trades+'tr</span><span style="color:'+clr+';">WR:'+s.win_rate+'%</span><span style="color:'+clr+';font-weight:700;">$'+s.total_pnl+'</span></div>';
+    }
+    if(!(d.by_symbol||[]).length)html+='<div style="color:var(--text3);font-size:10px;">هنوز داده‌ای نیست</div>';
+    html+='</div>';
+
+    html+='</div>';
+    box.innerHTML=html;
+  }catch(e){}
+}
+
+
+// ══════ ADVANCED FILTER + COMPARE + EXPORT ══════
+var filterOptions={};
+var compareSelected=[];
+
+async function loadFilterOptions(){
+  try{
+    var r=await fetch(API+'/api/fast/filter-options');
+    filterOptions=await r.json();
+    buildFilterSelects();
+  }catch(e){}
+}
+
+function buildFilterSelects(){
+  var symSel=document.getElementById('afSymbol');
+  symSel.innerHTML='';
+  (filterOptions.symbols||[]).forEach(function(s){if(s)symSel.innerHTML+='<option value="'+s+'">'+s+'</option>';});
+
+  var catSel=document.getElementById('afCategory');
+  catSel.innerHTML='';
+  (filterOptions.categories||[]).forEach(function(c){var cid=c.id||c;var clbl=c.count?(cid+' ('+c.count+')'):cid;catSel.innerHTML+='<option value="'+cid+'">'+clbl+'</option>';});
+
+  var tfSel=document.getElementById('afTimeframe');
+  tfSel.innerHTML='';
+  (filterOptions.timeframes||['H1']).forEach(function(t){if(t)tfSel.innerHTML+='<option value="'+t+'">'+t+'</option>';});
+}
+
+function getFilters(){
+  var f={};
+  var syms=Array.from(document.getElementById('afSymbol').selectedOptions).map(function(o){return o.value;});
+  if(syms.length)f.symbols=syms;
+  var cats=Array.from(document.getElementById('afCategory').selectedOptions).map(function(o){return o.value;});
+  if(cats.length)f.categories=cats;
+  var tfs=Array.from(document.getElementById('afTimeframe').selectedOptions).map(function(o){return o.value;});
+  if(tfs.length)f.timeframes=tfs;
+  var dir=document.getElementById('afDirection').value;
+  if(dir)f.directions=[dir];
+  var out=document.getElementById('afOutcome').value;
+  if(out)f.outcomes=[out];
+  var ext=document.getElementById('afExit').value;
+  if(ext)f.exit_reasons=[ext];
+  var from=document.getElementById('afFrom').value;
+  if(from)f.date_from=from;
+  var to=document.getElementById('afTo').value;
+  if(to)f.date_to=to;
+  if(document.getElementById('afBE').value==='yes')f.had_be=true;
+  if(document.getElementById('afTrail').value==='yes')f.had_trailing=true;
+  var q=document.getElementById('afSearch').value;
+  if(q)f.search=q;
+  return f;
+}
+
+async function applyAdvFilter(){
+  var filters=getFilters();
+  try{
+    var r=await fetch(API+'/api/fast/filter',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filters:filters})});
+    var d=await r.json();
+    renderFilterStats(d.stats||{});
+    renderFilteredTrades(d.trades||[],d.total_found||0);
+    loadHeatmap();
+  }catch(e){}
+}
+
+function renderFilterStats(s){
+  var bar=document.getElementById('filterStatsBar');
+  if(!s||!s.total){bar.style.display='none';return;}
+  bar.style.display='flex';
+  var wrClr=(s.win_rate||0)>=60?'var(--green)':(s.win_rate||0)>=45?'var(--yellow)':'var(--red)';
+  var pnl=s.total_pnl||0;
+  bar.innerHTML='<div class="fs"><div class="fv">'+(s.total||0)+'</div><div class="fl">معاملات</div></div>'
+  +'<div class="fs"><div class="fv" style="color:'+wrClr+';">'+(s.win_rate||0)+'%</div><div class="fl">Win Rate</div></div>'
+  +'<div class="fs"><div class="fv" style="color:'+(pnl>=0?'var(--green)':'var(--red)')+';">$'+pnl.toFixed(2)+'</div><div class="fl">سود</div></div>'
+  +'<div class="fs"><div class="fv">'+(s.avg_pnl||0).toFixed(2)+'</div><div class="fl">میانگین</div></div>'
+  +'<div class="fs"><div class="fv" style="color:var(--green);">'+(s.wins||0)+'</div><div class="fl">برد</div></div>'
+  +'<div class="fs"><div class="fv" style="color:var(--red);">'+(s.losses||0)+'</div><div class="fl">باخت</div></div>';
+}
+function renderFilteredTrades(trades,total){
+  var card=document.getElementById('filteredCard');
+  card.style.display='block';
+  // Deduplicate: one entry per strategy+symbol
+  var seen={};
+  var unique=[];
+  trades.forEach(function(t){
+    if(!t.strategy_id||!t.symbol) return;
+    var key=t.strategy_id+'_'+t.symbol;
+    if(!seen[key]){seen[key]=true;unique.push(t);}
+  });
+  document.getElementById('filteredCount').textContent=unique.length+' معامله'+( total>200?' (از '+total+')':'');
+  var body=document.getElementById('filteredBody');
+  var html='';
+  unique.forEach(function(t,i){
+    var pClr=t.pnl_usd>=0?'var(--green)':'var(--red)';
+    var reasons={'tp':'TP✅','sl':'SL❌','trailing':'Trail🔄','break_even':'BE🟡','manual':'دستی'}[(t.exit_reason||'')]||(t.exit_reason||'-')||'-';
+    var _sn=(t.strategy_name||'').replace(/'/g,'');
+    html+='<tr><td>'+(i+1)+'</td><td style="font-size:10px;">'+t.strategy_name+'<div style="font-size:8px;color:var(--text3);">'+(t.category||"")+'</div></td>';
+    html+='<td>'+t.symbol+'</td><td style="color:'+((t.direction||'')==='BUY'?'var(--green)':'var(--red)')+';">'+t.direction+'</td>';
+    html+='<td style="font-size:9px;">'+(t.entry_price||'-')+'→'+(t.exit_price||'-')+'</td>';
+    html+='<td style="color:'+pClr+';font-weight:700;">'+(t.pnl_usd>=0?'+':'')+t.pnl_usd+'$</td>';
+    html+='<td style="color:'+pClr+';">'+(t.outcome==='win'?'✅':'❌')+'</td>';
+    html+='<td style="font-size:9px;">'+reasons+'</td>';
+    html+='<td style="font-size:9px;">'+Math.round(t.duration_minutes||0)+'m</td>';
+    html+='<td style="font-size:9px;">'+(t.opened_at||'').substring(0,10)+'</td>';
+    html+='<td style="text-align:center;white-space:nowrap;">';
+    html+='<span onclick="event.stopPropagation();openSmartAlert(\''+t.strategy_id+'\',\''+t.symbol+'\',\''+_sn+'\',\''+t.direction+'\','+(t.entry_price||0)+','+(t.sl_price||0)+','+(t.tp_price||0)+');" style="cursor:pointer;font-size:14px;" title="هشدار">🔔</span>';
+    html+='<span onclick="event.stopPropagation();openMT5WithDefaults(\''+t.strategy_id+'\',\''+t.symbol+'\',\''+_sn+'\',\''+t.direction+'\','+(t.entry_price||0)+','+(t.sl_price||0)+','+(t.tp_price||0)+');" style="cursor:pointer;font-size:13px;color:#a855f7;margin-right:4px;" title="اتصال MT5">⚡</span>';
+    html+='</td>';
+    html+='</tr>';
+  });
+  if(!html)html='<tr><td colspan="11" style="text-align:center;color:var(--text3);padding:20px;">نتیجه‌ای یافت نشد</td></tr>';
+  body.innerHTML=html;
+}
+
+function resetFilters(){
+  document.getElementById('afSymbol').selectedIndex=-1;
+  document.getElementById('afCategory').selectedIndex=-1;
+  document.getElementById('afTimeframe').selectedIndex=-1;
+  document.getElementById('afDirection').value='';
+  document.getElementById('afOutcome').value='';
+  document.getElementById('afExit').value='';
+  document.getElementById('afFrom').value='';
+  document.getElementById('afTo').value='';
+  document.getElementById('afBE').value='';
+  document.getElementById('afTrail').value='';
+  document.getElementById('afSearch').value='';
+  document.getElementById('filterStatsBar').style.display='none';
+  document.getElementById('filteredCard').style.display='none';
+  document.getElementById('heatmapCard').style.display='none';
+}
+
+// Heatmap
+async function loadHeatmap(){
+  var filters=getFilters();
+  try{
+    var r=await fetch(API+'/api/fast/heatmap',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filters:filters})});
+    var d=await r.json();
+    if(!d.cells||!d.cells.length){document.getElementById('heatmapCard').style.display='none';return;}
+    document.getElementById('heatmapCard').style.display='block';
+    renderHeatmap(d);
+  }catch(e){}
+}
+
+function renderHeatmap(d){
+  var box=document.getElementById('heatmapBody');
+  var html='<div class="heatmap-grid">';
+  html+='<div class="hm-header"></div>';
+  for(var h=0;h<24;h++)html+='<div class="hm-header">'+h+'</div>';
+
+  var lookup={};
+  d.cells.forEach(function(c){lookup[c.day+'_'+c.hour]=c;});
+
+  for(var day=0;day<7;day++){
+    html+='<div class="hm-header" style="text-align:right;padding-right:4px;">'+d.days[day].substring(0,4)+'</div>';
+    for(var h=0;h<24;h++){
+      var c=lookup[day+'_'+h];
+      if(c){
+        var bg=c.pnl>=0?'rgba(34,197,94,'+(Math.min(c.win_rate/100,1)*0.6+0.1)+')':'rgba(239,68,68,'+(Math.min((100-c.win_rate)/100,1)*0.6+0.1)+')';
+        html+='<div class="hm-cell" style="background:'+bg+';color:#fff;font-size:7px;" title="'+d.days[day]+' '+h+':00 | '+c.count+'tr WR:'+c.win_rate+'% $'+c.pnl+'">'+c.count+'</div>';
+      }else{
+        html+='<div class="hm-cell" style="background:var(--bg3);"></div>';
+      }
+    }
+  }
+  html+='</div>';
+  html+='<div style="font-size:9px;color:var(--text3);margin-top:4px;">🟢 سبز = سودده | 🔴 قرمز = ضررده | هاور برای جزئیات</div>';
+  box.innerHTML=html;
+}
+
+// Compare
+function openCompareModal(){
+  document.getElementById('compareModal').classList.add('show');
+  var list=document.getElementById('cmpSelectList');
+  var html='';
+  allRanking.forEach(function(s){
+    html+='<label style="display:flex;align-items:center;gap:6px;padding:3px 6px;border-bottom:1px solid rgba(255,255,255,.02);font-size:11px;cursor:pointer;">';
+    html+='<input type="checkbox" value="'+s.strategy_id+'" onchange="updateCompareSelect()" style="accent-color:var(--purple);">';
+    html+='<span style="font-weight:600;">'+s.strategy_name+'</span>';
+    html+='<span style="color:var(--text3);font-size:9px;">'+s.symbol+' | WR:'+s.win_rate+'%</span>';
+    html+='</label>';
+  });
+  list.innerHTML=html;
+  document.getElementById('cmpResult').innerHTML='';
+}
+
+function closeCompare(){document.getElementById('compareModal').classList.remove('show');}
+document.getElementById('compareModal').addEventListener('click',function(e){if(e.target===this)closeCompare();});
+
+function updateCompareSelect(){
+  var boxes=document.querySelectorAll('#cmpSelectList input:checked');
+  compareSelected=Array.from(boxes).map(function(b){return b.value;});
+}
+
+async function runCompare(){
+  if(compareSelected.length<2){alert('حداقل ۲ استراتژی انتخاب کنید');return;}
+  var box=document.getElementById('cmpResult');
+  box.innerHTML='<div style="text-align:center;color:var(--text3);">⏳ در حال مقایسه...</div>';
+  try{
+    var r=await fetch(API+'/api/tracker/compare-strategies',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({strategy_ids:compareSelected})});
+    var d=await r.json();
+    if(!d.success){box.innerHTML='<div style="color:var(--red);">'+( d.error||'Error')+'</div>';return;}
+    var strats=d.strategies||[];
+    var metrics=d.metrics||[];
+    var html='<table class="cmp-table"><thead><tr><th>معیار</th>';
+    strats.forEach(function(s){html+='<th style="max-width:120px;"><div style="font-size:10px;font-weight:700;">'+s.strategy_name+'</div><div style="font-size:8px;color:var(--text3);">WR:'+s.win_rate+'%</div></th>';});
+    html+='</tr></thead><tbody>';
+    metrics.forEach(function(m){
+      html+='<tr><td style="color:var(--text2);font-weight:600;">'+m.name_fa+'</td>';
+      m.values.forEach(function(v,i){
+        var cls=i===m.best_index?' best':'';
+        html+='<td class="'+cls+'">'+v+'</td>';
+      });
+      html+='</tr>';
+    });
+    html+='</tbody></table>';
+    html+='<div style="font-size:9px;color:var(--text3);margin-top:4px;">🟢 سبز = بهترین در هر معیار</div>';
+    box.innerHTML=html;
+  }catch(e){box.innerHTML='<div style="color:var(--red);">خطا</div>';}
+}
+
+// Export
+async function exportCSV(){
+  try{
+    var r=await fetch(API+'/api/fast/export/csv',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({limit:1000})});
+    var d=await r.json();
+    if(!d.csv || d.count===0){alert('داده‌ای برای خروجی وجود ندارد');return;}
+    var blob=new Blob(['\ufeff'+d.csv],{type:'text/csv;charset=utf-8;'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');a.href=url;a.download='track_export_'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+  }catch(e){console.error('CSV export error:',e);alert('خطا در خروجی CSV');}
+}
+
+async function exportHTML(){
+  try{
+    var r=await fetch(API+'/api/fast/export/html',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({limit:1000})});
+    var d=await r.json();
+    var rows=d.data||[];
+    if(!rows.length){alert('داده‌ای برای خروجی وجود ندارد');return;}
+    var html='<!DOCTYPE html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>Track Record Export</title><style>body{font-family:Tahoma,sans-serif;background:#0a0e17;color:#e2e8f0;padding:20px;}h1{color:#a855f7;font-size:18px;}table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px;}th{background:#1e1b4b;color:#c4b5fd;padding:8px;text-align:right;}td{padding:6px 8px;border-bottom:1px solid #1e293b;}.win{color:#00d4aa}.loss{color:#ef4444}</style></head><body>';
+    html+='<h1>📊 گزارش Track Record — Whilber-AI</h1>';
+    html+='<p style="font-size:12px;color:#94a3b8;">تاریخ خروجی: '+new Date().toLocaleString('fa-IR')+'</p>';
+    html+='<table><thead><tr><th>#</th><th>استراتژی</th><th>نماد</th><th>معاملات</th><th>برد</th><th>باخت</th><th>Win Rate</th><th>PnL</th><th>Profit Factor</th><th>Avg PnL</th></tr></thead><tbody>';
+    for(var i=0;i<rows.length;i++){
+      var x=rows[i];
+      var pnlClass=x.pnl>=0?'win':'loss';
+      html+='<tr><td>'+(i+1)+'</td><td>'+x.strategy+'</td><td>'+x.symbol+'</td><td>'+x.trades+'</td><td>'+x.wins+'</td><td>'+x.losses+'</td><td>'+x.win_rate+'%</td><td class="'+pnlClass+'">'+x.pnl+'</td><td>'+x.profit_factor+'</td><td>'+x.avg_pnl+'</td></tr>';
+    }
+    html+='</tbody></table></body></html>';
+    var blob=new Blob([html],{type:'text/html;charset=utf-8;'});
+    var url=URL.createObjectURL(blob);
+    window.open(url,'_blank');
+    URL.revokeObjectURL(url);
+  }catch(e){console.error('HTML export error:',e);alert('خطا در خروجی HTML');}
+}
+
+loadFilterOptions();
+
+
+// ══════ DOM-BASED TABLE SORTING ══════
+function sortFiltered(th) {
+  var field = th.dataset.sort;
+  if (!field) return;
+  var table = document.getElementById('filteredTable');
+  if (!table) return;
+  var tbody = document.getElementById('filteredBody');
+  if (!tbody) return;
+  var rows = Array.from(tbody.querySelectorAll('tr'));
+  if (rows.length < 2) return;
+
+  // Toggle direction
+  var curDir = th.classList.contains('desc') ? 'asc' : 'desc';
+  table.querySelectorAll('th.sortable').forEach(function(h){h.classList.remove('asc','desc');});
+  th.classList.add(curDir);
+  var dir = curDir === 'asc' ? 1 : -1;
+
+  // Column index mapping
+  var colMap = {
+    'strategy_name': 1, 'symbol': 2, 'direction': 3, 'entry_price': 4,
+    'pnl_usd': 5, 'outcome': 6, 'exit_reason': 7, 'duration_minutes': 8, 'opened_at': 9
+  };
+  var colIdx = colMap[field];
+  if (colIdx === undefined) return;
+
+  var numericCols = ['pnl_usd', 'entry_price', 'duration_minutes'];
+  var isNum = numericCols.indexOf(field) >= 0;
+
+  rows.sort(function(a, b) {
+    var cellA = a.querySelectorAll('td')[colIdx];
+    var cellB = b.querySelectorAll('td')[colIdx];
+    if (!cellA || !cellB) return 0;
+    var va = cellA.textContent.trim();
+    var vb = cellB.textContent.trim();
+    if (isNum) {
+      va = parseFloat(va.replace(/[^0-9.\-]/g, '')) || 0;
+      vb = parseFloat(vb.replace(/[^0-9.\-]/g, '')) || 0;
+      return (va - vb) * dir;
+    }
+    return va.localeCompare(vb, 'fa') * dir;
+  });
+
+  // Re-insert sorted + re-number
+  rows.forEach(function(row, i) {
+    var firstTd = row.querySelector('td');
+    if (firstTd) firstTd.textContent = i + 1;
+    tbody.appendChild(row);
+  });
+}
+
+function sortRanking(th) {
+  var field = th.dataset.sort;
+  if (!field) return;
+  var table = th.closest('table');
+  if (!table) return;
+  var tbody = table.querySelector('tbody');
+  if (!tbody) return;
+  var rows = Array.from(tbody.querySelectorAll('tr'));
+  if (rows.length < 2) return;
+
+  var curDir = th.classList.contains('desc') ? 'asc' : 'desc';
+  table.querySelectorAll('th.sortable').forEach(function(h){h.classList.remove('asc','desc');});
+  th.classList.add(curDir);
+  var dir = curDir === 'asc' ? 1 : -1;
+
+  var colMap = {'strategy_name': 1, 'symbol': 2, 'total': 3, 'win_rate': 4, 'total_pnl': 5};
+  var colIdx = colMap[field];
+  if (colIdx === undefined) return;
+
+  var numericCols = ['total', 'win_rate', 'total_pnl'];
+  var isNum = numericCols.indexOf(field) >= 0;
+
+  rows.sort(function(a, b) {
+    var cellA = a.querySelectorAll('td')[colIdx];
+    var cellB = b.querySelectorAll('td')[colIdx];
+    if (!cellA || !cellB) return 0;
+    var va = cellA.textContent.trim();
+    var vb = cellB.textContent.trim();
+    if (isNum) {
+      va = parseFloat(va.replace(/[^0-9.\-]/g, '')) || 0;
+      vb = parseFloat(vb.replace(/[^0-9.\-]/g, '')) || 0;
+      return (va - vb) * dir;
+    }
+    return va.localeCompare(vb, 'fa') * dir;
+  });
+
+  rows.forEach(function(row, i) {
+    var firstTd = row.querySelector('td');
+    if (firstTd) firstTd.textContent = i + 1;
+    tbody.appendChild(row);
+  });
+}
+// ══════ END SORT ══════
+
+// ══════ MT5 FROM FILTER ══════
+function openMT5FromFilter(){
+  var modal=document.getElementById('mt5Modal');
+  if(modal){
+    modal.classList.add('show');
+    var sub=document.getElementById('mt5Sub');
+    if(sub) sub.textContent='اتصال به متاتریدر از نتایج فیلتر';
+  }
+}
+
+init();
+</script>
+
+<!-- Notification Bell -->
+<div class="alert-bell" id="notifBell" onclick="toggleNotifPanel()" title="هشدارها" style="display:none;">
+  🔔 <span class="bell-count" id="bellCount" style="display:none;">0</span>
+</div>
+
+<!-- Notification Panel -->
+
+
+<!-- Subscribe Modal -->
+
+
+<script src="/static/perf.js"></script>
+<script src="/static/ranking_fix.js"></script>
+
+<script>
+// Auto-refresh ranking every 30s
+(function(){
+  function autoRefreshRanking(){
+    if(document.hidden) return;
+    if(typeof window.loadRanking === 'function') window.loadRanking(false);
+  }
+  setInterval(autoRefreshRanking, 30000);
+  document.addEventListener('visibilitychange', function(){
+    if(!document.hidden) autoRefreshRanking();
+  });
+})();
+
+// ═══ FIXED TRACKER STATUS LOADER — DIFF-UPDATE (no flicker) ═══
+(function(){
+  var _lastStatus = {};
+  function _setIfChanged(el, val) {
+    if (!el) return;
+    var s = String(val);
+    if (el.textContent !== s) el.textContent = s;
+  }
+  window.loadTrackerStatus = function(){
+    fetch('/api/tracker/status').then(function(r){return r.json();}).then(function(d){
+      var newBg = d.is_running ? 'var(--green)' : 'var(--yellow)';
+      var dot=document.getElementById('tsDot');
+      if(dot && dot.style.background !== newBg) dot.style.background = newBg;
+      _setIfChanged(document.getElementById('tsActive'), d.active_trades||0);
+      _setIfChanged(document.getElementById('tsSignals'), d.total_signals||0);
+      _setIfChanged(document.getElementById('tsCloses'), d.total_closes||0);
+      _setIfChanged(document.getElementById('tsCycles'), d.total_cycles||0);
+      var last=document.getElementById('tsLast');
+      if(last&&d.last_cycle){
+        var t='آخرین: '+(d.last_cycle||'').substring(11,19);
+        if(last.textContent!==t) last.textContent=t;
+      }
+      _lastStatus = d;
+    }).catch(function(){});
+  };
+  setTimeout(window.loadTrackerStatus, 500);
+  setInterval(window.loadTrackerStatus, 30000);
+})();
+// ═══ END FIXED TRACKER STATUS ═══
+
+
+// ═══ FIXED FILTER OPTIONS LOADER ═══
+(function(){
+  window.loadFilterOptions = function(){
+    fetch('/api/fast/filter-options').then(function(r){return r.json();}).then(function(d){
+      // Symbols
+      var symSel=document.getElementById('afSymbol');
+      if(symSel){
+        symSel.innerHTML='';
+        (d.symbols||[]).forEach(function(s){
+          var o=document.createElement('option');o.value=s;o.textContent=s;
+          symSel.appendChild(o);
+        });
+        symSel.selectedIndex=-1;
+      }
+      // Categories — build from strategies
+      var catSel=document.getElementById('afCategory');
+      if(catSel){
+        var cats={};
+        (d.strategies||[]).forEach(function(s){
+          var nm=s.name||s.id||'';
+          // Extract category prefix: first word or part before _
+          var parts=(s.id||'').split('_');
+          if(parts.length>=2){
+            var cat=parts[0];
+            if(!cats[cat])cats[cat]=0;
+            cats[cat]++;
+          }
+        });
+        catSel.innerHTML='';
+        Object.keys(cats).sort().forEach(function(c){
+          var o=document.createElement('option');o.value=c;o.textContent=c+' ('+cats[c]+')';
+          catSel.appendChild(o);
+        });
+        catSel.selectedIndex=-1;
+      }
+      // Timeframes
+      var tfSel=document.getElementById('afTimeframe');
+      if(tfSel){
+        tfSel.innerHTML='';
+        (d.timeframes||['H1']).forEach(function(t){
+          var o=document.createElement('option');o.value=t;o.textContent=t;
+          tfSel.appendChild(o);
+        });
+        tfSel.selectedIndex=-1;
+      }
+      // Direction
+      var dirSel=document.getElementById('afDirection');
+      if(dirSel&&dirSel.options.length<=1){
+        dirSel.innerHTML='<option value="">همه</option><option value="BUY">BUY</option><option value="SELL">SELL</option>';
+      }
+      // Outcome
+      var outSel=document.getElementById('afOutcome');
+      if(outSel&&outSel.options.length<=1){
+        outSel.innerHTML='<option value="">همه</option><option value="win">برنده ✅</option><option value="loss">بازنده ❌</option>';
+      }
+      // Exit reason
+      var exSel=document.getElementById('afExit')||document.getElementById('afExitReason');
+      if(exSel&&exSel.options.length<=1){
+        exSel.innerHTML='<option value="">همه</option><option value="tp">TP ✅</option><option value="sl">SL ❌</option><option value="trailing">Trailing 🔄</option><option value="break_even">BE 🟡</option>';
+      }
+    }).catch(function(e){console.error('Filter options error:',e);});
+  };
+  setTimeout(window.loadFilterOptions, 500);
+})();
+// ═══ END FIXED FILTER OPTIONS ═══
+
+</script>
+
+<script src="/static/notif.js"></script>
+
+<!-- Strategy Alert Modal -->
+
+
+<script src="/static/alert-modal.js"></script>
+
+<script>
+/* Alert bell helper */
+function openAlert(sid, sym, name) {
+  if(typeof whilberAlert !== 'undefined') {
+    whilberAlert.open(sid, sym, name);
+  } else {
+    window.location.href = '/alerts-settings';
+  }
+}
+</script>
+
+
+<!-- ═══ SMART ALERT MODAL ═══ -->
+<div class="smart-alert-modal" id="smartAlertModal" onclick="if(event.target===this)closeSmartAlert();">
+  <div class="sa-box">
+    <h3>🔔 تنظیم هشدار</h3>
+    <div class="sa-subtitle" id="saSubtitle">—</div>
+    
+    <div class="sa-info" id="saInfo">
+      <div class="sa-info-item"><span class="lbl">استراتژی</span><span class="val" id="saStrat">—</span></div>
+      <div class="sa-info-item"><span class="lbl">نماد</span><span class="val" id="saSymbol">—</span></div>
+      <div class="sa-info-item"><span class="lbl">جهت</span><span class="val" id="saDir">—</span></div>
+      <div class="sa-info-item"><span class="lbl">ورود</span><span class="val" id="saEntry">—</span></div>
+      <div class="sa-info-item"><span class="lbl">SL</span><span class="val" style="color:#ef4444;" id="saSL">—</span></div>
+      <div class="sa-info-item"><span class="lbl">TP</span><span class="val" style="color:#22c55e;" id="saTP">—</span></div>
+    </div>
+    
+    <div class="sa-section">
+      <div class="sa-section-title">چه زمانی هشدار بده؟</div>
+      <div class="sa-events" id="saEvents">
+        <span class="sa-evt on" data-evt="entry" onclick="toggleEvt(this)">ورود</span>
+        <span class="sa-evt on" data-evt="tp_hit" onclick="toggleEvt(this)">TP خورد</span>
+        <span class="sa-evt on" data-evt="sl_hit" onclick="toggleEvt(this)">SL خورد</span>
+        <span class="sa-evt" data-evt="be_moved" onclick="toggleEvt(this)">سربه‌سر</span>
+        <span class="sa-evt" data-evt="trailing" onclick="toggleEvt(this)">تریلینگ</span>
+        <span class="sa-evt" data-evt="near_tp" onclick="toggleEvt(this)">نزدیک TP</span>
+      </div>
+    </div>
+
+    <div class="sa-section">
+      <div class="sa-section-title">کجا بفرستم؟</div>
+      <div class="sa-channels">
+        <div class="sa-ch on" data-ch="push" onclick="toggleCh(this)">
+          <div class="ch-icon">🌐</div>
+          <div class="ch-name">سایت</div>
+        </div>
+        <div class="sa-ch" data-ch="telegram" onclick="toggleCh(this)">
+          <div class="ch-icon">✈️</div>
+          <div class="ch-name">تلگرام</div>
+        </div>
+        <div class="sa-ch" data-ch="email" onclick="toggleCh(this)">
+          <div class="ch-icon">📧</div>
+          <div class="ch-name">ایمیل</div>
+        </div>
+      </div>
+      <input class="sa-tg-input" id="saTgInput" placeholder="آیدی تلگرام یا چت آیدی (@username یا 123456789)">
+      <input class="sa-tg-input" id="saEmailInput" placeholder="آدرس ایمیل">
+    </div>
+
+    <div class="sa-actions">
+      <button class="sa-btn sa-save" onclick="saveSmartAlert()">✅ ذخیره هشدار</button>
+      <button class="sa-btn sa-close" onclick="closeSmartAlert()">بستن</button>
+    </div>
+    <div class="sa-status" id="saStatus"></div>
+  </div>
+</div>
+<!-- ═══ END SMART ALERT MODAL ═══ -->
+
+
+<!-- ═══ MT5 CONNECTION MODAL ═══ -->
+<div class="mt5-modal" id="mt5Modal" onclick="if(event.target===this)closeMT5Modal();">
+  <div class="mt5-box">
+    <h3>⚡ اتصال به MetaTrader</h3>
+    <div class="mt5-sub" id="mt5Sub">—</div>
+    
+    <div class="mt5-info" id="mt5Info">
+      <div><span class="lbl">استراتژی</span><div class="val" id="mt5Strat">—</div></div>
+      <div><span class="lbl">نماد</span><div class="val" id="mt5Sym">—</div></div>
+    </div>
+    
+    <div id="mt5AccountSelect" style="margin-bottom:12px;display:none;">
+      <label style="font-size:10px;color:#94a3b8;margin-bottom:4px;display:block;">حساب موجود:</label>
+      <select id="mt5ExistingAcc" style="width:100%;padding:8px;border-radius:8px;border:1px solid #2d3748;background:#0f172a;color:#e2e5f0;font-size:11px;font-family:inherit;">
+        <option value="">+ حساب جدید</option>
+      </select>
+    </div>
+    
+    <div id="mt5NewAccForm">
+      <div class="mt5-row">
+        <div class="mt5-field">
+          <label>🔢 شماره حساب</label>
+          <input type="text" id="mt5AccNum" placeholder="123456">
+        </div>
+        <div class="mt5-field">
+          <label>🔑 رمز عبور</label>
+          <input type="password" id="mt5Pass" placeholder="••••••">
+        </div>
+      </div>
+      <div class="mt5-row">
+        <div class="mt5-field">
+          <label>🌐 سرور بروکر</label>
+          <input type="text" id="mt5Server" placeholder="BrokerName-Live">
+        </div>
+        <div class="mt5-field">
+          <label>📊 پلتفرم</label>
+          <select id="mt5Platform">
+            <option value="mt5">MetaTrader 5</option>
+            <option value="mt4">MetaTrader 4</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt5-row">
+        <div class="mt5-field">
+          <label>📏 لات سایز</label>
+          <input type="number" id="mt5Lot" value="0.01" step="0.01" min="0.01" max="10">
+        </div>
+        <div class="mt5-field">
+          <label>⚠️ حداکثر ریسک ($)</label>
+          <input type="number" id="mt5Risk" value="50" step="1" min="1">
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt5-warn">
+      ⚠️ اطلاعات حساب شما رمزنگاری و فقط روی سرور شما ذخیره می‌شود.<br>
+      Whilber-AI فقط سیگنال‌های استراتژی انتخابی را به متاتریدر شما ارسال می‌کند.
+    </div>
+    
+    <div class="mt5-actions">
+      <button class="mt5-save" onclick="saveMT5Link()">⚡ اتصال و فعال‌سازی</button>
+      <button class="mt5-cancel" onclick="closeMT5Modal()">بستن</button>
+    </div>
+    <div class="mt5-status" id="mt5Status"></div>
+    
+    <div class="mt5-accounts" id="mt5AccountsList"></div>
+  </div>
+</div>
+<!-- ═══ END MT5 MODAL ═══ -->
+
+<!-- ═══ UNIVERSAL FOOTER ═══ -->
+<footer class="wfooter">
+  <div class="wfooter-grid">
+    <div class="wfooter-brand">
+      <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:28px;height:28px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;">W</div>
+        <span style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Whilber-AI</span>
+      </a>
+      <p>دستیار هوشمند تحلیل بازارهای مالی. تحلیل لحظه‌ای فارکس، کریپتو، فلزات و شاخص‌ها.</p>
+    </div>
+    <div class="wfooter-col">
+      <h4>ابزارها</h4>
+      <a href="/dashboard">📊 تحلیل بازار</a>
+      <a href="/track-record">📜 سوابق</a>
+      <a href="/builder">🔧 استراتژی‌ساز</a>
+      <a href="/risk-manager">🛡️ مدیریت ریسک</a>
+      <a href="/journal">📒 ژورنال</a>
+      <a href="/alerts">🔔 هشدارها</a>
+      <a href="/performance">📈 عملکرد زنده</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>اطلاعات</h4>
+      <a href="/guide">📖 راهنما</a>
+      <a href="/services">⭐ خدمات</a>
+    <a href="/about">👤 درباره ما</a>
+      <a href="/contact">📞 تماس</a>
+      <a href="/">🏠 صفحه اصلی</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>ارتباط</h4>
+      <a href="https://t.me/WhilberAI" target="_blank">✈️ کانال تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">📧 ایمیل</a>
+      <a href="/contact">💬 پشتیبانی</a>
+      <a href="/admin">⚙️ ادمین</a>
+    </div>
+  </div>
+  <div class="wfooter-bottom">
+    <p>© 2026 Whilber-AI — تمامی حقوق محفوظ است. تحلیل‌ها جنبه آموزشی دارند و توصیه مالی نیستند.</p>
+    <div style="display:flex;gap:8px;">
+      <a href="https://t.me/WhilberAI" target="_blank">✈️ تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">📧 ایمیل</a>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+/* ═══ Track Record Chart Bridge v3 — Fixed markers ═══ */
+(function(){
+var _trChartReady = false;
+var _trTF = "H1";
+var _trSym = "";
+var _trCandleTimes = []; // store candle timestamps for alignment
+
+window.trChartShow = function(symbol, stratName) {
+  var wrap = document.getElementById("trChartWrap");
+  if (!wrap || !window.WhilberChart) return;
+  
+  _trSym = symbol || "XAUUSD";
+  
+  document.getElementById("trChartSym").textContent = _trSym;
+  document.getElementById("trChartStrat").textContent = stratName || "";
+  
+  wrap.style.display = "block";
+  
+  if (!_trChartReady) {
+    WhilberChart.init("trChartContainer", _trSym, _trTF);
+    _trChartReady = true;
+  } else {
+    WhilberChart.update(_trSym, _trTF);
+  }
+  
+  // Step 1: Fetch candles to get timestamps
+  // Step 2: Fetch trades
+  // Step 3: Align and show
+  setTimeout(function(){
+    _loadCandlesThenTrades(_trSym, _trTF, stratName);
+  }, 800);
+  
+  setTimeout(function(){ wrap.scrollIntoView({behavior:"smooth", block:"nearest"}); }, 200);
+};
+
+function _loadCandlesThenTrades(sym, tf, stratName) {
+  // Get candle timestamps
+  fetch("/api/candles/" + sym + "/" + tf + "?limit=500")
+    .then(function(r){ return r.json(); })
+    .then(function(resp) {
+      var candles = Array.isArray(resp) ? resp : (resp.candles || []);
+      if (candles.length) {
+        _trCandleTimes = candles.map(function(c){ return c.time; });
+      }
+      // Now fetch trades
+      _fetchTrades(sym, stratName);
+    })
+    .catch(function(){
+      _trCandleTimes = [];
+      _fetchTrades(sym, stratName);
+    });
+}
+
+function _fetchTrades(sym, stratName) {
+  var url = "/api/trades/" + sym + "?limit=100";
+  if (stratName) url += "&strategy=" + encodeURIComponent(stratName);
+  
+  fetch(url).then(function(r){ return r.json(); }).then(function(data) {
+    var trades = Array.isArray(data) ? data : (data.trades || data || []);
+    _applyTrades(trades);
+  }).catch(function(){
+    _applyTrades([]);
+  });
+}
+
+function _nearestCandleTime(ts) {
+  // Find nearest candle timestamp (markers MUST match candle times)
+  if (!_trCandleTimes.length || !ts) return ts;
+  
+  var best = _trCandleTimes[0];
+  var bestDiff = Math.abs(ts - best);
+  
+  for (var i = 1; i < _trCandleTimes.length; i++) {
+    var diff = Math.abs(ts - _trCandleTimes[i]);
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      best = _trCandleTimes[i];
+    }
+  }
+  return best;
+}
+
+function _applyTrades(trades) {
+  var cnt = document.getElementById("trChartCnt");
+  if (cnt) cnt.textContent = trades.length + " trades";
+  
+  if (!trades.length) {
+    _showStats([]);
+    return;
+  }
+  
+  // Get price range from candles for validation
+  var minPrice = Infinity, maxPrice = -Infinity;
+  try {
+    var state = WhilberChart.getState ? WhilberChart.getState() : null;
+    if (state && state.lastData) {
+      state.lastData.forEach(function(c){
+        if (c.low < minPrice) minPrice = c.low;
+        if (c.high > maxPrice) maxPrice = c.high;
+      });
+    }
+  } catch(e){}
+  
+  // If no price range from state, estimate from first trade
+  if (minPrice === Infinity && trades[0]) {
+    var p = trades[0].entry_price || 0;
+    if (p > 0) { minPrice = p * 0.95; maxPrice = p * 1.05; }
+  }
+  
+  // Build markers
+  var markers = [];
+  var usedTimes = {};
+  
+  trades.forEach(function(t) {
+    var isBuy = (t.direction || "").toUpperCase().indexOf("BUY") > -1;
+    var entryT = t.entry_time || 0;
+    var exitT = t.exit_time || 0;
+    var entryP = parseFloat(t.entry_price) || 0;
+    var exitP = parseFloat(t.exit_price) || 0;
+    var pnl = parseFloat(t.pnl) || 0;
+    
+    // Align to nearest candle
+    if (entryT) {
+      entryT = _nearestCandleTime(entryT);
+      // Avoid duplicate timestamps
+      while (usedTimes[entryT]) entryT += 1;
+      usedTimes[entryT] = true;
+      
+      markers.push({
+        time: entryT,
+        position: isBuy ? "belowBar" : "aboveBar",
+        color: isBuy ? "#22c55e" : "#ef4444",
+        shape: isBuy ? "arrowUp" : "arrowDown",
+        text: (isBuy ? "B" : "S"),
+      });
+    }
+    
+    if (exitT) {
+      exitT = _nearestCandleTime(exitT);
+      while (usedTimes[exitT]) exitT += 1;
+      usedTimes[exitT] = true;
+      
+      var isWin = pnl > 0;
+      markers.push({
+        time: exitT,
+        position: isBuy ? "aboveBar" : "belowBar",
+        color: isWin ? "#06b6d4" : "#f59e0b",
+        shape: "circle",
+        text: isWin ? "W" : "L",
+      });
+    }
+  });
+  
+  // Sort required by lightweight-charts
+  markers.sort(function(a, b) { return a.time - b.time; });
+  
+  // Apply markers
+  try {
+    var state = WhilberChart.getState ? WhilberChart.getState() : null;
+    if (state && state.candleSeries && markers.length > 0) {
+      state.candleSeries.setMarkers(markers);
+    }
+  } catch(e) {
+    console.error("Marker error:", e);
+  }
+  
+  // Show SL/TP lines ONLY if prices are in valid range
+  var firstClosed = null;
+  for (var i = 0; i < trades.length; i++) {
+    if (trades[i].entry_price && trades[i].sl) {
+      firstClosed = trades[i];
+      break;
+    }
+  }
+  
+  if (firstClosed && WhilberChart.showSetup) {
+    var entry = parseFloat(firstClosed.entry_price) || 0;
+    var sl = parseFloat(firstClosed.sl) || 0;
+    var tp = parseFloat(firstClosed.tp) || 0;
+    
+    // Validate: prices must be within reasonable range of chart
+    var priceOK = true;
+    if (minPrice < Infinity) {
+      var range = maxPrice - minPrice;
+      var margin = range * 2; // allow 2x range
+      if (entry > 0 && (entry < minPrice - margin || entry > maxPrice + margin)) priceOK = false;
+      if (sl > 0 && (sl < minPrice - margin || sl > maxPrice + margin)) priceOK = false;
+      if (tp > 0 && (tp < minPrice - margin || tp > maxPrice + margin)) priceOK = false;
+    }
+    
+    if (priceOK && entry > 0) {
+      WhilberChart.showSetup({
+        strategy: firstClosed.strategy || "",
+        direction: firstClosed.direction || "BUY",
+        entry: entry,
+        sl: sl > 0 ? sl : undefined,
+        tp: tp > 0 ? tp : undefined,
+      });
+    }
+  }
+  
+  _showStats(trades);
+}
+
+function _showStats(trades) {
+  var el = document.getElementById("trChartStats");
+  if (!el) return;
+  
+  if (!trades.length) {
+    el.innerHTML = '<div class="st"><span class="lbl">بدون ترید</span></div>';
+    return;
+  }
+  
+  var w = 0, l = 0, pnl = 0;
+  trades.forEach(function(t) {
+    var p = parseFloat(t.pnl) || 0;
+    if (p > 0) w++; else if (p < 0) l++;
+    pnl += p;
+  });
+  var wr = trades.length > 0 ? Math.round(w / trades.length * 100) : 0;
+  
+  el.innerHTML =
+    '<div class="st"><span class="lbl">معاملات:</span><span class="val cyan">' + trades.length + '</span></div>' +
+    '<div class="st"><span class="lbl">برد:</span><span class="val green">' + w + '</span></div>' +
+    '<div class="st"><span class="lbl">باخت:</span><span class="val red">' + l + '</span></div>' +
+    '<div class="st"><span class="lbl">WR:</span><span class="val ' + (wr >= 50 ? 'green' : 'red') + '">' + wr + '%</span></div>' +
+    '<div class="st"><span class="lbl">PnL:</span><span class="val ' + (pnl >= 0 ? 'green' : 'red') + '">' + (pnl >= 0 ? '+' : '') + pnl.toFixed(1) + ' pip</span></div>';
+}
+
+window.trChartSetTF = function(tf) {
+  _trTF = tf;
+  document.querySelectorAll(".tr-chart-btns button:not([title])").forEach(function(b) {
+    b.classList.toggle("active", b.textContent.trim() === tf);
+  });
+  if (_trChartReady && WhilberChart) {
+    WhilberChart.update(_trSym, tf);
+    setTimeout(function(){ _loadCandlesThenTrades(_trSym, tf); }, 800);
+  }
+};
+
+window.trChartClose = function() {
+  document.getElementById("trChartWrap").style.display = "none";
+};
+
+// Hook rows
+function _hookRows() {
+  var rows = document.querySelectorAll("tbody tr, .ranking-row, [data-strategy]");
+  rows.forEach(function(row) {
+    if (row._trH || row.querySelector("th")) return;
+    row._trH = true;
+    row.style.cursor = "pointer";
+    row.title = "کلیک = چارت";
+    row.addEventListener("click", function(e) {
+      if (e.target.tagName === "BUTTON" || e.target.tagName === "A" || e.target.tagName === "INPUT") return;
+      var sym = "", strat = "";
+      sym = row.dataset.symbol || "";
+      strat = row.dataset.strategy || row.dataset.name || "";
+      var cells = row.querySelectorAll("td");
+      for (var i = 0; i < Math.min(cells.length, 5); i++) {
+        var t = cells[i].textContent.trim();
+        if (!sym && /^[A-Z][A-Z0-9]{2,9}$/.test(t)) sym = t;
+        if (!strat && t.length > 2 && !/^[\d.%$+\-]+$/.test(t) && !/^[A-Z][A-Z0-9]{2,9}$/.test(t)) strat = t;
+      }
+      if (!sym) sym = "XAUUSD";
+      trChartShow(sym, strat);
+      document.querySelectorAll("tbody tr").forEach(function(r){ r.style.outline = ""; });
+      row.style.outline = "1px solid #00d4ff";
+      setTimeout(function(){ row.style.outline = ""; }, 3000);
+    });
+  });
+}
+
+var _oF = window.fetch;
+window.fetch = function() {
+  var u = (arguments[0] || "").toString();
+  return _oF.apply(this, arguments).then(function(r) {
+    if (u.indexOf("/ranking") > -1 || u.indexOf("/filter") > -1 || u.indexOf("/summary") > -1) {
+      setTimeout(_hookRows, 500);
+      setTimeout(_hookRows, 1500);
+    }
+    return r;
+  });
+};
+setTimeout(_hookRows, 1500);
+setTimeout(_hookRows, 3000);
+
+})();
+</script>
+
+
+<script>
+// Old "kill nav" script removed — duplicate navs cleaned up in HTML
+
+
+// ═══ ACTIVE TRADES LIVE PANEL — DIFF-UPDATE (no flicker) ═══
+var _lastLiveHash = '';
+async function loadActiveLive(){
+  try{
+    var r=await fetch(API+'/api/tracker/active-live');
+    var d=await r.json();
+    var grid=document.getElementById('liveGrid');
+    var count=document.getElementById('liveCount');
+    var stats=document.getElementById('liveStats');
+    var dot=document.getElementById('liveDot');
+
+    if(!grid)return;
+
+    var trades=d.trades||[];
+    var st=d.stats||{};
+
+    // Diff check — only re-render if data actually changed
+    var newHash = JSON.stringify({c:trades.length, b:st.buy, s:st.sell, ids:trades.map(function(t){return t.id+'_'+t.current_pnl_pips;}).join(',')});
+    if(newHash === _lastLiveHash) return;
+    _lastLiveHash = newHash;
+    
+    // Update count
+    if(count) count.textContent='('+trades.length+')';
+    
+    // Update stats bar
+    if(stats){
+      var parts=[];
+      if(st.trailing) parts.push('<span class="live-stat">تریلینگ: <b style="color:#00bfff">'+st.trailing+'</b></span>');
+      if(st.break_even) parts.push('<span class="live-stat">سربه‌سر: <b style="color:#ffd700">'+st.break_even+'</b></span>');
+      if(st.near_tp) parts.push('<span class="live-stat">نزدیک TP: <b style="color:#ff6b35">'+st.near_tp+'</b></span>');
+      parts.push('<span class="live-stat">BUY: <b style="color:#00d4aa">'+st.buy+'</b></span>');
+      parts.push('<span class="live-stat">SELL: <b style="color:#ff6b35">'+st.sell+'</b></span>');
+      stats.innerHTML=parts.join('');
+    }
+    
+    // Dot animation
+    if(dot) dot.style.background=trades.length>0?'#00d4aa':'#666';
+    
+    if(trades.length===0){
+      grid.innerHTML='<div class="live-empty"><div class="live-empty-icon">⏳</div>هیچ معامله فعالی وجود ندارد<br><span style="font-size:11px;opacity:.6">معاملات جدید بعد از باز شدن بازار شروع می‌شوند</span></div>';
+      return;
+    }
+    
+    var html='';
+    for(var i=0;i<trades.length;i++){
+      var t=trades[i];
+      var dirClass=t.direction==='BUY'?'buy':'sell';
+      var dirLabel=t.direction==='BUY'?'خرید':'فروش';
+      
+      html+='<div class="live-card">';
+      
+      // Direction badge
+      html+='<div class="live-dir '+dirClass+'">'+dirLabel+'</div>';
+      
+      // Strategy name + symbol
+      html+='<div class="live-info">';
+      html+='<span class="name">'+t.strategy_name+'</span>';
+      html+='<span class="symbol">'+t.symbol+' | اطمینان: '+t.confidence+'%</span>';
+      html+='</div>';
+      
+      // Prices
+      html+='<div class="live-prices">';
+      html+='<span>ورود: '+t.entry_price+'</span>';
+      html+='<span>SL: '+t.sl_price+'</span>';
+      html+='<span>TP: '+t.tp_price+'</span>';
+      html+='</div>';
+      
+      // Status badge
+      html+='<div class="live-status" style="background:'+t.status_color+'22;color:'+t.status_color+'">'+t.status_label+'</div>';
+      
+      // Meta: R:R + duration
+      html+='<div class="live-meta">';
+      html+='<span class="rr">R:R '+t.rr_ratio+'</span>';
+      if(t.duration) html+='<span class="dur">'+t.duration+'</span>';
+      html+='</div>';
+      
+      // Alert + MT5 buttons (fixed, no flicker)
+      var _tn=t.strategy_name.replace(/'/g,'');
+      html+='<div style="display:flex;gap:4px;align-items:center;">';
+      html+='<div class="live-alert" onclick="event.stopPropagation();openSmartAlert(\''+t.strategy_id+'\',\''+t.symbol+'\',\''+_tn+'\',\''+t.direction+'\','+t.entry_price+','+t.sl_price+','+t.tp_price+');" title="تنظیم هشدار">🔔</div>';
+      html+='<div class="live-alert" onclick="event.stopPropagation();openMT5WithDefaults(\''+t.strategy_id+'\',\''+t.symbol+'\',\''+_tn+'\',\''+t.direction+'\','+t.entry_price+','+t.sl_price+','+t.tp_price+');" title="اتصال MT5" style="color:#a855f7;">⚡</div>';
+      html+='</div>';
+      html+='</div>';
+    }
+    
+    grid.innerHTML=html;
+  }catch(e){
+    console.error('Live panel error:',e);
+  }
+}
+
+// ═══ MT5 CONNECTION STATUS ═══
+var _lastMT5Status = null;
+async function checkMT5Status(){
+  try{
+    var r=await fetch(API+'/api/health');
+    var d=await r.json();
+    var badge=document.getElementById('mt5StatusBadge');
+    if(!badge) return;
+    var connected = d.mt5_connected;
+    if(connected === _lastMT5Status) return;
+    _lastMT5Status = connected;
+    if(connected){
+      badge.style.background='rgba(0,212,170,.15)';
+      badge.style.color='#00d4aa';
+      badge.textContent='✅ MT5';
+      badge.title='MT5 متصل است';
+    } else {
+      badge.style.background='rgba(239,68,68,.15)';
+      badge.style.color='#ef4444';
+      badge.textContent='❌ MT5';
+      badge.title='MT5 قطع است — کلیک برای بررسی مجدد';
+    }
+  }catch(e){
+    var badge=document.getElementById('mt5StatusBadge');
+    if(badge){
+      badge.style.background='rgba(102,102,102,.2)';
+      badge.style.color='#666';
+      badge.textContent='⚠ MT5';
+      badge.title='خطا در بررسی وضعیت MT5';
+    }
+  }
+}
+
+// Auto-refresh every 15 seconds
+loadActiveLive();
+checkMT5Status();
+setInterval(loadActiveLive, 15000);
+setInterval(checkMT5Status, 30000);
+// ═══ END ACTIVE TRADES LIVE JS ═══
+
+
+// ═══ PHASE 1: Toggle Active Trades ═══
+var _liveExpanded=false;
+function toggleActiveTrades(){
+  var grid=document.getElementById('liveGrid');
+  var icon=document.getElementById('liveToggleIcon');
+  var txt=document.getElementById('liveToggleText');
+  if(!grid)return;
+  _liveExpanded=!_liveExpanded;
+  if(_liveExpanded){
+    grid.classList.remove('collapsed');
+    icon.textContent='\u25B2';
+    txt.textContent='\u0646\u0645\u0627\u06CC\u0634 \u06A9\u0645\u062A\u0631';
+  }else{
+    grid.classList.add('collapsed');
+    icon.textContent='\u25BC';
+    var total=grid.querySelectorAll('.live-card').length;
+    txt.textContent='\u0646\u0645\u0627\u06CC\u0634 \u0647\u0645\u0647 ('+total+')';
+  }
+}
+var _origLoadLive=typeof loadActiveLive==='function'?loadActiveLive:null;
+if(_origLoadLive){
+  loadActiveLive=async function(){
+    await _origLoadLive();
+    var grid=document.getElementById('liveGrid');
+    var txt=document.getElementById('liveToggleText');
+    var btn=document.getElementById('liveToggleBtn');
+    if(grid&&txt&&!_liveExpanded){
+      var total=grid.querySelectorAll('.live-card').length;
+      if(total>5){txt.textContent='\u0646\u0645\u0627\u06CC\u0634 \u0647\u0645\u0647 ('+total+')';if(btn)btn.style.display='';}
+      else{if(btn)btn.style.display='none';}
+    }
+  };
+}
+// ═══ END PHASE 1 JS ═══
+
+
+// ═══ PHASE 2: Smart Alert System ═══
+var _saData={};
+
+function openSmartAlert(sid, sym, name, dir, entry, sl, tp){
+  _saData={strategy_id:sid, symbol:sym, name:name, direction:dir||'', entry:entry||0, sl:sl||0, tp:tp||0};
+  
+  var el=function(id){return document.getElementById(id);};
+  el('saStrat').textContent=name||sid;
+  el('saSymbol').textContent=sym||'-';
+  el('saSubtitle').textContent=(name||sid)+' | '+(sym||'')+' | '+(dir||'');
+  
+  var dirEl=el('saDir');
+  dirEl.textContent=dir==='BUY'?'خرید':'SELL'?'فروش':(dir||'-');
+  dirEl.className='val '+(dir==='BUY'?'buy':dir==='SELL'?'sell':'');
+  
+  el('saEntry').textContent=entry||'-';
+  el('saSL').textContent=sl||'-';
+  el('saTP').textContent=tp||'-';
+  
+  // Reset events to defaults
+  document.querySelectorAll('.sa-evt').forEach(function(e){
+    var d=e.getAttribute('data-evt');
+    if(['entry','tp_hit','sl_hit'].indexOf(d)>=0) e.classList.add('on');
+    else e.classList.remove('on');
+  });
+  
+  // Reset channels
+  document.querySelectorAll('.sa-ch').forEach(function(e){
+    if(e.getAttribute('data-ch')==='push') e.classList.add('on');
+    else e.classList.remove('on');
+  });
+  el('saTgInput').style.display='none';
+  el('saEmailInput').style.display='none';
+  el('saStatus').style.display='none';
+  
+  el('smartAlertModal').classList.add('show');
+}
+
+// Backward compatible - old openAlert calls the new one
+var _oldOpenAlert=typeof openAlert==='function'?openAlert:null;
+function openAlert(sid, sym, name){
+  openSmartAlert(sid, sym, name, '', 0, 0, 0);
+}
+
+function closeSmartAlert(){
+  document.getElementById('smartAlertModal').classList.remove('show');
+}
+
+function toggleEvt(el){el.classList.toggle('on');}
+
+function toggleCh(el){
+  el.classList.toggle('on');
+  var ch=el.getAttribute('data-ch');
+  if(ch==='telegram'){
+    document.getElementById('saTgInput').style.display=el.classList.contains('on')?'block':'none';
+  }
+  if(ch==='email'){
+    document.getElementById('saEmailInput').style.display=el.classList.contains('on')?'block':'none';
+  }
+}
+
+async function saveSmartAlert(){
+  var events=[];
+  document.querySelectorAll('.sa-evt.on').forEach(function(e){events.push(e.getAttribute('data-evt'));});
+  
+  var channels=[];
+  document.querySelectorAll('.sa-ch.on').forEach(function(e){channels.push(e.getAttribute('data-ch'));});
+  
+  if(events.length===0){showSaStatus('حداقل یک رویداد انتخاب کنید','#ef4444');return;}
+  if(channels.length===0){showSaStatus('حداقل یک کانال انتخاب کنید','#ef4444');return;}
+  
+  var payload={
+    strategy_id: _saData.strategy_id,
+    symbol: _saData.symbol,
+    strategy_name: _saData.name,
+    direction: _saData.direction,
+    entry_price: _saData.entry,
+    sl_price: _saData.sl,
+    tp_price: _saData.tp,
+    events: events,
+    channels: channels,
+    telegram_id: document.getElementById('saTgInput').value.trim(),
+    email: document.getElementById('saEmailInput').value.trim()
+  };
+  
+  try{
+    var r=await fetch(API+'/api/alert/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    var d=await r.json();
+    if(d.ok||d.success){
+      showSaStatus('✅ هشدار ذخیره شد!','#10b981');
+      // Mark the bell as active
+      document.querySelectorAll('[data-alert-sid="'+_saData.strategy_id+'"]').forEach(function(e){
+        e.style.color='#10b981';
+        e.style.textShadow='0 0 8px rgba(16,185,129,.4)';
+      });
+      setTimeout(closeSmartAlert,1500);
+    }else{
+      showSaStatus(d.error||'خطا در ذخیره','#ef4444');
+    }
+  }catch(e){
+    showSaStatus('خطای اتصال — هشدار به صورت محلی ذخیره شد','#f59e0b');
+    // Save locally
+    var local=JSON.parse(localStorage.getItem('whilber_alerts')||'[]');
+    local.push(payload);
+    localStorage.setItem('whilber_alerts',JSON.stringify(local));
+    setTimeout(closeSmartAlert,2000);
+  }
+}
+
+function showSaStatus(msg,color){
+  var el=document.getElementById('saStatus');
+  el.textContent=msg;
+  el.style.display='block';
+  el.style.background=color+'15';
+  el.style.color=color;
+  el.style.border='1px solid '+color+'33';
+}
+// ═══ END PHASE 2 JS ═══
+
+
+// Bell + MT5 buttons are now built directly in renderTable() — no injector needed
+
+</script>
+
+</body>
+</html>
+
+
+
+<!-- Bell buttons now built into renderTable() — no interval needed -->
+
+<script>
+// ═══ PHASE 3: MT5 Connection System ═══
+var _mt5Data = {};
+var _mt5Accounts = [];
+
+function openMT5Modal(sid, sym, name) {
+  _mt5Data = {strategy_id: sid, symbol: sym, name: name};
+  document.getElementById('mt5Strat').textContent = name || sid;
+  document.getElementById('mt5Sym').textContent = sym || '-';
+  document.getElementById('mt5Sub').textContent = (name||sid) + ' | ' + (sym||'');
+  document.getElementById('mt5Status').style.display = 'none';
+  loadMT5Accounts();
+  document.getElementById('mt5Modal').classList.add('show');
+}
+
+function openMT5WithDefaults(sid, sym, name, dir, entry, sl, tp) {
+  // Open MT5 modal with trade defaults pre-filled
+  _mt5Data = {strategy_id: sid, symbol: sym, name: name, direction: dir, entry: entry, sl: sl, tp: tp};
+  document.getElementById('mt5Strat').textContent = name || sid;
+  document.getElementById('mt5Sym').textContent = sym || '-';
+  document.getElementById('mt5Sub').textContent = (name||sid) + ' | ' + (sym||'') + ' | ' + (dir||'') + ' @ ' + (entry||'-');
+  document.getElementById('mt5Status').style.display = 'none';
+  // Auto-fill lot size based on symbol
+  var lotEl = document.getElementById('mt5Lot');
+  if(lotEl) {
+    var defaults = {'XAUUSD':0.01,'BTCUSD':0.01,'EURUSD':0.1,'GBPUSD':0.1,'USDJPY':0.1,'US30':0.1,'NAS100':0.1};
+    lotEl.value = defaults[sym] || 0.01;
+  }
+  // Auto-fill risk based on SL distance
+  var riskEl = document.getElementById('mt5Risk');
+  if(riskEl && sl && entry) {
+    var dist = Math.abs(entry - sl);
+    var pips = {'XAUUSD':dist/0.1,'BTCUSD':dist/1,'EURUSD':dist/0.0001,'GBPUSD':dist/0.0001}[sym] || 50;
+    riskEl.value = Math.max(10, Math.min(200, Math.round(pips * 0.5)));
+  }
+  loadMT5Accounts();
+  document.getElementById('mt5Modal').classList.add('show');
+}
+
+function closeMT5Modal() {
+  document.getElementById('mt5Modal').classList.remove('show');
+}
+
+async function loadMT5Accounts() {
+  try {
+    var r = await fetch(API + '/api/mt5/accounts');
+    var d = await r.json();
+    _mt5Accounts = d.accounts || [];
+    var sel = document.getElementById('mt5ExistingAcc');
+    sel.innerHTML = '<option value="">+ \u062d\u0633\u0627\u0628 \u062c\u062f\u06cc\u062f</option>';
+    _mt5Accounts.forEach(function(a) {
+      sel.innerHTML += '<option value="' + a.id + '">' + a.account_number + ' | ' + a.server + ' (' + a.platform + ')</option>';
+    });
+    if (_mt5Accounts.length > 0) {
+      document.getElementById('mt5AccountSelect').style.display = 'block';
+    }
+    renderMT5AccountsList();
+  } catch(e) {
+    document.getElementById('mt5AccountSelect').style.display = 'none';
+  }
+}
+
+function renderMT5AccountsList() {
+  var el = document.getElementById('mt5AccountsList');
+  if (!_mt5Accounts.length) { el.innerHTML = ''; return; }
+  var h = '<div style="font-size:10px;color:#64748b;margin-bottom:6px;margin-top:10px;">\u062d\u0633\u0627\u0628\u200c\u0647\u0627\u06cc \u0645\u062a\u0635\u0644:</div>';
+  _mt5Accounts.forEach(function(a) {
+    var onOff = a.active ? 'on' : 'off';
+    h += '<div class="mt5-acc">';
+    h += '<span class="acc-id">' + a.account_number + '</span>';
+    h += '<span class="acc-server">' + a.server + '</span>';
+    h += '<span style="font-size:9px;color:#a855f7;">' + (a.linked_strategies||[]).length + ' \u0627\u0633\u062a\u0631\u0627\u062a\u0698\u06cc</span>';
+    h += '<button class="acc-toggle ' + onOff + '" onclick="toggleMT5Acc(\'' + a.id + '\')">' + (a.active ? '\u2713' : '\u2717') + '</button>';
+    h += '<button class="acc-del" onclick="deleteMT5Acc(\'' + a.id + '\')">\u2715</button>';
+    h += '</div>';
+  });
+  el.innerHTML = h;
+}
+
+async function saveMT5Link() {
+  var existingId = document.getElementById('mt5ExistingAcc').value;
+  var payload;
+  
+  if (existingId) {
+    payload = {
+      account_id: existingId,
+      strategy_id: _mt5Data.strategy_id,
+      symbol: _mt5Data.symbol,
+      lot_size: parseFloat(document.getElementById('mt5Lot').value) || 0.01,
+      max_risk: parseFloat(document.getElementById('mt5Risk').value) || 50
+    };
+  } else {
+    var accNum = document.getElementById('mt5AccNum').value.trim();
+    var pass = document.getElementById('mt5Pass').value;
+    var server = document.getElementById('mt5Server').value.trim();
+    
+    if (!accNum || !pass || !server) {
+      showMT5Status('\u0644\u0637\u0641\u0627\u064b \u0647\u0645\u0647 \u0641\u06cc\u0644\u062f\u0647\u0627 \u0631\u0627 \u067e\u0631 \u06a9\u0646\u06cc\u062f', '#ef4444');
+      return;
+    }
+    
+    payload = {
+      account_number: accNum,
+      password: pass,
+      server: server,
+      platform: document.getElementById('mt5Platform').value,
+      strategy_id: _mt5Data.strategy_id,
+      symbol: _mt5Data.symbol,
+      lot_size: parseFloat(document.getElementById('mt5Lot').value) || 0.01,
+      max_risk: parseFloat(document.getElementById('mt5Risk').value) || 50
+    };
+  }
+  
+  try {
+    var r = await fetch(API + '/api/mt5/link', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+    var d = await r.json();
+    if (d.ok || d.success) {
+      showMT5Status('\u2705 \u0627\u0633\u062a\u0631\u0627\u062a\u0698\u06cc \u0628\u0647 \u0645\u062a\u0627\u062a\u0631\u06cc\u062f\u0631 \u0645\u062a\u0635\u0644 \u0634\u062f!', '#a855f7');
+      loadMT5Accounts();
+      setTimeout(closeMT5Modal, 2000);
+    } else {
+      showMT5Status(d.error || '\u062e\u0637\u0627 \u062f\u0631 \u0627\u062a\u0635\u0627\u0644', '#ef4444');
+    }
+  } catch(e) {
+    showMT5Status('\u062e\u0637\u0627\u06cc \u0627\u062a\u0635\u0627\u0644 \u0628\u0647 \u0633\u0631\u0648\u0631', '#ef4444');
+  }
+}
+
+async function toggleMT5Acc(id) {
+  try {
+    await fetch(API + '/api/mt5/accounts/' + id + '/toggle', {method: 'POST'});
+    loadMT5Accounts();
+  } catch(e) {}
+}
+
+async function deleteMT5Acc(id) {
+  if (!confirm('\u0622\u06cc\u0627 \u0627\u0632 \u062d\u0630\u0641 \u0627\u06cc\u0646 \u062d\u0633\u0627\u0628 \u0645\u0637\u0645\u0626\u0646 \u0647\u0633\u062a\u06cc\u062f\u061f')) return;
+  try {
+    await fetch(API + '/api/mt5/accounts/' + id, {method: 'DELETE'});
+    loadMT5Accounts();
+  } catch(e) {}
+}
+
+function showMT5Status(msg, color) {
+  var el = document.getElementById('mt5Status');
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.background = color + '15';
+  el.style.color = color;
+}
+
+// Add ⚡ button to ranking table rows (like bell injector)
+setInterval(function(){
+  var rows = document.querySelectorAll('#rankBody tr');
+  for(var i=0; i<rows.length; i++){
+    var r = rows[i];
+    if(r.getAttribute('data-mt5')) continue;
+    r.setAttribute('data-mt5','1');
+    var cells = r.querySelectorAll('td');
+    if(cells.length < 7) continue;
+    var oc = r.getAttribute('onclick') || '';
+    var m = oc.match(/selectStrategy\('([^']+)'\)/);
+    var sid = m ? m[1] : '';
+    var sym = cells.length > 2 ? cells[2].textContent.trim() : '';
+    var nm = cells.length > 1 ? cells[1].textContent.trim().split('\n')[0] : '';
+    // Find bell cell and add MT5 button next to it
+    var bellCell = null;
+    for(var c=cells.length-1; c>=0; c--){
+      if(cells[c].querySelector('.bi') || cells[c].textContent.trim().indexOf('\ud83d\udd14')>=0){
+        bellCell = cells[c];
+        break;
+      }
+    }
+    if(bellCell){
+      var btn = document.createElement('button');
+      btn.className = 'mt5-btn';
+      btn.innerHTML = '\u26a1';
+      btn.title = '\u0627\u062a\u0635\u0627\u0644 \u0628\u0647 \u0645\u062a\u0627\u062a\u0631\u06cc\u062f\u0631';
+      (function(s,y,n){
+        btn.onclick = function(e){ e.stopPropagation(); openMT5Modal(s,y,n); };
+      })(sid,sym,nm);
+      bellCell.appendChild(btn);
+    }
+  }
+}, 3000);
+// ═══ END PHASE 3 JS ═══
+</script>
+
+<script src="/static/plan-ui.js"></script>
+<script>
+document.addEventListener('whilber-plan-ready', function(){
+  var P = window.WHILBER_PLAN; if(!P) return;
+  var maxDays = 9999;
+  if(P.plan === 'free') maxDays = 7;
+  else if(P.plan === 'pro') maxDays = 30;
+  window.PLAN_MAX_DAYS = maxDays;
+
+  // Insert restriction banner if limited
+  if(maxDays < 9999){
+    var main = document.querySelector('.main');
+    if(main){
+      var banner = document.createElement('div');
+      banner.className = 'plan-restrict-banner';
+      banner.innerHTML = '\uD83D\uDD12 \u0646\u0645\u0627\u06CC\u0634 \u0633\u0648\u0627\u0628\u0642 \u0645\u062D\u062F\u0648\u062F \u0628\u0647 ' + maxDays + ' \u0631\u0648\u0632 \u0627\u062E\u06CC\u0631 \u0627\u0633\u062A. <a href="/pricing">\u0628\u0631\u0627\u06CC \u0645\u0634\u0627\u0647\u062F\u0647 \u0633\u0648\u0627\u0628\u0642 \u06A9\u0627\u0645\u0644\u060C \u067E\u0644\u0646 \u062E\u0648\u062F \u0631\u0627 \u0627\u0631\u062A\u0642\u0627 \u062F\u0647\u06CC\u062F</a>';
+      main.insertBefore(banner, main.firstChild);
+    }
+  }
+});

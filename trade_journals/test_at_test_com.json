@@ -1,0 +1,57 @@
+{
+  "entries": [
+    {
+      "symbol": "GBPUSD",
+      "direction": "SELL",
+      "entry_price": 1.27,
+      "sl_price": 1.275,
+      "tp_price": 1.26,
+      "pnl": -50,
+      "lot_size": 0.5,
+      "emotion_before": "fear",
+      "emotion_after": "frustrated",
+      "plan_followed": false,
+      "rating": 2,
+      "notes": "Test losing trade",
+      "tags": [
+        "revenge_trade"
+      ],
+      "id": "20260223T120912.70",
+      "created_at": "2026-02-23T12:09:12.701976+00:00",
+      "type": "BUY",
+      "exit_price": 0,
+      "pnl_pips": 0,
+      "strategy_name": "",
+      "timeframe": "H1",
+      "lesson": "",
+      "screenshot": "",
+      "followed_plan": true
+    },
+    {
+      "symbol": "XAUUSD",
+      "type": "BUY",
+      "entry_price": 2000,
+      "exit_price": 0,
+      "tp_price": 0,
+      "sl_price": 1990,
+      "lot_size": 0.1,
+      "pnl": 0,
+      "pnl_pips": 0,
+      "strategy_name": "",
+      "timeframe": "H1",
+      "notes": "وارد شده از معامله لایو — XAUUSD ",
+      "tags": [
+        "imported"
+      ],
+      "id": "20260223T120640.03",
+      "created_at": "2026-02-23T12:06:40.034131+00:00",
+      "emotion_before": "neutral",
+      "emotion_after": "neutral",
+      "rating": 3,
+      "lesson": "",
+      "screenshot": "",
+      "followed_plan": true
+    }
+  ],
+  "daily_notes": []
+}

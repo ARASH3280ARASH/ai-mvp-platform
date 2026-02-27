@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Whilber-AI | تماس با ما</title>
+<style>
+:root{--bg:#0f1117;--bg2:#1a1d29;--bg3:#242836;--border:#2d3348;--text:#e4e6ef;--text2:#8b8fa3;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;--cyan:#06b6d4;--purple:#a855f7;}
+*{margin:0;padding:0;box-sizing:border-box;}html{font-size:14px;}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;overflow-x:hidden;}
+.topnav{background:linear-gradient(180deg,#141722 0%,var(--bg2) 100%);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:50px;position:sticky;top:0;z-index:200;}
+.topnav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--cyan);font-size:17px;font-weight:700;flex-shrink:0;}
+.topnav-links{display:flex;align-items:center;gap:2px;}
+.topnav-links a{color:var(--text2);text-decoration:none;padding:7px 14px;border-radius:8px;font-size:13px;transition:all 0.2s;white-space:nowrap;}
+.topnav-links a:hover{background:var(--bg3);color:var(--text);}
+.topnav-links a.active{background:rgba(6,182,212,0.12);color:var(--cyan);font-weight:600;}
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;padding:6px;}
+.mobile-menu{display:none;position:fixed;top:50px;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:199;backdrop-filter:blur(4px);}
+.mobile-menu-inner{background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 12px;display:flex;flex-direction:column;gap:2px;}
+.mobile-menu-inner a{color:var(--text2);text-decoration:none;padding:12px 16px;border-radius:10px;font-size:14px;}
+.mobile-menu-inner a:hover,.mobile-menu-inner a.active{background:var(--bg3);color:var(--cyan);}
+.mobile-menu.open{display:block;}
+
+.page{max-width:900px;margin:0 auto;padding:30px 20px;}
+h1{color:var(--cyan);font-size:28px;margin-bottom:6px;}
+.subtitle{color:var(--text2);font-size:14px;margin-bottom:28px;}
+
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+
+/* CONTACT CARDS */
+.contact-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:22px;text-align:center;transition:border-color 0.3s;}
+.contact-card:hover{border-color:var(--cyan);}
+.contact-icon{font-size:36px;margin-bottom:10px;}
+.contact-title{font-size:15px;font-weight:700;margin-bottom:6px;color:var(--text);}
+.contact-desc{font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.6;}
+.contact-link{display:inline-block;padding:8px 20px;border-radius:10px;text-decoration:none;font-size:13px;font-weight:600;transition:all 0.2s;}
+.contact-link.whatsapp{background:rgba(37,211,102,0.15);color:#25d366;border:1px solid rgba(37,211,102,0.3);}
+.contact-link.whatsapp:hover{background:rgba(37,211,102,0.25);}
+.contact-link.phone{background:rgba(6,182,212,0.12);color:var(--cyan);border:1px solid rgba(6,182,212,0.3);}
+.contact-link.phone:hover{background:rgba(6,182,212,0.2);}
+.contact-link.email{background:rgba(168,85,247,0.12);color:var(--purple);border:1px solid rgba(168,85,247,0.3);}
+.contact-link.email:hover{background:rgba(168,85,247,0.2);}
+.contact-link.map{background:rgba(245,158,11,0.12);color:var(--yellow);border:1px solid rgba(245,158,11,0.3);}
+.contact-link.map:hover{background:rgba(245,158,11,0.2);}
+
+/* MESSAGE FORM */
+.form-section{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;}
+.form-section h2{color:var(--cyan);font-size:18px;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.form-section .form-desc{color:var(--text2);font-size:13px;margin-bottom:18px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.form-group{margin-bottom:10px;}
+.form-group label{display:block;font-size:12px;color:var(--text2);margin-bottom:4px;font-weight:500;}
+.form-group input,.form-group textarea{width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:14px;font-family:inherit;direction:rtl;resize:vertical;}
+.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--cyan);}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--text2);}
+.form-group textarea{min-height:120px;}
+.form-submit{width:100%;padding:12px;border-radius:10px;border:none;background:var(--cyan);color:#000;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:4px;transition:background 0.2s;}
+.form-submit:hover{background:#0891b2;}
+.form-submit:disabled{opacity:0.5;cursor:wait;}
+.form-msg{text-align:center;margin-top:10px;font-size:13px;min-height:18px;}
+
+.footer{background:var(--bg2);border-top:1px solid var(--border);padding:16px;text-align:center;color:var(--text2);font-size:12px;margin-top:20px;}
+.footer a{color:var(--cyan);text-decoration:none;}
+
+@media(max-width:768px){.topnav-links{display:none;}.hamburger{display:block;}.page{padding:20px 12px;}.contact-grid{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}h1{font-size:22px;}}
+@media(max-width:480px){.page{padding:14px 8px;}.contact-card{padding:16px;}.form-section{padding:16px;}}
+
+/* ═══ UNIVERSAL NAV ═══ */
+.wnav{position:sticky;top:0;z-index:1000;background:rgba(8,11,18,.92);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid rgba(30,42,69,.6);padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;}
+.wnav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.wnav-logo-box{width:32px;height:32px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(0,212,255,.25);}
+.wnav-logo-txt{font-size:17px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.3px;}
+.wnav-links{display:flex;align-items:center;gap:1px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.wnav-links::-webkit-scrollbar{display:none;}
+.wnav-links a{color:#8892a8;padding:6px 10px;border-radius:7px;font-size:12.5px;font-weight:500;white-space:nowrap;transition:all .2s;text-decoration:none;}
+.wnav-links a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-links a.wn-active{color:#00d4ff;background:rgba(0,212,255,.08);font-weight:600;}
+.wnav-cta{background:linear-gradient(135deg,#00d4ff,#a855f7) !important;color:#000 !important;font-weight:700 !important;padding:6px 14px !important;border-radius:7px !important;font-size:12px !important;}
+.wnav-back{display:flex;align-items:center;gap:5px;color:#8892a8;font-size:12px;padding:5px 10px;border-radius:7px;cursor:pointer;background:rgba(255,255,255,.03);border:1px solid rgba(30,42,69,.5);transition:all .2s;text-decoration:none;flex-shrink:0;margin-left:6px;}
+.wnav-back:hover{color:#00d4ff;border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);}
+.wnav-ham{display:none;background:none;border:none;color:#e8ecf4;font-size:22px;cursor:pointer;padding:4px;}
+.wnav-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:999;}
+.wnav-mob-overlay.open{display:block;}
+.wnav-mob{position:fixed;top:0;right:0;width:270px;height:100vh;background:#0f1320;border-left:1px solid #1e2a45;z-index:1001;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:64px 14px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.wnav-mob-overlay.open .wnav-mob{transform:translateX(0);}
+.wnav-mob a{display:flex;align-items:center;gap:9px;color:#8892a8;padding:11px 14px;border-radius:9px;font-size:13.5px;text-decoration:none;transition:all .15s;}
+.wnav-mob a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-mob a.wn-active{background:rgba(0,212,255,.08);color:#00d4ff;font-weight:600;}
+.wnav-mob-close{position:absolute;top:14px;left:14px;background:#161b2e;border:1px solid #1e2a45;color:#8892a8;width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+@media(max-width:900px){.wnav-links{display:none;}.wnav-ham{display:block;}.wnav-back{font-size:11px;padding:4px 8px;}}
+
+/* ═══ UNIVERSAL FOOTER ═══ */
+.wfooter{background:#0f1320;border-top:1px solid #1e2a45;padding:32px 20px 16px;margin-top:24px;}
+.wfooter-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:28px;}
+.wfooter-brand p{font-size:12px;color:#5a6480;margin-top:8px;line-height:1.8;}
+.wfooter-col h4{font-size:12px;font-weight:700;color:#e8ecf4;margin-bottom:12px;}
+.wfooter-col a{display:block;color:#5a6480;font-size:12px;padding:3px 0;text-decoration:none;transition:color .2s;}
+.wfooter-col a:hover{color:#00d4ff;}
+.wfooter-bottom{max-width:1100px;margin:0 auto;border-top:1px solid #1e2a45;padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.wfooter-bottom p{font-size:11px;color:#5a6480;}
+.wfooter-bottom a{color:#00d4ff;text-decoration:none;font-size:11px;}
+@media(max-width:768px){.wfooter-grid{grid-template-columns:1fr 1fr;gap:20px;}}
+@media(max-width:480px){.wfooter-grid{grid-template-columns:1fr;}}
+
+</style>
+</head>
+<body>
+<!-- ═══ UNIVERSAL TOP NAV ═══ -->
+<nav class="wnav" id="wTopNav">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <a href="/" class="wnav-logo">
+      <div class="wnav-logo-box">W</div>
+      <span class="wnav-logo-txt">Whilber-AI</span>
+    </a>
+    <a href="javascript:history.back()" class="wnav-back" title="بازگشت">→ برگشت</a>
+  </div>
+  <div class="wnav-links">
+    <a href="/">خانه</a>
+    <a href="/dashboard">تحلیل بازار</a>
+    <a href="/track-record">سوابق</a>
+    <a href="/builder">استراتژی‌ساز</a>
+    <a href="/risk-manager">مدیریت ریسک</a>
+    <a href="/journal">ژورنال</a>
+    <a href="/performance">عملکرد زنده</a>
+    <a href="/alerts">هشدارها</a>
+    <a href="/guide">راهنما</a>
+    <a href="/services">خدمات</a>
+    <a href="/about">درباره ما</a>
+    <a href="/contact" class="wn-active">تماس</a>
+    <a href="/robots">ربات‌ها</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/login">ورود</a>
+    <a href="/register">ثبت‌نام</a>
+    <a href="/dashboard" class="wnav-cta">🚀 تحلیل</a>
+  </div>
+  <button class="wnav-ham" onclick="document.getElementById('wMobOverlay').classList.add('open')">☰</button>
+</nav>
+<div class="wnav-mob-overlay" id="wMobOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="wnav-mob">
+    <button class="wnav-mob-close" onclick="document.getElementById('wMobOverlay').classList.remove('open')">✕</button>
+    <a href="javascript:history.back()" style="color:#00d4ff;border:1px solid rgba(0,212,255,.2);margin-bottom:8px;">→ برگشت به صفحه قبل</a>
+    <a href="/">🏠 خانه</a>
+    <a href="/dashboard">📊 تحلیل بازار</a>
+    <a href="/track-record">📜 سوابق</a>
+    <a href="/builder">🔧 استراتژی‌ساز</a>
+    <a href="/risk-manager">🛡️ مدیریت ریسک</a>
+    <a href="/journal">📒 ژورنال</a>
+    <a href="/performance">📈 عملکرد زنده</a>
+    <a href="/alerts">🔔 هشدارها</a>
+    <a href="/robots">&#x1F916; ربات‌ها</a>
+    <a href="/guide">📖 راهنما</a>
+    <a href="/services">⭐ خدمات</a>
+    <a href="/about">👤 درباره ما</a>
+    <a href="/contact" class="wn-active">📞 تماس</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/admin">⚙️ ادمین</a>
+    <a href="/login">&#x1F511; ورود</a>
+    <a href="/register">&#x1F4DD; ثبت‌نام</a>
+  </div>
+</div>
+
+
+<div class="page">
+
+<h1>📞 تماس با ما</h1>
+<p class="subtitle">از هر طریقی که راحت‌ترید با ما در ارتباط باشید</p>
+
+<div class="contact-grid">
+  <div class="contact-card">
+    <div class="contact-icon">💬</div>
+    <div class="contact-title">واتس‌اپ</div>
+    <div class="contact-desc">سریع‌ترین راه ارتباط با پشتیبانی<br>پاسخگویی در کمتر از ۱ ساعت</div>
+    <a href="https://wa.me/989128949978" target="_blank" class="contact-link whatsapp">ارسال پیام در واتس‌اپ</a>
+  </div>
+
+  <div class="contact-card">
+    <div class="contact-icon">📱</div>
+    <div class="contact-title">تلفن</div>
+    <div class="contact-desc">تماس مستقیم با پشتیبانی<br>ساعت ۹ صبح تا ۹ شب</div>
+    <a href="tel:+989128949978" class="contact-link phone" dir="ltr">0912 894 9978</a>
+  </div>
+
+  <div class="contact-card">
+    <div class="contact-icon">✉️</div>
+    <div class="contact-title">ایمیل</div>
+    <div class="contact-desc">برای سوالات فنی و پیشنهادات<br>پاسخ در کمتر از ۲۴ ساعت</div>
+    <a href="mailto:whilber.ai@gmail.com" class="contact-link email" dir="ltr">whilber.ai@gmail.com</a>
+  </div>
+
+  <div class="contact-card">
+    <div class="contact-icon">📍</div>
+    <div class="contact-title">آدرس</div>
+    <div class="contact-desc">ایران، تهران</div>
+    <span class="contact-link map">دفتر مرکزی</span>
+  </div>
+</div>
+
+<!-- MESSAGE FORM -->
+<div class="form-section">
+  <h2>✍️ ارسال پیام به پشتیبانی</h2>
+  <p class="form-desc">سوال، پیشنهاد یا مشکلی دارید؟ فرم زیر را پر کنید، تیم پشتیبانی در اسرع وقت پاسخ می‌دهد.</p>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>نام و نام خانوادگی *</label>
+      <input type="text" id="msgName" placeholder="مثال: علی احمدی">
+    </div>
+    <div class="form-group">
+      <label>شماره موبایل *</label>
+      <input type="tel" id="msgPhone" placeholder="09123456789" dir="ltr">
+    </div>
+  </div>
+  <div class="form-group">
+    <label>ایمیل *</label>
+    <input type="email" id="msgEmail" placeholder="example@gmail.com" dir="ltr">
+  </div>
+  <div class="form-group">
+    <label>موضوع</label>
+    <input type="text" id="msgSubject" placeholder="مثال: مشکل در تحلیل طلا">
+  </div>
+  <div class="form-group">
+    <label>متن پیام *</label>
+    <textarea id="msgBody" placeholder="سوال یا پیام خود را اینجا بنویسید..."></textarea>
+  </div>
+  <button class="form-submit" id="msgBtn" onclick="sendMessage()">📨 ارسال پیام</button>
+  <div class="form-msg" id="msgResult"></div>
+</div>
+
+</div>
+
+
+<script>
+function toggleMobileMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+
+async function sendMessage(){
+  var name=document.getElementById('msgName').value.trim();
+  var phone=document.getElementById('msgPhone').value.trim();
+  var email=document.getElementById('msgEmail').value.trim();
+  var subject=document.getElementById('msgSubject').value.trim();
+  var body=document.getElementById('msgBody').value.trim();
+  var msgEl=document.getElementById('msgResult');
+  var btn=document.getElementById('msgBtn');
+
+  if(!name||!phone||!email||!body){
+    msgEl.style.color='var(--red)';msgEl.textContent='لطفاً فیلدهای ستاره‌دار را پر کنید';return;
+  }
+  if(!email.includes('@')){msgEl.style.color='var(--red)';msgEl.textContent='ایمیل نامعتبر است';return;}
+  if(phone.length<10){msgEl.style.color='var(--red)';msgEl.textContent='شماره موبایل نامعتبر است';return;}
+
+  btn.disabled=true;btn.textContent='⏳ در حال ارسال...';
+  try{
+    var r=await fetch('/api/support/message',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name:name,phone:phone,email:email,subject:subject,body:body})
+    });
+    var d=await r.json();
+    if(d.success){
+      msgEl.style.color='var(--green)';
+      msgEl.textContent='✅ پیام شما با موفقیت ارسال شد. به زودی پاسخ می‌دهیم.';
+      document.getElementById('msgName').value='';
+      document.getElementById('msgPhone').value='';
+      document.getElementById('msgEmail').value='';
+      document.getElementById('msgSubject').value='';
+      document.getElementById('msgBody').value='';
+    }else{
+      msgEl.style.color='var(--red)';msgEl.textContent=d.detail||'خطا در ارسال';
+    }
+  }catch(e){
+    msgEl.style.color='var(--red)';msgEl.textContent='خطا در اتصال به سرور';
+  }finally{
+    btn.disabled=false;btn.textContent='📨 ارسال پیام';
+  }
+}
+</script>
+<!-- ═══ UNIVERSAL FOOTER ═══ -->
+<footer class="wfooter">
+  <div class="wfooter-grid">
+    <div class="wfooter-brand">
+      <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:28px;height:28px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;">W</div>
+        <span style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Whilber-AI</span>
+      </a>
+      <p>دستیار هوشمند تحلیل بازارهای مالی. تحلیل لحظه‌ای فارکس، کریپتو، فلزات و شاخص‌ها.</p>
+    </div>
+    <div class="wfooter-col">
+      <h4>ابزارها</h4>
+      <a href="/dashboard">📊 تحلیل بازار</a>
+      <a href="/track-record">📜 سوابق</a>
+      <a href="/builder">🔧 استراتژی‌ساز</a>
+      <a href="/risk-manager">🛡️ مدیریت ریسک</a>
+      <a href="/journal">📒 ژورنال</a>
+      <a href="/alerts">🔔 هشدارها</a>
+      <a href="/performance">📈 عملکرد زنده</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>اطلاعات</h4>
+      <a href="/guide">📖 راهنما</a>
+      <a href="/services">⭐ خدمات</a>
+    <a href="/about">👤 درباره ما</a>
+      <a href="/contact">📞 تماس</a>
+      <a href="/">🏠 صفحه اصلی</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>ارتباط</h4>
+      <a href="https://t.me/WhilberAI" target="_blank">✈️ کانال تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">📧 ایمیل</a>
+      <a href="/contact">💬 پشتیبانی</a>
+      <a href="/admin">⚙️ ادمین</a>
+    </div>
+  </div>
+  <div class="wfooter-bottom">
+    <p>© 2026 Whilber-AI — تمامی حقوق محفوظ است. تحلیل‌ها جنبه آموزشی دارند و توصیه مالی نیستند.</p>
+    <div style="display:flex;gap:8px;">
+      <a href="https://t.me/WhilberAI" target="_blank">✈️ تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">📧 ایمیل</a>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+// Kill old nav across all pages
+(function(){
+  function k(){
+    var ch=Array.from(document.body.children);
+    var fn=false;
+    for(var i=0;i<ch.length;i++){
+      var e=ch[i],t=e.tagName.toLowerCase(),c=(e.className||"").toString();
+      if(t==="nav"&&c.indexOf("wnav")>-1){fn=true;continue;}
+      if(c.indexOf("wnav-mob-overlay")>-1)continue;
+      if(t==="footer"||c.indexOf("wfooter")>-1)continue;
+      if(t==="script"||t==="style"||t==="link"||t==="meta")continue;
+      if(fn){
+        var tx=(e.textContent||"").substring(0,300);
+        if((tx.indexOf("Builder")>-1&&tx.indexOf("داشبورد")>-1)||(tx.indexOf("داشبورد")>-1&&tx.indexOf("سوابق")>-1&&tx.indexOf("ژورنال")>-1)){
+          if(e.querySelectorAll("a").length<20){e.style.display="none";continue;}
+        }
+        if(!c&&t==="div"){
+          var lnks=e.querySelectorAll("a");
+          if(lnks.length>3&&lnks.length<15){
+            var at="";lnks.forEach(function(a){at+=a.textContent+" ";});
+            if(at.indexOf("داشبورد")>-1&&at.indexOf("Builder")>-1){e.style.display="none";}
+          }
+        }
+      }
+    }
+  }
+  if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",k);}else{k();}
+  setTimeout(k,300);setTimeout(k,1000);
+})();
+</script>
+<script src="/static/plan-ui.js"></script>
+
+</body>
+</html>

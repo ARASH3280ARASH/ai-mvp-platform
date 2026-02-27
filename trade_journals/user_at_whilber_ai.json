@@ -1,0 +1,35 @@
+{
+  "entries": [
+    {
+      "id": "20260213T173052.50",
+      "created_at": "2026-02-13T17:30:52.508189+00:00",
+      "symbol": "XAUUSD",
+      "type": "BUY",
+      "entry_price": 0,
+      "exit_price": 0,
+      "lot_size": 0.01,
+      "pnl": 0,
+      "pnl_pips": 0,
+      "strategy_name": "",
+      "timeframe": "H1",
+      "emotion_before": "neutral",
+      "emotion_after": "neutral",
+      "rating": 3,
+      "notes": "",
+      "lesson": "",
+      "tags": [],
+      "screenshot": "",
+      "followed_plan": true,
+      "tp_price": 0,
+      "sl_price": 0,
+      "updated_at": "2026-02-13T17:30:52.536795+00:00"
+    }
+  ],
+  "daily_notes": [
+    {
+      "date": "2026-02-13",
+      "note": "Test daily note - market was volatile today.",
+      "created_at": "2026-02-13T17:30:52.571792+00:00"
+    }
+  ]
+}

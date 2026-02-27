@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Whilber-AI | خدمات و امکانات</title>
+<meta name="description" content="خدمات پلتفرم Whilber-AI — ۴۰۰+ استراتژی، اتصال MetaTrader 5، اجرای خودکار معاملات، مدیریت ریسک و ابزارهای حرفه‌ای ترید">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080b12;--bg2:#0f1320;--bg3:#161b2e;--bg4:#1e2540;--border:#1e2a45;--border2:#2a3a5c;--text:#e8ecf4;--text2:#8892a8;--text3:#5a6480;--cyan:#00d4ff;--cyan2:#0af0ff;--green:#00e88f;--red:#ff4466;--yellow:#ffbe2e;--purple:#a855f7;--orange:#ff8844;--grad1:linear-gradient(135deg,#00d4ff 0%,#a855f7 100%);--grad2:linear-gradient(135deg,#00e88f 0%,#00d4ff 100%);--glow:0 0 30px rgba(0,212,255,.15);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:15px;scroll-behavior:smooth;}
+body{font-family:'Vazirmatn','Segoe UI',sans-serif;background:var(--bg);color:var(--text);direction:rtl;line-height:1.7;min-height:100vh;display:flex;flex-direction:column;}
+a{text-decoration:none;color:inherit;transition:all .2s;}
+::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:6px;}
+
+/* ═══ NAV ═══ */
+.wnav{background:rgba(8,11,18,.92);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid rgba(30,42,69,.6);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:100;flex-shrink:0;}
+.wnav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
+.wnav-logo-box{width:30px;height:30px;background:var(--grad1);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(0,212,255,.25);}
+.wnav-logo-txt{font-size:16px;font-weight:800;background:var(--grad1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.wnav-links{display:flex;align-items:center;gap:2px;}
+.wnav-links a{color:var(--text2);font-size:12px;padding:6px 10px;border-radius:7px;transition:all .15s;white-space:nowrap;}
+.wnav-links a:hover{color:var(--text);background:rgba(255,255,255,.04);}
+.wnav-links a.wn-active{color:var(--cyan);background:rgba(0,212,255,.08);}
+.wnav-cta{background:var(--grad1) !important;color:#000 !important;font-weight:700 !important;padding:6px 16px !important;border-radius:8px !important;}
+.wnav-cta:hover{opacity:.9;transform:translateY(-1px);}
+.wnav-ham{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;}
+.mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);z-index:200;}
+.mob-overlay.open{display:block;}
+.mob-menu{position:fixed;top:0;right:0;width:270px;height:100%;background:var(--bg2);border-left:1px solid var(--border);z-index:201;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:60px 16px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.mob-overlay.open .mob-menu{transform:translateX(0);}
+.mob-menu a{color:var(--text2);font-size:13px;padding:10px 14px;border-radius:8px;display:block;}
+.mob-menu a:hover{background:var(--bg3);color:var(--text);}
+.mob-menu a.wn-active{color:var(--cyan);background:rgba(0,212,255,.08);}
+@media(max-width:900px){.wnav-links{display:none;}.wnav-ham{display:block;}}
+
+/* ═══ HERO ═══ */
+.hero{padding:48px 24px 32px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 30%,rgba(0,212,255,.06) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 70% 60%,rgba(168,85,247,.04) 0%,transparent 50%);z-index:0;}
+.hero-content{position:relative;z-index:1;max-width:700px;margin:0 auto;}
+.hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;margin-bottom:10px;line-height:1.3;}
+.hero h1 .grad{background:var(--grad1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-desc{font-size:15px;color:var(--text2);margin-bottom:28px;line-height:1.8;}
+.live-badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.live-badge{background:var(--bg2);border:1px solid var(--border);padding:6px 16px;border-radius:10px;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;transition:all .3s;}
+.live-badge:hover{border-color:var(--border2);}
+.live-badge b{color:var(--cyan);font-weight:800;}
+.live-badge .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.dot-green{background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s infinite;}
+.dot-yellow{background:var(--yellow);animation:pulse 1.5s infinite;}
+.dot-red{background:var(--red);}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,232,143,.3);}50%{opacity:.7;box-shadow:0 0 0 6px rgba(0,232,143,0);}}
+
+/* ═══ SECTIONS ═══ */
+.svc-main{flex:1;max-width:1100px;margin:0 auto;padding:0 24px 48px;width:100%;}
+.svc-section{margin-bottom:40px;}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.sec-tag{font-size:10px;font-weight:700;color:var(--cyan);text-transform:uppercase;letter-spacing:2px;background:rgba(0,212,255,.06);padding:3px 10px;border-radius:6px;}
+.sec-title{font-size:15px;font-weight:800;color:var(--text2);}
+.sec-count{font-size:10px;color:var(--text3);margin-right:auto;font-family:'JetBrains Mono',monospace;}
+
+/* ═══ SERVICE CARDS ═══ */
+.svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.svc-grid-3{grid-template-columns:repeat(3,1fr);}
+.svc-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:22px;transition:all .3s;display:flex;flex-direction:column;cursor:pointer;position:relative;overflow:hidden;}
+.svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--grad1);opacity:0;transition:opacity .3s;}
+.svc-card:hover{border-color:rgba(0,212,255,.25);transform:translateY(-3px);box-shadow:var(--glow);}
+.svc-card:hover::before{opacity:1;}
+.svc-card .top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.svc-card .ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+.ico-cyan{background:rgba(0,212,255,.08);}.ico-green{background:rgba(0,232,143,.08);}.ico-purple{background:rgba(168,85,247,.08);}.ico-yellow{background:rgba(255,190,46,.08);}.ico-red{background:rgba(255,68,102,.08);}.ico-orange{background:rgba(255,136,68,.08);}.ico-pink{background:rgba(244,114,182,.08);}
+.svc-card .name{font-size:15px;font-weight:800;}
+.svc-card .name a{color:var(--cyan);transition:color .15s;}.svc-card .name a:hover{color:#fff;}
+.svc-card .desc{font-size:12px;color:var(--text2);line-height:1.9;margin-bottom:12px;flex:1;}
+.svc-card .tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px;}
+.tag{font-size:9px;padding:3px 8px;border-radius:5px;font-weight:600;}
+.tag-c{background:rgba(0,212,255,.07);color:var(--cyan);}.tag-g{background:rgba(0,232,143,.07);color:var(--green);}
+.tag-p{background:rgba(168,85,247,.07);color:var(--purple);}.tag-y{background:rgba(255,190,46,.07);color:var(--yellow);}
+.tag-r{background:rgba(255,68,102,.07);color:var(--red);}.tag-o{background:rgba(255,136,68,.07);color:var(--orange);}
+.svc-card .go{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--cyan);transition:gap .2s;}
+.svc-card:hover .go{gap:9px;}
+.svc-card .new-badge{position:absolute;top:14px;left:14px;font-size:9px;font-weight:700;background:var(--green);color:#000;padding:2px 8px;border-radius:5px;letter-spacing:.5px;}
+
+/* ═══ COMPARISON TABLE ═══ */
+.compare-section{margin:32px 0;}
+.ct-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);}
+.ct{width:100%;border-collapse:collapse;font-size:12px;background:var(--bg2);min-width:600px;}
+.ct thead{position:sticky;top:0;}
+.ct th{background:var(--bg3);color:var(--text2);padding:10px 14px;text-align:center;font-weight:700;font-size:11px;white-space:nowrap;}
+.ct th:first-child{text-align:right;min-width:140px;}
+.ct th.hl{color:var(--cyan);background:rgba(0,212,255,.04);border-bottom:2px solid var(--cyan);}
+.ct td{padding:9px 14px;border-top:1px solid rgba(30,42,69,.5);text-align:center;color:var(--text2);font-size:11px;}
+.ct td:first-child{text-align:right;color:var(--text);font-weight:600;font-size:12px;}
+.ct tr:hover td{background:rgba(0,212,255,.015);}
+.ct .y{color:var(--green);font-weight:700;}.ct .n{color:#333;}.ct .p{color:var(--yellow);font-weight:600;}
+.ct .best{color:var(--cyan);font-weight:800;background:rgba(0,212,255,.04);}
+
+/* ═══ STATS STRIP ═══ */
+.stats-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:32px 0;padding:24px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;}
+.stat-box{text-align:center;}
+.stat-box .num{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:800;background:var(--grad1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.stat-box .lbl{font-size:11px;color:var(--text3);margin-top:2px;}
+
+/* ═══ CTA ═══ */
+.svc-cta{text-align:center;padding:40px 24px;border-top:1px solid var(--border);margin-top:8px;position:relative;}
+.svc-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,212,255,.04) 0%,transparent 60%);}
+.svc-cta p{color:var(--text2);font-size:13px;margin-bottom:16px;position:relative;}
+.svc-cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;}
+.btn-cta{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:800;background:var(--grad1);color:#000;transition:all .25s;border:none;font-family:inherit;}
+.btn-cta:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,212,255,.25);}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:700;background:transparent;color:var(--text);border:1.5px solid var(--border2);transition:all .25s;font-family:inherit;}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(0,212,255,.04);}
+
+/* ═══ FOOTER ═══ */
+.wfooter{background:var(--bg2);border-top:1px solid var(--border);padding:32px 24px 16px;flex-shrink:0;margin-top:auto;}
+.wfooter-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:24px;}
+.wfooter-brand p{font-size:12px;color:var(--text3);margin-top:8px;line-height:1.8;}
+.wfooter-col h4{font-size:12px;font-weight:700;color:var(--text);margin-bottom:10px;}
+.wfooter-col a{display:block;color:var(--text3);font-size:12px;padding:3px 0;transition:color .2s;}
+.wfooter-col a:hover{color:var(--cyan);}
+.wfooter-bottom{max-width:1100px;margin:0 auto;border-top:1px solid var(--border);padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.wfooter-bottom p{font-size:11px;color:var(--text3);}
+.wfooter-bottom a{color:var(--cyan);font-size:11px;}
+
+/* ═══ ANIMATIONS ═══ */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){.svc-grid{grid-template-columns:1fr 1fr;}.svc-grid-3{grid-template-columns:1fr 1fr;}.stats-strip{grid-template-columns:repeat(3,1fr);gap:16px;}.wfooter-grid{grid-template-columns:1fr 1fr;gap:16px;}}
+@media(max-width:600px){html{font-size:14px;}.svc-grid,.svc-grid-3{grid-template-columns:1fr;}.stats-strip{grid-template-columns:1fr 1fr;padding:16px;}.wfooter-grid{grid-template-columns:1fr;}.hero{padding:32px 16px 24px;}.svc-main{padding:0 16px 32px;}.ct{font-size:10px;}.ct th,.ct td{padding:7px 8px;}.live-badges{gap:6px;}.live-badge{font-size:10px;padding:5px 10px;}}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="wnav">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a href="/" class="wnav-logo"><div class="wnav-logo-box">W</div><span class="wnav-logo-txt">Whilber-AI</span></a>
+  </div>
+  <div class="wnav-links">
+    <a href="/">خانه</a>
+    <a href="/dashboard">تحلیل بازار</a>
+    <a href="/track-record">سوابق</a>
+    <a href="/builder">استراتژی‌ساز</a>
+    <a href="/risk-manager">مدیریت ریسک</a>
+    <a href="/journal">ژورنال</a>
+    <a href="/performance">عملکرد زنده</a>
+    <a href="/alerts">هشدارها</a>
+    <a href="/guide">راهنما</a>
+    <a href="/services" class="wn-active">خدمات</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/login">ورود</a>
+    <a href="/register">ثبت‌نام</a>
+    <a href="/dashboard" class="wnav-cta">شروع تحلیل</a>
+  </div>
+  <button class="wnav-ham" onclick="document.getElementById('mobOverlay').classList.add('open')">&#9776;</button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mob-overlay" id="mobOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mob-menu">
+    <a href="/">خانه</a>
+    <a href="/dashboard">تحلیل بازار</a>
+    <a href="/track-record">سوابق</a>
+    <a href="/builder">استراتژی‌ساز</a>
+    <a href="/risk-manager">مدیریت ریسک</a>
+    <a href="/journal">ژورنال</a>
+    <a href="/performance">عملکرد زنده</a>
+    <a href="/alerts">هشدارها</a>
+    <a href="/guide">راهنما</a>
+    <a href="/services" class="wn-active">خدمات</a>
+    <a href="/robots">فروشگاه ربات</a>
+    <a href="/about">درباره ما</a>
+    <a href="/contact">تماس</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/admin">ادمین</a>
+    <a href="/login">&#x1F511; ورود</a>
+    <a href="/register">&#x1F4DD; ثبت‌نام</a>
+  </div>
+</div>
+
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>خدمات و <span class="grad">امکانات</span> پلتفرم</h1>
+    <p class="hero-desc">
+      همه ابزارهای حرفه‌ای معامله‌گری در یک پلتفرم یکپارچه — از تحلیل هوشمند و اجرای خودکار معاملات تا مدیریت ریسک و ژورنال‌نویسی. رایگان و به فارسی.
+    </p>
+    <div class="live-badges">
+      <div class="live-badge"><b id="badgeStrats">400+</b> استراتژی</div>
+      <div class="live-badge"><b id="badgeSymbols">52+</b> نماد</div>
+      <div class="live-badge"><b>21</b> دسته تحلیلی</div>
+      <div class="live-badge"><b>7</b> تایم‌فریم</div>
+      <div class="live-badge"><b>90+</b> API</div>
+      <div class="live-badge"><span class="dot dot-yellow" id="mt5Dot"></span> <span id="mt5Status">بررسی MT5...</span></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ CONTENT ═══ -->
+<div class="svc-main">
+
+  <!-- ── Analysis & Market Data ── -->
+  <div class="svc-section reveal">
+    <div class="sec-head">
+      <span class="sec-tag">ANALYSIS</span>
+      <span class="sec-title">تحلیل و داده بازار</span>
+      <span class="sec-count">3 سرویس</span>
+    </div>
+    <div class="svc-grid svc-grid-3">
+      <div class="svc-card" onclick="location='/dashboard'">
+        <div class="top"><div class="ico ico-cyan">📊</div><div class="name"><a href="/dashboard">تحلیل هوشمند بازار</a></div></div>
+        <div class="desc">بیش از ۴۰۰ استراتژی در ۲۱ دسته (ترند، مومنتوم، حجم، Smart Money، هارمونیک، Elliott و...) هم‌زمان هر نماد را تحلیل می‌کنند. سیگنال خرید/فروش با درصد اطمینان + ستاپ کامل ورود، SL و TP.</div>
+        <div class="tags"><span class="tag tag-c">۴۰۰+ استراتژی</span><span class="tag tag-g">۲۱ دسته</span><span class="tag tag-p">سیگنال BUY/SELL</span><span class="tag tag-y">ستاپ کامل</span></div>
+        <a href="/dashboard" class="go">شروع تحلیل &#8592;</a>
+      </div>
+      <div class="svc-card" onclick="location='/track-record'">
+        <div class="top"><div class="ico ico-green">📜</div><div class="name"><a href="/track-record">سوابق و رنکینگ</a></div></div>
+        <div class="desc">عملکرد واقعی هر استراتژی با شفافیت کامل: Win Rate، PnL، تعداد معاملات، هیت‌مپ عملکرد، مقایسه دسته‌ها. فیلتر بر اساس نماد، جهت و تایم‌فریم. اکسپورت CSV و HTML.</div>
+        <div class="tags"><span class="tag tag-g">Win Rate واقعی</span><span class="tag tag-c">رنکینگ زنده</span><span class="tag tag-p">هیت‌مپ</span><span class="tag tag-y">اکسپورت</span></div>
+        <a href="/track-record" class="go">مشاهده سوابق &#8592;</a>
+      </div>
+      <div class="svc-card" onclick="location='/dashboard'">
+        <div class="top"><div class="ico ico-purple">📈</div><div class="name"><a href="/dashboard">چارت و اندیکاتور زنده</a></div></div>
+        <div class="desc">کندل‌استیک ریل‌تایم با نشانگر ورود/خروج، خطوط SL/TP، EMA 20/50/200، داده کندل از MT5 و آپدیت خودکار. ۸ مینی‌چارت زنده در صفحه اصلی.</div>
+        <div class="tags"><span class="tag tag-p">کندل‌استیک</span><span class="tag tag-c">EMA</span><span class="tag tag-g">ریل‌تایم</span><span class="tag tag-y">مینی‌چارت</span></div>
+        <a href="/dashboard" class="go">مشاهده چارت &#8592;</a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── Trading & Execution ── -->
+  <div class="svc-section reveal">
+    <div class="sec-head">
+      <span class="sec-tag">TRADING</span>
+      <span class="sec-title">معاملات و اجرا</span>
+      <span class="sec-count">3 سرویس</span>
+    </div>
+    <div class="svc-grid svc-grid-3">
+      <div class="svc-card" onclick="location='/dashboard'">
+        <span class="new-badge">NEW</span>
+        <div class="top"><div class="ico ico-green">🔗</div><div class="name"><a href="/dashboard">اتصال MetaTrader 5</a></div></div>
+        <div class="desc">اتصال مستقیم و Thread-safe به بروکر از طریق MetaTrader 5. دریافت قیمت لحظه‌ای، داده کندل، اطلاعات حساب (بالانس، اکوییتی، مارجین) و اجرای سفارشات — همه بدون واسطه.</div>
+        <div class="tags"><span class="tag tag-g">اتصال مستقیم</span><span class="tag tag-c">قیمت لحظه‌ای</span><span class="tag tag-p">اطلاعات حساب</span><span class="tag tag-y">Thread-safe</span></div>
+        <a href="/dashboard" class="go">وضعیت اتصال &#8592;</a>
+      </div>
+      <div class="svc-card" onclick="location='/dashboard'">
+        <span class="new-badge">NEW</span>
+        <div class="top"><div class="ico ico-cyan">⚡</div><div class="name"><a href="/dashboard">اجرای خودکار معاملات</a></div></div>
+        <div class="desc">Trade Executor — اجرای خودکار سیگنال‌ها روی MT5 با مدیریت ریسک داخلی. محاسبه حجم بر اساس ریسک، بررسی Drawdown، محدودیت پوزیشن، انتقال به Breakeven و فیلتر Whitelist.</div>
+        <div class="tags"><span class="tag tag-c">اجرای خودکار</span><span class="tag tag-g">Equal Dollar Risk</span><span class="tag tag-r">Drawdown Check</span><span class="tag tag-y">Breakeven</span></div>
+        <a href="/dashboard" class="go">وضعیت اجرا &#8592;</a>
+      </div>
+      <div class="svc-card" onclick="location='/dashboard'">
+        <span class="new-badge">NEW</span>
+        <div class="top"><div class="ico ico-orange">🛡️</div><div class="name"><a href="/dashboard">مانیتورینگ معاملات</a></div></div>
+        <div class="desc">Trade Guardian — دیمون مستقل که ۲۴/۷ پوزیشن‌ها را نظارت می‌کند. همگام‌سازی با MT5، ردیابی سود/ضرر لحظه‌ای، ثبت خودکار معاملات بسته‌شده و پردازش سیگنال‌های جدید.</div>
+        <div class="tags"><span class="tag tag-o">۲۴/۷ نظارت</span><span class="tag tag-g">همگام‌سازی MT5</span><span class="tag tag-c">ثبت خودکار</span><span class="tag tag-p">۳۳ نماد</span></div>
+        <a href="/dashboard" class="go">وضعیت مانیتور &#8592;</a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── Strategy & Build ── -->
+  <div class="svc-section reveal">
+    <div class="sec-head">
+      <span class="sec-tag">BUILD</span>
+      <span class="sec-title">ساخت و توسعه</span>
+      <span class="sec-count">3 سرویس</span>
+    </div>
+    <div class="svc-grid svc-grid-3">
+      <div class="svc-card" onclick="location='/builder'">
+        <div class="top"><div class="ico ico-purple">🔧</div><div class="name"><a href="/builder">استراتژی‌ساز</a></div></div>
+        <div class="desc">استراتژی سفارشی بسازید: ۲۰+ اندیکاتور ترکیب کنید، شرایط ورود/خروج تعیین کنید، بک‌تست روی داده واقعی بگیرید. بهینه‌سازی Grid، Walk-Forward، Monte Carlo و تولید کد MQL5/MQL4.</div>
+        <div class="tags"><span class="tag tag-p">۲۰+ اندیکاتور</span><span class="tag tag-g">بک‌تست</span><span class="tag tag-c">تولید EA</span><span class="tag tag-y">بهینه‌سازی</span></div>
+        <a href="/builder" class="go">ساخت استراتژی &#8592;</a>
+      </div>
+      <div class="svc-card" onclick="location='/risk-manager'">
+        <div class="top"><div class="ico ico-yellow">🎯</div><div class="name"><a href="/risk-manager">مدیریت ریسک</a></div></div>
+        <div class="desc">محاسبه حجم بر اساس ریسک، Risk Score پورتفولیو ۰-۱۰۰، ۶ مدل سیو سود، ۴ مدل Trailing. اجرای مستقیم معامله از ریسک‌منیجر، Partial Close و تحلیل پورتفولیو.</div>
+        <div class="tags"><span class="tag tag-y">محاسبه‌گر حجم</span><span class="tag tag-g">Risk Score</span><span class="tag tag-p">Trailing</span><span class="tag tag-c">اجرای معامله</span></div>
+        <a href="/risk-manager" class="go">مدیریت ریسک &#8592;</a>
+      </div>
+      <div class="svc-card" onclick="location='/robots'">
+        <div class="top"><div class="ico ico-cyan">🤖</div><div class="name"><a href="/robots">فروشگاه ربات</a></div></div>
+        <div class="desc">مارکت‌پلیس ربات‌های معاملاتی. دانلود Expert Advisor آماده، بررسی امتیاز و دسته‌بندی، فعال/غیرفعال‌سازی و مدیریت ربات‌های نصب‌شده.</div>
+        <div class="tags"><span class="tag tag-c">EA آماده</span><span class="tag tag-g">دسته‌بندی</span><span class="tag tag-p">دانلود</span><span class="tag tag-y">امتیازدهی</span></div>
+        <a href="/robots" class="go">فروشگاه &#8592;</a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── Tracking & Communication ── -->
+  <div class="svc-section reveal">
+    <div class="sec-head">
+      <span class="sec-tag">TRACK</span>
+      <span class="sec-title">پیگیری و ارتباط</span>
+      <span class="sec-count">4 سرویس</span>
+    </div>
+    <div class="svc-grid svc-grid-3">
+      <div class="svc-card" onclick="location='/journal'">
+        <div class="top"><div class="ico ico-red">📒</div><div class="name"><a href="/journal">ژورنال معاملاتی</a></div></div>
+        <div class="desc">ثبت خودکار و دستی معاملات با یادداشت روزانه. ۱۰+ متریک آماری: Win Rate، Profit Factor، Max Drawdown، Sharpe Ratio. گزارش ماهانه و تحلیل عملکرد.</div>
+        <div class="tags"><span class="tag tag-r">ثبت خودکار</span><span class="tag tag-c">۱۰+ متریک</span><span class="tag tag-g">یادداشت روزانه</span><span class="tag tag-y">گزارش ماهانه</span></div>
+        <a href="/journal" class="go">ژورنال من &#8592;</a>
+      </div>
+      <div class="svc-card" onclick="location='/alerts'">
+        <div class="top"><div class="ico ico-pink">🔔</div><div class="name"><a href="/alerts">سیستم هشدار</a></div></div>
+        <div class="desc">هشدار سیگنال، قیمتی و ریسک از ۴ کانال: تلگرام شخصی، کانال عمومی، ایمیل و پاپ‌آپ مرورگر. تنظیم اشتراک، مشاهده تاریخچه و آمار هشدارها.</div>
+        <div class="tags"><span class="tag tag-c">تلگرام</span><span class="tag tag-g">ایمیل</span><span class="tag tag-y">پاپ‌آپ</span><span class="tag tag-p">کانال عمومی</span></div>
+        <a href="/alerts" class="go">تنظیم هشدار &#8592;</a>
+      </div>
+      <div class="svc-card" onclick="location='/performance'">
+        <div class="top"><div class="ico ico-cyan">📈</div><div class="name"><a href="/performance">مانیتورینگ عملکرد زنده</a></div></div>
+        <div class="desc">نمایش لحظه‌ای عملکرد حساب MT5: موجودی، اکوئیتی، پوزیشن‌های باز، نرخ برد، فاکتور سود، منحنی اکوئیتی، آنالیز Drawdown و تحلیل هوشمند AI.</div>
+        <div class="tags"><span class="tag tag-c">لحظه‌ای</span><span class="tag tag-g">منحنی اکوئیتی</span><span class="tag tag-y">تحلیل AI</span><span class="tag tag-p">Drawdown</span></div>
+        <a href="/performance" class="go">مشاهده عملکرد &#8592;</a>
+      </div>
+      <div class="svc-card" onclick="window.open('https://t.me/WhilberAI')">
+        <div class="top"><div class="ico ico-cyan">✈️</div><div class="name">ربات تلگرام</div></div>
+        <div class="desc">@WhilberAI_bot — سیگنال‌های لحظه‌ای مستقیم در تلگرام شخصی. منوی تعاملی، تنظیمات شخصی‌سازی و اطلاع‌رسانی آپدیت‌ها از کانال رسمی.</div>
+        <div class="tags"><span class="tag tag-c">سیگنال خودکار</span><span class="tag tag-g">منوی تعاملی</span><span class="tag tag-p">کانال رسمی</span></div>
+        <a href="https://t.me/WhilberAI" target="_blank" class="go">عضویت &#8592;</a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── Support & Education ── -->
+  <div class="svc-section reveal">
+    <div class="sec-head">
+      <span class="sec-tag">SUPPORT</span>
+      <span class="sec-title">پشتیبانی و آموزش</span>
+      <span class="sec-count">3 سرویس</span>
+    </div>
+    <div class="svc-grid svc-grid-3">
+      <div class="svc-card" onclick="location='/guide'">
+        <div class="top"><div class="ico ico-purple">📖</div><div class="name"><a href="/guide">راهنمای جامع</a></div></div>
+        <div class="desc">۱۸ بخش آموزشی کامل: از شروع کار و معرفی استراتژی‌ها تا نحوه خواندن سیگنال‌ها، مدیریت ریسک، ساخت EA، عیب‌یابی و میانبرهای صفحه‌کلید.</div>
+        <div class="tags"><span class="tag tag-p">۱۸ بخش</span><span class="tag tag-c">آموزش گام‌به‌گام</span><span class="tag tag-g">عیب‌یابی</span></div>
+        <a href="/guide" class="go">مطالعه راهنما &#8592;</a>
+      </div>
+      <div class="svc-card" onclick="location='/about'">
+        <div class="top"><div class="ico ico-green">🌍</div><div class="name"><a href="/about">پشتیبانی چندبازاری</a></div></div>
+        <div class="desc">پوشش ۵ بازار: فارکس (۲۸ جفت‌ارز)، فلزات (طلا و نقره)، شاخص‌ها (نزدک، داوجونز، S&P)، کریپتو (۲۶+ رمزارز) — همه با داده ریل‌تایم از MT5.</div>
+        <div class="tags"><span class="tag tag-g">فارکس</span><span class="tag tag-y">فلزات</span><span class="tag tag-c">شاخص‌ها</span><span class="tag tag-o">کریپتو</span></div>
+        <a href="/dashboard" class="go">مشاهده نمادها &#8592;</a>
+      </div>
+      <div class="svc-card" onclick="location='/contact'">
+        <div class="top"><div class="ico ico-yellow">📞</div><div class="name"><a href="/contact">پشتیبانی و تماس</a></div></div>
+        <div class="desc">ارتباط مستقیم با تیم از طریق فرم تماس، ایمیل و واتس‌اپ. پنل ادمین برای مدیریت پیام‌ها، کاربران و ارسال اطلاعیه از کانال تلگرام.</div>
+        <div class="tags"><span class="tag tag-y">فرم تماس</span><span class="tag tag-c">ایمیل</span><span class="tag tag-g">واتس‌اپ</span><span class="tag tag-p">پنل ادمین</span></div>
+        <a href="/contact" class="go">تماس با ما &#8592;</a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══ STATS STRIP ═══ -->
+  <div class="stats-strip reveal">
+    <div class="stat-box"><div class="num" id="statStrats">400+</div><div class="lbl">استراتژی فعال</div></div>
+    <div class="stat-box"><div class="num" id="statSyms">52+</div><div class="lbl">نماد معاملاتی</div></div>
+    <div class="stat-box"><div class="num">90+</div><div class="lbl">API Endpoint</div></div>
+    <div class="stat-box"><div class="num">24/7</div><div class="lbl">مانیتورینگ زنده</div></div>
+    <div class="stat-box"><div class="num" id="statMt5">—</div><div class="lbl">وضعیت MT5</div></div>
+  </div>
+
+
+  <!-- ═══ COMPETITOR COMPARISON ═══ -->
+  <div class="compare-section reveal">
+    <div class="sec-head">
+      <span class="sec-tag">COMPARE</span>
+      <span class="sec-title">مقایسه با رقبا</span>
+    </div>
+    <div class="ct-wrap">
+      <table class="ct">
+        <thead>
+          <tr>
+            <th>ویژگی</th>
+            <th class="hl">Whilber-AI</th>
+            <th>TradingView</th>
+            <th>TrendSpider</th>
+            <th>MetaTrader Signal</th>
+            <th>کانال سیگنال</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>قیمت</td><td class="best">رایگان ✓</td><td>$13-60/ماه</td><td>$39-79/ماه</td><td class="p">متغیر</td><td class="p">متغیر</td></tr>
+          <tr><td>زبان فارسی + RTL</td><td class="best">کامل ✓</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="p">گاهی</td></tr>
+          <tr><td>تعداد استراتژی</td><td class="best">۴۰۰+ در ۲۱ دسته</td><td class="p">Community</td><td class="p">۵-۱۰ محدود</td><td class="p">بسته به Provider</td><td class="p">۱-۳</td></tr>
+          <tr><td>اتصال مستقیم MT5</td><td class="best">✓ Thread-safe</td><td class="n">—</td><td class="n">—</td><td class="y">✓</td><td class="n">—</td></tr>
+          <tr><td>اجرای خودکار معامله</td><td class="best">✓ + Risk Check</td><td class="n">—</td><td class="n">—</td><td class="p">محدود</td><td class="n">—</td></tr>
+          <tr><td>مانیتورینگ ۲۴/۷</td><td class="best">Trade Guardian ✓</td><td class="n">—</td><td class="n">—</td><td class="p">محدود</td><td class="n">—</td></tr>
+          <tr><td>Track Record شفاف</td><td class="best">✓ + هیت‌مپ</td><td class="n">—</td><td class="p">محدود</td><td class="p">محدود</td><td class="n">—</td></tr>
+          <tr><td>مدیریت ریسک کامل</td><td class="best">✓ + ۶ مدل Profit</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+          <tr><td>ساخت EA (MQL5/4)</td><td class="best">✓ + بهینه‌سازی</td><td class="p">Pine Script</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+          <tr><td>بک‌تست و بهینه‌سازی</td><td class="best">Grid + Monte Carlo</td><td class="p">Pine محدود</td><td class="y">✓</td><td class="n">—</td><td class="n">—</td></tr>
+          <tr><td>ژورنال معاملاتی</td><td class="best">✓ + ۱۰+ متریک</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+          <tr><td>هشدار تلگرام شخصی</td><td class="best">✓ ربات اختصاصی</td><td class="p">Webhook</td><td class="n">—</td><td class="n">—</td><td class="y">✓</td></tr>
+          <tr><td>چارت ریل‌تایم</td><td class="y">✓ Lightweight</td><td class="best">✓ پیشرفته</td><td class="y">✓</td><td class="y">✓</td><td class="n">—</td></tr>
+          <tr><td>فروشگاه ربات</td><td class="best">✓ + دسته‌بندی</td><td class="p">Community</td><td class="n">—</td><td class="y">✓ Market</td><td class="n">—</td></tr>
+          <tr><td>تحلیل پورتفولیو</td><td class="best">✓ Risk Score</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- ═══ CTA ═══ -->
+  <div class="svc-cta">
+    <p>بدون ثبت‌نام. بدون هزینه. همه امکانات فعال — همین الان شروع کنید.</p>
+    <div class="svc-cta-actions">
+      <a href="/dashboard" class="btn-cta">شروع تحلیل رایگان</a>
+      <a href="/guide" class="btn-outline">📖 راهنمای استفاده</a>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="wfooter">
+  <div class="wfooter-grid">
+    <div class="wfooter-brand">
+      <a href="/" style="display:flex;align-items:center;gap:8px;"><div style="width:28px;height:28px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;">W</div><span style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Whilber-AI</span></a>
+      <p>دستیار هوشمند تحلیل بازارهای مالی. ۴۰۰+ استراتژی، اتصال MetaTrader 5 و مدیریت ریسک حرفه‌ای.</p>
+    </div>
+    <div class="wfooter-col"><h4>ابزارها</h4><a href="/dashboard">تحلیل بازار</a><a href="/track-record">سوابق</a><a href="/builder">استراتژی‌ساز</a><a href="/risk-manager">مدیریت ریسک</a><a href="/journal">ژورنال</a><a href="/alerts">هشدارها</a><a href="/performance">&#x1F4C8; عملکرد زنده</a></div>
+    <div class="wfooter-col"><h4>اطلاعات</h4><a href="/guide">راهنما</a><a href="/services">خدمات</a><a href="/robots">فروشگاه ربات</a><a href="/about">درباره ما</a><a href="/contact">تماس</a></div>
+    <div class="wfooter-col"><h4>ارتباط</h4><a href="https://t.me/WhilberAI" target="_blank">تلگرام</a><a href="mailto:support@whilber-ai.com">ایمیل</a><a href="/admin">پنل ادمین</a></div>
+  </div>
+  <div class="wfooter-bottom">
+    <p>&copy; 2026 Whilber-AI — تحلیل‌ها جنبه آموزشی دارند و توصیه مالی نیستند.</p>
+    <div><a href="https://t.me/WhilberAI" target="_blank">تلگرام</a> · <a href="mailto:support@whilber-ai.com">ایمیل</a></div>
+  </div>
+</footer>
+
+
+<script>
+(function(){
+  var API = window.location.origin;
+
+  // ═══ Live Stats from API ═══
+  fetch(API + '/api/health')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d.strategies){
+        document.getElementById('badgeStrats').textContent = d.strategies + '+';
+        document.getElementById('statStrats').textContent = d.strategies + '+';
+      }
+      if(d.symbols){
+        document.getElementById('badgeSymbols').textContent = d.symbols + '+';
+        document.getElementById('statSyms').textContent = d.symbols + '+';
+      }
+      var dot = document.getElementById('mt5Dot');
+      var status = document.getElementById('mt5Status');
+      var statMt5 = document.getElementById('statMt5');
+      if(d.mt5_connected){
+        dot.className = 'dot dot-green';
+        status.textContent = 'MT5 متصل';
+        statMt5.textContent = 'متصل';
+        statMt5.style.color = 'var(--green)';
+      } else {
+        dot.className = 'dot dot-red';
+        status.textContent = 'MT5 قطع';
+        statMt5.textContent = 'قطع';
+        statMt5.style.color = 'var(--red)';
+      }
+    })
+    .catch(function(){
+      document.getElementById('mt5Dot').className = 'dot dot-red';
+      document.getElementById('mt5Status').textContent = 'سرور آفلاین';
+      document.getElementById('statMt5').textContent = 'آفلاین';
+    });
+
+  // ═══ Scroll Reveal Animations ═══
+  var revealObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, {threshold: 0.08, rootMargin: '0px 0px -30px 0px'});
+
+  document.querySelectorAll('.reveal').forEach(function(el){
+    revealObs.observe(el);
+  });
+
+  // ═══ Service Card Animations ═══
+  var cardObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, {threshold: 0.05});
+
+  document.querySelectorAll('.svc-card').forEach(function(el, i){
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(16px)';
+    el.style.transition = 'all .4s ease ' + (i % 3) * 0.1 + 's';
+    cardObs.observe(el);
+  });
+
+})();
+</script>
+<script src="/static/plan-ui.js"></script>
+
+</body>
+</html>

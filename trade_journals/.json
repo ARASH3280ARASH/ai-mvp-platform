@@ -1,0 +1,30 @@
+{
+  "entries": [
+    {
+      "symbol": "XAUUSD",
+      "type": "BUY",
+      "entry_price": 0,
+      "exit_price": 0,
+      "tp_price": 0,
+      "sl_price": 0,
+      "lot_size": 0.01,
+      "pnl": 0,
+      "pnl_pips": 0,
+      "strategy_name": "",
+      "timeframe": "H1",
+      "notes": "وارد شده از معامله لایو —  ",
+      "tags": [
+        "imported"
+      ],
+      "id": "20260223T120702.31",
+      "created_at": "2026-02-23T12:07:02.317352+00:00",
+      "emotion_before": "neutral",
+      "emotion_after": "neutral",
+      "rating": 3,
+      "lesson": "",
+      "screenshot": "",
+      "followed_plan": true
+    }
+  ],
+  "daily_notes": []
+}

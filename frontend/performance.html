@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Whilber-AI | عملکرد زنده</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{--bg:#0a0c10;--bg2:#12151c;--bg3:#1a1e2a;--bg4:#222738;--border:#2a2f42;--border2:#353b52;--text:#e2e5f0;--text2:#7f849c;--text3:#565a6e;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;--cyan:#06b6d4;--cyan2:#0891b2;--purple:#a78bfa;--orange:#f97316;--pink:#ec4899;--grad1:linear-gradient(135deg,#00d4ff,#a855f7);}
+*{margin:0;padding:0;box-sizing:border-box;}html{font-size:14px;}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+
+/* ═══ NAV ═══ */
+.wnav{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:rgba(15,19,32,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.wnav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;}
+.wnav-logo-box{width:32px;height:32px;background:var(--grad1);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(0,212,255,.25);}
+.wnav-logo-txt{font-size:17px;font-weight:800;background:var(--grad1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.3px;}
+.wnav-links{display:flex;align-items:center;gap:1px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.wnav-links::-webkit-scrollbar{display:none;}
+.wnav-links a{color:#8892a8;padding:6px 10px;border-radius:7px;font-size:12.5px;font-weight:500;white-space:nowrap;transition:all .2s;text-decoration:none;}
+.wnav-links a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-links a.wn-active{color:#00d4ff;background:rgba(0,212,255,.08);font-weight:600;}
+.wnav-cta{background:linear-gradient(135deg,#00d4ff,#a855f7) !important;color:#000 !important;font-weight:700 !important;padding:6px 14px !important;border-radius:7px !important;font-size:12px !important;}
+.wnav-back{display:flex;align-items:center;gap:5px;color:#8892a8;font-size:12px;padding:5px 10px;border-radius:7px;cursor:pointer;background:rgba(255,255,255,.03);border:1px solid rgba(30,42,69,.5);transition:all .2s;text-decoration:none;flex-shrink:0;margin-left:6px;}
+.wnav-back:hover{color:#00d4ff;border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);}
+.wnav-ham{display:none;background:none;border:none;color:#e8ecf4;font-size:22px;cursor:pointer;padding:4px;}
+.wnav-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:999;}
+.wnav-mob-overlay.open{display:block;}
+.wnav-mob{position:fixed;top:0;right:0;width:270px;height:100vh;background:#0f1320;border-left:1px solid #1e2a45;z-index:1001;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:64px 14px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.wnav-mob-overlay.open .wnav-mob{transform:translateX(0);}
+.wnav-mob a{display:flex;align-items:center;gap:9px;color:#8892a8;padding:11px 14px;border-radius:9px;font-size:13.5px;text-decoration:none;transition:all .15s;}
+.wnav-mob a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-mob a.wn-active{background:rgba(0,212,255,.08);color:#00d4ff;font-weight:600;}
+.wnav-mob-close{position:absolute;top:14px;left:14px;background:#161b2e;border:1px solid #1e2a45;color:#8892a8;width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+@media(max-width:900px){.wnav-links{display:none;}.wnav-ham{display:block;}.wnav-back{font-size:11px;padding:4px 8px;}}
+
+/* ═══ MAIN ═══ */
+.container{max-width:1400px;margin:0 auto;padding:16px;}
+
+/* ═══ HERO ═══ */
+.hero-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:16px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;margin-bottom:16px;}
+.hero-info{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.hero-icon{width:48px;height:48px;border-radius:14px;background:var(--grad1);display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;box-shadow:0 4px 16px rgba(0,212,255,.2);}
+.hero-text h1{font-size:18px;font-weight:800;color:var(--text);margin-bottom:2px;}
+.hero-text span{font-size:12px;color:var(--text2);}
+.hero-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.conn-badge{display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:600;}
+.conn-badge.online{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);}
+.conn-badge.offline{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.3);}
+.conn-dot{width:8px;height:8px;border-radius:50%;}
+.conn-badge.online .conn-dot{background:var(--green);box-shadow:0 0 8px var(--green);}
+.conn-badge.offline .conn-dot{background:var(--red);}
+.last-update{font-size:11px;color:var(--text3);}
+.period-sel{display:flex;gap:4px;}
+.period-btn{padding:5px 12px;border-radius:7px;font-size:12px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);cursor:pointer;transition:all .2s;font-family:inherit;}
+.period-btn:hover{border-color:var(--cyan);color:var(--text);}
+.period-btn.active{background:rgba(0,212,255,.1);color:var(--cyan);border-color:var(--cyan);font-weight:600;}
+
+/* ═══ STAT CARDS ═══ */
+.stat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:16px;}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;transition:all .2s;}
+.stat-card:hover{border-color:var(--border2);transform:translateY(-2px);}
+.stat-card .sc-label{font-size:11px;color:var(--text3);margin-bottom:6px;}
+.stat-card .sc-value{font-size:20px;font-weight:800;font-family:'Courier New',monospace;}
+.stat-card .sc-sub{font-size:10px;color:var(--text3);margin-top:4px;}
+
+/* ═══ METRICS ROW ═══ */
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+.metric-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;transition:all .2s;}
+.metric-card:hover{border-color:var(--border2);}
+.mc-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.mc-data .mc-val{font-size:18px;font-weight:700;font-family:'Courier New',monospace;}
+.mc-data .mc-lbl{font-size:11px;color:var(--text3);margin-top:2px;}
+
+/* ═══ CHART SECTION ═══ */
+.chart-section{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px;}
+.chart-section h3{font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.chart-wrap{position:relative;height:280px;}
+
+/* ═══ TABLES ═══ */
+.section-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.tbl-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;}
+.tbl-scroll{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+thead{background:var(--bg3);}
+th{padding:10px 12px;text-align:right;font-weight:600;color:var(--text2);white-space:nowrap;border-bottom:1px solid var(--border);}
+td{padding:9px 12px;border-bottom:1px solid rgba(42,47,66,.4);white-space:nowrap;}
+tr:hover td{background:rgba(255,255,255,.02);}
+.profit-pos{color:var(--green);font-weight:600;}
+.profit-neg{color:var(--red);font-weight:600;}
+.type-buy{color:var(--green);font-weight:600;}
+.type-sell{color:var(--red);font-weight:600;}
+.pagination{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;}
+.page-btn{padding:5px 12px;border-radius:6px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);cursor:pointer;font-size:12px;font-family:inherit;}
+.page-btn:hover{border-color:var(--cyan);color:var(--text);}
+.page-btn.active{background:rgba(0,212,255,.1);color:var(--cyan);border-color:var(--cyan);}
+.page-btn:disabled{opacity:.3;cursor:default;}
+.page-info{font-size:11px;color:var(--text3);}
+
+/* ═══ CHARTS ROW ═══ */
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+
+/* ═══ AI INSIGHTS ═══ */
+.insights-panel{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px;}
+.insights-panel h3{font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.insight-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
+.insight-item{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;display:flex;gap:10px;align-items:flex-start;}
+.insight-item .ii-icon{font-size:20px;flex-shrink:0;margin-top:2px;}
+.insight-item .ii-text{font-size:12px;color:var(--text2);line-height:1.7;}
+.insight-item .ii-text strong{color:var(--text);font-weight:600;}
+
+/* ═══ FOOTER ═══ */
+.wfooter{background:#0f1320;border-top:1px solid #1e2a45;padding:32px 20px 16px;margin-top:24px;}
+.wfooter-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:28px;}
+.wfooter-brand p{font-size:12px;color:#5a6480;margin-top:8px;line-height:1.8;}
+.wfooter-col h4{font-size:12px;font-weight:700;color:#e8ecf4;margin-bottom:12px;}
+.wfooter-col a{display:block;color:#5a6480;font-size:12px;padding:3px 0;text-decoration:none;transition:color .2s;}
+.wfooter-col a:hover{color:#00d4ff;}
+.wfooter-bottom{max-width:1100px;margin:0 auto;border-top:1px solid #1e2a45;padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.wfooter-bottom p{font-size:11px;color:#5a6480;}
+.wfooter-bottom a{color:#00d4ff;text-decoration:none;font-size:11px;}
+@media(max-width:768px){.wfooter-grid{grid-template-columns:1fr 1fr;gap:20px;}}
+@media(max-width:480px){.wfooter-grid{grid-template-columns:1fr;}}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:1200px){
+  .stat-grid{grid-template-columns:repeat(3,1fr);}
+  .metrics-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:900px){
+  .stat-grid{grid-template-columns:repeat(2,1fr);}
+  .charts-row{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .stat-grid{grid-template-columns:1fr;}
+  .metrics-grid{grid-template-columns:1fr;}
+  .hero-bar{flex-direction:column;align-items:flex-start;}
+  .chart-wrap{height:220px;}
+}
+
+/* Loading spinner */
+.loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--text3);font-size:13px;gap:8px;}
+.spinner{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--cyan);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="wnav" id="wTopNav">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <a href="/" class="wnav-logo"><div class="wnav-logo-box">W</div><span class="wnav-logo-txt">Whilber-AI</span></a>
+    <a href="javascript:history.back()" class="wnav-back" title="بازگشت">&#8594; برگشت</a>
+  </div>
+  <div class="wnav-links">
+    <a href="/">خانه</a><a href="/dashboard">تحلیل بازار</a><a href="/track-record">سوابق</a><a href="/builder">استراتژی‌ساز</a><a href="/risk-manager">مدیریت ریسک</a><a href="/journal">ژورنال</a><a href="/performance" class="wn-active">عملکرد زنده</a><a href="/alerts">هشدارها</a><a href="/guide">راهنما</a><a href="/services">خدمات</a><a href="/about">درباره ما</a><a href="/contact">تماس</a><a href="/robots">ربات‌ها</a><a href="/pricing">تعرفه‌ها</a><a href="/login">ورود</a><a href="/register">ثبت‌نام</a><a href="/dashboard" class="wnav-cta">&#x1F680; تحلیل</a>
+  </div>
+  <button class="wnav-ham" onclick="document.getElementById('wMobOverlay').classList.add('open')">&#9776;</button>
+</nav>
+<div class="wnav-mob-overlay" id="wMobOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="wnav-mob">
+    <button class="wnav-mob-close" onclick="document.getElementById('wMobOverlay').classList.remove('open')">&#10005;</button>
+    <a href="javascript:history.back()" style="color:#00d4ff;border:1px solid rgba(0,212,255,.2);margin-bottom:8px;">&#8594; برگشت به صفحه قبل</a>
+    <a href="/">&#x1F3E0; خانه</a><a href="/dashboard">&#x1F4CA; تحلیل بازار</a><a href="/track-record">&#x1F4DC; سوابق</a><a href="/builder">&#x1F527; استراتژی‌ساز</a><a href="/risk-manager">&#x1F6E1;&#xFE0F; مدیریت ریسک</a><a href="/journal">&#x1F4D2; ژورنال</a><a href="/performance" class="wn-active">&#x1F4C8; عملکرد زنده</a><a href="/alerts">&#x1F514; هشدارها</a><a href="/robots">&#x1F916; ربات‌ها</a><a href="/guide">&#x1F4D6; راهنما</a><a href="/services">&#x2B50; خدمات</a><a href="/about">&#x1F464; درباره ما</a><a href="/contact">&#x1F4DE; تماس</a><a href="/pricing">تعرفه‌ها</a><a href="/admin">&#x2699;&#xFE0F; ادمین</a><a href="/login">&#x1F511; ورود</a><a href="/register">&#x1F4DD; ثبت‌نام</a>
+  </div>
+</div>
+
+<!-- ═══ CONTENT ═══ -->
+<div class="container">
+
+<!-- HERO -->
+<div class="hero-bar">
+  <div class="hero-info">
+    <div class="hero-icon">&#x1F4C8;</div>
+    <div class="hero-text">
+      <h1 id="heroTitle">عملکرد زنده حساب</h1>
+      <span id="heroSub">در حال بارگذاری...</span>
+    </div>
+  </div>
+  <div class="hero-meta">
+    <div class="conn-badge offline" id="connBadge">
+      <span class="conn-dot"></span>
+      <span id="connText">در حال اتصال...</span>
+    </div>
+    <span class="last-update" id="lastUpdate"></span>
+    <div class="period-sel">
+      <button class="period-btn" data-days="7" onclick="setPeriod(7)">7 روز</button>
+      <button class="period-btn active" data-days="30" onclick="setPeriod(30)">30 روز</button>
+      <button class="period-btn" data-days="90" onclick="setPeriod(90)">90 روز</button>
+    </div>
+  </div>
+</div>
+
+<!-- ACCOUNT OVERVIEW -->
+<div class="stat-grid" id="accountCards">
+  <div class="stat-card"><div class="sc-label">موجودی</div><div class="sc-value" id="vBalance">--</div><div class="sc-sub" id="vCurrency"></div></div>
+  <div class="stat-card"><div class="sc-label">اکوئیتی</div><div class="sc-value" id="vEquity">--</div><div class="sc-sub">ارزش لحظه‌ای</div></div>
+  <div class="stat-card"><div class="sc-label">سود/زیان</div><div class="sc-value" id="vProfit">--</div><div class="sc-sub">پوزیشن‌های باز</div></div>
+  <div class="stat-card"><div class="sc-label">مارجین آزاد</div><div class="sc-value" id="vFreeMargin">--</div><div class="sc-sub">قابل استفاده</div></div>
+  <div class="stat-card"><div class="sc-label">لوریج</div><div class="sc-value" id="vLeverage">--</div><div class="sc-sub">اهرم معاملاتی</div></div>
+  <div class="stat-card"><div class="sc-label">سطح مارجین</div><div class="sc-value" id="vMarginLevel">--</div><div class="sc-sub">درصد</div></div>
+</div>
+
+<!-- KEY METRICS -->
+<div class="metrics-grid" id="metricsCards">
+  <div class="metric-card"><div class="mc-icon" style="background:rgba(34,197,94,.1);">&#x1F3AF;</div><div class="mc-data"><div class="mc-val" id="mWinRate">--</div><div class="mc-lbl">نرخ برد</div></div></div>
+  <div class="metric-card"><div class="mc-icon" style="background:rgba(6,182,212,.1);">&#x1F4B0;</div><div class="mc-data"><div class="mc-val" id="mProfitFactor">--</div><div class="mc-lbl">فاکتور سود</div></div></div>
+  <div class="metric-card"><div class="mc-icon" style="background:rgba(167,139,250,.1);">&#x1F4CA;</div><div class="mc-data"><div class="mc-val" id="mTotalTrades">--</div><div class="mc-lbl">تعداد معاملات</div></div></div>
+  <div class="metric-card"><div class="mc-icon" style="background:rgba(249,115,22,.1);">&#x1F4B5;</div><div class="mc-data"><div class="mc-val" id="mNetProfit">--</div><div class="mc-lbl">سود خالص</div></div></div>
+  <div class="metric-card"><div class="mc-icon" style="background:rgba(34,197,94,.1);">&#x2B06;&#xFE0F;</div><div class="mc-data"><div class="mc-val" id="mAvgWin">--</div><div class="mc-lbl">میانگین برد</div></div></div>
+  <div class="metric-card"><div class="mc-icon" style="background:rgba(239,68,68,.1);">&#x2B07;&#xFE0F;</div><div class="mc-data"><div class="mc-val" id="mAvgLoss">--</div><div class="mc-lbl">میانگین باخت</div></div></div>
+  <div class="metric-card"><div class="mc-icon" style="background:rgba(245,158,11,.1);">&#x1F4A1;</div><div class="mc-data"><div class="mc-val" id="mExpectancy">--</div><div class="mc-lbl">انتظار ریاضی</div></div></div>
+  <div class="metric-card"><div class="mc-icon" style="background:rgba(239,68,68,.1);">&#x1F4C9;</div><div class="mc-data"><div class="mc-val" id="mMaxDD">--</div><div class="mc-lbl">حداکثر افت</div></div></div>
+</div>
+
+<!-- EQUITY CURVE -->
+<div class="chart-section">
+  <h3>&#x1F4C8; منحنی اکوئیتی</h3>
+  <div class="chart-wrap"><canvas id="equityChart"></canvas></div>
+</div>
+
+<!-- DRAWDOWN CHART -->
+<div class="chart-section">
+  <h3>&#x1F4C9; نمودار افت سرمایه (Drawdown)</h3>
+  <div class="chart-wrap"><canvas id="drawdownChart"></canvas></div>
+</div>
+
+<!-- OPEN POSITIONS -->
+<div class="section-title">&#x1F4CB; پوزیشن‌های باز <span id="posCount" style="font-size:12px;color:var(--text3);font-weight:400;"></span></div>
+<div class="tbl-wrap">
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>تیکت</th><th>نماد</th><th>نوع</th><th>حجم</th><th>قیمت ورود</th><th>قیمت فعلی</th><th>SL</th><th>TP</th><th>سود/زیان</th><th>مدت</th></tr></thead>
+      <tbody id="posBody"><tr><td colspan="10"><div class="loading"><span class="spinner"></span> در حال بارگذاری...</div></td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- DAILY PERFORMANCE -->
+<div class="section-title">&#x1F4C5; عملکرد روزانه</div>
+<div class="tbl-wrap">
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>تاریخ</th><th>تعداد معاملات</th><th>سود/زیان</th><th>نرخ برد</th><th>بهترین</th><th>بدترین</th></tr></thead>
+      <tbody id="dailyBody"><tr><td colspan="6"><div class="loading"><span class="spinner"></span> در حال بارگذاری...</div></td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- TRADE HISTORY -->
+<div class="section-title">&#x1F4DC; تاریخچه معاملات</div>
+<div class="tbl-wrap">
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>تیکت</th><th>نماد</th><th>نوع</th><th>حجم</th><th>قیمت</th><th>سود/زیان</th><th>سوآپ</th><th>کمیسیون</th><th>زمان</th></tr></thead>
+      <tbody id="histBody"><tr><td colspan="9"><div class="loading"><span class="spinner"></span> در حال بارگذاری...</div></td></tr></tbody>
+    </table>
+  </div>
+  <div class="pagination" id="histPagination"></div>
+</div>
+
+<!-- SYMBOL DISTRIBUTION -->
+<div class="charts-row">
+  <div class="chart-section">
+    <h3>&#x1F4CA; توزیع نمادها (تعداد)</h3>
+    <div class="chart-wrap"><canvas id="symbolCountChart"></canvas></div>
+  </div>
+  <div class="chart-section">
+    <h3>&#x1F4B0; توزیع نمادها (سود/زیان)</h3>
+    <div class="chart-wrap"><canvas id="symbolPnlChart"></canvas></div>
+  </div>
+</div>
+
+<!-- AI INSIGHTS -->
+<div class="insights-panel">
+  <h3>&#x1F9E0; تحلیل هوشمند</h3>
+  <div class="insight-grid" id="insightsGrid">
+    <div class="loading"><span class="spinner"></span> در حال تحلیل...</div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="wfooter">
+  <div class="wfooter-grid">
+    <div class="wfooter-brand">
+      <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:28px;height:28px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;">W</div>
+        <span style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Whilber-AI</span>
+      </a>
+      <p>دستیار هوشمند تحلیل بازارهای مالی. تحلیل لحظه‌ای فارکس، کریپتو، فلزات و شاخص‌ها.</p>
+    </div>
+    <div class="wfooter-col">
+      <h4>ابزارها</h4>
+      <a href="/dashboard">&#x1F4CA; تحلیل بازار</a><a href="/track-record">&#x1F4DC; سوابق</a><a href="/builder">&#x1F527; استراتژی‌ساز</a><a href="/risk-manager">&#x1F6E1;&#xFE0F; مدیریت ریسک</a><a href="/journal">&#x1F4D2; ژورنال</a><a href="/alerts">&#x1F514; هشدارها</a><a href="/performance">&#x1F4C8; عملکرد زنده</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>اطلاعات</h4>
+      <a href="/guide">&#x1F4D6; راهنما</a><a href="/services">&#x2B50; خدمات</a><a href="/about">&#x1F464; درباره ما</a><a href="/contact">&#x1F4DE; تماس</a><a href="/">&#x1F3E0; صفحه اصلی</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>ارتباط</h4>
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; کانال تلگرام</a><a href="mailto:support@whilber-ai.com">&#x1F4E7; ایمیل</a><a href="/contact">&#x1F4AC; پشتیبانی</a><a href="/admin">&#x2699;&#xFE0F; ادمین</a>
+    </div>
+  </div>
+  <div class="wfooter-bottom">
+    <p>&copy; 2026 Whilber-AI &mdash; تمامی حقوق محفوظ است. تحلیل‌ها جنبه آموزشی دارند و توصیه مالی نیستند.</p>
+    <div style="display:flex;gap:8px;">
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">&#x1F4E7; ایمیل</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ═══ STATE ═══
+let currentDays = 30;
+let historyPage = 1;
+const HIST_PER_PAGE = 50;
+let allTrades = [];
+let equityChartObj = null;
+let drawdownChartObj = null;
+let symbolCountChartObj = null;
+let symbolPnlChartObj = null;
+let posInterval = null;
+let dataInterval = null;
+
+// ═══ HELPERS ═══
+function fmt(n, dec=2) {
+  if (n == null || isNaN(n)) return '--';
+  return Number(n).toLocaleString('en-US', {minimumFractionDigits: dec, maximumFractionDigits: dec});
+}
+function profitClass(v) { return v > 0 ? 'profit-pos' : v < 0 ? 'profit-neg' : ''; }
+function typeClass(t) { return t === 'BUY' ? 'type-buy' : 'type-sell'; }
+
+// ═══ FETCH ═══
+async function fetchJSON(url) {
+  try {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(r.statusText);
+    return await r.json();
+  } catch(e) {
+    console.error('Fetch error:', url, e);
+    return null;
+  }
+}
+
+// ═══ PERIOD SELECTOR ═══
+function setPeriod(days) {
+  currentDays = days;
+  document.querySelectorAll('.period-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.days) === days);
+  });
+  loadMetrics();
+  loadEquity();
+  loadDaily();
+  loadHistory();
+}
+
+// ═══ ACCOUNT ═══
+async function loadAccount() {
+  const d = await fetchJSON('/api/performance/account');
+  if (!d || d.error) {
+    document.getElementById('connBadge').className = 'conn-badge offline';
+    document.getElementById('connText').textContent = 'عدم اتصال';
+    return;
+  }
+  document.getElementById('connBadge').className = 'conn-badge online';
+  document.getElementById('connText').textContent = 'متصل';
+  document.getElementById('heroTitle').textContent = 'عملکرد زنده — ' + (d.name || 'حساب');
+  document.getElementById('heroSub').textContent = 'سرور: ' + (d.server || '--') + ' | لاگین: ' + (d.login || '--');
+  document.getElementById('vBalance').textContent = fmt(d.balance);
+  document.getElementById('vCurrency').textContent = d.currency || '';
+  document.getElementById('vEquity').textContent = fmt(d.equity);
+  document.getElementById('vProfit').textContent = fmt(d.profit);
+  document.getElementById('vProfit').className = 'sc-value ' + profitClass(d.profit);
+  document.getElementById('vFreeMargin').textContent = fmt(d.free_margin);
+  document.getElementById('vLeverage').textContent = '1:' + (d.leverage || '--');
+  document.getElementById('vMarginLevel').textContent = d.margin_level > 0 ? fmt(d.margin_level, 0) + '%' : '--';
+  document.getElementById('lastUpdate').textContent = 'آخرین بروزرسانی: ' + new Date().toLocaleTimeString('fa-IR');
+}
+
+// ═══ POSITIONS ═══
+async function loadPositions() {
+  const d = await fetchJSON('/api/performance/positions');
+  const body = document.getElementById('posBody');
+  if (!d || !d.positions) {
+    body.innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--text3);padding:20px;">خطا در بارگذاری</td></tr>';
+    return;
+  }
+  const pos = d.positions;
+  document.getElementById('posCount').textContent = '(' + pos.length + ' پوزیشن)';
+  if (pos.length === 0) {
+    body.innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--text3);padding:20px;">پوزیشن بازی وجود ندارد</td></tr>';
+    return;
+  }
+  body.innerHTML = pos.map(p => `<tr>
+    <td>${p.ticket}</td>
+    <td><strong>${p.symbol}</strong></td>
+    <td class="${typeClass(p.type)}">${p.type === 'BUY' ? 'خرید' : 'فروش'}</td>
+    <td>${p.volume}</td>
+    <td>${fmt(p.open_price, 5)}</td>
+    <td>${fmt(p.current_price, 5)}</td>
+    <td>${p.sl > 0 ? fmt(p.sl, 5) : '--'}</td>
+    <td>${p.tp > 0 ? fmt(p.tp, 5) : '--'}</td>
+    <td class="${profitClass(p.profit)}">${fmt(p.profit)}</td>
+    <td>${p.duration || '--'}</td>
+  </tr>`).join('');
+}
+
+// ═══ METRICS ═══
+async function loadMetrics() {
+  const d = await fetchJSON('/api/performance/metrics?days=' + currentDays);
+  if (!d || d.error) return;
+  document.getElementById('mWinRate').textContent = d.win_rate + '%';
+  document.getElementById('mWinRate').style.color = d.win_rate >= 50 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('mProfitFactor').textContent = fmt(d.profit_factor);
+  document.getElementById('mProfitFactor').style.color = d.profit_factor >= 1 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('mTotalTrades').textContent = d.total_trades;
+  document.getElementById('mNetProfit').textContent = '$' + fmt(d.net_profit);
+  document.getElementById('mNetProfit').style.color = d.net_profit >= 0 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('mAvgWin').textContent = '$' + fmt(d.avg_win);
+  document.getElementById('mAvgLoss').textContent = '$' + fmt(d.avg_loss);
+  document.getElementById('mExpectancy').textContent = '$' + fmt(d.expectancy);
+  document.getElementById('mExpectancy').style.color = d.expectancy >= 0 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('mMaxDD').textContent = '--';
+  // Generate insights
+  generateInsights(d);
+}
+
+// ═══ EQUITY ═══
+async function loadEquity() {
+  const d = await fetchJSON('/api/performance/equity?days=' + currentDays);
+  if (!d || d.error) return;
+  const curve = d.curve || {};
+  const dd = d.drawdown || {};
+  // Update max DD metric
+  document.getElementById('mMaxDD').textContent = dd.max_drawdown_pct ? dd.max_drawdown_pct + '%' : '0%';
+  document.getElementById('mMaxDD').style.color = 'var(--red)';
+  // Equity chart
+  const ctx1 = document.getElementById('equityChart').getContext('2d');
+  if (equityChartObj) equityChartObj.destroy();
+  equityChartObj = new Chart(ctx1, {
+    type: 'line',
+    data: {
+      labels: curve.dates || [],
+      datasets: [{
+        label: 'اکوئیتی',
+        data: curve.equity || [],
+        borderColor: '#06b6d4',
+        backgroundColor: 'rgba(6,182,212,.08)',
+        fill: true,
+        tension: .3,
+        pointRadius: 3,
+        pointBackgroundColor: '#06b6d4',
+        borderWidth: 2,
+      }, {
+        label: 'سود/زیان روزانه',
+        data: curve.daily_pnl || [],
+        borderColor: '#a78bfa',
+        backgroundColor: 'transparent',
+        borderDash: [4, 4],
+        tension: .3,
+        pointRadius: 2,
+        borderWidth: 1.5,
+        yAxisID: 'y1',
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {mode: 'index', intersect: false},
+      plugins: {legend: {labels: {color: '#7f849c', font: {size: 11}}}},
+      scales: {
+        x: {ticks: {color: '#565a6e', font: {size: 10}}, grid: {color: 'rgba(42,47,66,.3)'}},
+        y: {position: 'right', ticks: {color: '#565a6e', font: {size: 10}}, grid: {color: 'rgba(42,47,66,.3)'}},
+        y1: {position: 'left', ticks: {color: '#a78bfa', font: {size: 10}}, grid: {display: false}},
+      }
+    }
+  });
+  // Drawdown chart
+  const ddDates = curve.dates || [];
+  const eqVals = curve.equity || [];
+  let peak = eqVals[0] || 0;
+  const ddPcts = eqVals.map(v => {
+    if (v > peak) peak = v;
+    return peak > 0 ? -((peak - v) / peak * 100) : 0;
+  });
+  const ctx2 = document.getElementById('drawdownChart').getContext('2d');
+  if (drawdownChartObj) drawdownChartObj.destroy();
+  drawdownChartObj = new Chart(ctx2, {
+    type: 'line',
+    data: {
+      labels: ddDates,
+      datasets: [{
+        label: 'افت سرمایه %',
+        data: ddPcts,
+        borderColor: '#ef4444',
+        backgroundColor: 'rgba(239,68,68,.12)',
+        fill: true,
+        tension: .3,
+        pointRadius: 2,
+        borderWidth: 2,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {legend: {labels: {color: '#7f849c', font: {size: 11}}}},
+      scales: {
+        x: {ticks: {color: '#565a6e', font: {size: 10}}, grid: {color: 'rgba(42,47,66,.3)'}},
+        y: {position: 'right', ticks: {color: '#ef4444', font: {size: 10}, callback: v => v.toFixed(1)+'%'}, grid: {color: 'rgba(42,47,66,.3)'}},
+      }
+    }
+  });
+}
+
+// ═══ DAILY ═══
+async function loadDaily() {
+  const d = await fetchJSON('/api/performance/daily?days=' + currentDays);
+  const body = document.getElementById('dailyBody');
+  if (!d || !d.daily) {
+    body.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:20px;">داده‌ای یافت نشد</td></tr>';
+    return;
+  }
+  if (d.daily.length === 0) {
+    body.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:20px;">معامله‌ای در این دوره ثبت نشده</td></tr>';
+    return;
+  }
+  body.innerHTML = d.daily.map(r => `<tr>
+    <td>${r.date}</td>
+    <td>${r.trades_count}</td>
+    <td class="${profitClass(r.pnl)}">${fmt(r.pnl)}</td>
+    <td>${r.win_rate}%</td>
+    <td class="profit-pos">${fmt(r.best_trade)}</td>
+    <td class="profit-neg">${fmt(r.worst_trade)}</td>
+  </tr>`).join('');
+}
+
+// ═══ HISTORY ═══
+async function loadHistory() {
+  const d = await fetchJSON('/api/performance/history?days=' + currentDays);
+  if (!d || !d.trades) {
+    document.getElementById('histBody').innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text3);padding:20px;">داده‌ای یافت نشد</td></tr>';
+    return;
+  }
+  allTrades = d.trades.filter(t => t.entry_type === 'out');
+  historyPage = 1;
+  renderHistoryPage();
+  // Also load symbol distribution
+  loadSymbolCharts(d.trades);
+}
+
+function renderHistoryPage() {
+  const start = (historyPage - 1) * HIST_PER_PAGE;
+  const page = allTrades.slice(start, start + HIST_PER_PAGE);
+  const body = document.getElementById('histBody');
+  if (page.length === 0) {
+    body.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text3);padding:20px;">معامله بسته‌ای یافت نشد</td></tr>';
+    document.getElementById('histPagination').innerHTML = '';
+    return;
+  }
+  body.innerHTML = page.map(t => `<tr>
+    <td>${t.ticket}</td>
+    <td><strong>${t.symbol}</strong></td>
+    <td class="${typeClass(t.type)}">${t.type === 'BUY' ? 'خرید' : 'فروش'}</td>
+    <td>${t.volume}</td>
+    <td>${fmt(t.price, 5)}</td>
+    <td class="${profitClass(t.profit)}">${fmt(t.profit)}</td>
+    <td>${fmt(t.swap)}</td>
+    <td>${fmt(t.commission)}</td>
+    <td style="font-size:11px;">${t.time ? new Date(t.time).toLocaleString('fa-IR') : '--'}</td>
+  </tr>`).join('');
+  // Pagination
+  const totalPages = Math.ceil(allTrades.length / HIST_PER_PAGE);
+  let html = '';
+  if (totalPages > 1) {
+    html += `<button class="page-btn" onclick="goHistPage(${historyPage-1})" ${historyPage<=1?'disabled':''}>&#8594;</button>`;
+    html += `<span class="page-info">صفحه ${historyPage} از ${totalPages} (${allTrades.length} معامله)</span>`;
+    html += `<button class="page-btn" onclick="goHistPage(${historyPage+1})" ${historyPage>=totalPages?'disabled':''}>&#8592;</button>`;
+  } else if (allTrades.length > 0) {
+    html = `<span class="page-info">${allTrades.length} معامله</span>`;
+  }
+  document.getElementById('histPagination').innerHTML = html;
+}
+
+function goHistPage(p) {
+  const totalPages = Math.ceil(allTrades.length / HIST_PER_PAGE);
+  if (p < 1 || p > totalPages) return;
+  historyPage = p;
+  renderHistoryPage();
+}
+
+// ═══ SYMBOL CHARTS ═══
+function loadSymbolCharts(trades) {
+  const closed = trades.filter(t => t.entry_type === 'out');
+  const bySymbol = {};
+  closed.forEach(t => {
+    if (!bySymbol[t.symbol]) bySymbol[t.symbol] = {count: 0, pnl: 0};
+    bySymbol[t.symbol].count++;
+    bySymbol[t.symbol].pnl += t.profit;
+  });
+  const symbols = Object.keys(bySymbol).sort((a, b) => bySymbol[b].count - bySymbol[a].count);
+  const counts = symbols.map(s => bySymbol[s].count);
+  const pnls = symbols.map(s => Math.round(bySymbol[s].pnl * 100) / 100);
+  const colors = ['#06b6d4','#a78bfa','#22c55e','#f59e0b','#ef4444','#ec4899','#f97316','#3b82f6'];
+
+  // Count chart (doughnut)
+  const ctx3 = document.getElementById('symbolCountChart').getContext('2d');
+  if (symbolCountChartObj) symbolCountChartObj.destroy();
+  symbolCountChartObj = new Chart(ctx3, {
+    type: 'doughnut',
+    data: {
+      labels: symbols,
+      datasets: [{data: counts, backgroundColor: colors.slice(0, symbols.length), borderColor: '#12151c', borderWidth: 2}]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {legend: {position: 'bottom', labels: {color: '#7f849c', font: {size: 11}, padding: 12}}}
+    }
+  });
+
+  // PnL chart (bar)
+  const ctx4 = document.getElementById('symbolPnlChart').getContext('2d');
+  if (symbolPnlChartObj) symbolPnlChartObj.destroy();
+  symbolPnlChartObj = new Chart(ctx4, {
+    type: 'bar',
+    data: {
+      labels: symbols,
+      datasets: [{
+        label: 'سود/زیان',
+        data: pnls,
+        backgroundColor: pnls.map(v => v >= 0 ? 'rgba(34,197,94,.6)' : 'rgba(239,68,68,.6)'),
+        borderColor: pnls.map(v => v >= 0 ? '#22c55e' : '#ef4444'),
+        borderWidth: 1,
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      indexAxis: 'y',
+      plugins: {legend: {display: false}},
+      scales: {
+        x: {ticks: {color: '#565a6e', font: {size: 10}}, grid: {color: 'rgba(42,47,66,.3)'}},
+        y: {ticks: {color: '#7f849c', font: {size: 11}}, grid: {display: false}},
+      }
+    }
+  });
+}
+
+// ═══ AI INSIGHTS ═══
+function generateInsights(metrics) {
+  const grid = document.getElementById('insightsGrid');
+  const items = [];
+
+  if (metrics.total_trades > 0) {
+    // Win rate assessment
+    const wr = metrics.win_rate;
+    if (wr >= 60) items.push({icon: '&#x1F3C6;', text: `نرخ برد <strong>${wr}%</strong> — عالی! بالاتر از میانگین بازار.`});
+    else if (wr >= 50) items.push({icon: '&#x2705;', text: `نرخ برد <strong>${wr}%</strong> — مناسب. تمرکز بر بهبود نسبت ریسک به ریوارد.`});
+    else items.push({icon: '&#x26A0;&#xFE0F;', text: `نرخ برد <strong>${wr}%</strong> — نیاز به بازبینی استراتژی. بررسی شرایط ورود.`});
+
+    // Profit factor
+    const pf = metrics.profit_factor;
+    if (pf >= 2) items.push({icon: '&#x1F4AA;', text: `فاکتور سود <strong>${pf}</strong> — قوی. سود شما دو برابر زیان است.`});
+    else if (pf >= 1) items.push({icon: '&#x1F4B0;', text: `فاکتور سود <strong>${pf}</strong> — سودده. حفظ انضباط.`});
+    else items.push({icon: '&#x1F6A8;', text: `فاکتور سود <strong>${pf}</strong> — زیان‌ده. استراتژی نیاز به تغییر دارد.`});
+
+    // Consecutive
+    if (metrics.max_consecutive_wins > 3) items.push({icon: '&#x1F525;', text: `رکورد <strong>${metrics.max_consecutive_wins}</strong> برد متوالی! مدیریت ریسک در سری بردها مهم است.`});
+    if (metrics.max_consecutive_losses > 3) items.push({icon: '&#x2744;&#xFE0F;', text: `<strong>${metrics.max_consecutive_losses}</strong> باخت متوالی ثبت شده. در صورت تکرار، استراحت کنید.`});
+
+    // Expectancy
+    if (metrics.expectancy > 0) items.push({icon: '&#x1F4A1;', text: `انتظار ریاضی <strong>$${metrics.expectancy}</strong> مثبت — در بلندمدت سودده هستید.`});
+    else if (metrics.expectancy < 0) items.push({icon: '&#x1F4C9;', text: `انتظار ریاضی <strong>$${metrics.expectancy}</strong> منفی — بررسی نقاط خروج ضروری.`});
+
+    // Avg win vs loss
+    if (metrics.avg_win > 0 && metrics.avg_loss > 0) {
+      const rr = (metrics.avg_win / metrics.avg_loss).toFixed(1);
+      items.push({icon: '&#x2696;&#xFE0F;', text: `نسبت سود به زیان: <strong>${rr}:1</strong> — ${rr >= 1.5 ? 'مناسب' : 'نیاز به بهبود'}.`});
+    }
+
+    // Trade volume
+    items.push({icon: '&#x1F4CA;', text: `مجموع <strong>${metrics.total_trades}</strong> معامله بسته شده — <strong>${metrics.winning_trades}</strong> برد، <strong>${metrics.losing_trades}</strong> باخت.`});
+  } else {
+    items.push({icon: '&#x1F4AD;', text: 'هنوز معامله بسته‌ای ثبت نشده. پس از انجام معاملات، تحلیل هوشمند فعال می‌شود.'});
+  }
+
+  grid.innerHTML = items.map(i => `<div class="insight-item"><span class="ii-icon">${i.icon}</span><div class="ii-text">${i.text}</div></div>`).join('');
+}
+
+// ═══ INIT & AUTO-REFRESH ═══
+async function loadAll() {
+  await Promise.all([loadAccount(), loadPositions(), loadMetrics(), loadEquity(), loadDaily(), loadHistory()]);
+}
+
+function startAutoRefresh() {
+  // Positions every 10s
+  posInterval = setInterval(() => {
+    if (!document.hidden) { loadPositions(); loadAccount(); }
+  }, 10000);
+  // Full data every 15s
+  dataInterval = setInterval(() => {
+    if (!document.hidden) { loadMetrics(); loadEquity(); loadDaily(); }
+  }, 15000);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadAll();
+  startAutoRefresh();
+});
+</script>
+<script src="/static/plan-ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+{
+  "symbol": "XAUUSD",
+  "date_range": "2026-02-18 to 2026-02-19",
+  "categories": [
+    {
+      "en": "Moving Average",
+      "fa": "میانگین متحرک",
+      "count": 5,
+      "total_pips": 1404.3000000000002,
+      "strategies": [
+        "MA_10_XAUUSD_H1",
+        "MA_02_XAUUSD_H1",
+        "MA_06_XAUUSD_H1",
+        "MA_05_XAUUSD_H1",
+        "MA_12_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Volume",
+      "fa": "حجم",
+      "count": 2,
+      "total_pips": 1030.1999999999998,
+      "strategies": [
+        "VOL_03_XAUUSD_H1",
+        "VOL_07_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Smart Money",
+      "fa": "اسمارت مانی",
+      "count": 4,
+      "total_pips": 1005.8,
+      "strategies": [
+        "SM_08_XAUUSD_H1",
+        "SM_03_XAUUSD_H1",
+        "SM_10_XAUUSD_H1",
+        "SM_02_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Pivot Points",
+      "fa": "پیوت",
+      "count": 3,
+      "total_pips": 887.1000000000001,
+      "strategies": [
+        "PVT_01_XAUUSD_H1",
+        "PVT_02_XAUUSD_H1",
+        "PVT_03_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Multi-Timeframe",
+      "fa": "مولتی تایم‌فریم",
+      "count": 3,
+      "total_pips": 815.4,
+      "strategies": [
+        "MTF_03_XAUUSD_H1",
+        "MTF_04_XAUUSD_H1",
+        "MTF_01_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "ADX / Trend Strength",
+      "fa": "قدرت روند",
+      "count": 3,
+      "total_pips": 813.9000000000001,
+      "strategies": [
+        "ADX_02_XAUUSD_H1",
+        "ADX_06_XAUUSD_H1",
+        "ADX_01_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Ichimoku",
+      "fa": "ایچیموکو",
+      "count": 3,
+      "total_pips": 795.0999999999999,
+      "strategies": [
+        "ICH_05_XAUUSD_H1",
+        "ICH_06_XAUUSD_H1",
+        "ICH_02_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "SuperTrend",
+      "fa": "سوپرترند",
+      "count": 3,
+      "total_pips": 783.4,
+      "strategies": [
+        "ST_02_XAUUSD_H1",
+        "ST_05_XAUUSD_H1",
+        "ST_06_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "ATR / Volatility",
+      "fa": "نوسان‌محور",
+      "count": 2,
+      "total_pips": 674.1,
+      "strategies": [
+        "ATR_03_XAUUSD_H1",
+        "ATR_04_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Fibonacci",
+      "fa": "فیبوناچی",
+      "count": 3,
+      "total_pips": 633.2,
+      "strategies": [
+        "FIB_07_XAUUSD_H1",
+        "FIB_08_XAUUSD_H1",
+        "FIB_02_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Vortex",
+      "fa": "ورتکس",
+      "count": 2,
+      "total_pips": 614.4000000000001,
+      "strategies": [
+        "VTX_02_XAUUSD_H1",
+        "VTX_04_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Stochastic",
+      "fa": "استوکستیک",
+      "count": 2,
+      "total_pips": 565.1,
+      "strategies": [
+        "STOCH_03_XAUUSD_H1",
+        "STOCH_07_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "MACD",
+      "fa": "مکدی",
+      "count": 3,
+      "total_pips": 554.6,
+      "strategies": [
+        "MACD_04_XAUUSD_H1",
+        "MACD_05_XAUUSD_H1",
+        "MACD_01_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Elliott Wave",
+      "fa": "الیوت",
+      "count": 2,
+      "total_pips": 451.5,
+      "strategies": [
+        "EW_04_XAUUSD_H1",
+        "EW_06_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Divergence",
+      "fa": "واگرایی",
+      "count": 1,
+      "total_pips": 393.8,
+      "strategies": [
+        "DIV_05_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Momentum",
+      "fa": "مومنتوم",
+      "count": 2,
+      "total_pips": 382.79999999999995,
+      "strategies": [
+        "MOM_01_XAUUSD_H1",
+        "MOM_03_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Price Action",
+      "fa": "پرایس اکشن",
+      "count": 1,
+      "total_pips": 322.6,
+      "strategies": [
+        "PA_06_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Chart Pattern",
+      "fa": "الگوی چارت",
+      "count": 1,
+      "total_pips": 296.4,
+      "strategies": [
+        "CP_06_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Ultimate Oscillator",
+      "fa": "اولتیمیت",
+      "count": 1,
+      "total_pips": 288.4,
+      "strategies": [
+        "ULT_02_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Correlation",
+      "fa": "همبستگی",
+      "count": 1,
+      "total_pips": 272.3,
+      "strategies": [
+        "COR_03_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "StochRSI",
+      "fa": "استوک RSI",
+      "count": 1,
+      "total_pips": 218.5,
+      "strategies": [
+        "SRSI_03_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Bollinger Bands",
+      "fa": "بولینجر",
+      "count": 1,
+      "total_pips": 178.2,
+      "strategies": [
+        "BB_09_XAUUSD_H1"
+      ]
+    },
+    {
+      "en": "Aroon",
+      "fa": "آرون",
+      "count": 1,
+      "total_pips": 169.4,
+      "strategies": [
+        "ARN_02_XAUUSD_H1"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment & secrets
+.env
+.env.local
+config/.env
+*.pem
+*.key
+credentials.*
+
+# Database
+db/*.db
+db/*.db-wal
+db/*.db-shm
+
+# Data (large files)
+data/raw/
+data/processed/
+data/cache/
+data/pending_signals.json
+data/bot_state.json
+data/bot_trades.json
+data/bot_whitelist.json
+data/bot_server.log
+
+# Model artifacts
+models/*.pkl
+models/*.joblib
+models/*.h5
+models/*.keras
+!models/.gitkeep
+
+# Runtime state
+*.json.bak
+track_records/
+alerts.json
+notifications.json
+alert_templates.json
+alert_user_config.json
+users.json
+robots.json
+risk_alerts.json
+strategy_alerts.json
+email_config.json
+
+# Exports & reports
+exports/
+reports/*.html
+
+# Logs
+logs/
+*.log
+
+# Temp files
+temp/
+*.bak
+*.zip
+nul
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local config
+.local/
+
+# Bat scripts
+*.bat

@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Whilber-AI | پنل مدیریت</title>
+<style>
+:root{--bg:#0a0c12;--bg2:#12151f;--bg3:#1a1e2e;--bg4:#232840;--border:#2d3348;--text:#e4e6ef;--text2:#8b8fa3;--text3:#5a6480;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;--cyan:#06b6d4;--purple:#a855f7;--orange:#f97316;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;}
+
+/* Login */
+#loginPage{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px;}
+#adminPage{display:none;}
+.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px;width:100%;max-width:380px;text-align:center;}
+.login-box h1{font-size:24px;margin-bottom:6px;color:var(--cyan);}
+.login-box p{color:var(--text2);margin-bottom:20px;font-size:13px;}
+.login-box input{display:block;width:100%;padding:12px 14px;margin-bottom:10px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;font-family:inherit;}
+.login-box input:focus{outline:none;border-color:var(--cyan);}
+.login-btn{width:100%;padding:12px;border-radius:8px;border:none;background:var(--cyan);color:#000;font-weight:700;font-size:15px;cursor:pointer;transition:.2s;}
+.login-btn:hover{background:#0891b2;}
+.login-err{color:var(--red);font-size:13px;margin-top:10px;min-height:18px;}
+
+/* Admin Header */
+.admin-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.admin-logo{font-size:20px;font-weight:700;color:var(--cyan);display:flex;align-items:center;gap:8px;}
+.admin-logo span{font-size:11px;color:#000;background:var(--yellow);padding:2px 8px;border-radius:4px;font-weight:700;}
+.admin-nav{display:flex;gap:3px;flex-wrap:wrap;}
+.nav-btn{padding:7px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:11.5px;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;}
+.nav-btn:hover,.nav-btn.active{background:var(--bg3);color:var(--cyan);border-color:var(--cyan);}
+.logout-btn{color:var(--red)!important;border-color:var(--red)!important;}
+.logout-btn:hover{background:rgba(239,68,68,.1)!important;}
+.admin-body{padding:20px;max-width:1300px;margin:0 auto;}
+.section{display:none;}.section.active{display:block;}
+
+/* Stat cards */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px;}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;transition:border-color .2s;}
+.stat-card:hover{border-color:var(--cyan);}
+.stat-num{font-size:26px;font-weight:700;color:var(--cyan);}
+.stat-num.green{color:var(--green);}
+.stat-num.red{color:var(--red);}
+.stat-num.yellow{color:var(--yellow);}
+.stat-num.purple{color:var(--purple);}
+.stat-label{font-size:11px;color:var(--text2);margin-top:4px;}
+
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;}
+.card h3{color:var(--cyan);margin-bottom:12px;font-size:15px;display:flex;align-items:center;gap:8px;}
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;font-size:12.5px;}
+th{background:var(--bg3);color:var(--text2);padding:9px 12px;text-align:right;font-weight:600;font-size:11px;}
+td{padding:9px 12px;border-bottom:1px solid rgba(45,51,72,.5);}
+tr:hover td{background:rgba(6,182,212,.03);}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.badge-green{background:rgba(34,197,94,.15);color:var(--green);}
+.badge-red{background:rgba(239,68,68,.15);color:var(--red);}
+.badge-yellow{background:rgba(245,158,11,.15);color:var(--yellow);}
+.badge-cyan{background:rgba(6,182,212,.15);color:var(--cyan);}
+
+/* Buttons */
+.btn-sm{padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:11px;cursor:pointer;font-family:inherit;transition:.2s;}
+.btn-sm:hover{border-color:var(--cyan);color:var(--cyan);}
+.btn-sm.red{border-color:var(--red);color:var(--red);}
+.btn-sm.red:hover{background:rgba(239,68,68,.1);}
+.btn-primary{padding:8px 20px;border-radius:8px;border:none;background:var(--cyan);color:#000;font-weight:600;cursor:pointer;font-size:13px;font-family:inherit;transition:.2s;}
+.btn-primary:hover{background:#0891b2;}
+
+/* Health status cards */
+.health-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px;}
+.health-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;overflow:hidden;}
+.health-card::before{content:'';position:absolute;top:0;right:0;width:4px;height:100%;border-radius:0 12px 12px 0;}
+.health-card.ok::before{background:var(--green);}
+.health-card.warn::before{background:var(--yellow);}
+.health-card.err::before{background:var(--red);}
+.health-card.off::before{background:var(--text3);}
+.health-title{font-size:13px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.health-status{font-size:12px;color:var(--text2);}
+.health-status .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:4px;}
+.dot-green{background:var(--green);}
+.dot-red{background:var(--red);}
+.dot-yellow{background:var(--yellow);}
+.dot-gray{background:var(--text3);}
+
+/* Charts */
+.chart-bar{display:flex;align-items:flex-end;gap:3px;height:100px;padding:8px 0;overflow-x:auto;}
+.chart-col{flex-shrink:0;width:18px;background:var(--cyan);border-radius:3px 3px 0 0;min-height:2px;position:relative;transition:height .3s;cursor:pointer;}
+.chart-col:hover{background:#22d3ee;}
+.chart-col span{position:absolute;bottom:-16px;font-size:8px;color:var(--text2);white-space:nowrap;}
+
+/* Search */
+.search-bar{display:flex;gap:8px;margin-bottom:12px;}
+.search-bar input{flex:1;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:inherit;}
+.search-bar input:focus{outline:none;border-color:var(--cyan);}
+.search-bar button{padding:10px 20px;background:var(--cyan);border:none;border-radius:8px;color:#000;font-weight:600;cursor:pointer;font-size:12px;}
+
+/* Settings */
+.setting-row{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid var(--border);gap:12px;flex-wrap:wrap;}
+.setting-label{font-weight:600;font-size:13px;}
+.setting-input{min-width:200px;padding:8px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:inherit;}
+.setting-input:focus{outline:none;border-color:var(--cyan);}
+
+/* Password */
+.pw-box{max-width:400px;margin:0 auto;}
+.pw-box input{display:block;width:100%;padding:12px;margin-bottom:10px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;font-family:inherit;}
+.pw-box input:focus{outline:none;border-color:var(--cyan);}
+.pw-box button{width:100%;padding:12px;border-radius:8px;border:none;background:var(--cyan);color:#000;font-weight:600;cursor:pointer;font-size:14px;}
+
+/* Messages */
+.msg-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px;}
+.msg-card.unread{border-right:3px solid var(--cyan);}
+.msg-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;}
+.msg-name{font-weight:700;font-size:14px;}
+.msg-time{color:var(--text2);font-size:11px;}
+.msg-body{color:var(--text);font-size:13px;line-height:1.7;background:var(--bg3);padding:10px 14px;border-radius:8px;white-space:pre-wrap;}
+.msg-actions{display:flex;gap:6px;margin-top:8px;}
+
+/* Position row */
+.pos-row{display:grid;grid-template-columns:1fr 80px 80px 100px 100px;gap:8px;padding:10px 12px;border-bottom:1px solid var(--border);font-size:12px;align-items:center;}
+.pos-row:hover{background:rgba(6,182,212,.03);}
+.pos-sym{font-weight:700;font-size:13px;}
+.pos-pnl{font-weight:700;text-align:left;}
+
+/* Refresh indicator */
+.refresh-bar{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:11px;color:var(--text3);}
+.refresh-bar button{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit;}
+.refresh-bar button:hover{color:var(--cyan);border-color:var(--cyan);}
+
+/* Account info */
+.acct-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
+.acct-item{background:var(--bg3);border-radius:8px;padding:10px;text-align:center;}
+.acct-val{font-size:18px;font-weight:700;}
+.acct-lbl{font-size:10px;color:var(--text2);margin-top:2px;}
+
+/* Responsive */
+@media(max-width:768px){
+  .admin-header{padding:8px 12px;}
+  .admin-body{padding:10px;}
+  .stat-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+  .stat-num{font-size:20px;}
+  .nav-btn{padding:5px 8px;font-size:10px;}
+  .card-grid{grid-template-columns:1fr;}
+  .health-grid{grid-template-columns:1fr 1fr;}
+  .acct-grid{grid-template-columns:1fr 1fr;}
+  table{min-width:500px;}
+  th,td{padding:8px;font-size:11px;}
+}
+@media(max-width:480px){
+  .stat-grid{grid-template-columns:1fr 1fr;gap:6px;}
+  .stat-card{padding:10px 6px;}
+  .stat-num{font-size:16px;}
+  .stat-label{font-size:10px;}
+  .admin-nav{gap:2px;}
+  .nav-btn{padding:4px 6px;font-size:9px;}
+  .setting-row{flex-direction:column;align-items:stretch;}
+  .setting-input{min-width:auto;width:100%;}
+  .login-box{padding:24px 16px;}
+  .health-grid{grid-template-columns:1fr;}
+  .acct-grid{grid-template-columns:1fr 1fr;}
+}
+
+/* Modal overlay */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:2000;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px;width:90%;max-width:420px;position:relative;}
+.modal-box h3{color:var(--cyan);margin-bottom:16px;font-size:16px;}
+.modal-close{position:absolute;top:12px;left:12px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{color:var(--red);border-color:var(--red);}
+.modal-row{margin-bottom:12px;}
+.modal-row label{display:block;font-size:12px;color:var(--text2);margin-bottom:4px;}
+.modal-row select,.modal-row input,.modal-row textarea{width:100%;padding:10px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:inherit;}
+.modal-row select:focus,.modal-row input:focus,.modal-row textarea:focus{outline:none;border-color:var(--cyan);}
+
+/* Filter bar */
+.filter-bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;}
+.filter-bar input,.filter-bar select{padding:9px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:12px;font-family:inherit;}
+.filter-bar input{flex:1;min-width:140px;}
+.filter-bar select{min-width:100px;}
+.filter-bar input:focus,.filter-bar select:focus{outline:none;border-color:var(--cyan);}
+.filter-bar button{padding:9px 16px;background:var(--cyan);border:none;border-radius:8px;color:#000;font-weight:600;cursor:pointer;font-size:12px;white-space:nowrap;}
+
+/* Revenue cards */
+.rev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px;}
+.rev-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;}
+.rev-val{font-size:22px;font-weight:700;}
+.rev-lbl{font-size:11px;color:var(--text2);margin-top:4px;}
+
+/* Template buttons */
+.tpl-btns{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.tpl-btn{padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-size:11px;cursor:pointer;font-family:inherit;}
+.tpl-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+
+/* ═══ UNIVERSAL NAV ═══ */
+.wnav{position:sticky;top:0;z-index:1000;background:rgba(8,11,18,.92);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid rgba(30,42,69,.6);padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;}
+.wnav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.wnav-logo-box{width:32px;height:32px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(0,212,255,.25);}
+.wnav-logo-txt{font-size:17px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.3px;}
+.wnav-links{display:flex;align-items:center;gap:1px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.wnav-links::-webkit-scrollbar{display:none;}
+.wnav-links a{color:#8892a8;padding:6px 10px;border-radius:7px;font-size:12.5px;font-weight:500;white-space:nowrap;transition:all .2s;text-decoration:none;}
+.wnav-links a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-links a.wn-active{color:#00d4ff;background:rgba(0,212,255,.08);font-weight:600;}
+.wnav-cta{background:linear-gradient(135deg,#00d4ff,#a855f7) !important;color:#000 !important;font-weight:700 !important;padding:6px 14px !important;border-radius:7px !important;font-size:12px !important;}
+.wnav-back{display:flex;align-items:center;gap:5px;color:#8892a8;font-size:12px;padding:5px 10px;border-radius:7px;cursor:pointer;background:rgba(255,255,255,.03);border:1px solid rgba(30,42,69,.5);transition:all .2s;text-decoration:none;flex-shrink:0;margin-left:6px;}
+.wnav-back:hover{color:#00d4ff;border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);}
+.wnav-ham{display:none;background:none;border:none;color:#e8ecf4;font-size:22px;cursor:pointer;padding:4px;}
+.wnav-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:999;}
+.wnav-mob-overlay.open{display:block;}
+.wnav-mob{position:fixed;top:0;right:0;width:270px;height:100vh;background:#0f1320;border-left:1px solid #1e2a45;z-index:1001;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:64px 14px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.wnav-mob-overlay.open .wnav-mob{transform:translateX(0);}
+.wnav-mob a{display:flex;align-items:center;gap:9px;color:#8892a8;padding:11px 14px;border-radius:9px;font-size:13.5px;text-decoration:none;transition:all .15s;}
+.wnav-mob a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-mob a.wn-active{background:rgba(0,212,255,.08);color:#00d4ff;font-weight:600;}
+.wnav-mob-close{position:absolute;top:14px;left:14px;background:#161b2e;border:1px solid #1e2a45;color:#8892a8;width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+@media(max-width:900px){.wnav-links{display:none;}.wnav-ham{display:block;}.wnav-back{font-size:11px;padding:4px 8px;}}
+
+/* ═══ UNIVERSAL FOOTER ═══ */
+.wfooter{background:#0f1320;border-top:1px solid #1e2a45;padding:32px 20px 16px;margin-top:24px;}
+.wfooter-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:28px;}
+.wfooter-brand p{font-size:12px;color:#5a6480;margin-top:8px;line-height:1.8;}
+.wfooter-col h4{font-size:12px;font-weight:700;color:#e8ecf4;margin-bottom:12px;}
+.wfooter-col a{display:block;color:#5a6480;font-size:12px;padding:3px 0;text-decoration:none;transition:color .2s;}
+.wfooter-col a:hover{color:#00d4ff;}
+.wfooter-bottom{max-width:1100px;margin:0 auto;border-top:1px solid #1e2a45;padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.wfooter-bottom p{font-size:11px;color:#5a6480;}
+.wfooter-bottom a{color:#00d4ff;text-decoration:none;font-size:11px;}
+@media(max-width:768px){.wfooter-grid{grid-template-columns:1fr 1fr;gap:20px;}}
+@media(max-width:480px){.wfooter-grid{grid-template-columns:1fr;}}
+</style></head>
+<body>
+<!-- ═══ UNIVERSAL TOP NAV ═══ -->
+<nav class="wnav" id="wTopNav">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <a href="/" class="wnav-logo"><div class="wnav-logo-box">W</div><span class="wnav-logo-txt">Whilber-AI</span></a>
+    <a href="javascript:history.back()" class="wnav-back">&#8594; برگشت</a>
+  </div>
+  <div class="wnav-links">
+    <a href="/">خانه</a><a href="/dashboard">تحلیل بازار</a><a href="/track-record">سوابق</a><a href="/builder">استراتژی‌ساز</a><a href="/risk-manager">مدیریت ریسک</a><a href="/journal">ژورنال</a><a href="/performance">عملکرد زنده</a><a href="/alerts">هشدارها</a><a href="/guide">راهنما</a><a href="/services">خدمات</a><a href="/about">درباره ما</a><a href="/contact">تماس</a><a href="/pricing">تعرفه‌ها</a><a href="/login">ورود</a><a href="/register">ثبت‌نام</a><a href="/dashboard" class="wnav-cta">&#x1F680; تحلیل</a>
+  </div>
+  <button class="wnav-ham" onclick="document.getElementById('wMobOverlay').classList.add('open')">&#9776;</button>
+</nav>
+<div class="wnav-mob-overlay" id="wMobOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="wnav-mob">
+    <button class="wnav-mob-close" onclick="document.getElementById('wMobOverlay').classList.remove('open')">&#10005;</button>
+    <a href="/">&#x1F3E0; خانه</a><a href="/dashboard">&#x1F4CA; تحلیل بازار</a><a href="/track-record">&#x1F4DC; سوابق</a><a href="/builder">&#x1F527; استراتژی‌ساز</a><a href="/risk-manager">&#x1F6E1;&#xFE0F; مدیریت ریسک</a><a href="/journal">&#x1F4D2; ژورنال</a><a href="/performance">&#x1F4C8; عملکرد زنده</a><a href="/alerts">&#x1F514; هشدارها</a><a href="/guide">&#x1F4D6; راهنما</a><a href="/services">&#x2B50; خدمات</a><a href="/about">&#x1F464; درباره ما</a><a href="/contact">&#x1F4DE; تماس</a><a href="/pricing">تعرفه‌ها</a><a href="/admin" class="wn-active">&#x2699;&#xFE0F; ادمین</a><a href="/login">&#x1F511; ورود</a><a href="/register">&#x1F4DD; ثبت‌نام</a>
+  </div>
+</div>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage"><div class="login-box">
+  <h1>&#x1F512; پنل مدیریت</h1><p>Whilber-AI Admin</p>
+  <input type="text" id="loginUser" placeholder="نام کاربری" dir="ltr" autocomplete="username">
+  <input type="password" id="loginPass" placeholder="رمز عبور" dir="ltr" autocomplete="current-password">
+  <button class="login-btn" onclick="doLogin()">ورود</button>
+  <div class="login-err" id="loginErr"></div>
+</div></div>
+
+<!-- ADMIN PAGE -->
+<div id="adminPage">
+  <div class="admin-header">
+    <div class="admin-logo">&#x1F9E0; Whilber-AI <span>ADMIN</span></div>
+    <div class="admin-nav">
+      <button class="nav-btn active" onclick="showSec('dashboard',this)">&#x1F4CA; داشبورد</button>
+      <button class="nav-btn" onclick="showSec('health',this)">&#x1F3E5; سلامت</button>
+      <button class="nav-btn" onclick="showSec('trading',this)">&#x1F4B9; معاملات</button>
+      <button class="nav-btn" onclick="showSec('users',this)">&#x1F465; کاربران</button>
+      <button class="nav-btn" onclick="showSec('analyses',this)">&#x1F4CB; تحلیل‌ها</button>
+      <button class="nav-btn" onclick="showSec('alertcenter',this)">&#x1F514; هشدارها</button>
+      <button class="nav-btn" onclick="showSec('messages',this)">&#x1F4AC; پیام‌ها</button>
+      <button class="nav-btn" onclick="showSec('settings',this)">&#x2699;&#xFE0F; تنظیمات</button>
+      <button class="nav-btn" onclick="showSec('robots',this)">&#x1F916; ربات‌ها</button>
+      <button class="nav-btn" onclick="showSec('payments',this)">&#x1F4B0; پرداخت‌ها</button>
+      <button class="nav-btn" onclick="showSec('discounts',this)">&#x1F3F7; تخفیف‌ها</button>
+      <button class="nav-btn" onclick="showSec('revenue',this)">&#x1F4CA; درآمد</button>
+      <button class="nav-btn" onclick="showSec('notify',this)">&#x1F4E8; اطلاع‌رسانی</button>
+      <button class="nav-btn" onclick="showSec('password',this)">&#x1F511; رمز</button>
+      <button class="nav-btn logout-btn" onclick="doLogout()">&#x1F6AA; خروج</button>
+    </div>
+  </div>
+  <div class="admin-body">
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <div class="section active" id="sec-dashboard">
+      <div class="stat-grid" id="statGrid"></div>
+      <div class="card-grid">
+        <div class="card"><h3>&#x1F4C8; نمادهای محبوب</h3><div id="popularChart" class="chart-bar"></div></div>
+        <div class="card"><h3>&#x1F4C5; تحلیل روزانه (30 روز)</h3><div id="dailyChart" class="chart-bar"></div></div>
+      </div>
+      <div class="card"><h3>&#x23F0; فعالیت ساعتی (24 ساعت)</h3><div id="hourlyChart" class="chart-bar"></div></div>
+    </div>
+
+    <!-- ═══ SYSTEM HEALTH ═══ -->
+    <div class="section" id="sec-health">
+      <div class="refresh-bar">
+        <span id="healthTime">آخرین بروزرسانی: &mdash;</span>
+        <button onclick="loadHealth()">&#x1F504; بروزرسانی</button>
+        <label style="margin-right:auto;"><input type="checkbox" id="autoRefresh" checked> بروزرسانی خودکار (30 ثانیه)</label>
+      </div>
+      <div class="health-grid" id="healthGrid"></div>
+      <div class="card-grid">
+        <div class="card"><h3>&#x1F4BB; منابع سرور</h3><div id="perfBox">در حال بارگذاری...</div></div>
+        <div class="card"><h3>&#x1F4CA; وضعیت کلی</h3><div id="healthSummary">در حال بارگذاری...</div></div>
+      </div>
+    </div>
+
+    <!-- ═══ TRADING MONITOR ═══ -->
+    <div class="section" id="sec-trading">
+      <div class="refresh-bar">
+        <span id="tradeTime">آخرین بروزرسانی: &mdash;</span>
+        <button onclick="loadTrading()">&#x1F504; بروزرسانی</button>
+      </div>
+      <div class="acct-grid" id="acctGrid"></div>
+      <div class="card-grid">
+        <div class="card"><h3>&#x1F4B0; معاملات باز</h3><div id="posBox" style="overflow-x:auto;">بدون معامله باز</div></div>
+        <div class="card"><h3>&#x1F3C6; برترین استراتژی‌ها</h3><div id="topStrats" style="overflow-x:auto;">در حال بارگذاری...</div></div>
+      </div>
+    </div>
+
+    <!-- ═══ USERS (Phase 4 — auth_users) ═══ -->
+    <div class="section" id="sec-users">
+      <div class="stat-grid" id="userStatGrid"></div>
+      <div class="filter-bar">
+        <input id="userSearch" placeholder="جستجوی نام، ایمیل، موبایل..." dir="ltr">
+        <select id="userPlanFilter"><option value="">همه پلن‌ها</option><option value="free">رایگان</option><option value="pro">Pro</option><option value="premium">Premium</option><option value="enterprise">Enterprise</option></select>
+        <select id="userStatusFilter"><option value="">همه وضعیت‌ها</option><option value="active">فعال</option><option value="expired">منقضی</option><option value="inactive">غیرفعال</option></select>
+        <button onclick="loadAuthUsers()">جستجو</button>
+        <button onclick="exportUsersCsv()" style="background:var(--bg3);color:var(--text);border:1px solid var(--border);">&#x1F4E5; خروجی CSV</button>
+      </div>
+      <div class="card" style="overflow-x:auto"><table><thead><tr><th>#</th><th>نام</th><th>ایمیل</th><th>پلن</th><th>وضعیت</th><th>ثبت‌نام</th><th>آخرین ورود</th><th>تحلیل امروز</th><th>عملیات</th></tr></thead><tbody id="usersBody"></tbody></table></div>
+      <div id="userInfo" style="color:var(--text2);font-size:12px;margin-top:6px"></div>
+    </div>
+
+    <!-- User Plan Edit Modal -->
+    <div class="modal-overlay" id="userPlanModal">
+      <div class="modal-box">
+        <button class="modal-close" onclick="closeUserModal()">&#10005;</button>
+        <h3>&#x270F; تغییر پلن کاربر</h3>
+        <input type="hidden" id="modalUserId">
+        <div id="modalUserInfo" style="font-size:12px;color:var(--text2);margin-bottom:12px;"></div>
+        <div class="modal-row"><label>پلن جدید</label><select id="modalPlan"><option value="free">رایگان (Free)</option><option value="pro">Pro</option><option value="premium">Premium</option><option value="enterprise">Enterprise</option></select></div>
+        <div class="modal-row"><label>مدت (روز)</label><input type="number" id="modalDays" value="30" min="1" dir="ltr"></div>
+        <div style="display:flex;gap:8px;margin-top:16px;">
+          <button class="btn-primary" onclick="saveUserPlan()">&#x2705; ذخیره</button>
+          <button class="btn-sm" onclick="closeUserModal()">انصراف</button>
+        </div>
+        <div id="modalMsg" style="margin-top:8px;font-size:12px;min-height:16px;"></div>
+      </div>
+    </div>
+
+    <!-- ═══ ANALYSES ═══ -->
+    <div class="section" id="sec-analyses">
+      <div class="card" style="overflow-x:auto"><table><thead><tr><th>#</th><th>نماد</th><th>تایم</th><th>سیگنال</th><th>اطمینان</th><th>IP</th><th>تاریخ</th></tr></thead><tbody id="analysesBody"></tbody></table></div>
+    </div>
+
+    <!-- ═══ ALERT CENTER ═══ -->
+    <div class="section" id="sec-alertcenter">
+      <div class="stat-grid" id="alertStats"></div>
+      <div class="card-grid">
+        <div class="card"><h3>&#x1F4E8; لاگ ارسال هشدار (اخیر)</h3><div id="alertLog" style="overflow-x:auto;">در حال بارگذاری...</div></div>
+        <div class="card"><h3>&#x1F465; مشترکین</h3><div id="alertSubs" style="overflow-x:auto;">در حال بارگذاری...</div></div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px;">
+        <a href="/admin/alerts" class="btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;">&#x1F4E2; پنل ارسال هشدار</a>
+        <a href="/alerts-settings" class="btn-sm" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;">&#x1F514; تنظیمات هشدار</a>
+      </div>
+    </div>
+
+    <!-- ═══ MESSAGES ═══ -->
+    <div class="section" id="sec-messages">
+      <div id="msgCount" style="margin-bottom:12px;font-size:13px;color:var(--text2)"></div>
+      <div id="msgList"></div>
+    </div>
+
+    <!-- ═══ SETTINGS ═══ -->
+    <div class="section" id="sec-settings">
+      <div class="card" id="settingsBox"></div>
+      <div style="text-align:left;margin-top:12px"><button class="btn-primary" onclick="saveSettings()">&#x2705; ذخیره تنظیمات</button></div>
+      <div id="settingsMsg" style="margin-top:8px;font-size:13px;color:var(--green)"></div>
+    </div>
+
+    <!-- ═══ PASSWORD ═══ -->
+    <div class="section" id="sec-password">
+      <div class="pw-box">
+        <h3 style="text-align:center;margin-bottom:16px;color:var(--cyan)">&#x1F511; تغییر رمز عبور</h3>
+        <input type="password" id="newPw1" placeholder="رمز جدید" dir="ltr">
+        <input type="password" id="newPw2" placeholder="تکرار رمز جدید" dir="ltr">
+        <button onclick="changePw()">تغییر رمز</button>
+        <div id="pwMsg" style="margin-top:8px;font-size:13px;min-height:16px;text-align:center"></div>
+      </div>
+    </div>
+
+    <!-- ═══ ROBOTS MANAGEMENT ═══ -->
+    <div class="section" id="sec-robots">
+      <div class="stat-grid" id="robotStatGrid"></div>
+
+      <div class="card">
+        <h3 style="cursor:pointer;" onclick="toggleRobotForm()">&#x2795; افزودن / ویرایش ربات <span id="robotFormToggle" style="font-size:11px;color:var(--text3);">(کلیک برای باز/بسته)</span></h3>
+        <div id="robotFormWrap" style="display:none;">
+          <input type="hidden" id="rbEditId" value="">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+            <div><label style="font-size:11px;color:var(--text2);">نام ربات</label><input class="setting-input" id="rbName" style="width:100%;" placeholder="نام فارسی ربات"></div>
+            <div><label style="font-size:11px;color:var(--text2);">دسته‌بندی</label><select class="setting-input" id="rbCategory" style="width:100%;"></select></div>
+          </div>
+          <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text2);">توضیحات</label><textarea class="setting-input" id="rbDesc" style="width:100%;min-height:60px;resize:vertical;" placeholder="توضیحات کامل ربات"></textarea></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
+            <div><label style="font-size:11px;color:var(--text2);">نسخه</label><input class="setting-input" id="rbVersion" style="width:100%;" value="1.0" dir="ltr"></div>
+            <div><label style="font-size:11px;color:var(--text2);">پلتفرم</label><input class="setting-input" id="rbPlatform" style="width:100%;" value="MT5" dir="ltr"></div>
+            <div><label style="font-size:11px;color:var(--text2);">نوع قیمت</label><select class="setting-input" id="rbPriceType" style="width:100%;"><option value="free">رایگان</option><option value="paid">پولی</option></select></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
+            <div><label style="font-size:11px;color:var(--text2);">مبلغ (تومان)</label><input class="setting-input" id="rbPrice" style="width:100%;" type="number" value="0" dir="ltr"></div>
+            <div><label style="font-size:11px;color:var(--text2);">نمادها</label><input class="setting-input" id="rbSymbols" style="width:100%;" placeholder="XAUUSD, EURUSD"></div>
+            <div><label style="font-size:11px;color:var(--text2);">تایم‌فریم</label><input class="setting-input" id="rbTimeframes" style="width:100%;" placeholder="M15, H1"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+            <div><label style="font-size:11px;color:var(--text2);">حداقل سرمایه</label><input class="setting-input" id="rbMinBal" style="width:100%;" placeholder="$100"></div>
+            <div><label style="font-size:11px;color:var(--text2);">تگ‌ها</label><input class="setting-input" id="rbTags" style="width:100%;" placeholder="scalper, gold, auto"></div>
+          </div>
+          <div style="margin-bottom:10px;"><label style="font-size:11px;color:var(--text2);">ویژگی‌ها</label><textarea class="setting-input" id="rbFeatures" style="width:100%;min-height:50px;resize:vertical;" placeholder="هر ویژگی در یک خط"></textarea></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+            <div><label style="font-size:11px;color:var(--text2);">تصویر ربات</label><input type="file" id="rbImage" accept="image/*" style="font-size:12px;color:var(--text2);margin-top:4px;"></div>
+            <div><label style="font-size:11px;color:var(--text2);">فایل ربات (.ex5)</label><input type="file" id="rbFile" accept=".ex5,.ex4,.mq5,.mq4" style="font-size:12px;color:var(--text2);margin-top:4px;"></div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-primary" onclick="saveRobot()">&#x2705; ذخیره ربات</button>
+            <button class="btn-sm" onclick="resetRobotForm()">&#x1F504; پاکسازی فرم</button>
+          </div>
+          <div id="robotFormMsg" style="margin-top:8px;font-size:12px;min-height:16px;"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>&#x1F4CB; لیست ربات‌ها</h3>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead><tr><th>#</th><th>تصویر</th><th>نام</th><th>دسته</th><th>قیمت</th><th>دانلود</th><th>بازدید</th><th>امتیاز</th><th>وضعیت</th><th>عملیات</th></tr></thead>
+            <tbody id="robotsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" id="robotReviewsPanel" style="display:none;">
+        <h3>&#x1F4AC; نظرات ربات: <span id="robotReviewsTitle"></span></h3>
+        <div id="robotReviewsList"></div>
+      </div>
+    </div>
+
+    <!-- ═══ PAYMENTS (Phase 4) ═══ -->
+    <div class="section" id="sec-payments">
+      <div class="filter-bar">
+        <input id="paySearch" placeholder="جستجوی ایمیل کاربر..." dir="ltr">
+        <select id="payMethodFilter"><option value="">همه روش‌ها</option><option value="zarinpal">زرین‌پال</option><option value="tether">تتر</option><option value="card">کارت به کارت</option></select>
+        <select id="payStatusFilter"><option value="">همه وضعیت‌ها</option><option value="pending">در انتظار</option><option value="submitted">ارسال شده</option><option value="verified">تأیید شده</option><option value="rejected">رد شده</option><option value="failed">ناموفق</option></select>
+        <button onclick="loadPaymentsAdmin()">جستجو</button>
+      </div>
+      <div class="card" style="overflow-x:auto">
+        <table><thead><tr><th>#</th><th>کاربر</th><th>مبلغ (تومان)</th><th>روش</th><th>پلن</th><th>وضعیت</th><th>تاریخ</th><th>عملیات</th></tr></thead><tbody id="paymentsBody"></tbody></table>
+      </div>
+      <div id="payInfo" style="color:var(--text2);font-size:12px;margin-top:6px"></div>
+    </div>
+
+    <!-- ═══ DISCOUNTS (Phase 4) ═══ -->
+    <div class="section" id="sec-discounts">
+      <div class="card">
+        <h3>&#x2795; ایجاد کد تخفیف جدید</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:12px;">
+          <div><label style="font-size:11px;color:var(--text2);">کد تخفیف</label><input class="setting-input" id="discCode" placeholder="مثال: WELCOME20" dir="ltr" style="width:100%;"></div>
+          <div><label style="font-size:11px;color:var(--text2);">درصد تخفیف</label><input class="setting-input" id="discPercent" type="number" value="10" min="1" max="100" dir="ltr" style="width:100%;"></div>
+          <div><label style="font-size:11px;color:var(--text2);">حداکثر استفاده</label><input class="setting-input" id="discMaxUses" type="number" value="100" min="1" dir="ltr" style="width:100%;"></div>
+          <div><label style="font-size:11px;color:var(--text2);">معتبر تا</label><input class="setting-input" id="discValidUntil" type="date" dir="ltr" style="width:100%;"></div>
+        </div>
+        <button class="btn-primary" onclick="createDiscount()">&#x2705; ایجاد</button>
+        <span id="discCreateMsg" style="margin-right:12px;font-size:12px;"></span>
+      </div>
+      <div class="card" style="overflow-x:auto">
+        <h3>&#x1F4CB; لیست کدهای تخفیف</h3>
+        <table><thead><tr><th>#</th><th>کد</th><th>درصد</th><th>استفاده / حداکثر</th><th>معتبر تا</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody id="discountsBody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ═══ REVENUE (Phase 4) ═══ -->
+    <div class="section" id="sec-revenue">
+      <div class="rev-grid" id="revStatGrid"></div>
+      <div class="card-grid">
+        <div class="card"><h3>&#x1F4C8; درآمد روزانه (۳۰ روز)</h3><div id="revChart" class="chart-bar"></div></div>
+        <div class="card"><h3>&#x1F4CA; درآمد به تفکیک پلن</h3><div id="revByPlan"></div></div>
+      </div>
+      <div class="card-grid">
+        <div class="card"><h3>&#x1F4B3; درآمد به تفکیک روش پرداخت</h3><div id="revByMethod"></div></div>
+        <div class="card"><h3>&#x1F4C9; شاخص‌ها</h3><div id="revMetrics"></div></div>
+      </div>
+    </div>
+
+    <!-- ═══ NOTIFY (Phase 4) ═══ -->
+    <div class="section" id="sec-notify">
+      <div class="card">
+        <h3>&#x1F4E8; ارسال اطلاع‌رسانی</h3>
+        <div class="modal-row">
+          <label>نوع ارسال</label>
+          <select id="notifyType" onchange="toggleNotifyTarget()">
+            <option value="plan">ارسال به گروه (بر اساس پلن)</option>
+            <option value="email">ارسال به یک کاربر (ایمیل)</option>
+          </select>
+        </div>
+        <div class="modal-row" id="notifyPlanRow">
+          <label>پلن هدف</label>
+          <select id="notifyPlan"><option value="all">همه کاربران</option><option value="free">رایگان</option><option value="pro">Pro</option><option value="premium">Premium</option><option value="enterprise">Enterprise</option></select>
+        </div>
+        <div class="modal-row" id="notifyEmailRow" style="display:none;">
+          <label>ایمیل کاربر</label>
+          <input id="notifyEmail" placeholder="user@example.com" dir="ltr">
+        </div>
+        <div class="modal-row"><label>عنوان</label><input id="notifyTitle" value="اطلاع‌رسانی"></div>
+        <div class="modal-row"><label>متن پیام</label><textarea id="notifyMsg" rows="4" placeholder="متن پیام اطلاع‌رسانی..."></textarea></div>
+        <div class="tpl-btns">
+          <button class="tpl-btn" onclick="fillNotifyTpl('welcome')">&#x1F44B; خوش‌آمدگویی</button>
+          <button class="tpl-btn" onclick="fillNotifyTpl('update')">&#x1F4E2; بروزرسانی</button>
+          <button class="tpl-btn" onclick="fillNotifyTpl('offer')">&#x1F381; پیشنهاد ویژه</button>
+          <button class="tpl-btn" onclick="fillNotifyTpl('maintenance')">&#x1F527; تعمیرات</button>
+        </div>
+        <button class="btn-primary" onclick="sendNotify()">&#x1F4E4; ارسال</button>
+        <div id="notifyResult" style="margin-top:10px;font-size:13px;min-height:16px;"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+var API='',TOKEN='',healthInterval=null;
+var SL={'site_active':{l:'وضعیت سایت',t:'select',o:{'1':'فعال','0':'غیرفعال'}},'require_registration':{l:'ثبت‌نام اجباری',t:'select',o:{'1':'بله','0':'خیر'}},'max_daily_analyses':{l:'حداکثر تحلیل روزانه',t:'number'},'welcome_message':{l:'پیام خوش‌آمدگویی',t:'text'}};
+function H(){return{'Content-Type':'application/json','Authorization':'Bearer '+TOKEN};}
+
+function showSec(id,b){
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('sec-'+id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(function(x){x.classList.remove('active');});
+  if(b)b.classList.add('active');
+  if(id==='dashboard')loadDash();
+  if(id==='health')loadHealth();
+  if(id==='trading')loadTrading();
+  if(id==='users')loadAuthUsers();
+  if(id==='analyses')loadAnalyses();
+  if(id==='alertcenter')loadAlertCenter();
+  if(id==='messages')loadMsgs();
+  if(id==='settings')loadSettings();
+  if(id==='robots')loadRobotsAdmin();
+  if(id==='payments')loadPaymentsAdmin();
+  if(id==='discounts')loadDiscounts();
+  if(id==='revenue')loadRevenue();
+  if(id==='notify'){toggleNotifyTarget();}
+}
+
+/* ═══ AUTH ═══ */
+async function doLogin(){
+  var u=document.getElementById('loginUser').value.trim(),p=document.getElementById('loginPass').value,e=document.getElementById('loginErr');
+  if(!u||!p){e.textContent='نام کاربری و رمز را وارد کنید';return;}
+  try{var r=await fetch(API+'/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
+    if(!r.ok){e.textContent='نام کاربری یا رمز اشتباه است';return;}
+    var d=await r.json();TOKEN=d.token;localStorage.setItem('at',TOKEN);
+    document.getElementById('loginPage').style.display='none';document.getElementById('adminPage').style.display='block';loadDash();
+  }catch(x){e.textContent='خطا در اتصال';}
+}
+function doLogout(){TOKEN='';localStorage.removeItem('at');if(healthInterval)clearInterval(healthInterval);document.getElementById('adminPage').style.display='none';document.getElementById('loginPage').style.display='flex';}
+
+/* ═══ DASHBOARD ═══ */
+async function loadDash(){
+  try{
+    var r=await fetch(API+'/api/admin/stats',{headers:H()});if(!r.ok)return;var d=await r.json(),s=d.stats||{};
+    var hr=null;try{hr=await fetch(API+'/api/health');hr=await hr.json();}catch(e){}
+    var g=document.getElementById('statGrid');
+    g.innerHTML=
+      sc(s.total_users||0,'کاربران','cyan')+
+      sc(s.today_analyses||0,'تحلیل امروز','green')+
+      sc(s.total_analyses||0,'کل تحلیل‌ها','purple')+
+      sc(s.active_today||0,'فعال 24 ساعت','yellow')+
+      sc(hr?hr.strategies||0:'-','استراتژی‌ها','cyan')+
+      sc(hr?(hr.mt5_connected?'&#x2705;':'&#x274C;'):'-','MT5','green')+
+      sc(s.unread_messages||0,'پیام خوانده‌نشده','red')+
+      sc(s.blocked_users||0,'کاربران مسدود','red');
+    renderChart('popularChart',d.popular_symbols||[],'symbol','count');
+    renderChart('dailyChart',d.daily_stats||[],'date','count',true);
+    renderChart('hourlyChart',d.hourly_stats||[],'hour','count');
+  }catch(x){console.error(x);}
+}
+function sc(v,l,c){return '<div class="stat-card"><div class="stat-num '+c+'">'+v+'</div><div class="stat-label">'+l+'</div></div>';}
+function renderChart(id,data,kl,kv,trimDate){
+  var el=document.getElementById(id);el.innerHTML='';
+  if(!data.length){el.innerHTML='<span style="color:var(--text3);font-size:12px;">داده‌ای نیست</span>';return;}
+  var mx=Math.max.apply(null,data.map(function(x){return x[kv]||0;}))||1;
+  data.forEach(function(x){
+    var c=document.createElement('div');c.className='chart-col';
+    c.style.height=Math.max(4,(x[kv]||0)/mx*90)+'px';
+    var lbl=trimDate?(x[kl]||'').toString().slice(5):x[kl];
+    c.title=lbl+': '+(x[kv]||0);c.innerHTML='<span>'+lbl+'</span>';el.appendChild(c);
+  });
+}
+
+/* ═══ SYSTEM HEALTH ═══ */
+async function loadHealth(){
+  var grid=document.getElementById('healthGrid');
+  grid.innerHTML='<div style="color:var(--text3);font-size:12px;">در حال بارگذاری...</div>';
+  try{
+    var [h,p,tg,em,tr,ex]=await Promise.all([
+      safeFetch('/api/health'),
+      safeFetch('/api/perf/stats'),
+      safeFetch('/api/telegram/status'),
+      safeFetch('/api/email/status'),
+      safeFetch('/api/tracker/status'),
+      safeFetch('/api/executor/status')
+    ]);
+    grid.innerHTML='';
+    grid.innerHTML+=hc('MetaTrader 5',h&&h.mt5_connected?'ok':'err',h&&h.mt5_connected?'متصل &mdash; '+((h.symbols||0)+' نماد'):'قطع');
+    grid.innerHTML+=hc('Tracker',tr&&tr.is_running?'ok':(tr?'warn':'err'),tr?(tr.is_running?'فعال &mdash; '+((tr.active_trades||0)+' معامله'):'متوقف'):'خطا');
+    grid.innerHTML+=hc('Executor',ex&&ex.is_running?'ok':(ex?'off':'err'),ex?(ex.is_running?'فعال &mdash; '+((ex.open_positions||0)+' پوزیشن'):'غیرفعال'):'خطا');
+    grid.innerHTML+=hc('تلگرام',tg&&tg.connected?'ok':(tg?'warn':'err'),tg?(tg.connected?'متصل':'قطع'):'خطا');
+    grid.innerHTML+=hc('ایمیل',em&&em.configured?'ok':'warn',em?(em.configured?'تنظیم شده':'تنظیم نشده'):'خطا');
+    grid.innerHTML+=hc('استراتژی‌ها',h?'ok':'err',h?((h.strategies||0)+' استراتژی'):'خطا');
+
+    var pb=document.getElementById('perfBox');
+    if(p){
+      pb.innerHTML=
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">'+
+        mi('RAM',((p.memory_mb||0).toFixed(1))+' MB')+
+        mi('CPU',(p.cpu_percent||0)+'%')+
+        mi('Threads',(p.threads||0))+
+        mi('Cache',p.cache?'فعال':'&mdash;')+
+        '</div>';
+    }else{pb.innerHTML='<span style="color:var(--text3)">اطلاعات در دسترس نیست</span>';}
+
+    var hs=document.getElementById('healthSummary');
+    var issues=[];
+    if(h&&!h.mt5_connected)issues.push('&#x274C; MT5 قطع است');
+    if(tr&&!tr.is_running)issues.push('&#x26A0;&#xFE0F; Tracker متوقف');
+    if(ex&&!ex.is_running)issues.push('&#x2139;&#xFE0F; Executor غیرفعال');
+    if(tg&&!tg.connected)issues.push('&#x26A0;&#xFE0F; تلگرام قطع');
+    if(em&&!em.configured)issues.push('&#x26A0;&#xFE0F; ایمیل تنظیم نشده');
+    if(!issues.length)hs.innerHTML='<div style="color:var(--green);font-size:14px;font-weight:700;">&#x2705; همه سیستم‌ها عملیاتی هستند</div>';
+    else hs.innerHTML=issues.map(function(i){return '<div style="margin-bottom:6px;font-size:13px;">'+i+'</div>';}).join('');
+
+    document.getElementById('healthTime').textContent='آخرین بروزرسانی: '+new Date().toLocaleTimeString('fa-IR');
+  }catch(x){console.error(x);grid.innerHTML='<span style="color:var(--red)">خطا در بارگذاری</span>';}
+
+  if(document.getElementById('autoRefresh').checked&&!healthInterval){
+    healthInterval=setInterval(function(){
+      if(document.getElementById('sec-health').classList.contains('active'))loadHealth();
+    },30000);
+  }
+}
+function hc(title,st,desc){
+  var dot=st==='ok'?'dot-green':st==='warn'?'dot-yellow':st==='err'?'dot-red':'dot-gray';
+  return '<div class="health-card '+st+'"><div class="health-title">'+title+'</div><div class="health-status"><span class="dot '+dot+'"></span> '+desc+'</div></div>';
+}
+function mi(l,v){return '<div style="background:var(--bg3);border-radius:6px;padding:8px;text-align:center;"><div style="font-size:16px;font-weight:700;color:var(--cyan);">'+v+'</div><div style="font-size:10px;color:var(--text2);">'+l+'</div></div>';}
+
+async function safeFetch(url){try{var r=await fetch(API+url,{headers:H()});if(r.ok)return await r.json();return null;}catch(e){return null;}}
+
+/* ═══ TRADING MONITOR ═══ */
+async function loadTrading(){
+  try{
+    var [ex,rk]=await Promise.all([
+      safeFetch('/api/executor/positions'),
+      safeFetch('/api/fast/ranking?sort=win_rate&limit=10')
+    ]);
+    var ag=document.getElementById('acctGrid');
+    if(ex&&ex.account){
+      var a=ex.account;
+      ag.innerHTML=
+        '<div class="acct-item"><div class="acct-val" style="color:var(--cyan)">$'+(a.balance||0).toFixed(0)+'</div><div class="acct-lbl">موجودی</div></div>'+
+        '<div class="acct-item"><div class="acct-val" style="color:var(--green)">$'+(a.equity||0).toFixed(0)+'</div><div class="acct-lbl">اکوئیتی</div></div>'+
+        '<div class="acct-item"><div class="acct-val" style="color:var(--yellow)">$'+(a.free_margin||0).toFixed(0)+'</div><div class="acct-lbl">مارجین آزاد</div></div>'+
+        '<div class="acct-item"><div class="acct-val" style="color:var(--purple)">$'+(a.margin_used||0).toFixed(0)+'</div><div class="acct-lbl">مارجین مصرفی</div></div>';
+    }else{ag.innerHTML='<div class="acct-item" style="grid-column:1/-1;"><div class="acct-val">&mdash;</div><div class="acct-lbl">حساب MT5 در دسترس نیست</div></div>';}
+
+    var pb=document.getElementById('posBox');
+    if(ex&&ex.positions&&ex.positions.length){
+      var html='<div style="font-weight:700;padding:6px 12px;display:grid;grid-template-columns:1fr 80px 80px 100px 100px;gap:8px;font-size:11px;color:var(--text3);">'+
+        '<div>نماد</div><div>نوع</div><div>حجم</div><div>ورود</div><div>سود/ضرر</div></div>';
+      ex.positions.forEach(function(p){
+        var pc=p.profit_usd>=0?'var(--green)':'var(--red)';
+        var tp=p.type===0?'<span class="badge badge-green">BUY</span>':'<span class="badge badge-red">SELL</span>';
+        html+='<div class="pos-row"><div class="pos-sym">'+p.symbol+'</div><div>'+tp+'</div><div>'+(p.volume||0)+'</div><div dir="ltr">'+(p.entry_price||0)+'</div><div class="pos-pnl" style="color:'+pc+';" dir="ltr">$'+(p.profit_usd||0).toFixed(2)+'</div></div>';
+      });
+      pb.innerHTML=html;
+    }else{pb.innerHTML='<div style="color:var(--text3);text-align:center;padding:20px;">بدون معامله باز</div>';}
+
+    var ts=document.getElementById('topStrats');
+    var ranking=(rk&&rk.ranking)?rk.ranking:((rk&&Array.isArray(rk))?rk:[]);
+    if(ranking.length){
+      var html='<table><thead><tr><th>#</th><th>استراتژی</th><th>نماد</th><th>Win Rate</th><th>PnL</th><th>معاملات</th></tr></thead><tbody>';
+      ranking.slice(0,10).forEach(function(s,i){
+        var wr=(s.win_rate||0);
+        var wc=wr>=60?'badge-green':wr>=45?'badge-yellow':'badge-red';
+        var pnl=(s.total_pnl||0);
+        html+='<tr><td>'+(i+1)+'</td><td>'+((s.strategy_name||s.name||'').substring(0,25))+'</td><td>'+(s.symbol||'')+'</td><td><span class="badge '+wc+'">'+wr.toFixed(1)+'%</span></td><td style="color:'+(pnl>=0?'var(--green)':'var(--red)')+'">$'+pnl.toFixed(0)+'</td><td>'+(s.total||0)+'</td></tr>';
+      });
+      html+='</tbody></table>';ts.innerHTML=html;
+    }else{ts.innerHTML='<div style="color:var(--text3);text-align:center;padding:20px;">داده‌ای نیست</div>';}
+
+    document.getElementById('tradeTime').textContent='آخرین بروزرسانی: '+new Date().toLocaleTimeString('fa-IR');
+  }catch(x){console.error(x);}
+}
+
+/* ═══ USERS (Phase 4 — auth_users) ═══ */
+async function loadAuthUsers(){
+  try{
+    var q=document.getElementById('userSearch').value.trim();
+    var pf=document.getElementById('userPlanFilter').value;
+    var sf=document.getElementById('userStatusFilter').value;
+    var url=API+'/api/admin/auth-users?limit=100&search='+encodeURIComponent(q)+'&plan='+encodeURIComponent(pf)+'&status='+encodeURIComponent(sf);
+    var [r,st]=await Promise.all([fetch(url,{headers:H()}),safeFetch('/api/admin/user-stats')]);
+    if(!r.ok)return;var d=await r.json();
+    // Stats bar
+    if(st){
+      var pp=st.per_plan||{};
+      document.getElementById('userStatGrid').innerHTML=
+        sc(st.total||0,'کل کاربران','cyan')+
+        sc(pp.pro||0,'Pro','green')+
+        sc(pp.premium||0,'Premium','purple')+
+        sc(pp.enterprise||0,'Enterprise','yellow')+
+        sc(st.new_today||0,'امروز','green')+
+        sc(st.new_week||0,'هفته','cyan')+
+        sc(st.new_month||0,'ماه','purple');
+    }
+    var tb=document.getElementById('usersBody');tb.innerHTML='';
+    (d.users||[]).forEach(function(u,i){
+      var planBadge={'free':'badge-cyan','pro':'badge-green','premium':'badge-yellow','enterprise':'badge-red'};
+      var pb='<span class="badge '+(planBadge[u.plan]||'badge-cyan')+'">'+u.plan+'</span>';
+      var stBadge=u.status==='active'?'<span class="badge badge-green">فعال</span>':(u.status==='expired'?'<span class="badge badge-yellow">منقضی</span>':'<span class="badge badge-red">غیرفعال</span>');
+      var tr=document.createElement('tr');
+      tr.innerHTML='<td>'+(i+1)+'</td><td>'+(u.name||'-')+'</td><td dir="ltr">'+(u.email||'-')+'</td><td>'+pb+'</td><td>'+stBadge+'</td><td>'+(u.created_at||'').slice(0,10)+'</td><td>'+(u.last_login||'-').slice(0,10)+'</td><td>'+(u.daily_analysis_count||0)+'</td><td style="white-space:nowrap;"><button class="btn-sm" onclick="showUserModal('+u.id+')">&#x270F; پلن</button> <button class="btn-sm '+(u.is_active?'red':'')+'" onclick="toggleUserActive('+u.id+','+(!u.is_active)+')">'+(u.is_active?'غیرفعال':'فعال')+'</button></td>';
+      tb.appendChild(tr);
+    });
+    document.getElementById('userInfo').textContent='مجموع: '+(d.total||0)+' کاربر';
+  }catch(x){console.error(x);}
+}
+async function showUserModal(uid){
+  document.getElementById('modalUserId').value=uid;
+  document.getElementById('modalMsg').textContent='';
+  try{
+    var r=await fetch(API+'/api/admin/auth-users/'+uid,{headers:H()});
+    if(r.ok){
+      var u=await r.json();
+      document.getElementById('modalUserInfo').textContent=(u.name||'')+' — '+(u.email||'')+' — پلن فعلی: '+u.plan;
+      document.getElementById('modalPlan').value=u.plan||'free';
+    }
+  }catch(e){}
+  document.getElementById('userPlanModal').classList.add('open');
+}
+function closeUserModal(){document.getElementById('userPlanModal').classList.remove('open');}
+async function saveUserPlan(){
+  var uid=document.getElementById('modalUserId').value;
+  var plan=document.getElementById('modalPlan').value;
+  var days=parseInt(document.getElementById('modalDays').value)||30;
+  try{
+    var r=await fetch(API+'/api/admin/auth-users/'+uid+'/plan',{method:'PUT',headers:H(),body:JSON.stringify({plan:plan,duration_days:days})});
+    var d=await r.json();
+    if(d.success){
+      document.getElementById('modalMsg').innerHTML='<span style="color:var(--green);">&#x2705; ذخیره شد</span>';
+      setTimeout(function(){closeUserModal();loadAuthUsers();},800);
+    }else{document.getElementById('modalMsg').innerHTML='<span style="color:var(--red);">'+d.error+'</span>';}
+  }catch(e){document.getElementById('modalMsg').innerHTML='<span style="color:var(--red);">خطا</span>';}
+}
+async function toggleUserActive(uid,active){
+  if(!confirm(active?'فعال‌سازی کاربر؟':'غیرفعال‌سازی کاربر؟'))return;
+  try{await fetch(API+'/api/admin/auth-users/'+uid+'/toggle',{method:'PUT',headers:H(),body:JSON.stringify({active:active})});loadAuthUsers();}catch(e){}
+}
+function exportUsersCsv(){
+  var pf=document.getElementById('userPlanFilter').value;
+  var url=API+'/api/admin/users-export?plan='+encodeURIComponent(pf);
+  var a=document.createElement('a');a.href=url;a.download='users_export.csv';
+  // Need to fetch with auth header
+  fetch(url,{headers:H()}).then(function(r){return r.blob();}).then(function(b){
+    var u=URL.createObjectURL(b);a.href=u;a.click();URL.revokeObjectURL(u);
+  }).catch(function(){alert('خطا در دانلود');});
+}
+// Keep old functions for backward compat
+async function loadUsers(){loadAuthUsers();}
+async function togBlock(id,bl){await fetch(API+'/api/admin/user/'+id+'/'+(bl?'unblock':'block'),{method:'POST',headers:H()});loadAuthUsers();}
+async function delU(id){if(!confirm('حذف شود؟'))return;await fetch(API+'/api/admin/user/'+id,{method:'DELETE',headers:H()});loadAuthUsers();}
+
+/* ═══ PAYMENTS ADMIN (Phase 4) ═══ */
+async function loadPaymentsAdmin(){
+  try{
+    var q=document.getElementById('paySearch').value.trim();
+    var mf=document.getElementById('payMethodFilter').value;
+    var sf=document.getElementById('payStatusFilter').value;
+    var url=API+'/api/admin/payments?limit=100&offset=0&status='+encodeURIComponent(sf);
+    var r=await fetch(url,{headers:H()});if(!r.ok){document.getElementById('paymentsBody').innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--text3);">خطا در بارگذاری</td></tr>';return;}
+    var d=await r.json();
+    var payments=d.payments||d||[];
+    if(!Array.isArray(payments))payments=[];
+    // Client-side filter by search and method
+    if(q)payments=payments.filter(function(p){return (p.user_email||'').indexOf(q)!==-1||String(p.user_id||'').indexOf(q)!==-1;});
+    if(mf)payments=payments.filter(function(p){return p.method===mf;});
+    var tb=document.getElementById('paymentsBody');tb.innerHTML='';
+    if(!payments.length){tb.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--text3);padding:20px;">پرداختی یافت نشد</td></tr>';return;}
+    payments.forEach(function(p,i){
+      var methodBadge={'zarinpal':'badge-cyan','tether':'badge-yellow','card':'badge-green'};
+      var mb='<span class="badge '+(methodBadge[p.method]||'badge-cyan')+'">'+(p.method||'-')+'</span>';
+      var statusBadge={'pending':'badge-yellow','submitted':'badge-cyan','verified':'badge-green','rejected':'badge-red','failed':'badge-red'};
+      var sb='<span class="badge '+(statusBadge[p.status]||'badge-yellow')+'">'+(p.status||'-')+'</span>';
+      var actions='';
+      if(p.status==='submitted'){
+        actions='<button class="btn-sm" style="color:var(--green);border-color:var(--green);" onclick="approvePayment('+p.id+')">&#x2705; تأیید</button> <button class="btn-sm red" onclick="rejectPayment('+p.id+')">&#x274C; رد</button>';
+      }
+      var tr=document.createElement('tr');
+      tr.innerHTML='<td>'+(i+1)+'</td><td>'+(p.user_email||'کاربر #'+p.user_id)+'</td><td dir="ltr">'+Number(p.amount_toman||0).toLocaleString()+'</td><td>'+mb+'</td><td>'+(p.plan_purchased||'-')+'</td><td>'+sb+'</td><td>'+(p.created_at||'').slice(0,16)+'</td><td style="white-space:nowrap;">'+actions+'</td>';
+      tb.appendChild(tr);
+    });
+    document.getElementById('payInfo').textContent='مجموع: '+payments.length+' پرداخت';
+  }catch(x){console.error(x);}
+}
+async function approvePayment(pid){
+  if(!confirm('تأیید پرداخت؟'))return;
+  try{var r=await fetch(API+'/api/admin/payment/approve',{method:'POST',headers:H(),body:JSON.stringify({payment_id:pid,admin_note:'تأیید از پنل ادمین'})});
+    var d=await r.json();if(d.success)loadPaymentsAdmin();else alert(d.error||'خطا');
+  }catch(e){alert('خطا');}
+}
+async function rejectPayment(pid){
+  var reason=prompt('دلیل رد پرداخت:');
+  if(reason===null)return;
+  try{var r=await fetch(API+'/api/admin/payment/reject',{method:'POST',headers:H(),body:JSON.stringify({payment_id:pid,admin_note:reason||'رد از پنل ادمین'})});
+    var d=await r.json();if(d.success)loadPaymentsAdmin();else alert(d.error||'خطا');
+  }catch(e){alert('خطا');}
+}
+
+/* ═══ DISCOUNTS (Phase 4) ═══ */
+async function loadDiscounts(){
+  try{
+    var r=await fetch(API+'/api/admin/discounts',{headers:H()});if(!r.ok)return;var d=await r.json();
+    var tb=document.getElementById('discountsBody');tb.innerHTML='';
+    var discs=d.discounts||[];
+    if(!discs.length){tb.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:20px;">کد تخفیفی نیست</td></tr>';return;}
+    discs.forEach(function(dc,i){
+      var stBadge=dc.is_active?'<span class="badge badge-green">فعال</span>':'<span class="badge badge-red">غیرفعال</span>';
+      var tr=document.createElement('tr');
+      tr.innerHTML='<td>'+(i+1)+'</td><td dir="ltr" style="font-weight:700;">'+(dc.code||'')+'</td><td>'+dc.percent_off+'%</td><td>'+(dc.used_count||0)+' / '+(dc.max_uses||0)+'</td><td>'+(dc.valid_until||'نامحدود').slice(0,10)+'</td><td>'+stBadge+'</td><td style="white-space:nowrap;"><button class="btn-sm" onclick="toggleDiscount('+dc.id+','+(!dc.is_active)+')">'+(dc.is_active?'غیرفعال':'فعال')+'</button> <button class="btn-sm red" onclick="deleteDiscount('+dc.id+')">حذف</button></td>';
+      tb.appendChild(tr);
+    });
+  }catch(x){console.error(x);}
+}
+async function createDiscount(){
+  var code=document.getElementById('discCode').value.trim();
+  var pct=parseInt(document.getElementById('discPercent').value)||10;
+  var mx=parseInt(document.getElementById('discMaxUses').value)||100;
+  var vu=document.getElementById('discValidUntil').value;
+  if(!code){document.getElementById('discCreateMsg').innerHTML='<span style="color:var(--red);">کد الزامی است</span>';return;}
+  try{
+    var r=await fetch(API+'/api/admin/discounts',{method:'POST',headers:H(),body:JSON.stringify({code:code,percent_off:pct,max_uses:mx,valid_until:vu})});
+    var d=await r.json();
+    if(d.success){
+      document.getElementById('discCreateMsg').innerHTML='<span style="color:var(--green);">&#x2705; ایجاد شد</span>';
+      document.getElementById('discCode').value='';
+      loadDiscounts();
+    }else{document.getElementById('discCreateMsg').innerHTML='<span style="color:var(--red);">'+d.error+'</span>';}
+  }catch(e){document.getElementById('discCreateMsg').innerHTML='<span style="color:var(--red);">خطا</span>';}
+}
+async function toggleDiscount(did,active){
+  try{await fetch(API+'/api/admin/discounts/'+did+'/toggle',{method:'PUT',headers:H(),body:JSON.stringify({active:active})});loadDiscounts();}catch(e){}
+}
+async function deleteDiscount(did){
+  if(!confirm('حذف این کد تخفیف؟'))return;
+  try{await fetch(API+'/api/admin/discounts/'+did,{method:'DELETE',headers:H()});loadDiscounts();}catch(e){}
+}
+
+/* ═══ REVENUE (Phase 4) ═══ */
+async function loadRevenue(){
+  try{
+    var [rs,rc]=await Promise.all([safeFetch('/api/admin/revenue'),safeFetch('/api/admin/revenue/chart')]);
+    if(rs){
+      document.getElementById('revStatGrid').innerHTML=
+        '<div class="rev-card"><div class="rev-val" style="color:var(--green);">'+Number(rs.today||0).toLocaleString()+'</div><div class="rev-lbl">درآمد امروز (تومان)</div></div>'+
+        '<div class="rev-card"><div class="rev-val" style="color:var(--cyan);">'+Number(rs.week||0).toLocaleString()+'</div><div class="rev-lbl">درآمد هفته</div></div>'+
+        '<div class="rev-card"><div class="rev-val" style="color:var(--purple);">'+Number(rs.month||0).toLocaleString()+'</div><div class="rev-lbl">درآمد ماه</div></div>'+
+        '<div class="rev-card"><div class="rev-val" style="color:var(--yellow);">'+Number(rs.all_time||0).toLocaleString()+'</div><div class="rev-lbl">کل درآمد</div></div>';
+      // By plan
+      var bp=rs.by_plan||{};
+      var bpHtml='<div style="display:grid;gap:6px;">';
+      for(var k in bp)bpHtml+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;"><span>'+k+'</span><span style="font-weight:700;color:var(--cyan);">'+Number(bp[k]||0).toLocaleString()+' تومان</span></div>';
+      if(!Object.keys(bp).length)bpHtml+='<span style="color:var(--text3);font-size:12px;">داده‌ای نیست</span>';
+      bpHtml+='</div>';
+      document.getElementById('revByPlan').innerHTML=bpHtml;
+      // By method
+      var bm=rs.by_method||{};
+      var bmHtml='<div style="display:grid;gap:6px;">';
+      for(var k in bm)bmHtml+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;"><span>'+k+'</span><span style="font-weight:700;color:var(--green);">'+Number(bm[k]||0).toLocaleString()+' تومان</span></div>';
+      if(!Object.keys(bm).length)bmHtml+='<span style="color:var(--text3);font-size:12px;">داده‌ای نیست</span>';
+      bmHtml+='</div>';
+      document.getElementById('revByMethod').innerHTML=bmHtml;
+      // Metrics
+      document.getElementById('revMetrics').innerHTML=
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">'+
+        mi('MRR',Number(rs.mrr||0).toLocaleString()+' T')+
+        mi('ARPU',Number(rs.arpu||0).toLocaleString()+' T')+
+        mi('Churn',(rs.churn_rate||0)+'%')+
+        mi('کاربران پولی',rs.paying_users||0)+
+        '</div>';
+    }
+    // Chart
+    var chart=(rc&&rc.chart)||[];
+    if(chart.length){
+      renderChart('revChart',chart,'date','amount',true);
+    }
+  }catch(x){console.error(x);}
+}
+
+/* ═══ NOTIFY (Phase 4) ═══ */
+function toggleNotifyTarget(){
+  var t=document.getElementById('notifyType').value;
+  document.getElementById('notifyPlanRow').style.display=t==='plan'?'block':'none';
+  document.getElementById('notifyEmailRow').style.display=t==='email'?'block':'none';
+}
+function fillNotifyTpl(type){
+  var tpls={
+    'welcome':{title:'خوش‌آمدید!',msg:'سلام! به Whilber-AI خوش آمدید. از خدمات تحلیل هوشمند ما لذت ببرید.'},
+    'update':{title:'بروزرسانی جدید',msg:'یک بروزرسانی جدید اعمال شد. ویژگی‌های جدید و بهبودهای عملکرد اضافه شده‌اند.'},
+    'offer':{title:'پیشنهاد ویژه!',msg:'تا ۳۰٪ تخفیف برای ارتقاء پلن خود! از کد تخفیف استفاده کنید.'},
+    'maintenance':{title:'تعمیرات زمان‌بندی شده',msg:'سیستم برای بهبود عملکرد در ساعات آتی به‌روزرسانی خواهد شد. ممکن است اختلال کوتاهی رخ دهد.'}
+  };
+  var t=tpls[type];
+  if(t){document.getElementById('notifyTitle').value=t.title;document.getElementById('notifyMsg').value=t.msg;}
+}
+async function sendNotify(){
+  var t=document.getElementById('notifyType').value;
+  var target=t==='plan'?document.getElementById('notifyPlan').value:document.getElementById('notifyEmail').value.trim();
+  var title=document.getElementById('notifyTitle').value.trim();
+  var msg=document.getElementById('notifyMsg').value.trim();
+  if(!target){document.getElementById('notifyResult').innerHTML='<span style="color:var(--red);">هدف را مشخص کنید</span>';return;}
+  if(!msg){document.getElementById('notifyResult').innerHTML='<span style="color:var(--red);">متن پیام الزامی است</span>';return;}
+  document.getElementById('notifyResult').innerHTML='<span style="color:var(--text2);">در حال ارسال...</span>';
+  try{
+    var r=await fetch(API+'/api/admin/notify',{method:'POST',headers:H(),body:JSON.stringify({target:target,title:title,message:msg})});
+    var d=await r.json();
+    if(d.success){document.getElementById('notifyResult').innerHTML='<span style="color:var(--green);">&#x2705; ارسال شد به '+d.sent_count+' کاربر</span>';document.getElementById('notifyMsg').value='';}
+    else{document.getElementById('notifyResult').innerHTML='<span style="color:var(--red);">'+d.error+'</span>';}
+  }catch(e){document.getElementById('notifyResult').innerHTML='<span style="color:var(--red);">خطا در ارسال</span>';}
+}
+
+/* ═══ ANALYSES ═══ */
+async function loadAnalyses(){
+  try{var r=await fetch(API+'/api/admin/analyses?limit=100',{headers:H()});if(!r.ok)return;var d=await r.json();
+    var tb=document.getElementById('analysesBody');tb.innerHTML='';
+    (d.analyses||[]).forEach(function(a,i){
+      var sig=a.signal||'-',sc=sig.includes('Buy')?'badge-green':sig.includes('Sell')?'badge-red':'badge-yellow';
+      var tr=document.createElement('tr');
+      tr.innerHTML='<td>'+(i+1)+'</td><td>'+a.symbol+'</td><td>'+(a.timeframe||'-')+'</td><td><span class="badge '+sc+'">'+sig+'</span></td><td>'+(a.confidence||'-')+'</td><td dir="ltr">'+(a.ip_address||'-')+'</td><td>'+(a.timestamp||'').slice(0,16)+'</td>';
+      tb.appendChild(tr);
+    });
+  }catch(x){console.error(x);}
+}
+
+/* ═══ ALERT CENTER ═══ */
+async function loadAlertCenter(){
+  try{
+    var [st,lg,sb]=await Promise.all([
+      safeFetch('/api/alert/stats'),
+      safeFetch('/api/alerts/log'),
+      safeFetch('/api/alerts/subscribers')
+    ]);
+    var ag=document.getElementById('alertStats');
+    var stats=st||{};
+    ag.innerHTML=
+      sc(stats.total_sent||stats.total_dispatched||0,'هشدار ارسال‌شده','cyan')+
+      sc(stats.today_sent||stats.today||0,'ارسال امروز','green')+
+      sc(stats.failed||0,'ناموفق','red')+
+      sc(sb?(sb.subscribers||sb||[]).length||0:0,'مشترکین','purple');
+
+    var logBox=document.getElementById('alertLog');
+    var logs=(lg&&lg.log)?lg.log:((lg&&Array.isArray(lg))?lg:[]);
+    if(logs.length){
+      var html='<table><thead><tr><th>زمان</th><th>نوع</th><th>نماد</th><th>وضعیت</th></tr></thead><tbody>';
+      logs.slice(0,20).forEach(function(l){
+        var stBadge=l.status==='sent'||l.success?'<span class="badge badge-green">ارسال شد</span>':'<span class="badge badge-red">ناموفق</span>';
+        html+='<tr><td>'+(l.timestamp||l.time||'').toString().slice(0,19)+'</td><td>'+(l.type||l.event_type||'-')+'</td><td>'+(l.symbol||'-')+'</td><td>'+stBadge+'</td></tr>';
+      });
+      html+='</tbody></table>';logBox.innerHTML=html;
+    }else{logBox.innerHTML='<div style="color:var(--text3);text-align:center;padding:16px;">لاگی نیست</div>';}
+
+    var subBox=document.getElementById('alertSubs');
+    var subs=(sb&&sb.subscribers)?sb.subscribers:((sb&&Array.isArray(sb))?sb:[]);
+    if(subs.length){
+      var html='<table><thead><tr><th>ایمیل</th><th>تلگرام</th><th>نمادها</th></tr></thead><tbody>';
+      subs.slice(0,20).forEach(function(s){
+        html+='<tr><td dir="ltr">'+(s.email||'-')+'</td><td dir="ltr">'+(s.telegram_id||s.telegram||'-')+'</td><td>'+(s.symbols?(Array.isArray(s.symbols)?s.symbols.length:'-'):'-')+'</td></tr>';
+      });
+      html+='</tbody></table>';subBox.innerHTML=html;
+    }else{subBox.innerHTML='<div style="color:var(--text3);text-align:center;padding:16px;">مشترکی نیست</div>';}
+  }catch(x){console.error(x);}
+}
+
+/* ═══ MESSAGES ═══ */
+async function loadMsgs(){
+  try{var r=await fetch(API+'/api/admin/messages',{headers:H()});if(!r.ok)return;var d=await r.json();
+    document.getElementById('msgCount').textContent='پیام‌ها: '+(d.messages||[]).length+' (خوانده‌نشده: '+(d.unread||0)+')';
+    var box=document.getElementById('msgList');box.innerHTML='';
+    (d.messages||[]).forEach(function(m){
+      var c=document.createElement('div');c.className='msg-card'+(m.is_read?'':' unread');
+      c.innerHTML='<div class="msg-head"><div class="msg-name">'+(m.name||'ناشناس')+'</div><div class="msg-time">'+(m.created_at||'')+'</div></div>'
+        +'<div style="color:var(--yellow);font-size:13px;font-weight:600;margin-bottom:4px">'+(m.subject||'')+'</div>'
+        +'<div style="color:var(--text2);font-size:12px;margin-bottom:6px">'+(m.email||'')+' | '+(m.phone||'')+'</div>'
+        +'<div class="msg-body">'+(m.message||'')+'</div>'
+        +'<div class="msg-actions">'+(m.is_read?'':'<button class="btn-sm" onclick="rdMsg('+m.id+')">خوانده‌شد</button>')
+        +' <button class="btn-sm red" onclick="dlMsg('+m.id+')">حذف</button></div>';
+      box.appendChild(c);
+    });
+  }catch(x){console.error(x);}
+}
+async function rdMsg(id){await fetch(API+'/api/admin/message/'+id+'/read',{method:'POST',headers:H()});loadMsgs();}
+async function dlMsg(id){if(!confirm('حذف؟'))return;await fetch(API+'/api/admin/message/'+id,{method:'DELETE',headers:H()});loadMsgs();}
+
+/* ═══ SETTINGS ═══ */
+async function loadSettings(){
+  try{var r=await fetch(API+'/api/admin/settings',{headers:H()});if(!r.ok)return;var d=await r.json(),s=d.settings||{};
+    var box=document.getElementById('settingsBox');box.innerHTML='';
+    Object.keys(s).forEach(function(k){
+      var info=SL[k]||{l:k,t:'text'};var row=document.createElement('div');row.className='setting-row';
+      var inp;
+      if(info.t==='select'){inp='<select class="setting-input" data-key="'+k+'">';var o=info.o||{};for(var v in o)inp+='<option value="'+v+'"'+(s[k]==v?' selected':'')+'>'+o[v]+'</option>';inp+='</select>';}
+      else if(info.t==='number'){inp='<input type="number" class="setting-input" data-key="'+k+'" value="'+s[k]+'" dir="ltr">';}
+      else{inp='<input type="text" class="setting-input" data-key="'+k+'" value="'+s[k]+'">';}
+      row.innerHTML='<div><div class="setting-label">'+info.l+'</div></div>'+inp;box.appendChild(row);
+    });
+  }catch(x){console.error(x);}
+}
+async function saveSettings(){
+  var data={};document.querySelectorAll('.setting-input').forEach(function(el){data[el.dataset.key]=el.value;});
+  try{var r=await fetch(API+'/api/admin/settings',{method:'POST',headers:H(),body:JSON.stringify(data)});
+    document.getElementById('settingsMsg').textContent=r.ok?'&#x2705; ذخیره شد':'&#x274C; خطا';setTimeout(function(){document.getElementById('settingsMsg').textContent='';},3000);
+  }catch(x){console.error(x);}
+}
+
+/* ═══ PASSWORD ═══ */
+async function changePw(){
+  var p1=document.getElementById('newPw1').value,p2=document.getElementById('newPw2').value,msg=document.getElementById('pwMsg');
+  if(!p1||p1.length<6){msg.style.color='var(--red)';msg.textContent='رمز باید حداقل 6 کاراکتر باشد';return;}
+  if(p1!==p2){msg.style.color='var(--red)';msg.textContent='رمزها مطابقت ندارند';return;}
+  try{var r=await fetch(API+'/api/admin/password',{method:'POST',headers:H(),body:JSON.stringify({new_password:p1})});
+    if(r.ok){msg.style.color='var(--green)';msg.textContent='&#x2705; رمز تغییر کرد';document.getElementById('newPw1').value='';document.getElementById('newPw2').value='';}
+    else{msg.style.color='var(--red)';msg.textContent='خطا';}
+  }catch(x){msg.style.color='var(--red)';msg.textContent='خطا در اتصال';}
+}
+
+/* ═══ ROBOTS ADMIN ═══ */
+var robotCategories=[];
+var adminRobots=[];
+var _robotPw='';
+
+function toggleRobotForm(){
+  var w=document.getElementById('robotFormWrap');
+  w.style.display=w.style.display==='none'?'block':'none';
+}
+
+async function loadRobotsAdmin(){
+  _robotPw=localStorage.getItem('robotPw')||'';
+  try{
+    var [st,cats,rlist]=await Promise.all([
+      safeFetch('/api/robots/stats'),
+      safeFetch('/api/robots/categories'),
+      safeFetch('/api/robots?sort=newest')
+    ]);
+    var stats=st||{};
+    document.getElementById('robotStatGrid').innerHTML=
+      sc(stats.total||0,'کل ربات‌ها','cyan')+
+      sc(stats.active||0,'ربات فعال','green')+
+      sc(stats.downloads||0,'کل دانلودها','purple')+
+      sc(stats.views||0,'کل بازدیدها','yellow');
+
+    robotCategories=(cats&&cats.categories)||[];
+    var sel=document.getElementById('rbCategory');
+    sel.innerHTML='';
+    robotCategories.forEach(function(c){
+      sel.innerHTML+='<option value="'+c.id+'">'+c.name_fa+'</option>';
+    });
+
+    adminRobots=(rlist&&rlist.robots)||[];
+    renderRobotsTable(adminRobots);
+  }catch(e){console.error(e);}
+}
+
+function renderRobotsTable(robots){
+  var tb=document.getElementById('robotsTableBody');
+  tb.innerHTML='';
+  if(!robots.length){
+    tb.innerHTML='<tr><td colspan="10" style="text-align:center;color:var(--text3);padding:20px;">هنوز رباتی اضافه نشده</td></tr>';
+    return;
+  }
+  robots.forEach(function(r,i){
+    var img=r.image_path?'<img src="/robots/'+r.image_path+'" style="width:36px;height:36px;border-radius:6px;object-fit:cover;">':'<span style="font-size:20px;">&#x1F916;</span>';
+    var catObj=robotCategories.find(function(c){return c.id===r.category;});
+    var catName=catObj?catObj.name_fa:r.category;
+    var priceStr=r.price_type==='free'?'<span class="badge badge-green">رایگان</span>':'<span class="badge badge-yellow">'+Number(r.price_amount||0).toLocaleString()+'</span>';
+    var statusBadge=r.active?'<span class="badge badge-green">فعال</span>':'<span class="badge badge-red">غیرفعال</span>';
+    var featBadge=r.featured?'<span class="badge badge-yellow" style="margin-right:4px;">&#x2B50;</span>':'';
+    var rating=(r.rating_avg||0).toFixed(1)+' ('+(r.rating_count||0)+')';
+
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+(i+1)+'</td><td>'+img+'</td><td style="font-weight:600;">'+featBadge+(r.name_fa||'')+'</td><td>'+catName+'</td><td>'+priceStr+'</td><td>'+(r.downloads||0)+'</td><td>'+(r.views||0)+'</td><td>'+rating+'</td><td>'+statusBadge+'</td><td style="white-space:nowrap;"><button class="btn-sm" onclick="editRobot(\''+r.id+'\')">&#x270F; ویرایش</button> <button class="btn-sm" onclick="toggleFeaturedAdmin(\''+r.id+'\')">&#x2B50;</button> <button class="btn-sm" onclick="toggleActiveAdmin(\''+r.id+'\')">'+(r.active?'&#x23F8;':'&#x25B6;')+'</button> <button class="btn-sm" onclick="showRobotReviews(\''+r.id+'\',\''+((r.name_fa||'').replace(/'/g,"\\'"))+'\')">&#x1F4AC;</button> <button class="btn-sm red" onclick="deleteRobotAdmin(\''+r.id+'\')">&#x1F5D1;</button></td>';
+    tb.appendChild(tr);
+  });
+}
+
+function getAdminPw(){
+  if(!_robotPw){
+    _robotPw=prompt('رمز ادمین را وارد کنید:');
+    if(_robotPw)localStorage.setItem('robotPw',_robotPw);
+  }
+  return _robotPw||'';
+}
+
+function resetRobotForm(){
+  document.getElementById('rbEditId').value='';
+  document.getElementById('rbName').value='';
+  document.getElementById('rbDesc').value='';
+  document.getElementById('rbCategory').selectedIndex=0;
+  document.getElementById('rbVersion').value='1.0';
+  document.getElementById('rbPlatform').value='MT5';
+  document.getElementById('rbPriceType').value='free';
+  document.getElementById('rbPrice').value='0';
+  document.getElementById('rbSymbols').value='';
+  document.getElementById('rbTimeframes').value='';
+  document.getElementById('rbMinBal').value='';
+  document.getElementById('rbTags').value='';
+  document.getElementById('rbFeatures').value='';
+  document.getElementById('rbImage').value='';
+  document.getElementById('rbFile').value='';
+  document.getElementById('robotFormMsg').textContent='';
+}
+
+function editRobot(rid){
+  var r=adminRobots.find(function(x){return x.id===rid;});
+  if(!r)return;
+  document.getElementById('rbEditId').value=r.id;
+  document.getElementById('rbName').value=r.name_fa||'';
+  document.getElementById('rbDesc').value=r.description_fa||'';
+  document.getElementById('rbCategory').value=r.category||'other';
+  document.getElementById('rbVersion').value=r.version||'1.0';
+  document.getElementById('rbPlatform').value=r.platform||'MT5';
+  document.getElementById('rbPriceType').value=r.price_type||'free';
+  document.getElementById('rbPrice').value=r.price_amount||0;
+  document.getElementById('rbSymbols').value=r.symbols_fa||'';
+  document.getElementById('rbTimeframes').value=r.timeframes_fa||'';
+  document.getElementById('rbMinBal').value=r.min_balance||'';
+  document.getElementById('rbTags').value=r.tags||'';
+  document.getElementById('rbFeatures').value=r.features_fa||'';
+  document.getElementById('robotFormWrap').style.display='block';
+  document.getElementById('robotFormWrap').scrollIntoView({behavior:'smooth'});
+}
+
+function fileToBase64(fileInput){
+  return new Promise(function(resolve){
+    if(!fileInput.files||!fileInput.files[0]){resolve(null);return;}
+    var reader=new FileReader();
+    reader.onload=function(){
+      var b64=reader.result.split(',')[1];
+      resolve(b64);
+    };
+    reader.readAsDataURL(fileInput.files[0]);
+  });
+}
+
+async function saveRobot(){
+  var pw=getAdminPw();
+  if(!pw)return;
+  var editId=document.getElementById('rbEditId').value;
+  var name=document.getElementById('rbName').value.trim();
+  var desc=document.getElementById('rbDesc').value.trim();
+  if(!name){document.getElementById('robotFormMsg').innerHTML='<span style="color:var(--red);">نام ربات الزامی است</span>';return;}
+  if(!desc){document.getElementById('robotFormMsg').innerHTML='<span style="color:var(--red);">توضیحات الزامی است</span>';return;}
+
+  var imgB64=await fileToBase64(document.getElementById('rbImage'));
+  var fileB64=await fileToBase64(document.getElementById('rbFile'));
+  var imgFile=document.getElementById('rbImage').files[0];
+  var robotFile=document.getElementById('rbFile').files[0];
+  var imgExt=imgFile?imgFile.name.split('.').pop():'png';
+  var fileName=robotFile?robotFile.name:'robot.ex5';
+
+  var body={
+    password:pw,
+    name_fa:name,
+    description_fa:desc,
+    category:document.getElementById('rbCategory').value,
+    version:document.getElementById('rbVersion').value,
+    platform:document.getElementById('rbPlatform').value,
+    price_type:document.getElementById('rbPriceType').value,
+    price_amount:parseFloat(document.getElementById('rbPrice').value)||0,
+    symbols_fa:document.getElementById('rbSymbols').value,
+    timeframes_fa:document.getElementById('rbTimeframes').value,
+    min_balance:document.getElementById('rbMinBal').value,
+    features_fa:document.getElementById('rbFeatures').value,
+    tags:document.getElementById('rbTags').value
+  };
+  if(imgB64){body.image_data=imgB64;body.image_ext=imgExt;}
+  if(fileB64){body.file_data=fileB64;body.file_name=fileName;}
+
+  try{
+    var url=editId?(API+'/api/robots/'+editId):(API+'/api/robots');
+    var method=editId?'PUT':'POST';
+    var r=await fetch(url,{method:method,headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    var d=await r.json();
+    if(d.success){
+      document.getElementById('robotFormMsg').innerHTML='<span style="color:var(--green);">&#x2705; '+(editId?'ویرایش':'ایجاد')+' موفق</span>';
+      resetRobotForm();
+      loadRobotsAdmin();
+    }else{
+      document.getElementById('robotFormMsg').innerHTML='<span style="color:var(--red);">&#x274C; '+(d.error||'خطا')+'</span>';
+      if(d.error==='forbidden'){_robotPw='';localStorage.removeItem('robotPw');}
+    }
+  }catch(e){document.getElementById('robotFormMsg').innerHTML='<span style="color:var(--red);">خطا در ارسال</span>';}
+}
+
+async function deleteRobotAdmin(rid){
+  if(!confirm('آیا از حذف این ربات مطمئنید؟'))return;
+  var pw=getAdminPw();if(!pw)return;
+  try{
+    var r=await fetch(API+'/api/robots/'+rid+'?password='+encodeURIComponent(pw),{method:'DELETE'});
+    var d=await r.json();
+    if(d.success)loadRobotsAdmin();
+    else{alert(d.error||'خطا');if(d.error==='forbidden'){_robotPw='';localStorage.removeItem('robotPw');}}
+  }catch(e){}
+}
+
+async function toggleFeaturedAdmin(rid){
+  var pw=getAdminPw();if(!pw)return;
+  try{
+    await fetch(API+'/api/robots/'+rid+'/toggle-featured?password='+encodeURIComponent(pw),{method:'POST'});
+    loadRobotsAdmin();
+  }catch(e){}
+}
+
+async function toggleActiveAdmin(rid){
+  var pw=getAdminPw();if(!pw)return;
+  try{
+    await fetch(API+'/api/robots/'+rid+'/toggle-active?password='+encodeURIComponent(pw),{method:'POST'});
+    loadRobotsAdmin();
+  }catch(e){}
+}
+
+async function showRobotReviews(rid,name){
+  document.getElementById('robotReviewsPanel').style.display='block';
+  document.getElementById('robotReviewsTitle').textContent=name;
+  var box=document.getElementById('robotReviewsList');
+  box.innerHTML='در حال بارگذاری...';
+  try{
+    var r=await fetch(API+'/api/robots/'+rid+'/reviews');
+    var d=await r.json();
+    var reviews=d.reviews||[];
+    if(!reviews.length){box.innerHTML='<div style="color:var(--text3);text-align:center;padding:16px;">نظری نیست</div>';return;}
+    var html='<table><thead><tr><th>نویسنده</th><th>امتیاز</th><th>نظر</th><th>تاریخ</th><th>عملیات</th></tr></thead><tbody>';
+    reviews.forEach(function(rv){
+      html+='<tr><td>'+rv.author+'</td><td>'+rv.rating+'/5</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+rv.text+'</td><td>'+(rv.created_at||'').slice(0,10)+'</td><td><button class="btn-sm red" onclick="deleteReviewAdmin(\''+rid+'\',\''+rv.id+'\')">&#x1F5D1; حذف</button></td></tr>';
+    });
+    html+='</tbody></table>';
+    box.innerHTML=html;
+  }catch(e){box.innerHTML='<span style="color:var(--red)">خطا</span>';}
+}
+
+async function deleteReviewAdmin(rid,revId){
+  if(!confirm('حذف این نظر؟'))return;
+  var pw=getAdminPw();if(!pw)return;
+  try{
+    await fetch(API+'/api/robots/'+rid+'/reviews/'+revId+'?password='+encodeURIComponent(pw),{method:'DELETE'});
+    showRobotReviews(rid,document.getElementById('robotReviewsTitle').textContent);
+    loadRobotsAdmin();
+  }catch(e){}
+}
+
+/* ═══ INIT ═══ */
+(function(){
+  var s=localStorage.getItem('at');
+  if(s){TOKEN=s;fetch(API+'/api/admin/stats',{headers:H()}).then(function(r){
+    if(r.ok){document.getElementById('loginPage').style.display='none';document.getElementById('adminPage').style.display='block';loadDash();}
+    else localStorage.removeItem('at');
+  }).catch(function(){});}
+  document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.getElementById('loginPage').style.display!=='none')doLogin();});
+})();
+</script>
+
+<!-- ═══ UNIVERSAL FOOTER ═══ -->
+<footer class="wfooter">
+  <div class="wfooter-grid">
+    <div class="wfooter-brand">
+      <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:28px;height:28px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;">W</div>
+        <span style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Whilber-AI</span>
+      </a>
+      <p>دستیار هوشمند تحلیل بازارهای مالی. تحلیل لحظه‌ای فارکس، کریپتو، فلزات و شاخص‌ها.</p>
+    </div>
+    <div class="wfooter-col">
+      <h4>ابزارها</h4>
+      <a href="/dashboard">&#x1F4CA; تحلیل بازار</a><a href="/track-record">&#x1F4DC; سوابق</a><a href="/builder">&#x1F527; استراتژی‌ساز</a><a href="/risk-manager">&#x1F6E1;&#xFE0F; مدیریت ریسک</a><a href="/journal">&#x1F4D2; ژورنال</a><a href="/alerts">&#x1F514; هشدارها</a><a href="/performance">&#x1F4C8; عملکرد زنده</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>اطلاعات</h4>
+      <a href="/guide">&#x1F4D6; راهنما</a><a href="/services">&#x2B50; خدمات</a><a href="/about">&#x1F464; درباره ما</a><a href="/contact">&#x1F4DE; تماس</a><a href="/">&#x1F3E0; صفحه اصلی</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>ارتباط</h4>
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; کانال تلگرام</a><a href="mailto:support@whilber-ai.com">&#x1F4E7; ایمیل</a><a href="/contact">&#x1F4AC; پشتیبانی</a><a href="/admin">&#x2699;&#xFE0F; ادمین</a>
+    </div>
+  </div>
+  <div class="wfooter-bottom">
+    <p>&copy; 2026 Whilber-AI &mdash; تمامی حقوق محفوظ است.</p>
+    <div style="display:flex;gap:8px;">
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">&#x1F4E7; ایمیل</a>
+    </div>
+  </div>
+</footer>
+</body></html>

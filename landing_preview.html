@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="Whilber-AI — دستیار هوشمند تحلیل بازارهای مالی | فارکس، کریپتو، فلزات، شاخص‌ها">
+<meta name="keywords" content="تحلیل بازار, فارکس, کریپتو, طلا, سیگنال, استراتژی, ترید">
+<title>Whilber-AI | دستیار هوشمند تحلیل بازارهای مالی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════
+   WHILBER-AI — LANDING PAGE
+   Dark Trading Terminal Aesthetic
+   ═══════════════════════════════════════════════════ */
+
+:root {
+  --bg:      #080b12;
+  --bg2:     #0f1320;
+  --bg3:     #161b2e;
+  --bg4:     #1e2540;
+  --border:  #1e2a45;
+  --border2: #2a3a5c;
+  --text:    #e8ecf4;
+  --text2:   #8892a8;
+  --text3:   #5a6480;
+  --cyan:    #00d4ff;
+  --cyan2:   #0af0ff;
+  --green:   #00e88f;
+  --red:     #ff4466;
+  --yellow:  #ffbe2e;
+  --purple:  #a855f7;
+  --orange:  #ff8844;
+  --grad1:   linear-gradient(135deg, #00d4ff 0%, #a855f7 100%);
+  --grad2:   linear-gradient(135deg, #00e88f 0%, #00d4ff 100%);
+  --glow:    0 0 30px rgba(0,212,255,.15);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { font-size:15px; scroll-behavior:smooth; }
+body {
+  font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  direction: rtl;
+  overflow-x: hidden;
+  line-height: 1.7;
+}
+a { color: var(--cyan); text-decoration: none; transition: all .2s; }
+a:hover { color: var(--cyan2); }
+img { max-width:100%; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--border2); border-radius:6px; }
+
+/* ═══════════════════════════════════════
+   TOP NAVIGATION
+   ═══════════════════════════════════════ */
+.topnav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(8,11,18,.85);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border-bottom: 1px solid rgba(30,42,69,.6);
+  padding: 0 24px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background .3s;
+}
+.topnav.scrolled { background: rgba(8,11,18,.97); }
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0;
+}
+.nav-logo-icon {
+  width: 34px; height: 34px;
+  background: var(--grad1);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 900;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(0,212,255,.3);
+}
+.nav-logo-text {
+  font-size: 18px; font-weight: 800;
+  background: var(--grad1);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -.5px;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 2px;
+}
+.nav-links a {
+  color: var(--text2);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all .2s;
+}
+.nav-links a:hover { background: var(--bg3); color: var(--text); }
+.nav-links a.active { color: var(--cyan); background: rgba(0,212,255,.08); }
+.nav-cta {
+  background: var(--grad1) !important;
+  color: #000 !important;
+  font-weight: 700 !important;
+  padding: 7px 18px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+}
+.nav-cta:hover { opacity: .9; transform: translateY(-1px); }
+.hamburger {
+  display: none;
+  background: none; border: none;
+  color: var(--text); font-size: 24px;
+  cursor: pointer; padding: 4px;
+}
+
+/* Mobile Menu */
+.mobile-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.7);
+  backdrop-filter: blur(8px);
+  z-index: 999;
+}
+.mobile-overlay.open { display: block; }
+.mobile-menu {
+  position: fixed;
+  top: 0; right: 0;
+  width: 280px; height: 100vh;
+  background: var(--bg2);
+  border-left: 1px solid var(--border);
+  z-index: 1001;
+  transform: translateX(100%);
+  transition: transform .3s cubic-bezier(.4,0,.2,1);
+  padding: 70px 16px 20px;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.mobile-overlay.open .mobile-menu { transform: translateX(0); }
+.mobile-menu a {
+  display: flex; align-items: center; gap: 10px;
+  color: var(--text2); padding: 12px 16px;
+  border-radius: 10px; font-size: 14px;
+}
+.mobile-menu a:hover { background: var(--bg3); color: var(--text); }
+.mobile-menu a.active { background: rgba(0,212,255,.08); color: var(--cyan); }
+
+/* ═══════════════════════════════════════
+   HERO SECTION
+   ═══════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  padding: 80px 24px 40px;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 20%, rgba(0,212,255,.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 70%, rgba(168,85,247,.06) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(0,232,143,.04) 0%, transparent 40%);
+  z-index: 0;
+}
+/* Grid lines effect */
+.hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+}
+.hero-content {
+  position: relative; z-index: 1;
+  max-width: 800px;
+  text-align: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,212,255,.08);
+  border: 1px solid rgba(0,212,255,.2);
+  border-radius: 100px;
+  padding: 6px 18px;
+  font-size: 12px;
+  color: var(--cyan);
+  font-weight: 600;
+  margin-bottom: 24px;
+  animation: fadeInUp .6s ease;
+}
+.hero-badge .pulse {
+  width: 8px; height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity:1; box-shadow: 0 0 0 0 rgba(0,232,143,.4); }
+  50% { opacity:.8; box-shadow: 0 0 0 8px rgba(0,232,143,0); }
+}
+.hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1.3;
+  margin-bottom: 20px;
+  animation: fadeInUp .6s ease .1s both;
+}
+.hero h1 .gradient {
+  background: var(--grad1);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-desc {
+  font-size: 17px;
+  color: var(--text2);
+  line-height: 1.8;
+  max-width: 600px;
+  margin: 0 auto 32px;
+  animation: fadeInUp .6s ease .2s both;
+}
+.hero-actions {
+  display: flex; gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeInUp .6s ease .3s both;
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all .25s;
+  border: none;
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--grad1);
+  color: #000;
+  box-shadow: 0 4px 20px rgba(0,212,255,.25);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,212,255,.35); color:#000; }
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--border2);
+}
+.btn-outline:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(0,212,255,.04); }
+@keyframes fadeInUp {
+  from { opacity:0; transform:translateY(20px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* ═══════════════════════════════════════
+   LIVE STATS BAR
+   ═══════════════════════════════════════ */
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 28px 24px;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.stat-item {
+  text-align: center;
+  min-width: 120px;
+}
+.stat-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  font-weight: 800;
+  background: var(--grad1);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat-label {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════
+   SECTIONS COMMON
+   ═══════════════════════════════════════ */
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.section-tag {
+  display: inline-block;
+  font-size: 11px; font-weight: 700;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+.section-desc {
+  font-size: 15px;
+  color: var(--text2);
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════
+   SERVICES / PAGES GRID
+   ═══════════════════════════════════════ */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.service-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all .3s;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--text);
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--grad1);
+  opacity: 0;
+  transition: opacity .3s;
+}
+.service-card:hover {
+  border-color: var(--border2);
+  transform: translateY(-4px);
+  box-shadow: var(--glow);
+}
+.service-card:hover::before { opacity: 1; }
+.service-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+.service-card h3 {
+  font-size: 16px; font-weight: 700;
+  margin-bottom: 8px;
+}
+.service-card p {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+.service-arrow {
+  position: absolute;
+  top: 24px; left: 24px;
+  color: var(--text3);
+  font-size: 18px;
+  transition: all .3s;
+}
+.service-card:hover .service-arrow { color: var(--cyan); transform: translateX(-4px); }
+
+/* ═══════════════════════════════════════
+   FEATURES
+   ═══════════════════════════════════════ */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+.feature-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  transition: all .3s;
+}
+.feature-card:hover {
+  border-color: var(--border2);
+  box-shadow: var(--glow);
+}
+.feature-emoji {
+  font-size: 32px;
+  margin-bottom: 16px;
+  display: block;
+}
+.feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.feature-card p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+
+/* ═══════════════════════════════════════
+   HOW IT WORKS
+   ═══════════════════════════════════════ */
+.steps-wrapper {
+  position: relative;
+}
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  position: relative;
+}
+.step-card {
+  text-align: center;
+  padding: 24px 16px;
+  position: relative;
+}
+.step-num {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--bg3);
+  border: 2px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px; font-weight: 800;
+  color: var(--cyan);
+  margin: 0 auto 16px;
+  transition: all .3s;
+}
+.step-card:hover .step-num {
+  background: rgba(0,212,255,.1);
+  border-color: var(--cyan);
+  box-shadow: 0 0 20px rgba(0,212,255,.2);
+}
+.step-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.step-card p { font-size: 12px; color: var(--text2); line-height: 1.7; }
+
+/* ═══════════════════════════════════════
+   RANKING TABLE
+   ═══════════════════════════════════════ */
+.ranking-section {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  overflow: hidden;
+}
+.ranking-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+}
+.ranking-header h2 {
+  font-size: 20px; font-weight: 800;
+  display: flex; align-items: center; gap: 10px;
+}
+.ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.ranking-table th {
+  text-align: right;
+  padding: 10px 12px;
+  color: var(--text3);
+  font-size: 11px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.ranking-table td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(30,42,69,.4);
+  vertical-align: middle;
+}
+.ranking-table tr:hover td { background: rgba(0,212,255,.02); }
+.rank-badge {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800;
+  font-family: 'JetBrains Mono', monospace;
+}
+.rank-1 { background: rgba(255,190,46,.15); color: var(--yellow); }
+.rank-2 { background: rgba(192,192,192,.12); color: #c0c0c0; }
+.rank-3 { background: rgba(205,127,50,.12); color: #cd7f32; }
+.rank-n { background: var(--bg3); color: var(--text3); }
+.wr-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+.wr-high { background: rgba(0,232,143,.1); color: var(--green); }
+.wr-mid { background: rgba(255,190,46,.1); color: var(--yellow); }
+.wr-low { background: rgba(255,68,102,.1); color: var(--red); }
+.pnl-pos { color: var(--green); font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+.pnl-neg { color: var(--red); font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+.ranking-loading {
+  text-align: center; padding: 40px;
+  color: var(--text3); font-size: 13px;
+}
+.ranking-footer {
+  text-align: center; margin-top: 20px;
+}
+
+/* ═══════════════════════════════════════
+   BLOG / ARTICLES
+   ═══════════════════════════════════════ */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.blog-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all .3s;
+  cursor: pointer;
+}
+.blog-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border2);
+  box-shadow: var(--glow);
+}
+.blog-thumb {
+  height: 160px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px;
+}
+.blog-body { padding: 20px; }
+.blog-tag {
+  display: inline-block;
+  font-size: 10px; font-weight: 700;
+  color: var(--cyan);
+  background: rgba(0,212,255,.08);
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+.blog-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.blog-card p { font-size: 12px; color: var(--text2); line-height: 1.7; }
+.blog-date { font-size: 11px; color: var(--text3); margin-top: 12px; }
+
+/* ═══════════════════════════════════════
+   TELEGRAM BANNER
+   ═══════════════════════════════════════ */
+.tg-banner {
+  background: linear-gradient(135deg, #0088cc22 0%, #a855f710 100%);
+  border: 1px solid rgba(0,136,204,.2);
+  border-radius: 20px;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.tg-banner-text h3 {
+  font-size: 22px; font-weight: 800;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 10px;
+}
+.tg-banner-text p { font-size: 14px; color: var(--text2); }
+.btn-tg {
+  background: #0088cc;
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-size: 15px; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all .25s;
+  flex-shrink: 0;
+}
+.btn-tg:hover { background: #006da8; color:#fff; transform: translateY(-2px); }
+
+/* ═══════════════════════════════════════
+   CTA SECTION
+   ═══════════════════════════════════════ */
+.cta-section {
+  text-align: center;
+  padding: 80px 24px;
+  position: relative;
+}
+.cta-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(0,212,255,.06) 0%, transparent 60%);
+}
+.cta-section h2 {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 900;
+  margin-bottom: 16px;
+  position: relative;
+}
+.cta-section p {
+  color: var(--text2);
+  font-size: 16px;
+  margin-bottom: 28px;
+  position: relative;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════ */
+.footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 48px 24px 24px;
+}
+.footer-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+.footer-brand p {
+  font-size: 13px;
+  color: var(--text2);
+  margin-top: 12px;
+  line-height: 1.8;
+}
+.footer-col h4 {
+  font-size: 13px; font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.footer-col a {
+  display: block;
+  color: var(--text2);
+  font-size: 13px;
+  padding: 4px 0;
+  transition: all .2s;
+}
+.footer-col a:hover { color: var(--cyan); padding-right: 4px; }
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-bottom p {
+  font-size: 12px; color: var(--text3);
+}
+.footer-socials {
+  display: flex; gap: 12px;
+}
+.footer-socials a {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  transition: all .2s;
+}
+.footer-socials a:hover {
+  background: rgba(0,212,255,.1);
+  border-color: var(--cyan);
+}
+
+/* ═══════════════════════════════════════
+   BACK TO TOP
+   ═══════════════════════════════════════ */
+.back-top {
+  position: fixed;
+  bottom: 24px; left: 24px;
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--cyan);
+  font-size: 20px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  opacity: 0; visibility: hidden;
+  transition: all .3s;
+  z-index: 100;
+}
+.back-top.visible { opacity: 1; visibility: visible; }
+.back-top:hover { background: rgba(0,212,255,.1); transform: translateY(-2px); }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .hamburger { display: block; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .steps-grid { grid-template-columns: 1fr 1fr; }
+  .stats-bar { gap: 20px; }
+}
+@media (max-width: 600px) {
+  html { font-size: 14px; }
+  .hero { padding: 90px 16px 40px; }
+  .section { padding: 50px 16px; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .steps-grid { grid-template-columns: 1fr; }
+  .tg-banner { padding: 24px; text-align: center; justify-content: center; }
+  .ranking-section { padding: 20px 12px; }
+  .ranking-table { font-size: 11px; }
+  .ranking-table th, .ranking-table td { padding: 8px 6px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ TOP NAV ═══════════ -->
+<nav class="topnav" id="topnav">
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">W</div>
+    <span class="nav-logo-text">Whilber-AI</span>
+  </a>
+  <div class="nav-links">
+    <a href="/" class="active">خانه</a>
+    <a href="#services">خدمات</a>
+    <a href="/dashboard">تحلیل بازار</a>
+    <a href="/track-record">سوابق</a>
+    <a href="/builder">استراتژی‌ساز</a>
+    <a href="/risk-manager">مدیریت ریسک</a>
+    <a href="/alerts">هشدارها</a>
+    <a href="/guide">راهنما</a>
+    <a href="#blog">بلاگ</a>
+    <a href="/dashboard" class="nav-cta">🚀 شروع تحلیل</a>
+  </div>
+  <button class="hamburger" onclick="toggleMobile()">☰</button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-overlay" id="mobileOverlay" onclick="closeMobile(event)">
+  <div class="mobile-menu">
+    <a href="/" class="active">🏠 صفحه اصلی</a>
+    <a href="/dashboard">📊 تحلیل بازار</a>
+    <a href="/track-record">📜 سوابق معاملات</a>
+    <a href="/builder">🔧 استراتژی‌ساز</a>
+    <a href="/risk-manager">🛡️ مدیریت ریسک</a>
+    <a href="/journal">📒 ژورنال</a>
+    <a href="/alerts">🔔 هشدارها</a>
+    <a href="/guide">📖 راهنما</a>
+    <a href="/about">👤 درباره ما</a>
+    <a href="/contact">📞 تماس</a>
+    <a href="/admin">⚙️ ادمین</a>
+    <a href="#blog">📝 بلاگ</a>
+  </div>
+</div>
+
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="pulse"></span>
+      سیستم تحلیل زنده — ۲۴ ساعته فعال
+    </div>
+    <h1>
+      دستیار <span class="gradient">هوشمند</span> تحلیل<br>
+      بازارهای مالی
+    </h1>
+    <p class="hero-desc">
+      با بیش از ۳۲ استراتژی حرفه‌ای، ۱,۴۰۰+ ترکیب تحلیلی و اتصال مستقیم به بازار،
+      سیگنال‌های دقیق و لحظه‌ای فارکس، کریپتو، فلزات و شاخص‌ها را دریافت کنید.
+    </p>
+    <div class="hero-actions">
+      <a href="/dashboard" class="btn btn-primary">🚀 شروع تحلیل رایگان</a>
+      <a href="/guide" class="btn btn-outline">📖 راهنمای استفاده</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════ LIVE STATS ═══════════ -->
+<div class="stats-bar" id="statsBar">
+  <div class="stat-item">
+    <div class="stat-num" id="statStrategies">32+</div>
+    <div class="stat-label">استراتژی فعال</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" id="statSymbols">50+</div>
+    <div class="stat-label">نماد معاملاتی</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" id="statTrades">1,400+</div>
+    <div class="stat-label">ترکیب تحلیلی</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" id="statUptime">24/7</div>
+    <div class="stat-label">تحلیل زنده</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num"><span style="color:var(--green)">●</span> Real-Time</div>
+    <div class="stat-label">اتصال به بازار</div>
+  </div>
+</div>
+
+
+<!-- ═══════════ SERVICES ═══════════ -->
+<section class="section" id="services">
+  <div class="section-header">
+    <div class="section-tag">خدمات ما</div>
+    <h2 class="section-title">ابزارهای حرفه‌ای معامله‌گری</h2>
+    <p class="section-desc">همه چیزی که یک تریدر حرفه‌ای نیاز دارد، در یک پلتفرم یکپارچه</p>
+  </div>
+
+  <div class="services-grid">
+
+    <a href="/dashboard" class="service-card">
+      <div class="service-icon" style="background:rgba(0,212,255,.1);">📊</div>
+      <span class="service-arrow">←</span>
+      <h3>تحلیل بازار زنده</h3>
+      <p>تحلیل لحظه‌ای فارکس، کریپتو، فلزات و شاخص‌ها با ۳۲ استراتژی. سیگنال خرید/فروش با درصد اطمینان و جزئیات فنی کامل.</p>
+    </a>
+
+    <a href="/track-record" class="service-card">
+      <div class="service-icon" style="background:rgba(0,232,143,.1);">📜</div>
+      <span class="service-arrow">←</span>
+      <h3>سوابق معاملات</h3>
+      <p>رنکینگ کامل استراتژی‌ها بر اساس Win Rate و سود. فیلتر پیشرفته، هیت‌مپ عملکرد، مقایسه و اکسپورت CSV.</p>
+    </a>
+
+    <a href="/builder" class="service-card">
+      <div class="service-icon" style="background:rgba(168,85,247,.1);">🔧</div>
+      <span class="service-arrow">←</span>
+      <h3>استراتژی‌ساز</h3>
+      <p>ساخت استراتژی سفارشی با ترکیب اندیکاتورها. تست استراتژی روی داده‌های واقعی و مشاهده نتایج قبل از استفاده.</p>
+    </a>
+
+    <a href="/risk-manager" class="service-card">
+      <div class="service-icon" style="background:rgba(255,190,46,.1);">🛡️</div>
+      <span class="service-arrow">←</span>
+      <h3>مدیریت ریسک</h3>
+      <p>محاسبه حجم معامله، ریسک به ریوارد، حداکثر ضرر روزانه و مدیریت پورتفولیو. امتیاز ریسک زنده برای هر معامله.</p>
+    </a>
+
+    <a href="/journal" class="service-card">
+      <div class="service-icon" style="background:rgba(255,136,68,.1);">📒</div>
+      <span class="service-arrow">←</span>
+      <h3>ژورنال معاملاتی</h3>
+      <p>ثبت خودکار معاملات با یادداشت و تحلیل. آمار عملکرد شخصی، نقاط قوت و ضعف و گزارش‌های دوره‌ای.</p>
+    </a>
+
+    <a href="/alerts" class="service-card">
+      <div class="service-icon" style="background:rgba(255,68,102,.1);">🔔</div>
+      <span class="service-arrow">←</span>
+      <h3>سیستم هشدار</h3>
+      <p>دریافت هشدار از طریق تلگرام، ایمیل و پاپ‌آپ. تنظیم هشدار قیمتی و سیگنال استراتژی برای هر نماد دلخواه.</p>
+    </a>
+
+    <a href="/guide" class="service-card">
+      <div class="service-icon" style="background:rgba(0,212,255,.1);">📖</div>
+      <span class="service-arrow">←</span>
+      <h3>راهنمای جامع</h3>
+      <p>آموزش کامل استفاده از پلتفرم، معرفی استراتژی‌ها، نحوه خواندن سیگنال‌ها، مدیریت ریسک و نکات معامله‌گری.</p>
+    </a>
+
+    <a href="/contact" class="service-card">
+      <div class="service-icon" style="background:rgba(168,85,247,.1);">📞</div>
+      <span class="service-arrow">←</span>
+      <h3>پشتیبانی</h3>
+      <p>ارتباط مستقیم با تیم Whilber-AI از طریق واتس‌اپ، ایمیل و فرم پشتیبانی. پاسخ‌گویی سریع و حرفه‌ای.</p>
+    </a>
+
+  </div>
+</section>
+
+
+<!-- ═══════════ TOP STRATEGIES RANKING ═══════════ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-tag">رنکینگ زنده</div>
+    <h2 class="section-title">🏆 برترین استراتژی‌های سودده</h2>
+    <p class="section-desc">رتبه‌بندی خودکار بر اساس عملکرد واقعی — بروزرسانی هر ۳۰ ثانیه</p>
+  </div>
+
+  <div class="ranking-section">
+    <div class="ranking-header">
+      <h2>📊 تاپ ۱۰ استراتژی</h2>
+      <a href="/track-record" class="btn btn-outline" style="font-size:13px;padding:8px 16px;">مشاهده همه ←</a>
+    </div>
+
+    <div id="rankingBody">
+      <div class="ranking-loading">
+        <div style="font-size:24px;margin-bottom:8px;">⏳</div>
+        در حال بارگذاری رنکینگ...
+      </div>
+    </div>
+
+    <div class="ranking-footer">
+      <a href="/track-record" style="font-size:13px;color:var(--text2);">مشاهده سوابق کامل و فیلتر پیشرفته ←</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════ FEATURES ═══════════ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-tag">چرا Whilber-AI؟</div>
+    <h2 class="section-title">امکانات منحصربه‌فرد</h2>
+    <p class="section-desc">ترکیبی از هوش مصنوعی و تحلیل تکنیکال حرفه‌ای</p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-emoji">⚡</span>
+      <h3>تحلیل زیر ۱ ثانیه</h3>
+      <p>تمام ۳۲ استراتژی به صورت موازی اجرا شده و نتایج در کسری از ثانیه آماده می‌شوند. بدون تأخیر، بدون انتظار.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-emoji">🔗</span>
+      <h3>اتصال مستقیم به بازار</h3>
+      <p>داده‌ها مستقیماً از MetaTrader 5 و بروکر دریافت می‌شوند. قیمت‌های لحظه‌ای بدون واسطه و با کمترین تأخیر.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-emoji">🧠</span>
+      <h3>۳۲ استراتژی ترکیبی</h3>
+      <p>از RSI و MACD تا Ichimoku و Elliott Wave. هر استراتژی مستقل تحلیل می‌کند و نتیجه نهایی ترکیبی ارائه می‌شود.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-emoji">📱</span>
+      <h3>ریسپانسیو کامل</h3>
+      <p>روی موبایل، تبلت و دسکتاپ بدون مشکل کار می‌کند. طراحی بهینه برای هر اندازه صفحه نمایش.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-emoji">🔔</span>
+      <h3>هشدار چندکاناله</h3>
+      <p>دریافت سیگنال از تلگرام شخصی، کانال عمومی، ایمیل و پاپ‌آپ مرورگر. هیچ سیگنالی را از دست ندهید.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-emoji">🆓</span>
+      <h3>کاملاً رایگان</h3>
+      <p>در حال حاضر تمامی امکانات پلتفرم به صورت رایگان در دسترس است. بدون محدودیت، بدون هزینه پنهان.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════ HOW IT WORKS ═══════════ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-tag">نحوه استفاده</div>
+    <h2 class="section-title">در ۴ مرحله ساده شروع کنید</h2>
+  </div>
+
+  <div class="steps-wrapper">
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>انتخاب نماد</h3>
+        <p>فارکس، کریپتو، فلزات یا شاخص — نماد مورد نظر خود را از بین ۵۰+ گزینه انتخاب کنید.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>انتخاب تایم‌فریم</h3>
+        <p>از ۱ دقیقه تا ۱ روزه — تایم‌فریم مناسب سبک معاملاتی خود را تعیین کنید.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>انتخاب استراتژی</h3>
+        <p>تا ۵ استراتژی از مجموعه ۳۲ استراتژی حرفه‌ای را انتخاب کنید یا همه را بررسی کنید.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h3>دریافت سیگنال</h3>
+        <p>سیگنال خرید/فروش با درصد اطمینان، سطوح کلیدی و جزئیات فنی — آماده تصمیم‌گیری!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════ BLOG ═══════════ -->
+<section class="section" id="blog">
+  <div class="section-header">
+    <div class="section-tag">بلاگ</div>
+    <h2 class="section-title">مقالات آموزشی</h2>
+    <p class="section-desc">جدیدترین مطالب درباره تحلیل تکنیکال و معامله‌گری</p>
+  </div>
+
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-thumb" style="background:linear-gradient(135deg,#0f1320,#1a2540);">📈</div>
+      <div class="blog-body">
+        <span class="blog-tag">تحلیل تکنیکال</span>
+        <h3>راهنمای جامع اندیکاتور RSI</h3>
+        <p>همه‌چیز درباره شاخص قدرت نسبی: واگرایی‌ها، سطوح اشباع، ترکیب با سایر اندیکاتورها و استراتژی‌های عملی.</p>
+        <div class="blog-date">۱۵ بهمن ۱۴۰۴</div>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <div class="blog-thumb" style="background:linear-gradient(135deg,#0f1320,#1e2040);">🧠</div>
+      <div class="blog-body">
+        <span class="blog-tag">استراتژی</span>
+        <h3>۵ استراتژی برتر برای بازار فارکس</h3>
+        <p>مقایسه عملکرد ۵ استراتژی محبوب بر اساس داده‌های واقعی. کدام استراتژی برای سبک شما مناسب‌تر است؟</p>
+        <div class="blog-date">۱۰ بهمن ۱۴۰۴</div>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <div class="blog-thumb" style="background:linear-gradient(135deg,#0f1320,#201a30);">🛡️</div>
+      <div class="blog-body">
+        <span class="blog-tag">مدیریت ریسک</span>
+        <h3>چرا مدیریت ریسک مهم‌تر از سیگنال است؟</h3>
+        <p>بررسی تأثیر مدیریت ریسک بر عملکرد بلندمدت. قانون ۲% و نحوه محاسبه حجم معامله برای حفظ سرمایه.</p>
+        <div class="blog-date">۵ بهمن ۱۴۰۴</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════ TELEGRAM ═══════════ -->
+<section class="section">
+  <div class="tg-banner">
+    <div class="tg-banner-text">
+      <h3>📢 کانال تلگرام Whilber-AI</h3>
+      <p>سیگنال‌های روزانه، آموزش‌های رایگان و اطلاع‌رسانی آپدیت‌ها — عضو شوید و همیشه در جریان باشید.</p>
+    </div>
+    <a href="https://t.me/WhilberAI" target="_blank" class="btn-tg">✈️ عضویت در تلگرام</a>
+  </div>
+</section>
+
+
+<!-- ═══════════ CTA ═══════════ -->
+<section class="cta-section">
+  <h2>آماده شروع هستید؟</h2>
+  <p>همین الان تحلیل بازار را شروع کنید — کاملاً رایگان</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;">
+    <a href="/dashboard" class="btn btn-primary">🚀 ورود به داشبورد تحلیل</a>
+    <a href="/about" class="btn btn-outline">👤 درباره ما بیشتر بدانید</a>
+  </div>
+</section>
+
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="footer">
+  <div class="footer-grid">
+
+    <div class="footer-brand">
+      <a href="/" class="nav-logo" style="margin-bottom:8px;">
+        <div class="nav-logo-icon">W</div>
+        <span class="nav-logo-text">Whilber-AI</span>
+      </a>
+      <p>دستیار هوشمند تحلیل بازارهای مالی. تحلیل لحظه‌ای فارکس، کریپتو، فلزات و شاخص‌ها با ۳۲ استراتژی حرفه‌ای و اتصال مستقیم به بازار. ساخته شده برای معامله‌گران جدی.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>ابزارها</h4>
+      <a href="/dashboard">📊 تحلیل بازار</a>
+      <a href="/track-record">📜 سوابق</a>
+      <a href="/builder">🔧 استراتژی‌ساز</a>
+      <a href="/risk-manager">🛡️ مدیریت ریسک</a>
+      <a href="/journal">📒 ژورنال</a>
+      <a href="/alerts">🔔 هشدارها</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>اطلاعات</h4>
+      <a href="/guide">📖 راهنما</a>
+      <a href="/about">👤 درباره ما</a>
+      <a href="/contact">📞 تماس</a>
+      <a href="#blog">📝 بلاگ</a>
+      <a href="/robots">🤖 ربات‌ها</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>ارتباط</h4>
+      <a href="https://t.me/WhilberAI" target="_blank">✈️ کانال تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">📧 ایمیل پشتیبانی</a>
+      <a href="/contact">💬 فرم پشتیبانی</a>
+      <a href="/admin">⚙️ پنل ادمین</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 Whilber-AI — تمامی حقوق محفوظ است. تحلیل‌ها صرفاً جنبه آموزشی دارند و توصیه مالی نیستند.</p>
+    <div class="footer-socials">
+      <a href="https://t.me/WhilberAI" target="_blank" title="تلگرام">✈️</a>
+      <a href="mailto:support@whilber-ai.com" title="ایمیل">📧</a>
+    </div>
+  </div>
+</footer>
+
+
+<!-- Back to top -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════ -->
+<script>
+(function(){
+  var API = window.location.origin;
+
+  // ── Nav scroll effect ──
+  var nav = document.getElementById('topnav');
+  window.addEventListener('scroll', function(){
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+    document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // ── Mobile menu ──
+  window.toggleMobile = function(){
+    document.getElementById('mobileOverlay').classList.toggle('open');
+  };
+  window.closeMobile = function(e){
+    if(e.target === document.getElementById('mobileOverlay'))
+      document.getElementById('mobileOverlay').classList.remove('open');
+  };
+
+  // ── Load live stats ──
+  function loadStats(){
+    fetch(API + '/api/health').then(r=>r.json()).then(function(d){
+      if(d.strategies) document.getElementById('statStrategies').textContent = d.strategies + '+';
+      if(d.symbols) document.getElementById('statSymbols').textContent = d.symbols + '+';
+    }).catch(function(){});
+  }
+
+  // ── Load ranking ──
+  function loadRanking(){
+    var container = document.getElementById('rankingBody');
+    fetch(API + '/api/fast/ranking?limit=10&sort=win_rate')
+      .then(r=>r.json())
+      .then(function(d){
+        var items = d.ranking || d.strategies || d.data || [];
+        if(!items.length){
+          // Try alternate endpoint
+          return fetch(API + '/api/tracker/ranking?sort=win_rate&limit=10').then(r=>r.json());
+        }
+        return {ranking: items};
+      })
+      .then(function(d){
+        var items = d.ranking || d.strategies || d.data || [];
+        if(!items.length){
+          container.innerHTML = '<div class="ranking-loading"><div style="font-size:24px;margin-bottom:8px;">📊</div>سیستم در حال جمع‌آوری داده‌ها... به زودی رنکینگ نمایش داده می‌شود.</div>';
+          return;
+        }
+        renderRanking(items);
+      })
+      .catch(function(){
+        container.innerHTML = '<div class="ranking-loading"><div style="font-size:24px;margin-bottom:8px;">📊</div>برای مشاهده رنکینگ، سرور را روشن کنید.</div>';
+      });
+  }
+
+  function renderRanking(items){
+    var container = document.getElementById('rankingBody');
+    var html = '<table class="ranking-table"><thead><tr>';
+    html += '<th>#</th><th>استراتژی</th><th>نماد</th><th>معاملات</th><th>Win Rate</th><th>سود/ضرر</th><th>آخرین ۵</th>';
+    html += '</tr></thead><tbody>';
+
+    items.forEach(function(s, i){
+      var wr = (s.win_rate || 0).toFixed(1);
+      var wrClass = wr >= 60 ? 'wr-high' : wr >= 45 ? 'wr-mid' : 'wr-low';
+      var pnl = (s.total_pnl || 0).toFixed(1);
+      var pnlClass = pnl >= 0 ? 'pnl-pos' : 'pnl-neg';
+      var rankClass = i < 1 ? 'rank-1' : i < 2 ? 'rank-2' : i < 3 ? 'rank-3' : 'rank-n';
+
+      // Get symbol
+      var sym = s.symbol || '-';
+      if(sym === '-' && s.strategy_id){
+        var known = ['XAUUSD','EURUSD','GBPUSD','USDJPY','AUDUSD','USDCAD','BTCUSD','XAGUSD','US30','NAS100'];
+        for(var k=0;k<known.length;k++){
+          if(s.strategy_id.indexOf(known[k])>=0){sym=known[k];break;}
+        }
+      }
+
+      // Last 5
+      var last5 = '';
+      if(s.last_5 && s.last_5.length){
+        last5 = s.last_5.map(function(r){
+          return r==='win' ? '<span style="color:var(--green)">✓</span>' : '<span style="color:var(--red)">✗</span>';
+        }).join(' ');
+      } else {
+        last5 = '<span style="color:var(--text3)">—</span>';
+      }
+
+      html += '<tr>';
+      html += '<td><span class="rank-badge '+rankClass+'">'+(i+1)+'</span></td>';
+      html += '<td><strong style="color:var(--cyan);font-size:12px;">'+(s.strategy_name || s.strategy_id || '')+'</strong></td>';
+      html += '<td style="font-size:11px;font-family:JetBrains Mono,monospace;">'+sym+'</td>';
+      html += '<td style="text-align:center;">'+(s.total||0)+' <span style="font-size:10px;color:var(--text3);">'+(s.wins||0)+'W/'+(s.losses||0)+'L</span></td>';
+      html += '<td style="text-align:center;"><span class="wr-badge '+wrClass+'">'+wr+'%</span></td>';
+      html += '<td style="text-align:center;" class="'+pnlClass+'">'+(pnl>=0?'+':'')+pnl+'$</td>';
+      html += '<td style="text-align:center;font-size:13px;">'+last5+'</td>';
+      html += '</tr>';
+    });
+
+    html += '</tbody></table>';
+    container.innerHTML = html;
+  }
+
+  // ── Init ──
+  loadStats();
+  loadRanking();
+
+  // Auto refresh ranking every 30s
+  setInterval(loadRanking, 30000);
+
+  // ── Scroll animations ──
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, {threshold: 0.1});
+
+  document.querySelectorAll('.service-card, .feature-card, .step-card, .blog-card').forEach(function(el){
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'all .5s ease';
+    observer.observe(el);
+  });
+
+})();
+</script>
+
+</body>
+</html>

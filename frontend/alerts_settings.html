@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Whilber-AI | تنظیمات هشدار</title>
+<style>
+:root{--bg:#0f172a;--bg2:#1e293b;--bg3:#334155;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--border:rgba(255,255,255,.06);--yellow:#f59e0b;--green:#22c55e;--red:#ef4444;--cyan:#06b6d4;--purple:#a855f7;--blue:#3b82f6;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;}
+
+/* ═══ UNIVERSAL NAV ═══ */
+.wnav{position:sticky;top:0;z-index:1000;background:rgba(8,11,18,.92);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid rgba(30,42,69,.6);padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;}
+.wnav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.wnav-logo-box{width:32px;height:32px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(0,212,255,.25);}
+.wnav-logo-txt{font-size:17px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.3px;}
+.wnav-links{display:flex;align-items:center;gap:1px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.wnav-links::-webkit-scrollbar{display:none;}
+.wnav-links a{color:#8892a8;padding:6px 10px;border-radius:7px;font-size:12.5px;font-weight:500;white-space:nowrap;transition:all .2s;text-decoration:none;}
+.wnav-links a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-links a.wn-active{color:#00d4ff;background:rgba(0,212,255,.08);font-weight:600;}
+.wnav-cta{background:linear-gradient(135deg,#00d4ff,#a855f7) !important;color:#000 !important;font-weight:700 !important;padding:6px 14px !important;border-radius:7px !important;font-size:12px !important;}
+.wnav-back{display:flex;align-items:center;gap:5px;color:#8892a8;font-size:12px;padding:5px 10px;border-radius:7px;cursor:pointer;background:rgba(255,255,255,.03);border:1px solid rgba(30,42,69,.5);transition:all .2s;text-decoration:none;flex-shrink:0;margin-left:6px;}
+.wnav-back:hover{color:#00d4ff;border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);}
+.wnav-ham{display:none;background:none;border:none;color:#e8ecf4;font-size:22px;cursor:pointer;padding:4px;}
+.wnav-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:999;}
+.wnav-mob-overlay.open{display:block;}
+.wnav-mob{position:fixed;top:0;right:0;width:270px;height:100vh;background:#0f1320;border-left:1px solid #1e2a45;z-index:1001;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:64px 14px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.wnav-mob-overlay.open .wnav-mob{transform:translateX(0);}
+.wnav-mob a{display:flex;align-items:center;gap:9px;color:#8892a8;padding:11px 14px;border-radius:9px;font-size:13.5px;text-decoration:none;transition:all .15s;}
+.wnav-mob a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-mob a.wn-active{background:rgba(0,212,255,.08);color:#00d4ff;font-weight:600;}
+.wnav-mob-close{position:absolute;top:14px;left:14px;background:#161b2e;border:1px solid #1e2a45;color:#8892a8;width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+@media(max-width:900px){.wnav-links{display:none;}.wnav-ham{display:block;}.wnav-back{font-size:11px;padding:4px 8px;}}
+
+/* ═══ LAYOUT ═══ */
+.container{max-width:900px;margin:0 auto;padding:16px 20px;}
+.page-title{font-size:18px;font-weight:800;color:var(--yellow);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.page-title .sub{font-size:11px;color:var(--text3);font-weight:400;margin-right:auto;}
+
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px;}
+.card-head{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.card-head h3{font-size:13px;color:var(--cyan);font-weight:700;}
+.card-body{padding:12px 14px;}
+.card.collapsed .card-body{display:none;}
+.card-head .toggle-card{background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;transition:.2s;}
+.card-head .toggle-card:hover{color:var(--cyan);}
+
+/* Forms */
+.form-group{margin-bottom:10px;}
+.form-group label{font-size:10px;color:var(--text3);display:block;margin-bottom:3px;}
+.form-group input,.form-group select{width:100%;padding:7px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:11px;font-family:inherit;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:500px){.form-row{grid-template-columns:1fr;}}
+
+/* Buttons */
+.btn{padding:6px 14px;border-radius:7px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:11px;cursor:pointer;transition:.15s;font-family:inherit;font-weight:600;}
+.btn:hover{border-color:var(--text2);transform:translateY(-1px);}
+.btn-cyan{background:rgba(6,182,212,.1);border-color:rgba(6,182,212,.2);color:var(--cyan);}
+.btn-green{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.15);color:var(--green);}
+.btn-red{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.15);color:var(--red);}
+
+/* Status */
+.status-box{display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:8px;font-size:10px;margin-top:8px;}
+.status-box.ok{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.12);color:var(--green);}
+.status-box.warn{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.12);color:var(--yellow);}
+.status-box.err{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.12);color:var(--red);}
+
+/* Toggles */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--bg);border-radius:8px;margin-bottom:6px;}
+.toggle-row .info{display:flex;align-items:center;gap:6px;}
+.toggle-row .info .icon{font-size:14px;flex-shrink:0;}
+.toggle-row .info .label{font-size:11px;font-weight:700;}
+.toggle-row .info .desc{font-size:9px;color:var(--text3);}
+.toggle{position:relative;width:36px;height:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:10px;cursor:pointer;transition:.2s;flex-shrink:0;}
+.toggle.on{background:rgba(34,197,94,.15);border-color:var(--green);}
+.toggle::after{content:"";position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:var(--text3);transition:.2s;}
+.toggle.on::after{right:auto;left:2px;background:var(--green);}
+
+/* Chips */
+.chips{display:flex;flex-wrap:wrap;gap:5px;}
+.chip{padding:4px 10px;border-radius:16px;font-size:10px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text3);transition:.2s;user-select:none;}
+.chip:hover{border-color:var(--cyan);}
+.chip.active{background:rgba(6,182,212,.12);color:var(--cyan);border-color:rgba(6,182,212,.3);}
+.chip-group{margin-bottom:6px;}
+.chip-group-label{font-size:9px;color:var(--text3);margin-bottom:3px;font-weight:600;}
+
+/* Events grid */
+.events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:5px;}
+.event-chip{display:flex;align-items:center;gap:5px;padding:5px 8px;border-radius:7px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;font-size:10px;transition:.2s;user-select:none;}
+.event-chip.active{background:rgba(6,182,212,.1);border-color:rgba(6,182,212,.25);color:var(--cyan);}
+.event-chip:hover{border-color:var(--cyan);}
+
+/* Quick links */
+.quick-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;}
+.qlink{display:flex;align-items:center;gap:4px;padding:6px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text2);font-size:11px;text-decoration:none;transition:.2s;}
+.qlink:hover{border-color:var(--cyan);color:var(--cyan);}
+
+/* Grid layout */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:768px){.grid2{grid-template-columns:1fr;}}
+
+/* ═══ UNIVERSAL FOOTER ═══ */
+.wfooter{background:#0f1320;border-top:1px solid #1e2a45;padding:32px 20px 16px;margin-top:24px;}
+.wfooter-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:28px;}
+.wfooter-brand p{font-size:12px;color:#5a6480;margin-top:8px;line-height:1.8;}
+.wfooter-col h4{font-size:12px;font-weight:700;color:#e8ecf4;margin-bottom:12px;}
+.wfooter-col a{display:block;color:#5a6480;font-size:12px;padding:3px 0;text-decoration:none;transition:color .2s;}
+.wfooter-col a:hover{color:#00d4ff;}
+.wfooter-bottom{max-width:1100px;margin:0 auto;border-top:1px solid #1e2a45;padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.wfooter-bottom p{font-size:11px;color:#5a6480;}
+.wfooter-bottom a{color:#00d4ff;text-decoration:none;font-size:11px;}
+@media(max-width:768px){.wfooter-grid{grid-template-columns:1fr 1fr;gap:20px;}}
+@media(max-width:480px){.wfooter-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- ═══ UNIVERSAL TOP NAV ═══ -->
+<nav class="wnav" id="wTopNav">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <a href="/" class="wnav-logo">
+      <div class="wnav-logo-box">W</div>
+      <span class="wnav-logo-txt">Whilber-AI</span>
+    </a>
+    <a href="javascript:history.back()" class="wnav-back" title="&#1576;&#1575;&#1586;&#1711;&#1588;&#1578;">&#8594; &#1576;&#1585;&#1711;&#1588;&#1578;</a>
+  </div>
+  <div class="wnav-links">
+    <a href="/">&#1582;&#1575;&#1606;&#1607;</a>
+    <a href="/dashboard">&#1578;&#1581;&#1604;&#1740;&#1604; &#1576;&#1575;&#1586;&#1575;&#1585;</a>
+    <a href="/track-record">&#1587;&#1608;&#1575;&#1576;&#1602;</a>
+    <a href="/builder">&#1575;&#1587;&#1578;&#1585;&#1575;&#1578;&#1688;&#1740;&#8204;&#1587;&#1575;&#1586;</a>
+    <a href="/risk-manager">&#1605;&#1583;&#1740;&#1585;&#1740;&#1578; &#1585;&#1740;&#1587;&#1705;</a>
+    <a href="/journal">&#1688;&#1608;&#1585;&#1606;&#1575;&#1604;</a>
+    <a href="/performance">عملکرد زنده</a>
+    <a href="/alerts" class="wn-active">&#1607;&#1588;&#1583;&#1575;&#1585;&#1607;&#1575;</a>
+    <a href="/guide">&#1585;&#1575;&#1607;&#1606;&#1605;&#1575;</a>
+    <a href="/services">&#1582;&#1583;&#1605;&#1575;&#1578;</a>
+    <a href="/about">&#1583;&#1585;&#1576;&#1575;&#1585;&#1607; &#1605;&#1575;</a>
+    <a href="/contact">&#1578;&#1605;&#1575;&#1587;</a>
+    <a href="/robots">ربات‌ها</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/login">ورود</a>
+    <a href="/register">ثبت‌نام</a>
+    <a href="/dashboard" class="wnav-cta">&#x1F680; &#1578;&#1581;&#1604;&#1740;&#1604;</a>
+  </div>
+  <button class="wnav-ham" onclick="document.getElementById('wMobOverlay').classList.add('open')">&#9776;</button>
+</nav>
+<div class="wnav-mob-overlay" id="wMobOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="wnav-mob">
+    <button class="wnav-mob-close" onclick="document.getElementById('wMobOverlay').classList.remove('open')">&#10005;</button>
+    <a href="javascript:history.back()" style="color:#00d4ff;border:1px solid rgba(0,212,255,.2);margin-bottom:8px;">&#8594; &#1576;&#1585;&#1711;&#1588;&#1578; &#1576;&#1607; &#1589;&#1601;&#1581;&#1607; &#1602;&#1576;&#1604;</a>
+    <a href="/">&#x1F3E0; &#1582;&#1575;&#1606;&#1607;</a>
+    <a href="/dashboard">&#x1F4CA; &#1578;&#1581;&#1604;&#1740;&#1604; &#1576;&#1575;&#1586;&#1575;&#1585;</a>
+    <a href="/track-record">&#x1F4DC; &#1587;&#1608;&#1575;&#1576;&#1602;</a>
+    <a href="/builder">&#x1F527; &#1575;&#1587;&#1578;&#1585;&#1575;&#1578;&#1688;&#1740;&#8204;&#1587;&#1575;&#1586;</a>
+    <a href="/risk-manager">&#x1F6E1;&#xFE0F; &#1605;&#1583;&#1740;&#1585;&#1740;&#1578; &#1585;&#1740;&#1587;&#1705;</a>
+    <a href="/journal">&#x1F4D2; &#1688;&#1608;&#1585;&#1606;&#1575;&#1604;</a>
+    <a href="/performance">&#x1F4C8; عملکرد زنده</a>
+    <a href="/alerts" class="wn-active">&#x1F514; &#1607;&#1588;&#1583;&#1575;&#1585;&#1607;&#1575;</a>
+    <a href="/robots">&#x1F916; ربات‌ها</a>
+    <a href="/guide">&#x1F4D6; &#1585;&#1575;&#1607;&#1606;&#1605;&#1575;</a>
+    <a href="/services">&#x2B50; &#1582;&#1583;&#1605;&#1575;&#1578;</a>
+    <a href="/about">&#x1F464; &#1583;&#1585;&#1576;&#1575;&#1585;&#1607; &#1605;&#1575;</a>
+    <a href="/contact">&#x1F4DE; &#1578;&#1605;&#1575;&#1587;</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/admin">&#x2699;&#xFE0F; &#1575;&#1583;&#1605;&#1740;&#1606;</a>
+    <a href="/login">&#x1F511; ورود</a>
+    <a href="/register">&#x1F4DD; ثبت‌نام</a>
+  </div>
+</div>
+
+
+<div class="container">
+
+<div class="page-title">
+  &#x2699;&#xFE0F; &#1578;&#1606;&#1592;&#1740;&#1605;&#1575;&#1578; &#1607;&#1588;&#1583;&#1575;&#1585;
+  <span class="sub">&#1578;&#1606;&#1592;&#1740;&#1605; &#1575;&#1578;&#1589;&#1575;&#1604;&#1548; &#1601;&#1740;&#1604;&#1578;&#1585;&#1607;&#1575; &#1608; &#1578;&#1585;&#1580;&#1740;&#1581;&#1575;&#1578; &#1583;&#1585;&#1740;&#1575;&#1601;&#1578; &#1607;&#1588;&#1583;&#1575;&#1585;</span>
+</div>
+
+
+<!-- ═══ SECTION 1: Account Connection ═══ -->
+<div class="card" id="cardAccount">
+  <div class="card-head">
+    <h3>&#x1F511; &#1575;&#1578;&#1589;&#1575;&#1604; &#1581;&#1587;&#1575;&#1576;</h3>
+    <span id="connBadge" style="font-size:9px;padding:2px 8px;border-radius:4px;"></span>
+  </div>
+  <div class="card-body">
+    <p style="font-size:10px;color:var(--text3);margin-bottom:10px;">&#1601;&#1602;&#1591; &#1575;&#1740;&#1605;&#1740;&#1604; &#1608; &#1588;&#1606;&#1575;&#1587;&#1607; &#1578;&#1604;&#1711;&#1585;&#1575;&#1605; &#1582;&#1608;&#1583; &#1585;&#1575; &#1608;&#1575;&#1585;&#1583; &#1705;&#1606;&#1740;&#1583;. &#1587;&#1740;&#1587;&#1578;&#1605; &#1576;&#1602;&#1740;&#1607; &#1578;&#1606;&#1592;&#1740;&#1605;&#1575;&#1578; &#1585;&#1575; &#1582;&#1608;&#1583;&#1705;&#1575;&#1585; &#1575;&#1606;&#1580;&#1575;&#1605; &#1605;&#1740;&#8204;&#1583;&#1607;&#1583;.</p>
+    <div class="form-row">
+      <div class="form-group">
+        <label>&#x1F4E7; &#1570;&#1583;&#1585;&#1587; &#1575;&#1740;&#1605;&#1740;&#1604;</label>
+        <input type="email" id="cfgEmail" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label>&#x1F4F1; &#1588;&#1606;&#1575;&#1587;&#1607; &#1670;&#1578; &#1578;&#1604;&#1711;&#1585;&#1575;&#1605; (Chat ID)</label>
+        <input type="text" id="cfgTelegram" placeholder="&#1605;&#1579;&#1575;&#1604;: 93688216">
+        <span style="font-size:8px;color:var(--text3);">&#1575;&#1586; &#1576;&#1575;&#1578; @userinfobot &#1583;&#1585; &#1578;&#1604;&#1711;&#1585;&#1575;&#1605; &#1583;&#1585;&#1740;&#1575;&#1601;&#1578; &#1705;&#1606;&#1740;&#1583; &#1740;&#1575; &#1576;&#1575;&#1578; @whilber_ai_bot &#1585;&#1575; &#1575;&#1587;&#1578;&#1575;&#1585;&#1578; &#1705;&#1606;&#1740;&#1583;</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:6px;margin-top:4px;">
+      <button class="btn btn-green" onclick="saveAccount()" style="flex:1;">&#x1F4BE; &#1584;&#1582;&#1740;&#1585;&#1607;</button>
+      <button class="btn btn-cyan" onclick="testTelegram()">&#x1F4E8; &#1578;&#1587;&#1578; &#1578;&#1604;&#1711;&#1585;&#1575;&#1605;</button>
+      <button class="btn" onclick="testEmail()">&#x1F4E7; &#1578;&#1587;&#1578; &#1575;&#1740;&#1605;&#1740;&#1604;</button>
+    </div>
+    <div id="accountResult"></div>
+    <div id="connStatus" class="status-box warn" style="display:none;"></div>
+  </div>
+</div>
+
+
+<!-- ═══ SECTION 2: Delivery Channels ═══ -->
+<div class="card">
+  <div class="card-head">
+    <h3>&#x1F4E3; &#1705;&#1575;&#1606;&#1575;&#1604;&#8204;&#1607;&#1575;&#1740; &#1583;&#1585;&#1740;&#1575;&#1601;&#1578;</h3>
+  </div>
+  <div class="card-body">
+    <div class="toggle-row">
+      <div class="info">
+        <span class="icon">&#x1F4F1;</span>
+        <div>
+          <div class="label">&#1578;&#1604;&#1711;&#1585;&#1575;&#1605;</div>
+          <div class="desc">&#1662;&#1740;&#1575;&#1605; &#1605;&#1587;&#1578;&#1602;&#1740;&#1605; &#1583;&#1585; &#1576;&#1575;&#1578; &#1588;&#1582;&#1589;&#1740;</div>
+        </div>
+      </div>
+      <div class="toggle on" id="chTelegram" onclick="this.classList.toggle('on');autoSave()"></div>
+    </div>
+    <div class="toggle-row">
+      <div class="info">
+        <span class="icon">&#x1F4E7;</span>
+        <div>
+          <div class="label">&#1575;&#1740;&#1605;&#1740;&#1604;</div>
+          <div class="desc">&#1575;&#1585;&#1587;&#1575;&#1604; &#1576;&#1607; &#1570;&#1583;&#1585;&#1587; &#1575;&#1740;&#1605;&#1740;&#1604; &#1579;&#1576;&#1578;&#8204;&#1588;&#1583;&#1607;</div>
+        </div>
+      </div>
+      <div class="toggle on" id="chEmail" onclick="this.classList.toggle('on');autoSave()"></div>
+    </div>
+    <div class="toggle-row">
+      <div class="info">
+        <span class="icon">&#x1F4BB;</span>
+        <div>
+          <div class="label">&#1662;&#1575;&#1662;&#8204;&#1570;&#1662; &#1583;&#1587;&#1705;&#1578;&#1575;&#1662;</div>
+          <div class="desc">&#1606;&#1608;&#1578;&#1740;&#1601;&#1740;&#1705;&#1740;&#1588;&#1606; &#1605;&#1585;&#1608;&#1585;&#1711;&#1585;</div>
+        </div>
+      </div>
+      <div class="toggle on" id="chPopup" onclick="this.classList.toggle('on');autoSave()"></div>
+    </div>
+    <div class="toggle-row">
+      <div class="info">
+        <span class="icon">&#x1F50A;</span>
+        <div>
+          <div class="label">&#1589;&#1583;&#1575;</div>
+          <div class="desc">&#1589;&#1583;&#1575;&#1740; &#1607;&#1588;&#1583;&#1575;&#1585; &#1583;&#1585; &#1605;&#1585;&#1608;&#1585;&#1711;&#1585;</div>
+        </div>
+      </div>
+      <div class="toggle" id="chSound" onclick="this.classList.toggle('on');autoSave()"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ SECTION 3: Quiet Hours ═══ -->
+<div class="card">
+  <div class="card-head">
+    <h3>&#x1F319; &#1587;&#1575;&#1593;&#1575;&#1578; &#1576;&#1740;&#8204;&#1589;&#1583;&#1575;</h3>
+  </div>
+  <div class="card-body">
+    <p style="font-size:10px;color:var(--text3);margin-bottom:8px;">&#1583;&#1585; &#1575;&#1740;&#1606; &#1576;&#1575;&#1586;&#1607; &#1586;&#1605;&#1575;&#1606;&#1740; &#1607;&#1588;&#1583;&#1575;&#1585; &#1575;&#1585;&#1587;&#1575;&#1604; &#1606;&#1605;&#1740;&#8204;&#1588;&#1608;&#1583; (&#1576;&#1585;&#1575;&#1740; &#1607;&#1588;&#1583;&#1575;&#1585;&#1607;&#1575;&#1740; &#1594;&#1740;&#1585;&#1601;&#1608;&#1585;&#1740;). &#1576;&#1585;&#1575;&#1740; &#1594;&#1740;&#1585;&#1601;&#1593;&#1575;&#1604; &#1705;&#1585;&#1583;&#1606;&#1548; &#1607;&#1585; &#1583;&#1608; &#1585;&#1575; &#1582;&#1575;&#1604;&#1740; &#1576;&#1711;&#1584;&#1575;&#1585;&#1740;&#1583;.</p>
+    <div class="form-row">
+      <div class="form-group">
+        <label>&#1575;&#1586; &#1587;&#1575;&#1593;&#1578;</label>
+        <input type="time" id="quietStart" onchange="autoSave()">
+      </div>
+      <div class="form-group">
+        <label>&#1578;&#1575; &#1587;&#1575;&#1593;&#1578;</label>
+        <input type="time" id="quietEnd" onchange="autoSave()">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ SECTION 4: Symbol Filters (collapsible) ═══ -->
+<div class="card collapsed" id="cardSymbols">
+  <div class="card-head">
+    <h3>&#x1F4CA; &#1601;&#1740;&#1604;&#1578;&#1585; &#1606;&#1605;&#1575;&#1583;&#1607;&#1575;</h3>
+    <button class="toggle-card" onclick="toggleCard('cardSymbols')">&#x25BC;</button>
+  </div>
+  <div class="card-body">
+    <p style="font-size:10px;color:var(--text3);margin-bottom:8px;">&#1705;&#1583;&#1575;&#1605; &#1606;&#1605;&#1575;&#1583;&#1607;&#1575; &#1576;&#1585;&#1575;&#1740; &#1607;&#1588;&#1583;&#1575;&#1585; &#1575;&#1587;&#1578;&#1585;&#1575;&#1578;&#1688;&#1740; &#1601;&#1593;&#1575;&#1604; &#1576;&#1575;&#1588;&#1606;&#1583;&#1567;</p>
+    <div style="display:flex;gap:4px;margin-bottom:8px;">
+      <button class="btn" onclick="toggleAllSymbols(true)" style="font-size:10px;">&#x2705; &#1607;&#1605;&#1607;</button>
+      <button class="btn" onclick="toggleAllSymbols(false)" style="font-size:10px;">&#x274C; &#1607;&#1740;&#1670;&#8204;&#1705;&#1583;&#1575;&#1605;</button>
+    </div>
+    <div id="symbolChips"></div>
+  </div>
+</div>
+
+
+<!-- ═══ SECTION 5: Event Filters (collapsible) ═══ -->
+<div class="card collapsed" id="cardEvents">
+  <div class="card-head">
+    <h3>&#x1F514; &#1601;&#1740;&#1604;&#1578;&#1585; &#1585;&#1608;&#1740;&#1583;&#1575;&#1583;&#1607;&#1575;</h3>
+    <button class="toggle-card" onclick="toggleCard('cardEvents')">&#x25BC;</button>
+  </div>
+  <div class="card-body">
+    <p style="font-size:10px;color:var(--text3);margin-bottom:8px;">&#1705;&#1583;&#1575;&#1605; &#1585;&#1608;&#1740;&#1583;&#1575;&#1583;&#1607;&#1575; &#1576;&#1575;&#1593;&#1579; &#1575;&#1585;&#1587;&#1575;&#1604; &#1607;&#1588;&#1583;&#1575;&#1585; &#1588;&#1608;&#1606;&#1583;&#1567;</p>
+    <div style="display:flex;gap:4px;margin-bottom:8px;">
+      <button class="btn" onclick="toggleAllEvents(true)" style="font-size:10px;">&#x2705; &#1607;&#1605;&#1607;</button>
+      <button class="btn" onclick="toggleAllEvents(false)" style="font-size:10px;">&#x274C; &#1607;&#1740;&#1670;&#8204;&#1705;&#1583;&#1575;&#1605;</button>
+    </div>
+    <div class="events-grid" id="eventChips"></div>
+  </div>
+</div>
+
+
+<!-- ═══ SECTION 6: Strategy Filter (collapsible) ═══ -->
+<div class="card collapsed" id="cardStrats">
+  <div class="card-head">
+    <h3>&#x1F4C8; &#1601;&#1740;&#1604;&#1578;&#1585; &#1575;&#1587;&#1578;&#1585;&#1575;&#1578;&#1688;&#1740;&#8204;&#1607;&#1575;</h3>
+    <button class="toggle-card" onclick="toggleCard('cardStrats')">&#x25BC;</button>
+  </div>
+  <div class="card-body">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <label style="font-size:11px;color:var(--text2);">&#1581;&#1575;&#1604;&#1578;:</label>
+      <select id="stratMode" onchange="toggleStratList()" style="padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:11px;">
+        <option value="*">&#1607;&#1605;&#1607; &#1575;&#1587;&#1578;&#1585;&#1575;&#1578;&#1688;&#1740;&#8204;&#1607;&#1575;</option>
+        <option value="custom">&#1575;&#1606;&#1578;&#1582;&#1575;&#1576;&#1740;</option>
+      </select>
+    </div>
+    <div id="stratListWrap" style="display:none;">
+      <input type="text" id="stratSearch" placeholder="&#1580;&#1587;&#1578;&#1580;&#1608;&#1740; &#1575;&#1587;&#1578;&#1585;&#1575;&#1578;&#1688;&#1740;..." oninput="filterStrats()" style="width:100%;margin-bottom:6px;padding:6px 10px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:11px;">
+      <div id="stratList" style="max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ SECTION 7: Min PnL (collapsible) ═══ -->
+<div class="card collapsed" id="cardPnl">
+  <div class="card-head">
+    <h3>&#x1F4B0; &#1601;&#1740;&#1604;&#1578;&#1585; &#1587;&#1608;&#1583;</h3>
+    <button class="toggle-card" onclick="toggleCard('cardPnl')">&#x25BC;</button>
+  </div>
+  <div class="card-body">
+    <div class="form-row">
+      <div class="form-group">
+        <label>&#1581;&#1583;&#1575;&#1602;&#1604; PnL ($)</label>
+        <input type="number" id="minPnl" value="0" step="0.5" onchange="autoSave()">
+        <span style="font-size:8px;color:var(--text3);">&#1601;&#1602;&#1591; &#1605;&#1593;&#1575;&#1605;&#1604;&#1575;&#1578; &#1576;&#1575;&#1604;&#1575;&#1740; &#1575;&#1740;&#1606; &#1605;&#1602;&#1583;&#1575;&#1585; &#1607;&#1588;&#1583;&#1575;&#1585; &#1576;&#1601;&#1585;&#1587;&#1578;&#1583; (&#1776; = &#1607;&#1605;&#1607;)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ Telegram Channel ═══ -->
+<div class="card">
+  <div class="card-head">
+    <h3>&#x1F4E2; &#1705;&#1575;&#1606;&#1575;&#1604; &#1593;&#1605;&#1608;&#1605;&#1740; &#1578;&#1604;&#1711;&#1585;&#1575;&#1605;</h3>
+  </div>
+  <div class="card-body" style="text-align:center;">
+    <p style="font-size:10px;color:var(--text3);margin-bottom:8px;">&#1607;&#1588;&#1583;&#1575;&#1585;&#1607;&#1575;&#1740; &#1593;&#1605;&#1608;&#1605;&#1740; &#1583;&#1585; &#1705;&#1575;&#1606;&#1575;&#1604; &#1578;&#1604;&#1711;&#1585;&#1575;&#1605; &#1605;&#1606;&#1578;&#1588;&#1585; &#1605;&#1740;&#8204;&#1588;&#1608;&#1606;&#1583;</p>
+    <a href="https://t.me/Whilber_alerts" target="_blank" class="btn btn-cyan" style="text-decoration:none;">&#x1F4E2; &#1593;&#1590;&#1608;&#1740;&#1578; &#1583;&#1585; &#1705;&#1575;&#1606;&#1575;&#1604;</a>
+  </div>
+</div>
+
+
+<!-- ═══ Quick Links ═══ -->
+<div class="quick-links">
+  <a href="/alerts" class="qlink">&#x1F514; &#1605;&#1583;&#1740;&#1585;&#1740;&#1578; &#1607;&#1588;&#1583;&#1575;&#1585;&#1607;&#1575;</a>
+  <a href="/track-record" class="qlink">&#x1F4DC; &#1587;&#1608;&#1575;&#1576;&#1602; &#1605;&#1593;&#1575;&#1605;&#1604;&#1575;&#1578;</a>
+  <a href="https://t.me/whilber_ai_bot" target="_blank" class="qlink">&#x1F916; &#1576;&#1575;&#1578; &#1578;&#1604;&#1711;&#1585;&#1575;&#1605;</a>
+</div>
+
+
+</div><!-- /container -->
+
+
+<script src="/static/alert_system.js"></script>
+<script>
+var API = window.location.origin;
+var EMAIL = localStorage.getItem('whilber_email') || '';
+
+var ALL_SYMBOLS = {
+  '\u0641\u0644\u0632\u0627\u062a': ['XAUUSD','XAGUSD'],
+  '\u0641\u0627\u0631\u06a9\u0633 \u2014 \u0627\u0635\u0644\u06cc': ['EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','NZDUSD','USDCAD'],
+  '\u0641\u0627\u0631\u06a9\u0633 \u2014 \u0641\u0631\u0639\u06cc': ['EURGBP','EURJPY','GBPJPY','EURAUD','EURCAD','EURCHF','GBPAUD','GBPCAD','AUDJPY','CADJPY'],
+  '\u06a9\u0631\u06cc\u067e\u062a\u0648': ['BTCUSD','ETHUSD','SOLUSD'],
+  '\u0634\u0627\u062e\u0635': ['US30','NAS100','US500'],
+};
+var flatSymbols = [];
+for(var g in ALL_SYMBOLS) flatSymbols = flatSymbols.concat(ALL_SYMBOLS[g]);
+
+var ALL_EVENTS = [
+  {id:'entry',icon:'\uD83D\uDFE2',label:'\u0648\u0631\u0648\u062f \u0628\u0647 \u0645\u0639\u0627\u0645\u0644\u0647'},
+  {id:'closed_tp',icon:'\u2705',label:'\u0628\u0633\u062a\u0647 \u0634\u062f\u0646 TP'},
+  {id:'closed_sl',icon:'\u274C',label:'\u0628\u0633\u062a\u0647 \u0634\u062f\u0646 SL'},
+  {id:'closed_trailing',icon:'\uD83D\uDD04',label:'\u0628\u0633\u062a\u0647 \u0634\u062f\u0646 Trailing'},
+  {id:'closed_be',icon:'\uD83D\uDFE1',label:'\u0628\u0633\u062a\u0647 \u0634\u062f\u0646 BE'},
+  {id:'be_activated',icon:'\uD83D\uDEE1\uFE0F',label:'Break Even \u0641\u0639\u0627\u0644'},
+  {id:'trailing_active',icon:'\uD83D\uDCC8',label:'Trailing \u0641\u0639\u0627\u0644'},
+  {id:'partial_close',icon:'\u2702\uFE0F',label:'\u0633\u06cc\u0648 \u0633\u0648\u062f'},
+  {id:'near_tp',icon:'\uD83C\uDFAF',label:'\u0646\u0632\u062f\u06cc\u06a9 TP'},
+  {id:'near_sl',icon:'\u26A0\uFE0F',label:'\u0646\u0632\u062f\u06cc\u06a9 SL'},
+  {id:'in_profit',icon:'\uD83D\uDC9A',label:'\u0648\u0627\u0631\u062f \u0633\u0648\u062f'},
+  {id:'in_loss',icon:'\uD83D\uDC94',label:'\u0648\u0627\u0631\u062f \u0636\u0631\u0631'},
+  {id:'recovery',icon:'\uD83D\uDD04',label:'\u0628\u0627\u0632\u06af\u0634\u062a \u0627\u0632 \u0636\u0631\u0631'},
+  {id:'exit',icon:'\uD83D\uDD34',label:'\u062e\u0631\u0648\u062c'},
+];
+
+var selectedSymbols = new Set(flatSymbols);
+var selectedEvents = new Set(ALL_EVENTS.map(function(e){return e.id;}));
+var strategies = [];
+var selectedStrats = new Set();
+
+// ═══ Card collapse toggle ═══
+function toggleCard(id){
+  var card = document.getElementById(id);
+  card.classList.toggle('collapsed');
+  var btn = card.querySelector('.toggle-card');
+  btn.textContent = card.classList.contains('collapsed') ? '\u25BC' : '\u25B2';
+}
+
+// ═══ Build symbol chips by group ═══
+function buildSymbolChips(){
+  var el = document.getElementById('symbolChips');
+  el.innerHTML = '';
+  for(var group in ALL_SYMBOLS){
+    var gd = document.createElement('div');
+    gd.className = 'chip-group';
+    gd.innerHTML = '<div class="chip-group-label">' + group + '</div>';
+    var cw = document.createElement('div');
+    cw.className = 'chips';
+    ALL_SYMBOLS[group].forEach(function(s){
+      var d = document.createElement('div');
+      d.className = 'chip' + (selectedSymbols.has(s) ? ' active' : '');
+      d.textContent = s;
+      d.onclick = function(){
+        if(selectedSymbols.has(s)){selectedSymbols.delete(s);d.classList.remove('active');}
+        else{selectedSymbols.add(s);d.classList.add('active');}
+        autoSave();
+      };
+      cw.appendChild(d);
+    });
+    gd.appendChild(cw);
+    el.appendChild(gd);
+  }
+}
+
+// ═══ Build event chips ═══
+function buildEventChips(){
+  var el = document.getElementById('eventChips');
+  el.innerHTML = '';
+  ALL_EVENTS.forEach(function(e){
+    var d = document.createElement('div');
+    d.className = 'event-chip' + (selectedEvents.has(e.id) ? ' active' : '');
+    d.innerHTML = e.icon + ' ' + e.label;
+    d.onclick = function(){
+      if(selectedEvents.has(e.id)){selectedEvents.delete(e.id);d.classList.remove('active');}
+      else{selectedEvents.add(e.id);d.classList.add('active');}
+      autoSave();
+    };
+    el.appendChild(d);
+  });
+}
+
+function toggleAllSymbols(on){
+  if(on) flatSymbols.forEach(function(s){selectedSymbols.add(s);});
+  else selectedSymbols.clear();
+  buildSymbolChips();
+  autoSave();
+}
+
+function toggleAllEvents(on){
+  if(on) ALL_EVENTS.forEach(function(e){selectedEvents.add(e.id);});
+  else selectedEvents.clear();
+  buildEventChips();
+  autoSave();
+}
+
+function toggleStratList(){
+  document.getElementById('stratListWrap').style.display =
+    document.getElementById('stratMode').value === 'custom' ? 'block' : 'none';
+}
+
+function filterStrats(){
+  var q = document.getElementById('stratSearch').value.toLowerCase();
+  var items = document.getElementById('stratList').children;
+  for(var i=0;i<items.length;i++){
+    items[i].style.display = items[i].textContent.toLowerCase().indexOf(q) >= 0 ? '' : 'none';
+  }
+}
+
+// ═══ Load config from new API (alert_manager) ═══
+async function loadConfig(){
+  // Try new user-config API first
+  try{
+    var r = await fetch(API + '/api/alert/user-config?email=' + encodeURIComponent(EMAIL));
+    var d = await r.json();
+    if(d.email){
+      document.getElementById('cfgEmail').value = d.email;
+      EMAIL = d.email;
+    }
+    if(d.telegram_chat_id) document.getElementById('cfgTelegram').value = d.telegram_chat_id;
+    if(d.quiet_start) document.getElementById('quietStart').value = d.quiet_start;
+    if(d.quiet_end) document.getElementById('quietEnd').value = d.quiet_end;
+    var ch = d.channels || {};
+    if(ch.telegram !== undefined) document.getElementById('chTelegram').classList.toggle('on', ch.telegram);
+    if(ch.email !== undefined) document.getElementById('chEmail').classList.toggle('on', ch.email);
+    if(ch.popup !== undefined) document.getElementById('chPopup').classList.toggle('on', ch.popup);
+    if(ch.sound !== undefined) document.getElementById('chSound').classList.toggle('on', ch.sound);
+    updateConnBadge(d);
+  }catch(e){}
+
+  // Also load old subscription settings for filters
+  try{
+    var r2 = await fetch(API + '/api/alerts/subscribers');
+    var d2 = await r2.json();
+    var subs = d2.subscribers || [];
+    if(subs.length > 0){
+      var me = subs[0];
+      if(!document.getElementById('cfgEmail').value && me.email_address){
+        document.getElementById('cfgEmail').value = me.email_address;
+      }
+      if(!document.getElementById('cfgTelegram').value && me.telegram_chat_id){
+        document.getElementById('cfgTelegram').value = me.telegram_chat_id;
+      }
+      // Parse symbols
+      var syms = me.symbols;
+      if(syms && syms !== '*'){
+        try{syms = JSON.parse(syms);}catch(e){}
+        if(Array.isArray(syms)) selectedSymbols = new Set(syms);
+      }
+      // Parse events
+      var evts = me.events;
+      if(evts && evts !== '*'){
+        try{evts = JSON.parse(evts);}catch(e){}
+        if(Array.isArray(evts)) selectedEvents = new Set(evts);
+      }
+      // Parse strategies
+      var strats = me.strategies;
+      if(strats && strats !== '*'){
+        try{strats = JSON.parse(strats);}catch(e){}
+        if(Array.isArray(strats)){
+          selectedStrats = new Set(strats);
+          document.getElementById('stratMode').value = 'custom';
+          toggleStratList();
+        }
+      }
+      if(me.min_pnl) document.getElementById('minPnl').value = me.min_pnl;
+      if(me.quiet_start && !document.getElementById('quietStart').value) document.getElementById('quietStart').value = me.quiet_start;
+      if(me.quiet_end && !document.getElementById('quietEnd').value) document.getElementById('quietEnd').value = me.quiet_end;
+    }
+  }catch(e){}
+
+  buildSymbolChips();
+  buildEventChips();
+  loadStrategies();
+}
+
+function updateConnBadge(d){
+  var badge = document.getElementById('connBadge');
+  var status = document.getElementById('connStatus');
+  var hasTg = d && d.telegram_chat_id;
+  var hasEmail = d && d.email;
+  if(hasTg && hasEmail){
+    badge.textContent = '\u2705 \u0645\u062a\u0635\u0644';
+    badge.style.cssText = 'font-size:9px;padding:2px 8px;border-radius:4px;background:rgba(34,197,94,.1);color:var(--green);';
+    status.className = 'status-box ok';
+    status.innerHTML = '\u2705 \u062a\u0644\u06af\u0631\u0627\u0645: ' + d.telegram_chat_id + ' | \u0627\u06cc\u0645\u06cc\u0644: ' + d.email;
+    status.style.display = 'flex';
+  } else {
+    badge.textContent = '\u26A0 \u0646\u0627\u0642\u0635';
+    badge.style.cssText = 'font-size:9px;padding:2px 8px;border-radius:4px;background:rgba(245,158,11,.1);color:var(--yellow);';
+    status.className = 'status-box warn';
+    var missing = [];
+    if(!hasEmail) missing.push('\u0627\u06cc\u0645\u06cc\u0644');
+    if(!hasTg) missing.push('\u0634\u0646\u0627\u0633\u0647 \u062a\u0644\u06af\u0631\u0627\u0645');
+    status.innerHTML = '\u26A0\uFE0F \u0644\u0637\u0641\u0627 ' + missing.join(' \u0648 ') + ' \u0631\u0627 \u0648\u0627\u0631\u062f \u06a9\u0646\u06cc\u062f';
+    status.style.display = 'flex';
+  }
+}
+
+// ═══ Load strategies ═══
+async function loadStrategies(){
+  try{
+    var r = await fetch(API + '/api/fast/filter-options');
+    var fo = await r.json();
+    strategies = fo.strategies || [];
+    var list = document.getElementById('stratList');
+    list.innerHTML = '';
+    strategies.forEach(function(s){
+      var d = document.createElement('div');
+      var sid = s.id || s;
+      var sname = s.name || sid;
+      d.className = 'chip' + (selectedStrats.has(sid) ? ' active' : '');
+      d.textContent = sname;
+      d.style.cssText = 'padding:4px 8px;font-size:10px;cursor:pointer;border-radius:6px;margin-bottom:1px;border:1px solid var(--border);background:var(--bg3);color:var(--text3);transition:.2s;';
+      if(selectedStrats.has(sid)){
+        d.style.background = 'rgba(6,182,212,.12)';
+        d.style.color = 'var(--cyan)';
+        d.style.borderColor = 'rgba(6,182,212,.3)';
+      }
+      d.onclick = function(){
+        if(selectedStrats.has(sid)){
+          selectedStrats.delete(sid);
+          d.style.background = 'var(--bg3)'; d.style.color = 'var(--text3)'; d.style.borderColor = 'var(--border)';
+        } else {
+          selectedStrats.add(sid);
+          d.style.background = 'rgba(6,182,212,.12)'; d.style.color = 'var(--cyan)'; d.style.borderColor = 'rgba(6,182,212,.3)';
+        }
+      };
+      list.appendChild(d);
+    });
+  }catch(e){}
+}
+
+// ═══ Save account (email + telegram) ═══
+async function saveAccount(){
+  var em = document.getElementById('cfgEmail').value.trim();
+  var tg = document.getElementById('cfgTelegram').value.trim();
+  var res = document.getElementById('accountResult');
+  if(!em){
+    res.innerHTML = '<div class="status-box err">\u274C \u0627\u06cc\u0645\u06cc\u0644 \u0627\u0644\u0632\u0627\u0645\u06cc \u0627\u0633\u062a</div>';
+    return;
+  }
+  EMAIL = em;
+  localStorage.setItem('whilber_email', em);
+
+  // Save to new user-config API
+  var cfg = {
+    email: em,
+    telegram_chat_id: tg,
+    popup: document.getElementById('chPopup').classList.contains('on'),
+    quiet_start: document.getElementById('quietStart').value,
+    quiet_end: document.getElementById('quietEnd').value,
+  };
+  try{
+    var r = await fetch(API + '/api/alert/simple-setup', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(cfg)});
+    var d = await r.json();
+    if(d.success){
+      res.innerHTML = '<div class="status-box ok">\u2705 \u0630\u062e\u06cc\u0631\u0647 \u0634\u062f!</div>';
+      updateConnBadge({email:em, telegram_chat_id:tg});
+    } else {
+      res.innerHTML = '<div class="status-box err">\u274C \u062e\u0637\u0627</div>';
+    }
+  }catch(e){
+    res.innerHTML = '<div class="status-box err">\u274C \u062e\u0637\u0627\u06cc \u0627\u062a\u0635\u0627\u0644</div>';
+  }
+
+  // Also save subscription settings
+  saveSubscriptionSettings();
+
+  setTimeout(function(){res.innerHTML='';}, 4000);
+}
+
+// ═══ Auto-save subscription settings ═══
+var _saveTimer = null;
+function autoSave(){
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(function(){
+    saveSubscriptionSettings();
+  }, 1200);
+}
+
+async function saveSubscriptionSettings(){
+  var tg = document.getElementById('cfgTelegram').value.trim();
+  if(!tg) return;
+  var syms = selectedSymbols.size === flatSymbols.length ? '*' : Array.from(selectedSymbols);
+  var evts = selectedEvents.size === ALL_EVENTS.length ? '*' : Array.from(selectedEvents);
+  var strats = document.getElementById('stratMode').value === '*' ? '*' : Array.from(selectedStrats);
+  var body = {
+    chat_id: tg,
+    telegram_active: document.getElementById('chTelegram').classList.contains('on'),
+    email_active: document.getElementById('chEmail').classList.contains('on'),
+    email_address: document.getElementById('cfgEmail').value.trim(),
+    symbols: syms,
+    events: evts,
+    strategies: strats,
+    min_pnl: parseFloat(document.getElementById('minPnl').value) || 0,
+    quiet_start: document.getElementById('quietStart').value,
+    quiet_end: document.getElementById('quietEnd').value,
+  };
+  try{
+    await fetch(API + '/api/alerts/settings', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+  }catch(e){}
+}
+
+// ═══ Test Telegram ═══
+async function testTelegram(){
+  var tg = document.getElementById('cfgTelegram').value.trim();
+  if(!tg){alert('\u0627\u0628\u062a\u062f\u0627 \u0634\u0646\u0627\u0633\u0647 \u062a\u0644\u06af\u0631\u0627\u0645 \u0631\u0627 \u0648\u0627\u0631\u062f \u06a9\u0646\u06cc\u062f'); return;}
+  var res = document.getElementById('accountResult');
+  res.innerHTML = '<div class="status-box warn">\u23F3 \u062f\u0631 \u062d\u0627\u0644 \u0627\u0631\u0633\u0627\u0644...</div>';
+  try{
+    var r = await fetch(API + '/api/telegram/test', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({chat_id:tg})});
+    var d = await r.json();
+    if(d.ok){
+      res.innerHTML = '<div class="status-box ok">\u2705 \u0622\u0644\u0631\u062a \u0622\u0632\u0645\u0627\u06cc\u0634\u06cc \u0627\u0631\u0633\u0627\u0644 \u0634\u062f! \u062a\u0644\u06af\u0631\u0627\u0645 \u0631\u0627 \u0686\u06a9 \u06a9\u0646\u06cc\u062f.</div>';
+    } else {
+      res.innerHTML = '<div class="status-box err">\u274C ' + (d.error || '\u062e\u0637\u0627') + '</div>';
+    }
+  }catch(e){
+    res.innerHTML = '<div class="status-box err">\u274C ' + e.message + '</div>';
+  }
+  setTimeout(function(){res.innerHTML='';}, 5000);
+}
+
+// ═══ Test Email ═══
+async function testEmail(){
+  var em = document.getElementById('cfgEmail').value.trim();
+  if(!em){alert('\u0627\u0628\u062a\u062f\u0627 \u0627\u06cc\u0645\u06cc\u0644 \u0631\u0627 \u0648\u0627\u0631\u062f \u06a9\u0646\u06cc\u062f'); return;}
+  var res = document.getElementById('accountResult');
+  res.innerHTML = '<div class="status-box warn">\u23F3 \u062f\u0631 \u062d\u0627\u0644 \u0627\u0631\u0633\u0627\u0644...</div>';
+  try{
+    var r = await fetch(API + '/api/email/test', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({action:'send_test', email:em})});
+    var d = await r.json();
+    if(d.ok || d.success){
+      res.innerHTML = '<div class="status-box ok">\u2705 \u0627\u06cc\u0645\u06cc\u0644 \u0622\u0632\u0645\u0627\u06cc\u0634\u06cc \u0627\u0631\u0633\u0627\u0644 \u0634\u062f!</div>';
+    } else {
+      res.innerHTML = '<div class="status-box err">\u274C ' + (d.error || '\u062e\u0637\u0627') + '</div>';
+    }
+  }catch(e){
+    res.innerHTML = '<div class="status-box err">\u274C ' + e.message + '</div>';
+  }
+  setTimeout(function(){res.innerHTML='';}, 5000);
+}
+
+// ═══ INIT ═══
+loadConfig();
+</script>
+
+
+<!-- ═══ UNIVERSAL FOOTER ═══ -->
+<footer class="wfooter">
+  <div class="wfooter-grid">
+    <div class="wfooter-brand">
+      <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:28px;height:28px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;">W</div>
+        <span style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Whilber-AI</span>
+      </a>
+      <p>&#1583;&#1587;&#1578;&#1740;&#1575;&#1585; &#1607;&#1608;&#1588;&#1605;&#1606;&#1583; &#1578;&#1581;&#1604;&#1740;&#1604; &#1576;&#1575;&#1586;&#1575;&#1585;&#1607;&#1575;&#1740; &#1605;&#1575;&#1604;&#1740;. &#1578;&#1581;&#1604;&#1740;&#1604; &#1604;&#1581;&#1592;&#1607;&#8204;&#1575;&#1740; &#1601;&#1575;&#1585;&#1705;&#1587;&#1548; &#1705;&#1585;&#1740;&#1662;&#1578;&#1608;&#1548; &#1601;&#1604;&#1586;&#1575;&#1578; &#1608; &#1588;&#1575;&#1582;&#1589;&#8204;&#1607;&#1575;.</p>
+    </div>
+    <div class="wfooter-col">
+      <h4>&#1575;&#1576;&#1586;&#1575;&#1585;&#1607;&#1575;</h4>
+      <a href="/dashboard">&#x1F4CA; &#1578;&#1581;&#1604;&#1740;&#1604; &#1576;&#1575;&#1586;&#1575;&#1585;</a>
+      <a href="/track-record">&#x1F4DC; &#1587;&#1608;&#1575;&#1576;&#1602;</a>
+      <a href="/builder">&#x1F527; &#1575;&#1587;&#1578;&#1585;&#1575;&#1578;&#1688;&#1740;&#8204;&#1587;&#1575;&#1586;</a>
+      <a href="/risk-manager">&#x1F6E1;&#xFE0F; &#1605;&#1583;&#1740;&#1585;&#1740;&#1578; &#1585;&#1740;&#1587;&#1705;</a>
+      <a href="/journal">&#x1F4D2; &#1688;&#1608;&#1585;&#1606;&#1575;&#1604;</a>
+      <a href="/alerts">&#x1F514; &#1607;&#1588;&#1583;&#1575;&#1585;&#1607;&#1575;</a>
+      <a href="/performance">&#x1F4C8; عملکرد زنده</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>&#1575;&#1591;&#1604;&#1575;&#1593;&#1575;&#1578;</h4>
+      <a href="/guide">&#x1F4D6; &#1585;&#1575;&#1607;&#1606;&#1605;&#1575;</a>
+      <a href="/services">&#x2B50; &#1582;&#1583;&#1605;&#1575;&#1578;</a>
+      <a href="/about">&#x1F464; &#1583;&#1585;&#1576;&#1575;&#1585;&#1607; &#1605;&#1575;</a>
+      <a href="/contact">&#x1F4DE; &#1578;&#1605;&#1575;&#1587;</a>
+      <a href="/">&#x1F3E0; &#1589;&#1601;&#1581;&#1607; &#1575;&#1589;&#1604;&#1740;</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>&#1575;&#1585;&#1578;&#1576;&#1575;&#1591;</h4>
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; &#1705;&#1575;&#1606;&#1575;&#1604; &#1578;&#1604;&#1711;&#1585;&#1575;&#1605;</a>
+      <a href="mailto:support@whilber-ai.com">&#x1F4E7; &#1575;&#1740;&#1605;&#1740;&#1604;</a>
+      <a href="/contact">&#x1F4AC; &#1662;&#1588;&#1578;&#1740;&#1576;&#1575;&#1606;&#1740;</a>
+      <a href="/admin">&#x2699;&#xFE0F; &#1575;&#1583;&#1605;&#1740;&#1606;</a>
+    </div>
+  </div>
+  <div class="wfooter-bottom">
+    <p>&copy; 2026 Whilber-AI &mdash; &#1578;&#1605;&#1575;&#1605;&#1740; &#1581;&#1602;&#1608;&#1602; &#1605;&#1581;&#1601;&#1608;&#1592; &#1575;&#1587;&#1578;. &#1578;&#1581;&#1604;&#1740;&#1604;&#8204;&#1607;&#1575; &#1580;&#1606;&#1576;&#1607; &#1570;&#1605;&#1608;&#1586;&#1588;&#1740; &#1583;&#1575;&#1585;&#1606;&#1583; &#1608; &#1578;&#1608;&#1589;&#1740;&#1607; &#1605;&#1575;&#1604;&#1740; &#1606;&#1740;&#1587;&#1578;&#1606;&#1583;.</p>
+    <div style="display:flex;gap:8px;">
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; &#1578;&#1604;&#1711;&#1585;&#1575;&#1605;</a>
+      <a href="mailto:support@whilber-ai.com">&#x1F4E7; &#1575;&#1740;&#1605;&#1740;&#1604;</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

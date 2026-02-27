@@ -1,0 +1,886 @@
+{
+  "symbol": "BTCUSD",
+  "broker_symbol": "BTCUSD",
+  "lot_size": 0.01,
+  "contract_size": 1,
+  "pip_size": 1.0,
+  "spread_pips": 50,
+  "commission_per_lot_per_side": 6.0,
+  "max_concurrent_per_strategy": 1,
+  "min_rr": 1.5,
+  "stop_level_pips": 20,
+  "slippage_pips": 2,
+  "magic_number": 202603,
+  "enabled": true,
+  "strategies": [
+    {
+      "rank": 1,
+      "strategy_id": "MOM_01_BTCUSD_H1",
+      "strategy_name": "MOM_01_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 285.5,
+      "avg_rr": 2.84,
+      "backtest_trades": 9,
+      "backtest_net_pips": 2569.2,
+      "score": 3031.7
+    },
+    {
+      "rank": 2,
+      "strategy_id": "VOL_03_BTCUSD_H1",
+      "strategy_name": "VOL_03_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 316.6,
+      "avg_rr": 2.61,
+      "backtest_trades": 7,
+      "backtest_net_pips": 2216.0,
+      "score": 2526.2
+    },
+    {
+      "rank": 3,
+      "strategy_id": "MTF_03_BTCUSD_H1",
+      "strategy_name": "MTF_03_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 262.0,
+      "avg_rr": 2.8,
+      "backtest_trades": 8,
+      "backtest_net_pips": 2095.7,
+      "score": 2431.0
+    },
+    {
+      "rank": 4,
+      "strategy_id": "ADX_01_BTCUSD_H1",
+      "strategy_name": "ADX_01_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 265.6,
+      "avg_rr": 2.6,
+      "backtest_trades": 7,
+      "backtest_net_pips": 1859.5,
+      "score": 2119.8
+    },
+    {
+      "rank": 5,
+      "strategy_id": "ICH_01_BTCUSD_H1",
+      "strategy_name": "ICH_01_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 312.4,
+      "avg_rr": 2.58,
+      "backtest_trades": 6,
+      "backtest_net_pips": 1874.4,
+      "score": 2099.3
+    },
+    {
+      "rank": 6,
+      "strategy_id": "PVT_02_BTCUSD_H1",
+      "strategy_name": "PVT_02_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 250.0,
+      "avg_rr": 2.95,
+      "backtest_trades": 7,
+      "backtest_net_pips": 1750.2,
+      "score": 1995.2
+    },
+    {
+      "rank": 7,
+      "strategy_id": "ICH_09_BTCUSD_H1",
+      "strategy_name": "ICH_09_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 293.2,
+      "avg_rr": 2.6,
+      "backtest_trades": 6,
+      "backtest_net_pips": 1759.0,
+      "score": 1970.1
+    },
+    {
+      "rank": 8,
+      "strategy_id": "ICH_10_BTCUSD_H1",
+      "strategy_name": "ICH_10_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 357.2,
+      "avg_rr": 2.54,
+      "backtest_trades": 5,
+      "backtest_net_pips": 1786.1,
+      "score": 1964.7
+    },
+    {
+      "rank": 9,
+      "strategy_id": "MA_12_BTCUSD_H1",
+      "strategy_name": "MA_12_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 289.1,
+      "avg_rr": 2.64,
+      "backtest_trades": 6,
+      "backtest_net_pips": 1734.9,
+      "score": 1943.1
+    },
+    {
+      "rank": 10,
+      "strategy_id": "ICH_04_BTCUSD_H1",
+      "strategy_name": "ICH_04_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 288.3,
+      "avg_rr": 2.7,
+      "backtest_trades": 6,
+      "backtest_net_pips": 1729.7,
+      "score": 1937.3
+    },
+    {
+      "rank": 11,
+      "strategy_id": "SM_04_BTCUSD_H1",
+      "strategy_name": "SM_04_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 324.4,
+      "avg_rr": 2.84,
+      "backtest_trades": 5,
+      "backtest_net_pips": 1622.1,
+      "score": 1784.3
+    },
+    {
+      "rank": 12,
+      "strategy_id": "MACD_04_BTCUSD_H1",
+      "strategy_name": "MACD_04_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 257.0,
+      "avg_rr": 2.82,
+      "backtest_trades": 6,
+      "backtest_net_pips": 1541.9,
+      "score": 1726.9
+    },
+    {
+      "rank": 13,
+      "strategy_id": "ST_05_BTCUSD_H1",
+      "strategy_name": "ST_05_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 305.7,
+      "avg_rr": 2.62,
+      "backtest_trades": 5,
+      "backtest_net_pips": 1528.4,
+      "score": 1681.2
+    },
+    {
+      "rank": 14,
+      "strategy_id": "ICH_06_BTCUSD_H1",
+      "strategy_name": "ICH_06_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 245.7,
+      "avg_rr": 3.02,
+      "backtest_trades": 6,
+      "backtest_net_pips": 1474.2,
+      "score": 1651.1
+    },
+    {
+      "rank": 15,
+      "strategy_id": "MA_10_BTCUSD_H1",
+      "strategy_name": "MA_10_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 239.1,
+      "avg_rr": 2.98,
+      "backtest_trades": 6,
+      "backtest_net_pips": 1434.6,
+      "score": 1606.8
+    },
+    {
+      "rank": 16,
+      "strategy_id": "MA_02_BTCUSD_H1",
+      "strategy_name": "MA_02_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 289.9,
+      "avg_rr": 2.91,
+      "backtest_trades": 5,
+      "backtest_net_pips": 1449.6,
+      "score": 1594.6
+    },
+    {
+      "rank": 17,
+      "strategy_id": "MA_11_BTCUSD_H1",
+      "strategy_name": "MA_11_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 287.3,
+      "avg_rr": 2.53,
+      "backtest_trades": 5,
+      "backtest_net_pips": 1436.5,
+      "score": 1580.2
+    },
+    {
+      "rank": 18,
+      "strategy_id": "PVT_01_BTCUSD_H1",
+      "strategy_name": "PVT_01_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 231.2,
+      "avg_rr": 3.21,
+      "backtest_trades": 6,
+      "backtest_net_pips": 1387.1,
+      "score": 1553.6
+    },
+    {
+      "rank": 19,
+      "strategy_id": "VOL_07_BTCUSD_H1",
+      "strategy_name": "VOL_07_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 281.1,
+      "avg_rr": 2.74,
+      "backtest_trades": 5,
+      "backtest_net_pips": 1405.5,
+      "score": 1546.0
+    },
+    {
+      "rank": 20,
+      "strategy_id": "ST_01_BTCUSD_H1",
+      "strategy_name": "ST_01_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 275.3,
+      "avg_rr": 3.0,
+      "backtest_trades": 5,
+      "backtest_net_pips": 1376.6,
+      "score": 1514.3
+    },
+    {
+      "rank": 21,
+      "strategy_id": "CCI_01_BTCUSD_H1",
+      "strategy_name": "CCI_01_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 451.2,
+      "avg_rr": 2.19,
+      "backtest_trades": 3,
+      "backtest_net_pips": 1353.7,
+      "score": 1434.9
+    },
+    {
+      "rank": 22,
+      "strategy_id": "ST_06_BTCUSD_H1",
+      "strategy_name": "ST_06_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 315.8,
+      "avg_rr": 2.43,
+      "backtest_trades": 4,
+      "backtest_net_pips": 1263.4,
+      "score": 1364.5
+    },
+    {
+      "rank": 23,
+      "strategy_id": "ADX_06_BTCUSD_H1",
+      "strategy_name": "ADX_06_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 296.2,
+      "avg_rr": 2.73,
+      "backtest_trades": 4,
+      "backtest_net_pips": 1184.9,
+      "score": 1279.7
+    },
+    {
+      "rank": 24,
+      "strategy_id": "PVT_04_BTCUSD_H1",
+      "strategy_name": "PVT_04_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 395.9,
+      "avg_rr": 2.29,
+      "backtest_trades": 3,
+      "backtest_net_pips": 1187.8,
+      "score": 1259.1
+    },
+    {
+      "rank": 25,
+      "strategy_id": "FIB_05_BTCUSD_H1",
+      "strategy_name": "FIB_05_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 289.9,
+      "avg_rr": 2.94,
+      "backtest_trades": 4,
+      "backtest_net_pips": 1159.4,
+      "score": 1252.2
+    },
+    {
+      "rank": 26,
+      "strategy_id": "MACD_01_BTCUSD_H1",
+      "strategy_name": "MACD_01_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 278.3,
+      "avg_rr": 2.57,
+      "backtest_trades": 4,
+      "backtest_net_pips": 1113.3,
+      "score": 1202.4
+    },
+    {
+      "rank": 27,
+      "strategy_id": "MA_09_BTCUSD_H1",
+      "strategy_name": "MA_09_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 271.6,
+      "avg_rr": 2.96,
+      "backtest_trades": 4,
+      "backtest_net_pips": 1086.3,
+      "score": 1173.2
+    },
+    {
+      "rank": 28,
+      "strategy_id": "ST_03_BTCUSD_H1",
+      "strategy_name": "ST_03_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 270.8,
+      "avg_rr": 2.7,
+      "backtest_trades": 4,
+      "backtest_net_pips": 1083.3,
+      "score": 1170.0
+    },
+    {
+      "rank": 29,
+      "strategy_id": "ST_02_BTCUSD_H1",
+      "strategy_name": "ST_02_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 268.2,
+      "avg_rr": 3.04,
+      "backtest_trades": 4,
+      "backtest_net_pips": 1072.8,
+      "score": 1158.6
+    },
+    {
+      "rank": 30,
+      "strategy_id": "EW_04_BTCUSD_H1",
+      "strategy_name": "EW_04_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 265.2,
+      "avg_rr": 3.03,
+      "backtest_trades": 4,
+      "backtest_net_pips": 1061.0,
+      "score": 1145.9
+    },
+    {
+      "rank": 31,
+      "strategy_id": "MACD_08_BTCUSD_H1",
+      "strategy_name": "MACD_08_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 205.9,
+      "avg_rr": 3.21,
+      "backtest_trades": 5,
+      "backtest_net_pips": 1029.7,
+      "score": 1132.7
+    },
+    {
+      "rank": 32,
+      "strategy_id": "BB_03_BTCUSD_H1",
+      "strategy_name": "BB_03_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 354.8,
+      "avg_rr": 2.81,
+      "backtest_trades": 3,
+      "backtest_net_pips": 1064.3,
+      "score": 1128.2
+    },
+    {
+      "rank": 33,
+      "strategy_id": "ICH_05_BTCUSD_H1",
+      "strategy_name": "ICH_05_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 345.5,
+      "avg_rr": 2.5,
+      "backtest_trades": 3,
+      "backtest_net_pips": 1036.6,
+      "score": 1098.8
+    },
+    {
+      "rank": 34,
+      "strategy_id": "FIB_08_BTCUSD_H1",
+      "strategy_name": "FIB_08_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 247.7,
+      "avg_rr": 3.02,
+      "backtest_trades": 4,
+      "backtest_net_pips": 990.7,
+      "score": 1070.0
+    },
+    {
+      "rank": 35,
+      "strategy_id": "MA_07_BTCUSD_H1",
+      "strategy_name": "MA_07_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 316.7,
+      "avg_rr": 2.61,
+      "backtest_trades": 3,
+      "backtest_net_pips": 950.0,
+      "score": 1007.0
+    },
+    {
+      "rank": 36,
+      "strategy_id": "MTF_01_BTCUSD_H1",
+      "strategy_name": "MTF_01_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 229.9,
+      "avg_rr": 2.82,
+      "backtest_trades": 4,
+      "backtest_net_pips": 919.5,
+      "score": 993.1
+    },
+    {
+      "rank": 37,
+      "strategy_id": "HARM_06_BTCUSD_H1",
+      "strategy_name": "HARM_06_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 226.8,
+      "avg_rr": 3.17,
+      "backtest_trades": 4,
+      "backtest_net_pips": 907.3,
+      "score": 979.9
+    },
+    {
+      "rank": 38,
+      "strategy_id": "MA_06_BTCUSD_H1",
+      "strategy_name": "MA_06_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 304.9,
+      "avg_rr": 2.82,
+      "backtest_trades": 3,
+      "backtest_net_pips": 914.8,
+      "score": 969.7
+    },
+    {
+      "rank": 39,
+      "strategy_id": "CH_04_BTCUSD_H1",
+      "strategy_name": "CH_04_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 301.8,
+      "avg_rr": 2.32,
+      "backtest_trades": 3,
+      "backtest_net_pips": 905.4,
+      "score": 959.7
+    },
+    {
+      "rank": 40,
+      "strategy_id": "CCI_02_BTCUSD_H1",
+      "strategy_name": "CCI_02_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 221.2,
+      "avg_rr": 3.02,
+      "backtest_trades": 4,
+      "backtest_net_pips": 884.8,
+      "score": 955.6
+    },
+    {
+      "rank": 41,
+      "strategy_id": "ICH_02_BTCUSD_H1",
+      "strategy_name": "ICH_02_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 299.7,
+      "avg_rr": 2.87,
+      "backtest_trades": 3,
+      "backtest_net_pips": 899.1,
+      "score": 953.0
+    },
+    {
+      "rank": 42,
+      "strategy_id": "ATR_03_BTCUSD_H1",
+      "strategy_name": "ATR_03_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 297.9,
+      "avg_rr": 2.46,
+      "backtest_trades": 3,
+      "backtest_net_pips": 893.8,
+      "score": 947.4
+    },
+    {
+      "rank": 43,
+      "strategy_id": "ICH_08_BTCUSD_H1",
+      "strategy_name": "ICH_08_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 279.5,
+      "avg_rr": 3.0,
+      "backtest_trades": 3,
+      "backtest_net_pips": 838.5,
+      "score": 888.8
+    },
+    {
+      "rank": 44,
+      "strategy_id": "STOCH_03_BTCUSD_H1",
+      "strategy_name": "STOCH_03_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 270.4,
+      "avg_rr": 3.04,
+      "backtest_trades": 3,
+      "backtest_net_pips": 811.2,
+      "score": 859.9
+    },
+    {
+      "rank": 45,
+      "strategy_id": "MACD_10_BTCUSD_H1",
+      "strategy_name": "MACD_10_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 270.3,
+      "avg_rr": 2.58,
+      "backtest_trades": 3,
+      "backtest_net_pips": 810.8,
+      "score": 859.4
+    },
+    {
+      "rank": 46,
+      "strategy_id": "PA_06_BTCUSD_H1",
+      "strategy_name": "PA_06_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 265.7,
+      "avg_rr": 3.17,
+      "backtest_trades": 3,
+      "backtest_net_pips": 797.1,
+      "score": 844.9
+    },
+    {
+      "rank": 47,
+      "strategy_id": "MACD_03_BTCUSD_H1",
+      "strategy_name": "MACD_03_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 404.3,
+      "avg_rr": 1.85,
+      "backtest_trades": 2,
+      "backtest_net_pips": 808.6,
+      "score": 840.9
+    },
+    {
+      "rank": 48,
+      "strategy_id": "MS_07_BTCUSD_H1",
+      "strategy_name": "MS_07_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 400.9,
+      "avg_rr": 2.39,
+      "backtest_trades": 2,
+      "backtest_net_pips": 801.9,
+      "score": 834.0
+    },
+    {
+      "rank": 49,
+      "strategy_id": "MA_04_BTCUSD_H1",
+      "strategy_name": "MA_04_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 256.3,
+      "avg_rr": 3.23,
+      "backtest_trades": 3,
+      "backtest_net_pips": 769.0,
+      "score": 815.1
+    },
+    {
+      "rank": 50,
+      "strategy_id": "CDL_10_BTCUSD_H1",
+      "strategy_name": "CDL_10_BTCUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 255.9,
+      "avg_rr": 3.16,
+      "backtest_trades": 3,
+      "backtest_net_pips": 767.8,
+      "score": 813.9
+    }
+  ]
+}

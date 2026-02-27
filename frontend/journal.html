@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Whilber-AI | ژورنال معاملات</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{--bg:#0f172a;--bg2:#1e293b;--bg3:#334155;--border:rgba(255,255,255,.06);--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;--cyan:#06b6d4;--purple:#a78bfa;--blue:#3b82f6;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;}
+
+/* ═══ UNIVERSAL NAV ═══ */
+.wnav{position:sticky;top:0;z-index:1000;background:rgba(8,11,18,.92);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid rgba(30,42,69,.6);padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;}
+.wnav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.wnav-logo-box{width:32px;height:32px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(0,212,255,.25);}
+.wnav-logo-txt{font-size:17px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.3px;}
+.wnav-links{display:flex;align-items:center;gap:1px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.wnav-links::-webkit-scrollbar{display:none;}
+.wnav-links a{color:#8892a8;padding:6px 10px;border-radius:7px;font-size:12.5px;font-weight:500;white-space:nowrap;transition:all .2s;text-decoration:none;}
+.wnav-links a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-links a.wn-active{color:#00d4ff;background:rgba(0,212,255,.08);font-weight:600;}
+.wnav-cta{background:linear-gradient(135deg,#00d4ff,#a855f7) !important;color:#000 !important;font-weight:700 !important;padding:6px 14px !important;border-radius:7px !important;font-size:12px !important;}
+.wnav-back{display:flex;align-items:center;gap:5px;color:#8892a8;font-size:12px;padding:5px 10px;border-radius:7px;cursor:pointer;background:rgba(255,255,255,.03);border:1px solid rgba(30,42,69,.5);transition:all .2s;text-decoration:none;flex-shrink:0;margin-left:6px;}
+.wnav-back:hover{color:#00d4ff;border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);}
+.wnav-ham{display:none;background:none;border:none;color:#e8ecf4;font-size:22px;cursor:pointer;padding:4px;}
+.wnav-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:999;}
+.wnav-mob-overlay.open{display:block;}
+.wnav-mob{position:fixed;top:0;right:0;width:270px;height:100vh;background:#0f1320;border-left:1px solid #1e2a45;z-index:1001;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:64px 14px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.wnav-mob-overlay.open .wnav-mob{transform:translateX(0);}
+.wnav-mob a{display:flex;align-items:center;gap:9px;color:#8892a8;padding:11px 14px;border-radius:9px;font-size:13.5px;text-decoration:none;transition:all .15s;}
+.wnav-mob a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-mob a.wn-active{background:rgba(0,212,255,.08);color:#00d4ff;font-weight:600;}
+.wnav-mob-close{position:absolute;top:14px;left:14px;background:#161b2e;border:1px solid #1e2a45;color:#8892a8;width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+@media(max-width:900px){.wnav-links{display:none;}.wnav-ham{display:block;}.wnav-back{font-size:11px;padding:4px 8px;}}
+
+/* ═══ LAYOUT ═══ */
+.container{max-width:1200px;margin:0 auto;padding:12px 16px;}
+.page-title{font-size:18px;font-weight:800;color:var(--yellow);margin-bottom:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.page-title .actions{display:flex;gap:4px;margin-right:auto;}
+.main{display:grid;grid-template-columns:1fr 360px;gap:12px;}
+@media(max-width:900px){.main{grid-template-columns:1fr;}}
+
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px;}
+.card-head{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.01);}
+.card-head h3{font-size:13px;color:var(--cyan);font-weight:700;}
+.card-body{padding:12px;}
+
+/* Forms */
+.form-row{margin-bottom:8px;}
+.form-row label{display:block;font-size:10px;color:var(--text3);margin-bottom:3px;font-weight:600;}
+.form-row input,.form-row select,.form-row textarea{width:100%;padding:7px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:12px;font-family:inherit;}
+.form-row textarea{min-height:55px;resize:vertical;}
+.form-cols{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.form-cols-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.form-cols-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;}
+@media(max-width:600px){.form-cols-4{grid-template-columns:1fr 1fr;}.form-cols-3{grid-template-columns:1fr 1fr;}}
+
+/* Buttons */
+.btn{padding:6px 14px;border-radius:7px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;transition:.15s;color:var(--text);}
+.btn:hover{border-color:var(--text2);transform:translateY(-1px);}
+.btn-cyan{background:rgba(6,182,212,.08);border-color:rgba(6,182,212,.15);color:var(--cyan);}
+.btn-green{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.15);color:var(--green);}
+.btn-red{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.15);color:var(--red);}
+.btn-yellow{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.15);color:var(--yellow);}
+.btn-sm{padding:4px 10px;font-size:10px;}
+
+/* Emotion grid */
+.emo-grid{display:flex;gap:4px;flex-wrap:wrap;}
+.emo-btn{padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;font-size:11px;transition:.15s;user-select:none;}
+.emo-btn:hover,.emo-btn.active{border-color:var(--yellow);background:rgba(245,158,11,.08);color:var(--yellow);}
+
+/* Tags */
+.tag-grid{display:flex;gap:4px;flex-wrap:wrap;}
+.tag-btn{padding:3px 8px;border-radius:4px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;font-size:10px;transition:.15s;user-select:none;}
+.tag-btn:hover,.tag-btn.active{border-color:var(--purple);background:rgba(167,139,250,.08);color:var(--purple);}
+
+/* Rating */
+.rating-row{display:flex;gap:6px;}
+.rating-star{font-size:20px;cursor:pointer;opacity:.3;transition:.15s;}
+.rating-star.on{opacity:1;}
+
+/* Plan toggle */
+.plan-toggle{display:flex;gap:8px;}
+.plan-btn{padding:6px 14px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;font-size:11px;transition:.15s;}
+.plan-btn.active.yes{border-color:var(--green);background:rgba(34,197,94,.08);color:var(--green);}
+.plan-btn.active.no{border-color:var(--red);background:rgba(239,68,68,.08);color:var(--red);}
+
+/* Entry cards */
+.entry-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;transition:.15s;}
+.entry-card:hover{border-color:var(--cyan);}
+.entry-head{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.e-badge{padding:2px 8px;border-radius:4px;font-weight:700;font-size:10px;}
+.e-badge.buy{background:rgba(34,197,94,.12);color:var(--green);}
+.e-badge.sell{background:rgba(239,68,68,.12);color:var(--red);}
+.entry-detail{font-size:10px;color:var(--text3);display:flex;gap:8px;flex-wrap:wrap;}
+
+/* Stats */
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;}
+.stat{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;}
+.stat .sv{font-size:16px;font-weight:700;}
+.stat .sl{font-size:9px;color:var(--text3);margin-top:2px;}
+
+/* Emotion stats */
+.emo-stat{display:flex;align-items:center;gap:6px;padding:4px 0;font-size:11px;border-bottom:1px solid rgba(255,255,255,.03);}
+.es-icon{font-size:16px;}
+.es-bar{flex:1;height:6px;border-radius:3px;background:var(--border);}
+.es-fill{height:100%;border-radius:3px;}
+
+/* Recommendations */
+.rec-item{padding:8px 10px;border-radius:8px;margin-bottom:6px;display:flex;align-items:flex-start;gap:8px;font-size:11px;line-height:1.5;}
+.rec-item.positive{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.12);color:var(--green);}
+.rec-item.warning{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.12);color:var(--yellow);}
+.rec-item.critical{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.12);color:var(--red);}
+.rec-item.info{background:rgba(6,182,212,.06);border:1px solid rgba(6,182,212,.12);color:var(--cyan);}
+.rec-item .rec-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+
+/* Daily notes */
+.daily-note{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:6px;}
+.dn-date{font-size:10px;color:var(--cyan);font-weight:600;margin-bottom:3px;}
+.dn-text{font-size:11px;color:var(--text2);line-height:1.5;}
+
+/* Charts */
+.chart-wrap{position:relative;height:180px;margin-top:8px;}
+
+/* Toast */
+.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);padding:10px 24px;border-radius:8px;font-weight:700;z-index:400;display:none;font-size:12px;}
+.toast.ok{background:var(--green);color:#000;display:block;}.toast.err{background:var(--red);color:#fff;display:block;}
+
+/* Filter row */
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:8px;}
+.filter-bar select,.filter-bar input{padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:10px;font-family:inherit;}
+
+/* ═══ UNIVERSAL FOOTER ═══ */
+.wfooter{background:#0f1320;border-top:1px solid #1e2a45;padding:32px 20px 16px;margin-top:24px;}
+.wfooter-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:28px;}
+.wfooter-brand p{font-size:12px;color:#5a6480;margin-top:8px;line-height:1.8;}
+.wfooter-col h4{font-size:12px;font-weight:700;color:#e8ecf4;margin-bottom:12px;}
+.wfooter-col a{display:block;color:#5a6480;font-size:12px;padding:3px 0;text-decoration:none;transition:color .2s;}
+.wfooter-col a:hover{color:#00d4ff;}
+.wfooter-bottom{max-width:1100px;margin:0 auto;border-top:1px solid #1e2a45;padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.wfooter-bottom p{font-size:11px;color:#5a6480;}
+.wfooter-bottom a{color:#00d4ff;text-decoration:none;font-size:11px;}
+@media(max-width:768px){.wfooter-grid{grid-template-columns:1fr 1fr;gap:20px;}}
+@media(max-width:480px){.wfooter-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- ═══ UNIVERSAL TOP NAV ═══ -->
+<nav class="wnav" id="wTopNav">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <a href="/" class="wnav-logo"><div class="wnav-logo-box">W</div><span class="wnav-logo-txt">Whilber-AI</span></a>
+    <a href="javascript:history.back()" class="wnav-back" title="بازگشت">&#8594; برگشت</a>
+  </div>
+  <div class="wnav-links">
+    <a href="/">خانه</a><a href="/dashboard">تحلیل بازار</a><a href="/track-record">سوابق</a><a href="/builder">استراتژی‌ساز</a><a href="/risk-manager">مدیریت ریسک</a><a href="/journal" class="wn-active">ژورنال</a><a href="/performance">عملکرد زنده</a><a href="/alerts">هشدارها</a><a href="/guide">راهنما</a><a href="/services">خدمات</a><a href="/about">درباره ما</a><a href="/contact">تماس</a><a href="/robots">ربات‌ها</a><a href="/pricing">تعرفه‌ها</a><a href="/login">ورود</a><a href="/register">ثبت‌نام</a><a href="/dashboard" class="wnav-cta">&#x1F680; تحلیل</a>
+  </div>
+  <button class="wnav-ham" onclick="document.getElementById('wMobOverlay').classList.add('open')">&#9776;</button>
+</nav>
+<div class="wnav-mob-overlay" id="wMobOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="wnav-mob">
+    <button class="wnav-mob-close" onclick="document.getElementById('wMobOverlay').classList.remove('open')">&#10005;</button>
+    <a href="javascript:history.back()" style="color:#00d4ff;border:1px solid rgba(0,212,255,.2);margin-bottom:8px;">&#8594; برگشت به صفحه قبل</a>
+    <a href="/">&#x1F3E0; خانه</a><a href="/dashboard">&#x1F4CA; تحلیل بازار</a><a href="/track-record">&#x1F4DC; سوابق</a><a href="/builder">&#x1F527; استراتژی‌ساز</a><a href="/risk-manager">&#x1F6E1;&#xFE0F; مدیریت ریسک</a><a href="/journal" class="wn-active">&#x1F4D2; ژورنال</a><a href="/performance">&#x1F4C8; عملکرد زنده</a><a href="/alerts">&#x1F514; هشدارها</a><a href="/robots">&#x1F916; ربات‌ها</a><a href="/guide">&#x1F4D6; راهنما</a><a href="/services">&#x2B50; خدمات</a><a href="/about">&#x1F464; درباره ما</a><a href="/contact">&#x1F4DE; تماس</a><a href="/pricing">تعرفه‌ها</a><a href="/admin">&#x2699;&#xFE0F; ادمین</a><a href="/login">&#x1F511; ورود</a><a href="/register">&#x1F4DD; ثبت‌نام</a>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="page-title">
+  &#x1F4D2; ژورنال معاملات
+  <div class="actions">
+    <button class="btn btn-cyan btn-sm" onclick="exportJournal('csv')">&#x1F4E5; خروجی CSV</button>
+    <button class="btn btn-sm" onclick="exportJournal('json')">&#x1F4E5; JSON</button>
+  </div>
+</div>
+
+<div class="main">
+  <!-- ═══ LEFT: Form + Entries ═══ -->
+  <div>
+    <!-- New Entry Form -->
+    <div class="card" id="formCard">
+      <div class="card-head">
+        <h3 id="formTitle">&#x1F4DD; ثبت معامله جدید</h3>
+        <div style="display:flex;gap:4px;">
+          <button class="btn btn-sm btn-yellow" onclick="fetchLivePrice()">&#x1F4E1; قیمت لحظه‌ای</button>
+          <button class="btn btn-sm" onclick="resetForm()">پاک کردن</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-cols-4">
+          <div class="form-row"><label>نماد</label><select id="jSym"></select></div>
+          <div class="form-row"><label>نوع</label><select id="jType"><option value="BUY">&#x1F7E9; BUY</option><option value="SELL">&#x1F7E5; SELL</option></select></div>
+          <div class="form-row"><label>تایم‌فریم</label><select id="jTF"><option>M5</option><option>M15</option><option>M30</option><option selected>H1</option><option>H4</option><option>D1</option></select></div>
+          <div class="form-row"><label>استراتژی</label><input type="text" id="jStrat" placeholder="نام استراتژی"></div>
+        </div>
+        <div class="form-cols-4">
+          <div class="form-row"><label>قیمت ورود</label><input type="number" id="jEntry" step="any"></div>
+          <div class="form-row"><label>قیمت خروج</label><input type="number" id="jExit" step="any"></div>
+          <div class="form-row"><label>TP</label><input type="number" id="jTP" step="any"></div>
+          <div class="form-row"><label>SL</label><input type="number" id="jSL" step="any"></div>
+        </div>
+        <div class="form-cols-3">
+          <div class="form-row"><label>حجم (لات)</label><input type="number" id="jLot" value="0.01" step="0.01"></div>
+          <div class="form-row"><label>سود/زیان ($)</label><input type="number" id="jPnl" step="any"></div>
+          <div class="form-row"><label>سود/زیان (پیپ)</label><input type="number" id="jPnlPips" step="any"></div>
+        </div>
+
+        <div class="form-row"><label>احساس قبل از معامله</label><div class="emo-grid" id="emoBefore"></div></div>
+        <div class="form-row"><label>احساس بعد از معامله</label><div class="emo-grid" id="emoAfter"></div></div>
+
+        <div class="form-row"><label>پلن رعایت شد؟</label>
+          <div class="plan-toggle"><div class="plan-btn active yes" onclick="setPlan(true,this)">&#x2705; بله</div><div class="plan-btn no" onclick="setPlan(false,this)">&#x274C; خیر</div></div>
+        </div>
+
+        <div class="form-row"><label>امتیاز معامله</label><div class="rating-row" id="ratingRow"></div></div>
+        <div class="form-row"><label>برچسب‌ها</label><div class="tag-grid" id="tagGrid"></div></div>
+        <div class="form-row"><label>یادداشت</label><textarea id="jNotes" placeholder="توضیحات، دلیل ورود، تحلیل..."></textarea></div>
+        <div class="form-row"><label>درس آموخته</label><textarea id="jLesson" placeholder="چه چیزی یاد گرفتم؟" style="min-height:40px;"></textarea></div>
+
+        <input type="hidden" id="jEditId" value="">
+        <button class="btn btn-green" style="width:100%;padding:10px;font-size:13px;" onclick="saveEntry()">&#x1F4BE; ذخیره</button>
+      </div>
+    </div>
+
+    <!-- Recommendations (shown after save) -->
+    <div class="card" id="recCard" style="display:none;">
+      <div class="card-head"><h3>&#x1F4A1; پیشنهادات و بینش‌ها</h3><button class="btn btn-sm" onclick="document.getElementById('recCard').style.display='none'">&#x2715;</button></div>
+      <div class="card-body" id="recBox"></div>
+    </div>
+
+    <!-- Entry List -->
+    <div class="card">
+      <div class="card-head"><h3>&#x1F4CB; معاملات</h3><span id="entryCount" style="font-size:11px;color:var(--text3);"></span></div>
+      <div class="card-body">
+        <div class="filter-bar">
+          <select id="fSymbol" onchange="loadEntries()"><option value="">همه نمادها</option></select>
+          <select id="fResult" onchange="loadEntries()"><option value="">همه</option><option value="win">&#x2705; سودده</option><option value="loss">&#x274C; ضررده</option></select>
+          <input type="text" id="fSearch" placeholder="جستجو..." oninput="loadEntries()" style="min-width:100px;">
+        </div>
+        <div id="entryList" style="max-height:500px;overflow-y:auto;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ RIGHT: Analytics + Charts + Notes ═══ -->
+  <div>
+    <!-- Quick Stats -->
+    <div class="card">
+      <div class="card-head"><h3>&#x1F4CA; آمار عملکرد</h3></div>
+      <div class="card-body" id="analyticsBox"></div>
+    </div>
+
+    <!-- PnL Chart -->
+    <div class="card">
+      <div class="card-head"><h3>&#x1F4C8; نمودار سود/زیان</h3></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="pnlChart"></canvas></div></div>
+    </div>
+
+    <!-- Emotion Analysis -->
+    <div class="card">
+      <div class="card-head"><h3>&#x1F9E0; تحلیل احساسات</h3></div>
+      <div class="card-body" id="emotionBox"></div>
+    </div>
+
+    <!-- Plan Adherence -->
+    <div class="card">
+      <div class="card-head"><h3>&#x1F4D0; رعایت پلن</h3></div>
+      <div class="card-body" id="planBox"></div>
+    </div>
+
+    <!-- Daily Note -->
+    <div class="card">
+      <div class="card-head"><h3>&#x1F4C5; یادداشت روزانه</h3></div>
+      <div class="card-body">
+        <textarea id="dailyNote" placeholder="امروز چطور بود؟ چه چیزی یاد گرفتم؟" style="width:100%;min-height:55px;padding:8px;border-radius:7px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:12px;font-family:inherit;margin-bottom:6px;resize:vertical;"></textarea>
+        <button class="btn btn-cyan btn-sm" onclick="saveDailyNote()">ذخیره</button>
+        <div id="dailyNotesList" style="margin-top:8px;max-height:200px;overflow-y:auto;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<div class="toast" id="toast"></div>
+
+<script src="/static/perf.js"></script>
+<script src="/static/alert_system.js"></script>
+<script>
+var API='',config={},userEmail='',emoBefore='neutral',emoAfter='neutral',curRating=3,curTags=[],curPlan=true;
+var allEntries=[];
+var pnlChartInstance=null;
+
+async function init(){
+  userEmail=localStorage.getItem('whilber_email')||'';
+  if(!userEmail){userEmail=prompt('ایمیل:')||'guest@whilber.ai';localStorage.setItem('whilber_email',userEmail);}
+  await loadConfig();
+  buildSymbols();buildEmotions();buildRating();buildTags();
+  loadEntries();loadAnalytics();loadDailyNotes();
+}
+
+async function loadConfig(){
+  try{var r=await fetch(API+'/api/journal/config');config=await r.json();}catch(e){config={emotions:[],tags:[],ratings:[],symbols:[],symbol_groups:{}};}
+}
+
+function buildSymbols(){
+  var sel=document.getElementById('jSym');
+  var fSel=document.getElementById('fSymbol');
+  sel.innerHTML='';
+  var groups=config.symbol_groups||{};
+  if(!Object.keys(groups).length){
+    // Fallback
+    (config.symbols||['XAUUSD','EURUSD','GBPUSD','USDJPY','BTCUSD','US30','NAS100']).forEach(function(s){
+      var o=document.createElement('option');o.value=s;o.textContent=s;sel.appendChild(o);
+    });
+  } else {
+    for(var g in groups){
+      var og=document.createElement('optgroup');og.label=g;
+      groups[g].forEach(function(s){var o=document.createElement('option');o.value=s;o.textContent=s;og.appendChild(o);});
+      sel.appendChild(og);
+    }
+  }
+  // Filter dropdown
+  (config.symbols||[]).forEach(function(s){
+    var o=document.createElement('option');o.value=s;o.textContent=s;fSel.appendChild(o);
+  });
+}
+
+function buildEmotions(){
+  var ems=config.emotions||[];
+  ['emoBefore','emoAfter'].forEach(function(boxId){
+    var box=document.getElementById(boxId);
+    var html='';
+    for(var i=0;i<ems.length;i++){
+      var e=ems[i];
+      html+='<div class="emo-btn'+(e.id==='neutral'?' active':'')+'" data-id="'+e.id+'" onclick="setEmo(\''+boxId+'\',\''+e.id+'\',this)">'+e.icon+' '+e.name_fa+'</div>';
+    }
+    box.innerHTML=html;
+  });
+}
+function setEmo(boxId,id,el){
+  document.querySelectorAll('#'+boxId+' .emo-btn').forEach(function(b){b.classList.remove('active');});
+  el.classList.add('active');
+  if(boxId==='emoBefore')emoBefore=id;else emoAfter=id;
+}
+
+function buildRating(){
+  var box=document.getElementById('ratingRow');
+  var html='';
+  for(var i=1;i<=5;i++)html+='<span class="rating-star'+(i<=3?' on':'')+'" onclick="setRating('+i+')">&#x2B50;</span>';
+  box.innerHTML=html;
+}
+function setRating(n){
+  curRating=n;
+  document.querySelectorAll('.rating-star').forEach(function(s,i){s.classList.toggle('on',i<n);});
+}
+
+function buildTags(){
+  var tags=config.tags||[];
+  var box=document.getElementById('tagGrid');
+  var html='';
+  for(var i=0;i<tags.length;i++){
+    var t=tags[i];
+    html+='<div class="tag-btn" data-tag="'+t+'" onclick="toggleTag(\''+t+'\',this)">'+t+'</div>';
+  }
+  box.innerHTML=html;
+}
+function toggleTag(t,el){
+  var idx=curTags.indexOf(t);
+  if(idx>=0){curTags.splice(idx,1);el.classList.remove('active');}
+  else{curTags.push(t);el.classList.add('active');}
+}
+function setPlan(v,el){
+  curPlan=v;
+  document.querySelectorAll('.plan-btn').forEach(function(b){b.classList.remove('active');});
+  el.classList.add('active');
+}
+
+// ═══ Fetch Live Price ═══
+async function fetchLivePrice(){
+  var sym=document.getElementById('jSym').value;
+  try{
+    var r=await fetch(API+'/api/price/'+sym);
+    var d=await r.json();
+    if(d.bid){
+      document.getElementById('jEntry').value=d.bid;
+      showToast(sym+': '+d.bid);
+    } else {
+      showToast('قیمت دریافت نشد',true);
+    }
+  }catch(e){showToast('خطای اتصال',true);}
+}
+
+// ═══ Save Entry ═══
+async function saveEntry(){
+  var entry={
+    symbol:document.getElementById('jSym').value,
+    type:document.getElementById('jType').value,
+    timeframe:document.getElementById('jTF').value,
+    strategy_name:document.getElementById('jStrat').value,
+    entry_price:parseFloat(document.getElementById('jEntry').value)||0,
+    exit_price:parseFloat(document.getElementById('jExit').value)||0,
+    tp_price:parseFloat(document.getElementById('jTP').value)||0,
+    sl_price:parseFloat(document.getElementById('jSL').value)||0,
+    lot_size:parseFloat(document.getElementById('jLot').value)||0.01,
+    pnl:parseFloat(document.getElementById('jPnl').value)||0,
+    pnl_pips:parseFloat(document.getElementById('jPnlPips').value)||0,
+    emotion_before:emoBefore,emotion_after:emoAfter,
+    rating:curRating,tags:curTags.slice(),
+    notes:document.getElementById('jNotes').value,
+    lesson:document.getElementById('jLesson').value,
+    followed_plan:curPlan,
+  };
+  var editId=document.getElementById('jEditId').value;
+  try{
+    var url,method,body;
+    if(editId){url=API+'/api/journal/entries/'+editId;method='PUT';body={email:userEmail,updates:entry};}
+    else{url=API+'/api/journal/entries';method='POST';body={email:userEmail,entry:entry};}
+    var r=await fetch(url,{method:method,headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    var d=await r.json();
+    if(d.success){
+      showToast('ذخیره شد');
+      loadRecommendations(entry);
+      resetForm();loadEntries();loadAnalytics();
+    } else showToast((d.error||'Error'),true);
+  }catch(e){showToast('Error',true);}
+}
+
+// ═══ Load Recommendations ═══
+async function loadRecommendations(entry){
+  try{
+    var r=await fetch(API+'/api/journal/recommend',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:userEmail,entry:entry})});
+    var d=await r.json();
+    var recs=d.recommendations||[];
+    if(!recs.length){document.getElementById('recCard').style.display='none';return;}
+    var html='';
+    for(var i=0;i<recs.length;i++){
+      var rc=recs[i];
+      html+='<div class="rec-item '+(rc.type||'info')+'"><span class="rec-icon">'+(rc.icon||'')+'</span><span>'+rc.text_fa+'</span></div>';
+    }
+    document.getElementById('recBox').innerHTML=html;
+    document.getElementById('recCard').style.display='block';
+  }catch(e){}
+}
+
+function resetForm(){
+  ['jEntry','jExit','jTP','jSL','jPnl','jPnlPips','jStrat','jNotes','jLesson'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('jEditId').value='';
+  document.getElementById('formTitle').textContent='&#x1F4DD; ثبت معامله جدید';
+  emoBefore='neutral';emoAfter='neutral';curRating=3;curTags=[];curPlan=true;
+  buildEmotions();buildRating();
+  document.querySelectorAll('.tag-btn').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.plan-btn').forEach(function(b){b.classList.remove('active');});
+  document.querySelector('.plan-btn.yes').classList.add('active');
+}
+
+// ═══ Load Entries ═══
+async function loadEntries(){
+  try{
+    var sym=document.getElementById('fSymbol').value;
+    var url=API+'/api/journal/entries?email='+encodeURIComponent(userEmail)+'&limit=200';
+    if(sym)url+='&symbol='+sym;
+    var r=await fetch(url);
+    var d=await r.json();
+    allEntries=d.entries||[];
+
+    // Client-side filters
+    var fResult=document.getElementById('fResult').value;
+    var fSearch=(document.getElementById('fSearch').value||'').toLowerCase();
+    var filtered=allEntries.filter(function(e){
+      if(fResult==='win'&&e.pnl<=0)return false;
+      if(fResult==='loss'&&e.pnl>=0)return false;
+      if(fSearch){
+        var txt=((e.symbol||'')+(e.strategy_name||'')+(e.notes||'')+(e.lesson||'')).toLowerCase();
+        if(txt.indexOf(fSearch)<0)return false;
+      }
+      return true;
+    });
+
+    document.getElementById('entryCount').textContent=allEntries.length+' معامله'+(filtered.length!==allEntries.length?' ('+filtered.length+' نمایش)':'');
+    var box=document.getElementById('entryList');
+    if(!filtered.length){box.innerHTML='<div style="text-align:center;color:var(--text3);padding:20px;">هنوز معامله‌ای ثبت نشده</div>';return;}
+    var html='';
+    for(var i=0;i<filtered.length;i++){
+      var e=filtered[i];
+      var emo=(config.emotions||[]).find(function(em){return em.id===e.emotion_before;});
+      html+='<div class="entry-card" onclick="editEntry(\''+e.id+'\')">';
+      html+='<div class="entry-head"><span class="e-badge '+(e.type==="BUY"?"buy":"sell")+'">'+e.type+'</span>';
+      html+='<span style="font-weight:700;font-size:12px;">'+e.symbol+'</span>';
+      html+='<span style="color:var(--text3);font-size:10px;">'+e.timeframe+'</span>';
+      if(emo)html+='<span>'+emo.icon+'</span>';
+      html+='<span style="font-weight:700;font-size:12px;margin-right:auto;color:'+(e.pnl>=0?'var(--green)':'var(--red)')+';">$'+(e.pnl>=0?'+':'')+e.pnl+'</span>';
+      html+='<button class="btn btn-red btn-sm" onclick="event.stopPropagation();delEntry(\''+e.id+'\')">&#x2715;</button>';
+      html+='</div>';
+      html+='<div class="entry-detail">';
+      if(e.strategy_name)html+='<span>&#x1F4CB; '+e.strategy_name+'</span>';
+      if(e.entry_price)html+='<span>ورود: '+e.entry_price+'</span>';
+      if(e.exit_price)html+='<span>خروج: '+e.exit_price+'</span>';
+      html+='<span>'+'&#x2B50;'.repeat(e.rating||0)+'</span>';
+      if(!e.followed_plan)html+='<span style="color:var(--red);">&#x274C; خارج از پلن</span>';
+      if(e.tags&&e.tags.length)html+='<span style="color:var(--purple);">'+e.tags.join(', ')+'</span>';
+      html+='</div>';
+      html+='<div style="font-size:9px;color:var(--text3);margin-top:2px;">'+((e.created_at||'').substring(0,10))+'</div>';
+      html+='</div>';
+    }
+    box.innerHTML=html;
+  }catch(e){}
+}
+
+async function editEntry(eid){
+  try{
+    var r=await fetch(API+'/api/journal/entries/'+eid+'?email='+encodeURIComponent(userEmail));
+    var e=await r.json();
+    if(e.error)return;
+    document.getElementById('jEditId').value=eid;
+    document.getElementById('formTitle').textContent='&#x270F;&#xFE0F; ویرایش معامله';
+    document.getElementById('jSym').value=e.symbol||'XAUUSD';
+    document.getElementById('jType').value=e.type||'BUY';
+    document.getElementById('jTF').value=e.timeframe||'H1';
+    document.getElementById('jStrat').value=e.strategy_name||'';
+    document.getElementById('jEntry').value=e.entry_price||'';
+    document.getElementById('jExit').value=e.exit_price||'';
+    document.getElementById('jTP').value=e.tp_price||'';
+    document.getElementById('jSL').value=e.sl_price||'';
+    document.getElementById('jLot').value=e.lot_size||0.01;
+    document.getElementById('jPnl').value=e.pnl||'';
+    document.getElementById('jPnlPips').value=e.pnl_pips||'';
+    document.getElementById('jNotes').value=e.notes||'';
+    document.getElementById('jLesson').value=e.lesson||'';
+    emoBefore=e.emotion_before||'neutral';emoAfter=e.emotion_after||'neutral';
+    curRating=e.rating||3;curTags=(e.tags||[]).slice();curPlan=e.followed_plan!==false;
+    document.querySelectorAll('#emoBefore .emo-btn').forEach(function(b){b.classList.toggle('active',b.dataset.id===emoBefore);});
+    document.querySelectorAll('#emoAfter .emo-btn').forEach(function(b){b.classList.toggle('active',b.dataset.id===emoAfter);});
+    setRating(curRating);
+    document.querySelectorAll('.tag-btn').forEach(function(b){b.classList.toggle('active',curTags.indexOf(b.dataset.tag)>=0);});
+    document.querySelectorAll('.plan-btn').forEach(function(b){b.classList.remove('active');});
+    document.querySelector('.plan-btn.'+(curPlan?'yes':'no')).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }catch(e){}
+}
+
+async function delEntry(eid){
+  if(!confirm('حذف؟'))return;
+  try{await fetch(API+'/api/journal/entries/'+eid+'?email='+encodeURIComponent(userEmail),{method:'DELETE'});loadEntries();loadAnalytics();showToast('حذف شد');}catch(e){}
+}
+
+// ═══ Analytics ═══
+async function loadAnalytics(){
+  try{
+    var r=await fetch(API+'/api/journal/analytics?email='+encodeURIComponent(userEmail));
+    var d=await r.json();
+    if(!d.total){
+      document.getElementById('analyticsBox').innerHTML='<div style="color:var(--text3);font-size:11px;text-align:center;">داده‌ای نیست</div>';
+      document.getElementById('emotionBox').innerHTML='';
+      document.getElementById('planBox').innerHTML='';
+      return;
+    }
+
+    // Stats grid
+    var html='<div class="stat-grid">';
+    html+='<div class="stat"><div class="sv" style="color:var(--cyan);">'+d.total+'</div><div class="sl">معاملات</div></div>';
+    html+='<div class="stat"><div class="sv" style="color:'+(d.win_rate>=50?'var(--green)':'var(--red)')+';">'+d.win_rate+'%</div><div class="sl">نرخ برد</div></div>';
+    html+='<div class="stat"><div class="sv" style="color:'+(d.total_pnl>=0?'var(--green)':'var(--red)')+';">$'+d.total_pnl+'</div><div class="sl">سود کل</div></div>';
+    html+='<div class="stat"><div class="sv" style="color:var(--yellow);">'+d.avg_rating+'</div><div class="sl">میانگین امتیاز</div></div>';
+    html+='<div class="stat"><div class="sv" style="color:var(--green);">'+d.max_win_streak+'</div><div class="sl">بردهای متوالی</div></div>';
+    html+='<div class="stat"><div class="sv" style="color:var(--red);">'+d.max_loss_streak+'</div><div class="sl">باخت‌های متوالی</div></div>';
+    html+='</div>';
+    // Extra stats
+    html+='<div style="display:flex;gap:8px;font-size:10px;color:var(--text2);flex-wrap:wrap;">';
+    html+='<span>میانگین: <b style="color:'+(d.avg_pnl>=0?'var(--green)':'var(--red)')+';">$'+d.avg_pnl+'</b></span>';
+    html+='<span>بهترین: <b style="color:var(--green);">$'+d.best_trade+'</b></span>';
+    html+='<span>بدترین: <b style="color:var(--red);">$'+d.worst_trade+'</b></span>';
+    html+='</div>';
+    document.getElementById('analyticsBox').innerHTML=html;
+
+    // PnL Chart
+    renderPnlChart(d);
+
+    // Emotions
+    var ehtml='';
+    var emos=config.emotions||[];
+    var estats=d.emotion_stats||{};
+    for(var j=0;j<emos.length;j++){
+      var em=emos[j];
+      var es=estats[em.id];
+      if(!es)continue;
+      var wrColor=es.win_rate>=50?'var(--green)':'var(--red)';
+      ehtml+='<div class="emo-stat"><span class="es-icon">'+em.icon+'</span><span style="min-width:50px;">'+em.name_fa+'</span>';
+      ehtml+='<div class="es-bar"><div class="es-fill" style="width:'+es.win_rate+'%;background:'+wrColor+';"></div></div>';
+      ehtml+='<span style="min-width:40px;text-align:left;color:'+wrColor+';">'+es.win_rate+'%</span>';
+      ehtml+='<span style="min-width:30px;color:var(--text3);font-size:10px;">'+es.count+'</span></div>';
+    }
+    document.getElementById('emotionBox').innerHTML=ehtml||'<div style="color:var(--text3);font-size:11px;">داده‌ای نیست</div>';
+
+    // Plan
+    var phtml='<div style="display:flex;gap:10px;text-align:center;">';
+    phtml+='<div style="flex:1;padding:10px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.12);border-radius:8px;"><div style="font-size:18px;font-weight:700;color:var(--green);">'+d.plan_win_rate+'%</div><div style="font-size:10px;color:var(--text3);">نرخ برد با پلن</div></div>';
+    phtml+='<div style="flex:1;padding:10px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.12);border-radius:8px;"><div style="font-size:18px;font-weight:700;color:var(--red);">'+d.noplan_win_rate+'%</div><div style="font-size:10px;color:var(--text3);">نرخ برد بدون پلن</div></div>';
+    phtml+='</div>';
+    phtml+='<div style="text-align:center;margin-top:8px;font-size:11px;color:var(--text2);">رعایت پلن: <b style="color:var(--cyan);">'+d.plan_adherence+'%</b></div>';
+    document.getElementById('planBox').innerHTML=phtml;
+  }catch(e){}
+}
+
+// ═══ PnL Chart ═══
+function renderPnlChart(analytics){
+  if(!allEntries.length)return;
+  var canvas=document.getElementById('pnlChart');
+  if(!canvas)return;
+  if(pnlChartInstance){pnlChartInstance.destroy();}
+
+  // Build equity curve from entries (reversed to chronological)
+  var sorted=allEntries.slice().reverse();
+  var equity=[0];
+  var labels=['شروع'];
+  for(var i=0;i<sorted.length;i++){
+    equity.push(equity[equity.length-1]+(sorted[i].pnl||0));
+    labels.push((i+1)+'');
+  }
+
+  pnlChartInstance=new Chart(canvas,{
+    type:'line',
+    data:{
+      labels:labels,
+      datasets:[{
+        label:'سود تجمعی ($)',
+        data:equity,
+        borderColor:'#06b6d4',
+        backgroundColor:'rgba(6,182,212,.08)',
+        fill:true,
+        tension:0.3,
+        pointRadius:equity.length>20?0:3,
+        pointHoverRadius:4,
+        borderWidth:2,
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          rtl:true,
+          callbacks:{label:function(ctx){return 'سود: $'+ctx.parsed.y.toFixed(2);}}
+        }
+      },
+      scales:{
+        x:{display:false},
+        y:{
+          grid:{color:'rgba(255,255,255,.04)'},
+          ticks:{color:'#64748b',font:{size:10},callback:function(v){return '$'+v;}},
+        }
+      }
+    }
+  });
+}
+
+// ═══ Daily Notes ═══
+async function saveDailyNote(){
+  var note=document.getElementById('dailyNote').value;
+  if(!note)return;
+  var today=new Date().toISOString().split('T')[0];
+  try{
+    await fetch(API+'/api/journal/daily-note',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:userEmail,date:today,note:note})});
+    showToast('ذخیره شد');document.getElementById('dailyNote').value='';loadDailyNotes();
+  }catch(e){}
+}
+
+async function loadDailyNotes(){
+  try{
+    var r=await fetch(API+'/api/journal/daily-notes?email='+encodeURIComponent(userEmail));
+    var d=await r.json();
+    var notes=d.notes||[];
+    var box=document.getElementById('dailyNotesList');
+    if(!notes.length){box.innerHTML='';return;}
+    var html='';
+    for(var i=0;i<Math.min(notes.length,10);i++){
+      var n=notes[i];
+      html+='<div class="daily-note"><div class="dn-date">'+n.date+'</div><div class="dn-text">'+n.note+'</div></div>';
+    }
+    box.innerHTML=html;
+  }catch(e){}
+}
+
+// ═══ Export ═══
+function exportJournal(format){
+  var url=API+'/api/journal/export?email='+encodeURIComponent(userEmail)+'&format='+format;
+  window.open(url,'_blank');
+}
+
+function showToast(msg,err){var t=document.getElementById('toast');t.textContent=msg;t.className='toast '+(err?'err':'ok');setTimeout(function(){t.className='toast';},2500);}
+
+init();
+</script>
+
+<script src="/static/plan-ui.js"></script>
+<script>
+document.addEventListener('whilber-plan-ready', function(){
+  var P = window.WHILBER_PLAN; if(!P||!P.loggedIn) return;
+  var L = P.limits;
+
+  // Insert journal entry progress bar
+  var fc = document.getElementById('formCard');
+  if(fc){
+    var pb = document.createElement('div');
+    pb.id = 'journalPlanBar';
+    pb.style.cssText = 'padding:0 14px 8px;';
+    pb.innerHTML = planProgress(0, L.max_journal||10, '\u0638\u0631\u0641\u06CC\u062A \u0698\u0648\u0631\u0646\u0627\u0644');
+    fc.insertBefore(pb, fc.children[1]);
+  }
+
+  // Patch loadEntries to update count and lock if at limit
+  var _origLoad = window.loadEntries;
+  if(typeof _origLoad === 'function'){
+    window.loadEntries = async function(){
+      await _origLoad.apply(this, arguments);
+      var count = (window.allEntries || []).length;
+      var bar = document.getElementById('journalPlanBar');
+      if(bar) bar.innerHTML = planProgress(count, L.max_journal||10, '\u0638\u0631\u0641\u06CC\u062A \u0698\u0648\u0631\u0646\u0627\u0644');
+      if(L.max_journal && count >= L.max_journal){
+        var form = document.getElementById('formCard');
+        if(form && !form.querySelector('.plan-lock-overlay')){
+          planLock(form, '\u0638\u0631\u0641\u06CC\u062A \u0698\u0648\u0631\u0646\u0627\u0644 \u067E\u0631 \u0634\u062F\u0647 \u0627\u0633\u062A', '\u0628\u0631\u0627\u06CC \u062B\u0628\u062A \u0628\u06CC\u0634\u062A\u0631\u060C \u067E\u0644\u0646 \u062E\u0648\u062F \u0631\u0627 \u0627\u0631\u062A\u0642\u0627 \u062F\u0647\u06CC\u062F');
+        }
+      }
+    };
+  }
+});
+</script>
+
+<!-- ═══ UNIVERSAL FOOTER ═══ -->
+<footer class="wfooter">
+  <div class="wfooter-grid">
+    <div class="wfooter-brand">
+      <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:28px;height:28px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;">W</div>
+        <span style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Whilber-AI</span>
+      </a>
+      <p>دستیار هوشمند تحلیل بازارهای مالی. تحلیل لحظه‌ای فارکس، کریپتو، فلزات و شاخص‌ها.</p>
+    </div>
+    <div class="wfooter-col">
+      <h4>ابزارها</h4>
+      <a href="/dashboard">&#x1F4CA; تحلیل بازار</a><a href="/track-record">&#x1F4DC; سوابق</a><a href="/builder">&#x1F527; استراتژی‌ساز</a><a href="/risk-manager">&#x1F6E1;&#xFE0F; مدیریت ریسک</a><a href="/journal">&#x1F4D2; ژورنال</a><a href="/alerts">&#x1F514; هشدارها</a><a href="/performance">&#x1F4C8; عملکرد زنده</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>اطلاعات</h4>
+      <a href="/guide">&#x1F4D6; راهنما</a><a href="/services">&#x2B50; خدمات</a><a href="/about">&#x1F464; درباره ما</a><a href="/contact">&#x1F4DE; تماس</a><a href="/">&#x1F3E0; صفحه اصلی</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>ارتباط</h4>
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; کانال تلگرام</a><a href="mailto:support@whilber-ai.com">&#x1F4E7; ایمیل</a><a href="/contact">&#x1F4AC; پشتیبانی</a><a href="/admin">&#x2699;&#xFE0F; ادمین</a>
+    </div>
+  </div>
+  <div class="wfooter-bottom">
+    <p>&copy; 2026 Whilber-AI &mdash; تمامی حقوق محفوظ است. تحلیل‌ها جنبه آموزشی دارند و توصیه مالی نیستند.</p>
+    <div style="display:flex;gap:8px;">
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">&#x1F4E7; ایمیل</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

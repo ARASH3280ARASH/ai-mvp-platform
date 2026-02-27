@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whilber-AI | فروشگاه ربات معامله‌گر</title>
+<style>
+:root{--bg:#0a0c10;--bg2:#12151c;--bg3:#1a1e2a;--bg4:#222738;--border:#2a2f42;--text:#e2e5f0;--text2:#7f849c;--text3:#565a6e;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;--cyan:#06b6d4;--purple:#a78bfa;--orange:#f97316;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;}
+
+/* ═══ UNIVERSAL NAV ═══ */
+.wnav{position:sticky;top:0;z-index:1000;background:rgba(8,11,18,.92);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid rgba(30,42,69,.6);padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;}
+.wnav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.wnav-logo-box{width:32px;height:32px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(0,212,255,.25);}
+.wnav-logo-txt{font-size:17px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.3px;}
+.wnav-links{display:flex;align-items:center;gap:1px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.wnav-links::-webkit-scrollbar{display:none;}
+.wnav-links a{color:#8892a8;padding:6px 10px;border-radius:7px;font-size:12.5px;font-weight:500;white-space:nowrap;transition:all .2s;text-decoration:none;}
+.wnav-links a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-links a.wn-active{color:#00d4ff;background:rgba(0,212,255,.08);font-weight:600;}
+.wnav-cta{background:linear-gradient(135deg,#00d4ff,#a855f7) !important;color:#000 !important;font-weight:700 !important;padding:6px 14px !important;border-radius:7px !important;font-size:12px !important;}
+.wnav-back{display:flex;align-items:center;gap:5px;color:#8892a8;font-size:12px;padding:5px 10px;border-radius:7px;cursor:pointer;background:rgba(255,255,255,.03);border:1px solid rgba(30,42,69,.5);transition:all .2s;text-decoration:none;flex-shrink:0;margin-left:6px;}
+.wnav-back:hover{color:#00d4ff;border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);}
+.wnav-ham{display:none;background:none;border:none;color:#e8ecf4;font-size:22px;cursor:pointer;padding:4px;}
+.wnav-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:999;}
+.wnav-mob-overlay.open{display:block;}
+.wnav-mob{position:fixed;top:0;right:0;width:270px;height:100vh;background:#0f1320;border-left:1px solid #1e2a45;z-index:1001;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:64px 14px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.wnav-mob-overlay.open .wnav-mob{transform:translateX(0);}
+.wnav-mob a{display:flex;align-items:center;gap:9px;color:#8892a8;padding:11px 14px;border-radius:9px;font-size:13.5px;text-decoration:none;transition:all .15s;}
+.wnav-mob a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-mob a.wn-active{background:rgba(0,212,255,.08);color:#00d4ff;font-weight:600;}
+.wnav-mob-close{position:absolute;top:14px;left:14px;background:#161b2e;border:1px solid #1e2a45;color:#8892a8;width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+@media(max-width:900px){.wnav-links{display:none;}.wnav-ham{display:block;}.wnav-back{font-size:11px;padding:4px 8px;}}
+
+/* ═══ HERO ═══ */
+.hero{text-align:center;padding:48px 20px 32px;background:linear-gradient(180deg,rgba(0,212,255,.04) 0%,transparent 100%);}
+.hero h1{font-size:32px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
+.hero p{color:var(--text2);font-size:15px;margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto;}
+.hero-stats{display:flex;gap:24px;justify-content:center;margin-top:20px;}
+.hero-stat{text-align:center;}
+.hero-stat .num{font-size:24px;font-weight:800;color:var(--cyan);}
+.hero-stat .lbl{font-size:11px;color:var(--text3);margin-top:2px;}
+
+/* ═══ SEARCH BAR ═══ */
+.search-wrap{max-width:520px;margin:0 auto 8px;position:relative;}
+.search-wrap input{width:100%;padding:12px 44px 12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;font-family:inherit;transition:border-color .2s;}
+.search-wrap input:focus{outline:none;border-color:var(--cyan);}
+.search-wrap .search-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:16px;pointer-events:none;}
+
+/* ═══ FILTER / SORT BAR ═══ */
+.toolbar{max-width:1280px;margin:0 auto;padding:0 20px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.filter-chips{display:flex;gap:6px;flex-wrap:wrap;}
+.chip{padding:6px 16px;border-radius:20px;background:var(--bg2);border:1px solid var(--border);color:var(--text2);cursor:pointer;font-size:12px;font-family:inherit;transition:all .2s;}
+.chip:hover,.chip.active{color:var(--cyan);border-color:var(--cyan);background:rgba(6,182,212,.08);}
+.sort-box select{padding:7px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:12px;font-family:inherit;cursor:pointer;}
+.sort-box select:focus{outline:none;border-color:var(--cyan);}
+
+/* ═══ GRID ═══ */
+.main-area{max-width:1280px;margin:0 auto;padding:0 20px 32px;}
+.robots-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+@media(max-width:1200px){.robots-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:900px){.robots-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.robots-grid{grid-template-columns:1fr;}}
+
+/* ═══ CARD ═══ */
+.rcard{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all .25s;cursor:pointer;position:relative;}
+.rcard:hover{border-color:var(--cyan);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.35);}
+.rcard.featured{border-color:var(--yellow);}
+.rcard .badge-feat{position:absolute;top:10px;left:10px;background:var(--yellow);color:#000;font-size:10px;font-weight:700;padding:3px 10px;border-radius:6px;z-index:2;}
+.rcard-img{width:100%;height:180px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:56px;color:var(--text3);overflow:hidden;}
+.rcard-img img{width:100%;height:100%;object-fit:cover;}
+.rcard-body{padding:14px;}
+.rcard-name{font-size:15px;font-weight:700;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rcard-cat{display:inline-block;font-size:10px;color:var(--cyan);background:rgba(6,182,212,.1);padding:2px 8px;border-radius:4px;margin-bottom:6px;}
+.rcard-desc{font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.rcard-stars{display:flex;align-items:center;gap:2px;margin-bottom:8px;}
+.rcard-stars .star{color:var(--text3);font-size:13px;}
+.rcard-stars .star.filled{color:var(--yellow);}
+.rcard-stars .avg{font-size:11px;color:var(--text2);margin-right:4px;}
+.rcard-meta{display:flex;flex-wrap:wrap;gap:6px;font-size:10px;color:var(--text3);margin-bottom:10px;}
+.rcard-meta span{background:var(--bg3);padding:2px 7px;border-radius:4px;}
+.rcard-footer{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border);}
+.rcard-price{font-size:15px;font-weight:700;color:var(--green);}
+.rcard-price.paid{color:var(--yellow);}
+.rcard-stats{display:flex;gap:8px;font-size:10px;color:var(--text3);}
+.rcard-stats span{display:flex;align-items:center;gap:2px;}
+.btn-view{padding:6px 14px;background:linear-gradient(135deg,var(--cyan),#0891b2);color:#000;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;}
+.btn-view:hover{opacity:.9;transform:scale(1.03);}
+
+/* ═══ DETAIL VIEW ═══ */
+.detail-section{display:none;max-width:900px;margin:0 auto;padding:0 20px 40px;}
+.detail-section.active{display:block;}
+.detail-back{display:inline-flex;align-items:center;gap:6px;color:var(--text2);font-size:13px;cursor:pointer;padding:8px 14px;border-radius:8px;background:var(--bg2);border:1px solid var(--border);margin-bottom:16px;transition:all .2s;font-family:inherit;}
+.detail-back:hover{color:var(--cyan);border-color:var(--cyan);}
+.detail-top{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;}
+@media(max-width:700px){.detail-top{grid-template-columns:1fr;}}
+.detail-img{width:100%;aspect-ratio:4/3;background:var(--bg3);border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:80px;color:var(--text3);}
+.detail-img img{width:100%;height:100%;object-fit:cover;}
+.detail-info h1{font-size:24px;font-weight:800;margin-bottom:6px;}
+.detail-info .cat-badge{display:inline-block;font-size:11px;color:var(--cyan);background:rgba(6,182,212,.12);padding:3px 12px;border-radius:6px;margin-bottom:10px;}
+.detail-info .ver-line{font-size:12px;color:var(--text3);margin-bottom:12px;}
+.detail-rating-big{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.detail-rating-big .stars{display:flex;gap:2px;}
+.detail-rating-big .star{font-size:20px;color:var(--text3);cursor:pointer;transition:color .15s;}
+.detail-rating-big .star.filled{color:var(--yellow);}
+.detail-rating-big .star:hover{color:var(--yellow);}
+.detail-rating-big .rating-text{font-size:13px;color:var(--text2);}
+.detail-specs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+@media(max-width:500px){.detail-specs{grid-template-columns:1fr 1fr;}}
+.spec-item{background:var(--bg3);padding:10px;border-radius:10px;text-align:center;}
+.spec-item .sp-lbl{font-size:10px;color:var(--text3);}
+.spec-item .sp-val{font-size:13px;font-weight:700;margin-top:2px;}
+.detail-desc{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px;}
+.detail-desc h3{font-size:14px;color:var(--cyan);margin-bottom:8px;}
+.detail-desc p{font-size:13px;color:var(--text2);line-height:1.9;white-space:pre-line;}
+.detail-features{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:20px;}
+.detail-features h3{font-size:14px;color:var(--cyan);margin-bottom:8px;}
+.detail-features p{font-size:13px;color:var(--text2);line-height:1.9;white-space:pre-line;}
+.btn-download-big{display:block;width:100%;padding:14px;background:linear-gradient(135deg,var(--cyan),#0891b2);color:#000;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;transition:all .2s;margin-bottom:24px;}
+.btn-download-big:hover{opacity:.9;transform:scale(1.01);}
+
+/* ═══ REVIEWS SECTION ═══ */
+.reviews-section{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px;}
+.reviews-section h3{font-size:15px;color:var(--cyan);margin-bottom:16px;}
+.review-form{background:var(--bg3);border-radius:10px;padding:16px;margin-bottom:20px;}
+.review-form .form-row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+.review-form input[type=text]{flex:1;min-width:120px;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:inherit;}
+.review-form input:focus,.review-form textarea:focus{outline:none;border-color:var(--cyan);}
+.review-form .star-select{display:flex;align-items:center;gap:2px;}
+.review-form .star-select .star{font-size:22px;color:var(--text3);cursor:pointer;transition:color .15s;}
+.review-form .star-select .star.filled{color:var(--yellow);}
+.review-form textarea{width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:inherit;resize:vertical;min-height:70px;margin-bottom:10px;}
+.review-form button{padding:10px 24px;background:var(--cyan);color:#000;border:none;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s;}
+.review-form button:hover{background:#0891b2;}
+.review-item{padding:14px 0;border-bottom:1px solid var(--border);}
+.review-item:last-child{border-bottom:none;}
+.review-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:6px;}
+.review-author{font-weight:700;font-size:13px;}
+.review-date{font-size:11px;color:var(--text3);}
+.review-stars{display:flex;gap:1px;margin-bottom:4px;}
+.review-stars .star{font-size:12px;color:var(--text3);}
+.review-stars .star.filled{color:var(--yellow);}
+.review-text{font-size:13px;color:var(--text2);line-height:1.7;}
+.no-reviews{text-align:center;padding:20px;color:var(--text3);font-size:13px;}
+
+/* ═══ EMPTY ═══ */
+.empty-state{text-align:center;padding:60px 20px;color:var(--text3);}
+.empty-state .icon{font-size:48px;margin-bottom:12px;}
+.empty-state p{font-size:14px;}
+
+/* ═══ UNIVERSAL FOOTER ═══ */
+.wfooter{background:#0f1320;border-top:1px solid #1e2a45;padding:32px 20px 16px;margin-top:24px;}
+.wfooter-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:28px;}
+.wfooter-brand p{font-size:12px;color:#5a6480;margin-top:8px;line-height:1.8;}
+.wfooter-col h4{font-size:12px;font-weight:700;color:#e8ecf4;margin-bottom:12px;}
+.wfooter-col a{display:block;color:#5a6480;font-size:12px;padding:3px 0;text-decoration:none;transition:color .2s;}
+.wfooter-col a:hover{color:#00d4ff;}
+.wfooter-bottom{max-width:1100px;margin:0 auto;border-top:1px solid #1e2a45;padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.wfooter-bottom p{font-size:11px;color:#5a6480;}
+.wfooter-bottom a{color:#00d4ff;text-decoration:none;font-size:11px;}
+@media(max-width:768px){.wfooter-grid{grid-template-columns:1fr 1fr;gap:20px;}}
+@media(max-width:480px){.wfooter-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="wnav">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <a href="/" class="wnav-logo"><div class="wnav-logo-box">W</div><span class="wnav-logo-txt">Whilber-AI</span></a>
+    <a href="javascript:history.back()" class="wnav-back">&#8594; برگشت</a>
+  </div>
+  <div class="wnav-links">
+    <a href="/">خانه</a><a href="/dashboard">تحلیل بازار</a><a href="/track-record">سوابق</a><a href="/builder">استراتژی‌ساز</a><a href="/risk-manager">مدیریت ریسک</a><a href="/journal">ژورنال</a><a href="/performance">عملکرد زنده</a><a href="/alerts">هشدارها</a><a href="/robots" class="wn-active">ربات‌ها</a><a href="/guide">راهنما</a><a href="/services">خدمات</a><a href="/about">درباره ما</a><a href="/contact">تماس</a><a href="/pricing">تعرفه‌ها</a><a href="/login">ورود</a><a href="/register">ثبت‌نام</a><a href="/dashboard" class="wnav-cta">&#x1F680; تحلیل</a>
+  </div>
+  <button class="wnav-ham" onclick="document.getElementById('wMobOverlay').classList.add('open')">&#9776;</button>
+</nav>
+<div class="wnav-mob-overlay" id="wMobOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="wnav-mob">
+    <button class="wnav-mob-close" onclick="document.getElementById('wMobOverlay').classList.remove('open')">&#10005;</button>
+    <a href="/">&#x1F3E0; خانه</a><a href="/dashboard">&#x1F4CA; تحلیل بازار</a><a href="/track-record">&#x1F4DC; سوابق</a><a href="/builder">&#x1F527; استراتژی‌ساز</a><a href="/risk-manager">&#x1F6E1;&#xFE0F; مدیریت ریسک</a><a href="/journal">&#x1F4D2; ژورنال</a><a href="/performance">&#x1F4C8; عملکرد زنده</a><a href="/alerts">&#x1F514; هشدارها</a><a href="/robots" class="wn-active">&#x1F916; ربات‌ها</a><a href="/guide">&#x1F4D6; راهنما</a><a href="/services">&#x2B50; خدمات</a><a href="/about">&#x1F464; درباره ما</a><a href="/contact">&#x1F4DE; تماس</a><a href="/pricing">تعرفه‌ها</a><a href="/login">&#x1F511; ورود</a><a href="/register">&#x1F4DD; ثبت‌نام</a>
+  </div>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="heroSection">
+  <h1>&#x1F916; فروشگاه ربات معامله‌گر</h1>
+  <p>ربات‌های حرفه‌ای و هوشمند برای معامله خودکار در متاتریدر ۵</p>
+  <div class="search-wrap">
+    <span class="search-icon">&#x1F50D;</span>
+    <input type="text" id="searchInput" placeholder="جستجوی ربات..." oninput="onSearch(this.value)">
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num" id="statTotal">-</div><div class="lbl">ربات</div></div>
+    <div class="hero-stat"><div class="num" id="statDownloads">-</div><div class="lbl">دانلود</div></div>
+    <div class="hero-stat"><div class="num" id="statViews">-</div><div class="lbl">بازدید</div></div>
+  </div>
+</section>
+
+<!-- ═══ TOOLBAR ═══ -->
+<div class="toolbar" id="toolbarSection">
+  <div class="filter-chips" id="filterChips">
+    <button class="chip active" onclick="filterCat('all',this)">همه</button>
+  </div>
+  <div class="sort-box">
+    <select id="sortSelect" onchange="onSort(this.value)">
+      <option value="newest">جدیدترین</option>
+      <option value="popular">محبوب‌ترین</option>
+      <option value="rating">بالاترین امتیاز</option>
+      <option value="views">پربازدیدترین</option>
+    </select>
+  </div>
+</div>
+
+<!-- ═══ GRID VIEW ═══ -->
+<div class="main-area" id="gridView">
+  <div class="robots-grid" id="robotsGrid">
+    <div class="empty-state" style="grid-column:1/-1"><div class="icon">&#x23F3;</div><p>در حال بارگذاری...</p></div>
+  </div>
+</div>
+
+<!-- ═══ DETAIL VIEW ═══ -->
+<div class="detail-section" id="detailView">
+  <button class="detail-back" onclick="hideDetail()">&#8594; بازگشت به لیست</button>
+  <div id="detailContent"></div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="wfooter">
+  <div class="wfooter-grid">
+    <div class="wfooter-brand">
+      <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:28px;height:28px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;">W</div>
+        <span style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Whilber-AI</span>
+      </a>
+      <p>دستیار هوشمند تحلیل بازارهای مالی. تحلیل لحظه‌ای فارکس، کریپتو، فلزات و شاخص‌ها.</p>
+    </div>
+    <div class="wfooter-col">
+      <h4>ابزارها</h4>
+      <a href="/dashboard">&#x1F4CA; تحلیل بازار</a><a href="/track-record">&#x1F4DC; سوابق</a><a href="/builder">&#x1F527; استراتژی‌ساز</a><a href="/risk-manager">&#x1F6E1;&#xFE0F; مدیریت ریسک</a><a href="/journal">&#x1F4D2; ژورنال</a><a href="/alerts">&#x1F514; هشدارها</a><a href="/performance">&#x1F4C8; عملکرد زنده</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>اطلاعات</h4>
+      <a href="/robots">&#x1F916; ربات‌ها</a><a href="/guide">&#x1F4D6; راهنما</a><a href="/services">&#x2B50; خدمات</a><a href="/about">&#x1F464; درباره ما</a><a href="/contact">&#x1F4DE; تماس</a><a href="/">&#x1F3E0; صفحه اصلی</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>ارتباط</h4>
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; کانال تلگرام</a><a href="mailto:support@whilber-ai.com">&#x1F4E7; ایمیل</a><a href="/contact">&#x1F4AC; پشتیبانی</a><a href="/admin">&#x2699;&#xFE0F; ادمین</a>
+    </div>
+  </div>
+  <div class="wfooter-bottom">
+    <p>&copy; 2026 Whilber-AI &mdash; تمامی حقوق محفوظ است.</p>
+    <div style="display:flex;gap:8px;">
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">&#x1F4E7; ایمیل</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+var API='';
+var allRobots=[];
+var categories=[];
+var currentFilter='all';
+var currentSort='newest';
+var searchTimer=null;
+var reviewFormRating=5;
+
+/* ═══ INIT ═══ */
+async function init(){
+  await Promise.all([loadCategories(),loadStats()]);
+  await loadRobots();
+  if(location.hash&&location.hash.startsWith('#robot-')){
+    var rid=location.hash.replace('#robot-','');
+    showDetail(rid);
+  }
+}
+
+async function loadStats(){
+  try{
+    var r=await fetch(API+'/api/robots/stats');
+    var d=await r.json();
+    document.getElementById('statTotal').textContent=d.total||0;
+    document.getElementById('statDownloads').textContent=d.downloads||0;
+    document.getElementById('statViews').textContent=d.views||0;
+  }catch(e){}
+}
+
+async function loadCategories(){
+  try{
+    var r=await fetch(API+'/api/robots/categories');
+    var d=await r.json();
+    categories=d.categories||[];
+    var bar=document.getElementById('filterChips');
+    for(var c of categories){
+      var btn=document.createElement('button');
+      btn.className='chip';
+      btn.textContent=c.name_fa;
+      btn.onclick=(function(cid,el){return function(){filterCat(cid,el);};})(c.id,btn);
+      bar.appendChild(btn);
+    }
+  }catch(e){}
+}
+
+async function loadRobots(){
+  try{
+    var url=API+'/api/robots?sort='+currentSort;
+    if(currentFilter&&currentFilter!=='all')url+='&category='+currentFilter;
+    var r=await fetch(url);
+    var d=await r.json();
+    allRobots=d.robots||[];
+    renderGrid(allRobots);
+  }catch(e){
+    document.getElementById('robotsGrid').innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="icon">&#x274C;</div><p>خطا در بارگذاری</p></div>';
+  }
+}
+
+/* ═══ FILTER & SORT ═══ */
+function filterCat(cat,el){
+  document.querySelectorAll('.chip').forEach(function(b){b.classList.remove('active');});
+  if(el)el.classList.add('active');
+  currentFilter=cat;
+  loadRobots();
+}
+
+function onSort(val){
+  currentSort=val;
+  loadRobots();
+}
+
+function onSearch(q){
+  clearTimeout(searchTimer);
+  searchTimer=setTimeout(function(){
+    if(!q.trim()){
+      renderGrid(allRobots);
+      return;
+    }
+    var low=q.trim().toLowerCase();
+    var filtered=allRobots.filter(function(r){
+      var hay=(r.name_fa+' '+r.description_fa+' '+(r.tags||'')+' '+(r.symbols_fa||'')).toLowerCase();
+      return hay.indexOf(low)!==-1;
+    });
+    renderGrid(filtered);
+  },250);
+}
+
+/* ═══ RENDER GRID ═══ */
+function renderGrid(robots){
+  var grid=document.getElementById('robotsGrid');
+  if(!robots.length){
+    grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="icon">&#x1F916;</div><p>رباتی یافت نشد</p></div>';
+    return;
+  }
+  grid.innerHTML='';
+  var featured=robots.filter(function(r){return r.featured;});
+  var rest=robots.filter(function(r){return !r.featured;});
+  var sorted=featured.concat(rest);
+  for(var r of sorted){
+    var card=document.createElement('div');
+    card.className='rcard'+(r.featured?' featured':'');
+
+    var imgHtml=r.image_path?'<img src="/robots/'+r.image_path+'" alt="'+esc(r.name_fa)+'">':'&#x1F916;';
+    var catName=getCatName(r.category);
+    var priceHtml=r.price_type==='free'?'<span class="rcard-price">رایگان</span>':'<span class="rcard-price paid">'+num(r.price_amount)+' تومان</span>';
+    var starsHtml=renderStars(r.rating_avg||0);
+    var avgText=r.rating_count>0?'('+r.rating_avg+')':'';
+
+    card.innerHTML=
+      (r.featured?'<div class="badge-feat">&#x2B50; ویژه</div>':'')+
+      '<div class="rcard-img">'+imgHtml+'</div>'+
+      '<div class="rcard-body">'+
+        '<div class="rcard-name">'+esc(r.name_fa)+'</div>'+
+        '<span class="rcard-cat">'+esc(catName)+'</span>'+
+        '<div class="rcard-stars">'+starsHtml+'<span class="avg">'+avgText+'</span></div>'+
+        '<div class="rcard-desc">'+esc(r.description_fa)+'</div>'+
+        '<div class="rcard-meta"><span>'+esc(r.platform)+'</span><span>v'+esc(r.version)+'</span>'+(r.symbols_fa?'<span>'+esc(r.symbols_fa)+'</span>':'')+'</div>'+
+        '<div class="rcard-footer">'+priceHtml+
+          '<div class="rcard-stats"><span>&#x1F4E5; '+((r.downloads||0))+'</span><span>&#x1F441; '+((r.views||0))+'</span></div>'+
+        '</div>'+
+      '</div>';
+
+    card.onclick=(function(rid){return function(){showDetail(rid);};})(r.id);
+    grid.appendChild(card);
+  }
+}
+
+/* ═══ DETAIL VIEW ═══ */
+async function showDetail(rid){
+  var r=allRobots.find(function(x){return x.id===rid;});
+  if(!r){
+    try{var resp=await fetch(API+'/api/robots/'+rid);r=await resp.json();if(r.error)return;}catch(e){return;}
+  }
+
+  // increment views
+  fetch(API+'/api/robots/'+rid+'/view',{method:'POST'}).catch(function(){});
+
+  var catName=getCatName(r.category);
+  var priceHtml=r.price_type==='free'?'رایگان':'<span style="color:var(--yellow);">'+num(r.price_amount)+' تومان</span>';
+  var imgHtml=r.image_path?'<img src="/robots/'+r.image_path+'" alt="">':'&#x1F916;';
+
+  var html=
+    '<div class="detail-top">'+
+      '<div class="detail-img">'+imgHtml+'</div>'+
+      '<div class="detail-info">'+
+        '<h1>'+esc(r.name_fa)+'</h1>'+
+        '<span class="cat-badge">'+esc(catName)+'</span>'+
+        '<div class="ver-line">نسخه '+esc(r.version)+' | '+esc(r.platform)+' | &#x1F4E5; '+(r.downloads||0)+' دانلود | &#x1F441; '+(r.views||0)+' بازدید</div>'+
+        '<div class="detail-rating-big">'+
+          '<div class="stars" id="ratingStars" data-rid="'+r.id+'">'+renderClickableStars(r.rating_avg||0)+'</div>'+
+          '<span class="rating-text" id="ratingText">'+(r.rating_count>0?(r.rating_avg+' از 5 ('+(r.rating_count)+' رای)'):'بدون امتیاز — اولین نفر باشید!')+'</span>'+
+        '</div>'+
+        '<div class="detail-specs">'+
+          (r.symbols_fa?'<div class="spec-item"><div class="sp-lbl">نمادها</div><div class="sp-val">'+esc(r.symbols_fa)+'</div></div>':'')+
+          (r.timeframes_fa?'<div class="spec-item"><div class="sp-lbl">تایم‌فریم</div><div class="sp-val">'+esc(r.timeframes_fa)+'</div></div>':'')+
+          (r.min_balance?'<div class="spec-item"><div class="sp-lbl">حداقل سرمایه</div><div class="sp-val">'+esc(r.min_balance)+'</div></div>':'')+
+          '<div class="spec-item"><div class="sp-lbl">دسته‌بندی</div><div class="sp-val">'+esc(catName)+'</div></div>'+
+          '<div class="spec-item"><div class="sp-lbl">پلتفرم</div><div class="sp-val">'+esc(r.platform)+'</div></div>'+
+          '<div class="spec-item"><div class="sp-lbl">قیمت</div><div class="sp-val">'+priceHtml+'</div></div>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+
+  if(r.description_fa){
+    html+='<div class="detail-desc"><h3>&#x1F4DD; توضیحات</h3><p>'+esc(r.description_fa)+'</p></div>';
+  }
+  if(r.features_fa){
+    html+='<div class="detail-features"><h3>&#x2705; ویژگی‌ها</h3><p>'+esc(r.features_fa)+'</p></div>';
+  }
+
+  if(r.file_path){
+    html+='<button class="btn-download-big" onclick="downloadRobot(\''+r.id+'\')">&#x1F4E5; دانلود ربات</button>';
+  }else{
+    html+='<div style="text-align:center;color:var(--text3);padding:16px;background:var(--bg2);border-radius:12px;margin-bottom:24px;">فایل ربات هنوز بارگذاری نشده</div>';
+  }
+
+  html+=
+    '<div class="reviews-section">'+
+      '<h3>&#x1F4AC; نظرات و امتیازها</h3>'+
+      '<div class="review-form" id="reviewForm">'+
+        '<div class="form-row">'+
+          '<input type="text" id="revAuthor" placeholder="نام شما">'+
+          '<div class="star-select" id="starSelect">'+renderFormStars(5)+'</div>'+
+        '</div>'+
+        '<textarea id="revText" placeholder="نظر خود را بنویسید..."></textarea>'+
+        '<button onclick="submitReview(\''+r.id+'\')">&#x1F4E8; ارسال نظر</button>'+
+      '</div>'+
+      '<div id="reviewsList">در حال بارگذاری نظرات...</div>'+
+    '</div>';
+
+  document.getElementById('detailContent').innerHTML=html;
+  document.getElementById('gridView').style.display='none';
+  document.getElementById('heroSection').style.display='none';
+  document.getElementById('toolbarSection').style.display='none';
+  document.getElementById('detailView').classList.add('active');
+  location.hash='robot-'+rid;
+  window.scrollTo(0,0);
+
+  loadReviews(rid);
+  bindStarClicks(rid);
+  bindFormStars();
+}
+
+function hideDetail(){
+  document.getElementById('detailView').classList.remove('active');
+  document.getElementById('gridView').style.display='';
+  document.getElementById('heroSection').style.display='';
+  document.getElementById('toolbarSection').style.display='';
+  history.replaceState(null,'',location.pathname);
+  loadStats();
+  loadRobots();
+}
+
+/* ═══ RATING CLICK ═══ */
+function bindStarClicks(rid){
+  var container=document.getElementById('ratingStars');
+  if(!container)return;
+  var stars=container.querySelectorAll('.star');
+  stars.forEach(function(s,i){
+    s.onclick=function(e){
+      e.stopPropagation();
+      var val=i+1;
+      fetch(API+'/api/robots/'+rid+'/reviews',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({author:'کاربر',rating:val,text:'امتیاز '+val+' از 5'})
+      }).then(function(r){return r.json();}).then(function(d){
+        if(d.success){
+          refreshRating(rid);
+          loadReviews(rid);
+        }
+      }).catch(function(){});
+    };
+    s.onmouseenter=function(){
+      stars.forEach(function(x,j){
+        x.classList.toggle('filled',j<=i);
+      });
+    };
+  });
+  container.onmouseleave=function(){
+    refreshRating(rid);
+  };
+}
+
+async function refreshRating(rid){
+  try{
+    var r=await fetch(API+'/api/robots/'+rid);
+    var d=await r.json();
+    if(!d.error){
+      var container=document.getElementById('ratingStars');
+      if(container)container.innerHTML=renderClickableStars(d.rating_avg||0);
+      var txt=document.getElementById('ratingText');
+      if(txt)txt.textContent=d.rating_count>0?(d.rating_avg+' از 5 ('+d.rating_count+' رای)'):'بدون امتیاز';
+      // Update in allRobots
+      var idx=allRobots.findIndex(function(x){return x.id===rid;});
+      if(idx!==-1){allRobots[idx].rating_avg=d.rating_avg;allRobots[idx].rating_count=d.rating_count;}
+      bindStarClicks(rid);
+    }
+  }catch(e){}
+}
+
+/* ═══ REVIEWS ═══ */
+async function loadReviews(rid){
+  var box=document.getElementById('reviewsList');
+  try{
+    var r=await fetch(API+'/api/robots/'+rid+'/reviews');
+    var d=await r.json();
+    var reviews=d.reviews||[];
+    if(!reviews.length){
+      box.innerHTML='<div class="no-reviews">هنوز نظری ثبت نشده. اولین نفر باشید!</div>';
+      return;
+    }
+    box.innerHTML='';
+    reviews.forEach(function(rv){
+      var item=document.createElement('div');
+      item.className='review-item';
+      var dateStr=rv.created_at?new Date(rv.created_at).toLocaleDateString('fa-IR'):'';
+      item.innerHTML=
+        '<div class="review-head"><span class="review-author">'+esc(rv.author)+'</span><span class="review-date">'+dateStr+'</span></div>'+
+        '<div class="review-stars">'+renderStars(rv.rating)+'</div>'+
+        '<div class="review-text">'+esc(rv.text)+'</div>';
+      box.appendChild(item);
+    });
+  }catch(e){
+    box.innerHTML='<div class="no-reviews">خطا در بارگذاری نظرات</div>';
+  }
+}
+
+async function submitReview(rid){
+  var author=document.getElementById('revAuthor').value.trim();
+  var text=document.getElementById('revText').value.trim();
+  if(!author||!text){alert('لطفا نام و نظر خود را وارد کنید');return;}
+  try{
+    var r=await fetch(API+'/api/robots/'+rid+'/reviews',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({author:author,rating:reviewFormRating,text:text})
+    });
+    var d=await r.json();
+    if(d.success){
+      document.getElementById('revAuthor').value='';
+      document.getElementById('revText').value='';
+      reviewFormRating=5;
+      var formStars=document.querySelectorAll('#starSelect .star');
+      formStars.forEach(function(s){s.classList.add('filled');});
+      loadReviews(rid);
+      refreshRating(rid);
+    }else{
+      alert(d.error||'خطا در ارسال نظر');
+    }
+  }catch(e){alert('خطا در ارسال');}
+}
+
+function bindFormStars(){
+  var container=document.getElementById('starSelect');
+  if(!container)return;
+  var stars=container.querySelectorAll('.star');
+  stars.forEach(function(s,i){
+    s.onclick=function(){
+      reviewFormRating=i+1;
+      stars.forEach(function(x,j){x.classList.toggle('filled',j<=i);});
+    };
+  });
+}
+
+/* ═══ DOWNLOAD ═══ */
+async function downloadRobot(rid){
+  try{
+    var r=await fetch(API+'/api/robots/'+rid+'/download',{method:'POST'});
+    if(r.ok){
+      var blob=await r.blob();
+      var robot=allRobots.find(function(x){return x.id===rid;});
+      var fname=robot?robot.file_name:'robot.ex5';
+      var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fname;a.click();
+    }
+  }catch(e){}
+}
+
+/* ═══ HELPERS ═══ */
+function renderStars(avg){
+  var html='';
+  for(var i=1;i<=5;i++){
+    html+='<span class="star'+(i<=Math.round(avg)?' filled':'')+'">&#x2605;</span>';
+  }
+  return html;
+}
+
+function renderClickableStars(avg){
+  var html='';
+  for(var i=1;i<=5;i++){
+    html+='<span class="star'+(i<=Math.round(avg)?' filled':'')+'">&#x2605;</span>';
+  }
+  return html;
+}
+
+function renderFormStars(val){
+  var html='';
+  for(var i=1;i<=5;i++){
+    html+='<span class="star'+(i<=val?' filled':'')+'">&#x2605;</span>';
+  }
+  return html;
+}
+
+function getCatName(cid){
+  var c=categories.find(function(x){return x.id===cid;});
+  return c?c.name_fa:cid;
+}
+
+function num(n){return Number(n||0).toLocaleString('fa-IR');}
+
+function esc(s){
+  if(!s)return '';
+  var d=document.createElement('div');d.textContent=s;return d.innerHTML;
+}
+
+init();
+</script>
+
+<script src="/static/plan-ui.js"></script>
+<script>
+document.addEventListener('whilber-plan-ready', function(){
+  var P = window.WHILBER_PLAN; if(!P) return;
+  var L = P.limits;
+
+  // Robot limit stat in hero
+  var hs = document.querySelector('.hero-stats');
+  if(hs){
+    var s = document.createElement('div');
+    s.className = 'hero-stat';
+    var maxR = L.max_robots || 0;
+    s.innerHTML = '<div class="num">' + (maxR >= 9999 ? '\u221E' : maxR) + '</div><div class="lbl">\u0633\u0642\u0641 \u062F\u0627\u0646\u0644\u0648\u062F</div>';
+    hs.appendChild(s);
+  }
+
+  // Lock download for free (max_robots=0)
+  if(!L.max_robots || L.max_robots === 0){
+    var _origDownload = window.downloadRobot;
+    window.downloadRobot = function(){
+      alert('\u062F\u0627\u0646\u0644\u0648\u062F \u0631\u0628\u0627\u062A \u0645\u062E\u0635\u0648\u0635 \u067E\u0644\u0646 \u062D\u0631\u0641\u0647\u200C\u0627\u06CC \u0648 \u0628\u0627\u0644\u0627\u062A\u0631 \u0627\u0633\u062A');
+      window.location.href = '/pricing';
+    };
+  }
+});
+</script>
+</body>
+</html>

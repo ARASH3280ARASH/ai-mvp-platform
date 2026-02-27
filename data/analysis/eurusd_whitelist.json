@@ -1,0 +1,17 @@
+{
+  "symbol": "EURUSD",
+  "strategies": [
+    "ST_03_EURUSD_H1",
+    "ADX_02_EURUSD_H1",
+    "MA_07_EURUSD_H1",
+    "MA_05_EURUSD_H1",
+    "ST_05_EURUSD_H1",
+    "ICH_08_EURUSD_H1",
+    "MTF_01_EURUSD_H1",
+    "ICH_01_EURUSD_H1",
+    "VOL_06_EURUSD_H1",
+    "COR_03_EURUSD_H1",
+    "PVT_03_EURUSD_H1"
+  ],
+  "count": 11
+}

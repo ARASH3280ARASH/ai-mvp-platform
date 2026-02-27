@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Whilber-AI | درباره ما</title>
+<style>
+:root{--bg:#0f1117;--bg2:#1a1d29;--bg3:#242836;--border:#2d3348;--text:#e4e6ef;--text2:#8b8fa3;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;--cyan:#06b6d4;--purple:#a855f7;}
+*{margin:0;padding:0;box-sizing:border-box;}html{font-size:14px;}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;overflow-x:hidden;}
+.topnav{background:linear-gradient(180deg,#141722 0%,var(--bg2) 100%);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:50px;position:sticky;top:0;z-index:200;}
+.topnav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--cyan);font-size:17px;font-weight:700;flex-shrink:0;}
+.topnav-links{display:flex;align-items:center;gap:2px;}
+.topnav-links a{color:var(--text2);text-decoration:none;padding:7px 14px;border-radius:8px;font-size:13px;transition:all 0.2s;white-space:nowrap;}
+.topnav-links a:hover{background:var(--bg3);color:var(--text);}
+.topnav-links a.active{background:rgba(6,182,212,0.12);color:var(--cyan);font-weight:600;}
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;padding:6px;}
+.mobile-menu{display:none;position:fixed;top:50px;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:199;backdrop-filter:blur(4px);}
+.mobile-menu-inner{background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 12px;display:flex;flex-direction:column;gap:2px;}
+.mobile-menu-inner a{color:var(--text2);text-decoration:none;padding:12px 16px;border-radius:10px;font-size:14px;}
+.mobile-menu-inner a:hover,.mobile-menu-inner a.active{background:var(--bg3);color:var(--cyan);}
+.mobile-menu.open{display:block;}
+
+.page{max-width:900px;margin:0 auto;padding:30px 20px;}
+
+/* HERO */
+.hero{text-align:center;padding:40px 20px;background:linear-gradient(135deg,rgba(6,182,212,0.08) 0%,rgba(168,85,247,0.08) 100%);border:1px solid var(--border);border-radius:18px;margin-bottom:24px;}
+.hero h1{font-size:36px;color:var(--cyan);margin-bottom:8px;}
+.hero p{color:var(--text2);font-size:15px;line-height:1.8;max-width:600px;margin:0 auto;}
+
+.section{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:16px;}
+.section h2{color:var(--cyan);font-size:18px;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.section p{color:var(--text2);font-size:13.5px;line-height:1.9;}
+
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:16px;}
+.feature-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center;transition:border-color 0.3s;}
+.feature-card:hover{border-color:var(--cyan);}
+.feature-icon{font-size:32px;margin-bottom:8px;}
+.feature-title{font-size:15px;font-weight:700;margin-bottom:6px;color:var(--text);}
+.feature-desc{font-size:12.5px;color:var(--text2);line-height:1.7;}
+
+.stats-bar{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;margin:20px 0;}
+.stat-item{text-align:center;}
+.stat-num{font-size:36px;font-weight:800;color:var(--cyan);font-family:monospace;}
+.stat-label{font-size:12px;color:var(--text2);margin-top:2px;}
+
+.footer{background:var(--bg2);border-top:1px solid var(--border);padding:16px;text-align:center;color:var(--text2);font-size:12px;margin-top:20px;}
+.footer a{color:var(--cyan);text-decoration:none;}
+
+@media(max-width:768px){.topnav-links{display:none;}.hamburger{display:block;}.page{padding:20px 12px;}.hero{padding:28px 16px;}.hero h1{font-size:26px;}.features{grid-template-columns:1fr;}}
+@media(max-width:480px){.hero h1{font-size:22px;}.hero p{font-size:13px;}.stat-num{font-size:28px;}.stats-bar{gap:16px;}}
+
+/* ═══ UNIVERSAL NAV ═══ */
+.wnav{position:sticky;top:0;z-index:1000;background:rgba(8,11,18,.92);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid rgba(30,42,69,.6);padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;}
+.wnav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.wnav-logo-box{width:32px;height:32px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(0,212,255,.25);}
+.wnav-logo-txt{font-size:17px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.3px;}
+.wnav-links{display:flex;align-items:center;gap:1px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.wnav-links::-webkit-scrollbar{display:none;}
+.wnav-links a{color:#8892a8;padding:6px 10px;border-radius:7px;font-size:12.5px;font-weight:500;white-space:nowrap;transition:all .2s;text-decoration:none;}
+.wnav-links a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-links a.wn-active{color:#00d4ff;background:rgba(0,212,255,.08);font-weight:600;}
+.wnav-cta{background:linear-gradient(135deg,#00d4ff,#a855f7) !important;color:#000 !important;font-weight:700 !important;padding:6px 14px !important;border-radius:7px !important;font-size:12px !important;}
+.wnav-back{display:flex;align-items:center;gap:5px;color:#8892a8;font-size:12px;padding:5px 10px;border-radius:7px;cursor:pointer;background:rgba(255,255,255,.03);border:1px solid rgba(30,42,69,.5);transition:all .2s;text-decoration:none;flex-shrink:0;margin-left:6px;}
+.wnav-back:hover{color:#00d4ff;border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);}
+.wnav-ham{display:none;background:none;border:none;color:#e8ecf4;font-size:22px;cursor:pointer;padding:4px;}
+.wnav-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:999;}
+.wnav-mob-overlay.open{display:block;}
+.wnav-mob{position:fixed;top:0;right:0;width:270px;height:100vh;background:#0f1320;border-left:1px solid #1e2a45;z-index:1001;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:64px 14px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.wnav-mob-overlay.open .wnav-mob{transform:translateX(0);}
+.wnav-mob a{display:flex;align-items:center;gap:9px;color:#8892a8;padding:11px 14px;border-radius:9px;font-size:13.5px;text-decoration:none;transition:all .15s;}
+.wnav-mob a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-mob a.wn-active{background:rgba(0,212,255,.08);color:#00d4ff;font-weight:600;}
+.wnav-mob-close{position:absolute;top:14px;left:14px;background:#161b2e;border:1px solid #1e2a45;color:#8892a8;width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+@media(max-width:900px){.wnav-links{display:none;}.wnav-ham{display:block;}.wnav-back{font-size:11px;padding:4px 8px;}}
+
+/* ═══ UNIVERSAL FOOTER ═══ */
+.wfooter{background:#0f1320;border-top:1px solid #1e2a45;padding:32px 20px 16px;margin-top:24px;}
+.wfooter-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:28px;}
+.wfooter-brand p{font-size:12px;color:#5a6480;margin-top:8px;line-height:1.8;}
+.wfooter-col h4{font-size:12px;font-weight:700;color:#e8ecf4;margin-bottom:12px;}
+.wfooter-col a{display:block;color:#5a6480;font-size:12px;padding:3px 0;text-decoration:none;transition:color .2s;}
+.wfooter-col a:hover{color:#00d4ff;}
+.wfooter-bottom{max-width:1100px;margin:0 auto;border-top:1px solid #1e2a45;padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.wfooter-bottom p{font-size:11px;color:#5a6480;}
+.wfooter-bottom a{color:#00d4ff;text-decoration:none;font-size:11px;}
+@media(max-width:768px){.wfooter-grid{grid-template-columns:1fr 1fr;gap:20px;}}
+@media(max-width:480px){.wfooter-grid{grid-template-columns:1fr;}}
+
+</style>
+</head>
+<body>
+<!-- ═══ UNIVERSAL TOP NAV ═══ -->
+<nav class="wnav" id="wTopNav">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <a href="/" class="wnav-logo">
+      <div class="wnav-logo-box">W</div>
+      <span class="wnav-logo-txt">Whilber-AI</span>
+    </a>
+    <a href="javascript:history.back()" class="wnav-back" title="بازگشت">→ برگشت</a>
+  </div>
+  <div class="wnav-links">
+    <a href="/">خانه</a>
+    <a href="/dashboard">تحلیل بازار</a>
+    <a href="/track-record">سوابق</a>
+    <a href="/builder">استراتژی‌ساز</a>
+    <a href="/risk-manager">مدیریت ریسک</a>
+    <a href="/journal">ژورنال</a>
+    <a href="/performance">عملکرد زنده</a>
+    <a href="/alerts">هشدارها</a>
+    <a href="/guide">راهنما</a>
+    <a href="/about" class="wn-active">درباره ما</a>
+    <a href="/contact">تماس</a>
+    <a href="/robots">ربات‌ها</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/login">ورود</a>
+    <a href="/register">ثبت‌نام</a>
+    <a href="/dashboard" class="wnav-cta">🚀 تحلیل</a>
+  </div>
+  <button class="wnav-ham" onclick="document.getElementById('wMobOverlay').classList.add('open')">☰</button>
+</nav>
+<div class="wnav-mob-overlay" id="wMobOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="wnav-mob">
+    <button class="wnav-mob-close" onclick="document.getElementById('wMobOverlay').classList.remove('open')">✕</button>
+    <a href="javascript:history.back()" style="color:#00d4ff;border:1px solid rgba(0,212,255,.2);margin-bottom:8px;">→ برگشت به صفحه قبل</a>
+    <a href="/">🏠 خانه</a>
+    <a href="/dashboard">📊 تحلیل بازار</a>
+    <a href="/track-record">📜 سوابق</a>
+    <a href="/builder">🔧 استراتژی‌ساز</a>
+    <a href="/risk-manager">🛡️ مدیریت ریسک</a>
+    <a href="/journal">📒 ژورنال</a>
+    <a href="/performance">📈 عملکرد زنده</a>
+    <a href="/alerts">🔔 هشدارها</a>
+    <a href="/robots">&#x1F916; ربات‌ها</a>
+    <a href="/guide">📖 راهنما</a>
+    <a href="/about" class="wn-active">👤 درباره ما</a>
+    <a href="/contact">📞 تماس</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/admin">⚙️ ادمین</a>
+    <a href="/login">&#x1F511; ورود</a>
+    <a href="/register">&#x1F4DD; ثبت‌نام</a>
+  </div>
+</div>
+
+
+<div class="page">
+
+<div class="hero">
+  <h1>🧠 Whilber-AI</h1>
+  <p>تحلیلگر هوشمند بازارهای مالی با بهره‌گیری از هوش مصنوعی و ۳۲ استراتژی معاملاتی حرفه‌ای، طراحی شده برای معامله‌گران ایرانی</p>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num">32</div><div class="stat-label">استراتژی تحلیل</div></div>
+  <div class="stat-item"><div class="stat-num">50</div><div class="stat-label">نماد معاملاتی</div></div>
+  <div class="stat-item"><div class="stat-num">7</div><div class="stat-label">تایم‌فریم</div></div>
+  <div class="stat-item"><div class="stat-num">24/7</div><div class="stat-label">دسترسی آنلاین</div></div>
+</div>
+
+<div class="section">
+  <h2>🎯 ماموریت ما</h2>
+  <p>Whilber-AI با هدف دموکراتیزه کردن تحلیل تکنیکال بازارهای مالی ایجاد شده است. ما باور داریم هر معامله‌گری، از مبتدی تا حرفه‌ای، حق دسترسی به ابزارهای تحلیل پیشرفته را دارد. با ترکیب ۳۲ استراتژی معاملاتی شناخته‌شده و فناوری هوش مصنوعی، تحلیل‌هایی ارائه می‌دهیم که قبلاً فقط در دسترس تیم‌های حرفه‌ای بود.</p>
+</div>
+
+<div class="section">
+  <h2>💎 ویژگی‌های کلیدی</h2>
+  <div class="features">
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <div class="feature-title">۳۲ استراتژی هوشمند</div>
+      <div class="feature-desc">از RSI و MACD گرفته تا Ichimoku، Smart Money و الگوهای کندلی — همه در یک پلتفرم</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">تحلیل لحظه‌ای</div>
+      <div class="feature-desc">داده‌ها مستقیماً از بروکر MetaTrader 5 دریافت و در لحظه تحلیل می‌شوند</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌐</div>
+      <div class="feature-title">۵۰ نماد معاملاتی</div>
+      <div class="feature-desc">فارکس، طلا، نقره، شاخص‌های جهانی و رمزارزها در یک داشبورد</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🇮🇷</div>
+      <div class="feature-title">فارسی و ساده</div>
+      <div class="feature-desc">رابط کاربری کاملاً فارسی، طراحی شده برای معامله‌گران ایرانی</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📱</div>
+      <div class="feature-title">ریسپانسیو</div>
+      <div class="feature-desc">روی موبایل، تبلت و دسکتاپ به یک اندازه زیبا و کاربردی</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <div class="feature-title">امنیت اطلاعات</div>
+      <div class="feature-desc">اطلاعات شما امن است و با هیچ طرف سومی به اشتراک گذاشته نمی‌شود</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>🔬 فناوری</h2>
+  <p>Whilber-AI بر پایه فناوری‌های پیشرفته ساخته شده است: موتور تحلیل Python با کتابخانه‌های pandas و numpy برای محاسبات سریع، اتصال مستقیم به MetaTrader 5 برای دریافت داده‌های بلادرنگ، و سرور FastAPI برای عملکرد بالا. تمام ۳۲ استراتژی به صورت موازی اجرا شده و نتایج در کمتر از چند ثانیه آماده می‌شوند.</p>
+</div>
+
+<div class="section">
+  <h2>📍 تماس</h2>
+  <p>دفتر مرکزی: ایران، تهران</p>
+  <p style="margin-top:8px;">برای ارتباط با ما، به صفحه <a href="/contact" style="color:var(--cyan);">تماس با ما</a> مراجعه کنید.</p>
+</div>
+
+</div>
+
+
+<script>function toggleMobileMenu(){document.getElementById('mobileMenu').classList.toggle('open');}</script>
+<!-- ═══ UNIVERSAL FOOTER ═══ -->
+<footer class="wfooter">
+  <div class="wfooter-grid">
+    <div class="wfooter-brand">
+      <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:28px;height:28px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;">W</div>
+        <span style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Whilber-AI</span>
+      </a>
+      <p>دستیار هوشمند تحلیل بازارهای مالی. تحلیل لحظه‌ای فارکس، کریپتو، فلزات و شاخص‌ها.</p>
+    </div>
+    <div class="wfooter-col">
+      <h4>ابزارها</h4>
+      <a href="/dashboard">📊 تحلیل بازار</a>
+      <a href="/track-record">📜 سوابق</a>
+      <a href="/builder">🔧 استراتژی‌ساز</a>
+      <a href="/risk-manager">🛡️ مدیریت ریسک</a>
+      <a href="/journal">📒 ژورنال</a>
+      <a href="/alerts">🔔 هشدارها</a>
+      <a href="/performance">📈 عملکرد زنده</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>اطلاعات</h4>
+      <a href="/guide">📖 راهنما</a>
+      <a href="/services">⭐ خدمات</a>
+    <a href="/about">👤 درباره ما</a>
+      <a href="/contact">📞 تماس</a>
+      <a href="/">🏠 صفحه اصلی</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>ارتباط</h4>
+      <a href="https://t.me/WhilberAI" target="_blank">✈️ کانال تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">📧 ایمیل</a>
+      <a href="/contact">💬 پشتیبانی</a>
+      <a href="/admin">⚙️ ادمین</a>
+    </div>
+  </div>
+  <div class="wfooter-bottom">
+    <p>© 2026 Whilber-AI — تمامی حقوق محفوظ است. تحلیل‌ها جنبه آموزشی دارند و توصیه مالی نیستند.</p>
+    <div style="display:flex;gap:8px;">
+      <a href="https://t.me/WhilberAI" target="_blank">✈️ تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">📧 ایمیل</a>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+// Kill old nav across all pages
+(function(){
+  function k(){
+    var ch=Array.from(document.body.children);
+    var fn=false;
+    for(var i=0;i<ch.length;i++){
+      var e=ch[i],t=e.tagName.toLowerCase(),c=(e.className||"").toString();
+      if(t==="nav"&&c.indexOf("wnav")>-1){fn=true;continue;}
+      if(c.indexOf("wnav-mob-overlay")>-1)continue;
+      if(t==="footer"||c.indexOf("wfooter")>-1)continue;
+      if(t==="script"||t==="style"||t==="link"||t==="meta")continue;
+      if(fn){
+        var tx=(e.textContent||"").substring(0,300);
+        if((tx.indexOf("Builder")>-1&&tx.indexOf("داشبورد")>-1)||(tx.indexOf("داشبورد")>-1&&tx.indexOf("سوابق")>-1&&tx.indexOf("ژورنال")>-1)){
+          if(e.querySelectorAll("a").length<20){e.style.display="none";continue;}
+        }
+        if(!c&&t==="div"){
+          var lnks=e.querySelectorAll("a");
+          if(lnks.length>3&&lnks.length<15){
+            var at="";lnks.forEach(function(a){at+=a.textContent+" ";});
+            if(at.indexOf("داشبورد")>-1&&at.indexOf("Builder")>-1){e.style.display="none";}
+          }
+        }
+      }
+    }
+  }
+  if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",k);}else{k();}
+  setTimeout(k,300);setTimeout(k,1000);
+})();
+</script>
+<script src="/static/plan-ui.js"></script>
+
+</body>
+</html>

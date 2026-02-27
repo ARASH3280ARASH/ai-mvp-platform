@@ -1,0 +1,436 @@
+TRACKER DAEMON ANALYSIS — 2026-02-14 10:52
+File: C:\Users\Administrator\Desktop\mvp\backend\api\tracker_daemon.py
+Size: 15,139 bytes, 416 lines
+
+FUNCTIONS:
+  L  21 (indent=0): def start_tracker()
+  L  41 (indent=0): def stop_tracker()
+  L  56 (indent=0): def is_running()
+  L  60 (indent=0): def _tracker_loop()
+  L  94 (indent=0): def _run_one_cycle()
+  L 226 (indent=0): def _full_save()
+  L 236 (indent=0): def _calc_sl()
+  L 268 (indent=0): def _calc_tp()
+  L 296 (indent=0): def _get_dispatch()
+  L 312 (indent=8): def record_exit()
+  L 345 (indent=0): def _check_and_dispatch_events()
+  L 403 (indent=8): def _run_cycle()
+
+FULL CODE:
+=================================================================
+L   1: """
+L   2: Whilber-AI — Tracker Daemon
+L   3: ================================
+L   4: Background thread: every 10 seconds checks all strategies.
+L   5: Detects new signals → virtual entry.
+L   6: Tracks active trades → TP/SL/BE detection → exit.
+L   7: Periodic disk saves + immediate save on important events.
+L   8: """
+L   9: 
+L  10: import time
+L  11: import traceback
+L  12: from datetime import datetime, timezone
+L  13: from threading import Thread, Event
+L  14: 
+L  15: _stop = Event()
+L  16: _thread = None
+L  17: _running = False
+L  18: _cycle_interval = 30  # seconds — orchestrator needs more time
+L  19: 
+L  20: 
+L  21: def start_tracker():
+L  22:     """Start background tracker thread."""
+L  23:     global _thread, _running
+L  24:     if _running:
+L  25:         return {"success": True, "message": "Already running"}
+L  26: 
+L  27:     _stop.clear()
+L  28:     _thread = Thread(target=_tracker_loop, daemon=True, name="SignalTracker")
+L  29:     _thread.start()
+L  30:     _running = True
+L  31: 
+L  32:     from backend.api.tracker_engine import load_state, save_state
+L  33:     state = load_state()
+L  34:     state["started_at"] = datetime.now(timezone.utc).isoformat()
+L  35:     save_state(state)
+L  36: 
+L  37:     print("[TRACKER] Started background tracker")
+L  38:     return {"success": True}
+L  39: 
+L  40: 
+L  41: def stop_tracker():
+L  42:     """Stop background tracker."""
+L  43:     global _running
+L  44:     _stop.set()
+L  45:     _running = False
+L  46:     # Save final state
+L  47:     try:
+L  48:         from backend.api.tracker_engine import load_active, save_active
+L  49:         save_active(load_active())
+L  50:     except Exception:
+L  51:         pass
+L  52:     print("[TRACKER] Stopped")
+L  53:     return {"success": True}
+L  54: 
+L  55: 
+L  56: def is_running():
+L  57:     return _running
+L  58: 
+L  59: 
+L  60: def _tracker_loop():
+L  61:     """Main tracker loop — runs until stopped."""
+L  62:     global _running
+L  63: 
+L  64:     # Recovery on startup
+L  65:     try:
+L  66:         from backend.api.tracker_engine import recover_after_restart
+L  67:         recovery = recover_after_restart()
+L  68:         if recovery.get("recovered", 0) > 0:
+L  69:             print(f"[TRACKER] Recovered {recovery['recovered']} trades from downtime")
+L  70:     except Exception as e:
+L  71:         print(f"[TRACKER] Recovery error: {e}")
+L  72: 
+L  73:     save_counter = 0
+L  74: 
+L  75:     while not _stop.is_set():
+L  76:         try:
+L  77:             _run_one_cycle()
+L  78:             save_counter += 1
+L  79:             # Full save every 6 cycles (60 seconds)
+L  80:             if save_counter >= 6:
+L  81:                 _full_save()
+L  82:                 save_counter = 0
+L  83:         except Exception as e:
+L  84:             print(f"[TRACKER] Cycle error: {e}")
+L  85:             traceback.print_exc()
+L  86: 
+L  87:         _stop.wait(timeout=_cycle_interval)
+L  88: 
+L  89:     _running = False
+L  90:     _full_save()
+L  91:     print("[TRACKER] Loop ended, final save done")
+L  92: 
+L  93: 
+L  94: def _run_one_cycle():
+L  95:     # Alert dispatcher
+L  96:     try:
+L  97:         from backend.api.alert_subscription import dispatch_alert as _dispatch
+L  98:     except ImportError:
+L  99:         _dispatch = None
+L 100:     """One cycle: scan signals + track active trades."""
+L 101:     from backend.api.tracker_engine import (
+L 102:         load_state, save_state, load_active, save_active,
+L 103:         record_entry, record_exit, _get_pip, _get_tv,
+L 104:     )
+L 105:     state = load_state()
+L 106:     state["last_cycle"] = datetime.now(timezone.utc).isoformat()
+L 107:     state["total_cycles"] = state.get("total_cycles", 0) + 1
+L 108: 
+L 109:     # MT5
+L 110:     try:
+L 111:         import MetaTrader5 as mt5
+L 112:         from backend.mt5.mt5_connector import MT5Connector
+L 113:         conn = MT5Connector.get_instance()
+L 114:         if not conn.ensure_connected():
+L 115:             save_state(state)
+L 116:             return
+L 117:     except Exception:
+L 118:         save_state(state)
+L 119:         return
+L 120: 
+L 121:     # ═══ PART 1: SCAN SIGNALS ═══
+L 122:     try:
+L 123:         from backend.api.signal_bridge import scan_all_signals
+L 124:         active = load_active()
+L 125:         active_ids = {t.get("strategy_id","") for t in active.get("active",[])}
+L 126:         new_sigs = scan_all_signals(state, active_ids)
+L 127:         for sig in new_sigs:
+L 128:             record_entry(
+L 129:                 strategy_id=sig["strategy_id"],
+L 130:                 strategy_name=sig["strategy_name"],
+L 131:                 category=sig["category"],
+L 132:                 symbol=sig["symbol"],
+L 133:                 timeframe=sig["timeframe"],
+L 134:                 signal_type=sig["signal_type"],
+L 135:                 entry_price=sig["entry_price"],
+L 136:                 sl_price=sig["sl_price"],
+L 137:                 tp_price=sig["tp_price"],
+L 138:                 tp2_price=sig.get("tp2_price", 0),
+L 139:                 tp3_price=sig.get("tp3_price", 0),
+L 140:                 lot_size=0.01,
+L 141:             )
+L 142:             state["total_signals"] = state.get("total_signals", 0) + 1
+L 143:             state.setdefault("strategy_last_signal", {})[sig["strategy_id"]] = datetime.now(timezone.utc).isoformat()
+L 144:             if _dispatch:
+L 145:                 _dispatch("entry", {
+L 146:                     "strategy_id": sig["strategy_id"],
+L 147:                     "strategy_name": sig["strategy_name"],
+L 148:                     "symbol": sig["symbol"],
+L 149:                     "direction": sig["signal_type"],
+L 150:                     "entry_price": sig["entry_price"],
+L 151:                     "sl_price": sig["sl_price"],
+L 152:                     "tp1_price": sig["tp_price"],
+L 153:                     "confidence": sig.get("confidence", 0),
+L 154:                 }, sig.get("reason_fa", ""))
+L 155:             print(f"[TRACKER] NEW: {sig['strategy_name']} {sig['signal_type']} {sig['symbol']} @ {sig['entry_price']}")
+L 156:     except Exception as e:
+L 157:         print(f"[TRACKER] Bridge error: {e}")
+L 158:         import traceback
+L 159:         traceback.print_exc()
+L 160: 
+L 161:     # ═══ PART 2: TRACK ACTIVE TRADES ═══
+L 162:     try:
+L 163:         from backend.api.lifecycle_manager import process_tick
+L 164:     except ImportError:
+L 165:         process_tick = None
+L 166: 
+L 167:     active = load_active()
+L 168:     for trade in list(active.get("active", [])):
+L 169:         sym = trade.get("symbol", "XAUUSD")
+L 170:         direction = trade.get("direction", "BUY")
+L 171:         pip = _get_pip(sym)
+L 172:         tv = _get_tv(sym)
+L 173:         try:
+L 174:             tick = mt5.symbol_info_tick(sym)
+L 175:             if not tick:
+L 176:                 continue
+L 177:             cp = tick.ask if direction == "BUY" else tick.bid
+L 178:         except Exception:
+L 179:             continue
+L 180: 
+L 181:         if process_tick:
+L 182:             res = process_tick(trade, cp, tick.bid, tick.ask)
+L 183:             for ev in res.get("events", []):
+L 184:                 trade.setdefault("events", []).append(ev)
+L 185:                 # Dispatch alert for lifecycle event
+L 186:                 if _dispatch:
+L 187:                     etype = ev.get("type", "")
+L 188:                     alert_map = {
+L 189:                         "be_activated": "be_move", "be_move": "be_move",
+L 190:                         "near_be": "be_move",
+L 191:                         "partial_close_1": "partial", "partial_close_2": "partial",
+L 192:                         "trailing_active": "trailing",
+L 193:                         "near_tp": "near_tp", "near_sl": "near_sl",
+L 194:                         "in_profit": "entry",
+L 195:                         "closed_tp": "closed_tp", "closed_sl": "closed_sl",
+L 196:                         "closed_trailing": "closed_trailing", "closed_be": "closed_be",
+L 197:                     }
+L 198:                     mapped = alert_map.get(etype)
+L 199:                     if mapped:
+L 200:                         _dispatch(mapped, trade, ev.get("detail", ""))
+L 201:             if res.get("closed"):
+L 202:                 record_exit(trade["id"], res["exit_price"], res["exit_reason"], pip, tv)
+L 203:                 continue
+L 204:         else:
+L 205:             entry = trade["entry_price"]
+L 206:             sl = trade["sl_price"]
+L 207:             tp1 = trade.get("tp1_price", 0)
+L 208:             trade["current_price"] = cp
+L 209:             pnl_p = (cp - entry) / pip if direction == "BUY" else (entry - cp) / pip
+L 210:             trade["current_pnl_pips"] = round(pnl_p, 1)
+L 211:             trade["current_pnl_usd"] = round(pnl_p * tv * trade.get("lot_size", 0.01), 2)
+L 212:             if sl > 0 and ((direction == "BUY" and tick.bid <= sl) or (direction == "SELL" and tick.ask >= sl)):
+L 213:                 record_exit(trade["id"], sl, "sl", pip, tv)
+L 214:                 if _dispatch:
+L 215:                     _dispatch("closed_sl", trade, f"SL hit @ {sl}")
+L 216:                 continue
+L 217:             if tp1 > 0 and ((direction == "BUY" and tick.bid >= tp1) or (direction == "SELL" and tick.ask <= tp1)):
+L 218:                 record_exit(trade["id"], tp1, "tp", pip, tv)
+L 219:                 if _dispatch:
+L 220:                     _dispatch("closed_tp", trade, f"TP hit @ {tp1}")
+L 221:                 continue
+L 222: 
+L 223:     save_active(active)
+L 224:     save_state(state)
+L 225: 
+L 226: def _full_save():
+L 227:     """Full checkpoint save."""
+L 228:     try:
+L 229:         from backend.api.tracker_engine import load_active, save_active, load_state, save_state
+L 230:         save_active(load_active())
+L 231:         save_state(load_state())
+L 232:     except Exception:
+L 233:         pass
+L 234: 
+L 235: 
+L 236: def _calc_sl(strategy, entry, direction, df, symbol):
+L 237:     """Calculate SL from strategy exit conditions."""
+L 238:     exits = strategy.get("exit_stop_loss", [])
+L 239:     pip = {"XAUUSD": 0.1, "USDJPY": 0.01, "BTCUSD": 1.0, "US30": 1.0}.get(symbol, 0.0001)
+L 240: 
+L 241:     for ex in exits:
+L 242:         ex_type = ex.get("type", "")
+L 243:         params = ex.get("params", {})
+L 244: 
+L 245:         if ex_type == "fixed_pips":
+L 246:             pips = float(params.get("pips", 50))
+L 247:             return entry - pips * pip if direction == "BUY" else entry + pips * pip
+L 248:         elif ex_type == "atr_multiplier":
+L 249:             mult = float(params.get("multiplier", 2))
+L 250:             period = int(params.get("period", 14))
+L 251:             try:
+L 252:                 from backend.api.indicator_calc import compute_indicator
+L 253:                 import numpy as np
+L 254:                 atr = compute_indicator(df, "ATR", {"period": period})["value"]
+L 255:                 atr_val = atr[-1] if not np.isnan(atr[-1]) else pip * 50
+L 256:                 return entry - atr_val * mult if direction == "BUY" else entry + atr_val * mult
+L 257:             except Exception:
+L 258:                 return entry - 50 * pip if direction == "BUY" else entry + 50 * pip
+L 259:         elif ex_type == "percent":
+L 260:             pct = float(params.get("percent", 1)) / 100
+L 261:             return entry * (1 - pct) if direction == "BUY" else entry * (1 + pct)
+L 262: 
+L 263:     # Default: 80 pips for gold, 30 for forex
+L 264:     default_pips = {"XAUUSD": 80, "XAGUSD": 50, "BTCUSD": 500, "US30": 100}.get(symbol, 30)
+L 265:     return entry - default_pips * pip if direction == "BUY" else entry + default_pips * pip
+L 266: 
+L 267: 
+L 268: def _calc_tp(strategy, entry, direction, sl, symbol):
+L 269:     """Calculate TP from strategy exit conditions."""
+L 270:     exits = strategy.get("exit_take_profit", [])
+L 271:     pip = {"XAUUSD": 0.1, "USDJPY": 0.01, "BTCUSD": 1.0, "US30": 1.0}.get(symbol, 0.0001)
+L 272: 
+L 273:     for ex in exits:
+L 274:         ex_type = ex.get("type", "")
+L 275:         params = ex.get("params", {})
+L 276: 
+L 277:         if ex_type == "fixed_pips":
+L 278:             pips = float(params.get("pips", 100))
+L 279:             return entry + pips * pip if direction == "BUY" else entry - pips * pip
+L 280:         elif ex_type == "risk_reward":
+L 281:             rr = float(params.get("ratio", 2))
+L 282:             sl_dist = abs(entry - sl)
+L 283:             return entry + sl_dist * rr if direction == "BUY" else entry - sl_dist * rr
+L 284: 
+L 285:     # Default: 2x SL distance
+L 286:     sl_dist = abs(entry - sl) if sl else 50 * pip
+L 287:     return entry + sl_dist * 2 if direction == "BUY" else entry - sl_dist * 2
+L 288: 
+L 289: 
+L 290: # ═══════════════════════════════════════════════════════════════
+L 291: # ALERT DISPATCHER HOOKS (appended safely)
+L 292: # ═══════════════════════════════════════════════════════════════
+L 293: 
+L 294: _alert_dispatch_fn = None
+L 295: 
+L 296: def _get_dispatch():
+L 297:     global _alert_dispatch_fn
+L 298:     if _alert_dispatch_fn is None:
+L 299:         try:
+L 300:             from backend.api.alert_dispatcher import dispatch_event
+L 301:             _alert_dispatch_fn = dispatch_event
+L 302:         except Exception:
+L 303:             _alert_dispatch_fn = lambda *a, **k: None
+L 304:     return _alert_dispatch_fn
+L 305: 
+L 306: 
+L 307: # Wrap record_exit to dispatch close alerts
+L 308: if 'record_exit' in dir() or True:
+L 309:     try:
+L 310:         _original_record_exit = record_exit
+L 311: 
+L 312:         def record_exit(trade_id, exit_price, exit_reason, pip_value=None, tick_value=None):
+L 313:             """Wrapped record_exit — dispatches alert after closing trade."""
+L 314:             result = _original_record_exit(trade_id, exit_price, exit_reason, pip_value, tick_value)
+L 315:             try:
+L 316:                 # Find the closed trade data
+L 317:                 active = load_active()
+L 318:                 # Trade already moved to records, search there
+L 319:                 import glob as _g
+L 320:                 for fpath in _g.glob(os.path.join(TRACK_DIR, "rec_*.json")):
+L 321:                     try:
+L 322:                         with open(fpath, "r", encoding="utf-8") as _f:
+L 323:                             rec = json.load(_f)
+L 324:                         for t in reversed(rec.get("trades", [])):
+L 325:                             if t.get("id") == trade_id:
+L 326:                                 etype = {
+L 327:                                     "tp": "closed_tp", "sl": "closed_sl",
+L 328:                                     "trailing": "closed_trailing",
+L 329:                                     "break_even": "closed_be", "be": "closed_be",
+L 330:                                 }.get(exit_reason, "exit")
+L 331:                                 _get_dispatch()(etype, t)
+L 332:                                 return result
+L 333:                     except Exception:
+L 334:                         continue
+L 335:             except Exception as _e:
+L 336:                 print(f"[ALERT_HOOK] record_exit dispatch error: {_e}")
+L 337:             return result
+L 338:     except NameError:
+L 339:         pass
+L 340: 
+L 341: 
+L 342: # Hook into the main tracking loop: dispatch entry + lifecycle events
+L 343: _last_dispatched_events = {}  # {trade_id: set(event_types)} — avoid duplicates
+L 344: 
+L 345: def _check_and_dispatch_events(trade):
+L 346:     """Check if trade has new events to dispatch."""
+L 347:     tid = trade.get("id", "")
+L 348:     if not tid:
+L 349:         return
+L 350:     
+L 351:     events = trade.get("events", [])
+L 352:     if not events:
+L 353:         return
+L 354:     
+L 355:     dispatched = _last_dispatched_events.get(tid, set())
+L 356:     
+L 357:     for ev in events:
+L 358:         ev_type = ev.get("type", "")
+L 359:         ev_time = ev.get("time", "")
+L 360:         ev_key = f"{ev_type}_{ev_time}"
+L 361:         
+L 362:         if ev_key in dispatched:
+L 363:             continue
+L 364:         
+L 365:         # Map lifecycle event types to alert types
+L 366:         alert_type = {
+L 367:             "entry": "entry",
+L 368:             "be_activated": "be_activated",
+L 369:             "trailing_active": "trailing_active",
+L 370:             "near_tp": "near_tp",
+L 371:             "near_sl": "near_sl",
+L 372:             "in_profit": "in_profit",
+L 373:             "in_loss": "in_loss",
+L 374:             "recovery": "recovery",
+L 375:             "partial_close": "partial_close",
+L 376:             "closed_tp": "closed_tp",
+L 377:             "closed_sl": "closed_sl",
+L 378:             "closed_trailing": "closed_trailing",
+L 379:             "closed_be": "closed_be",
+L 380:         }.get(ev_type)
+L 381:         
+L 382:         if alert_type:
+L 383:             try:
+L 384:                 _get_dispatch()(alert_type, trade)
+L 385:                 dispatched.add(ev_key)
+L 386:             except Exception:
+L 387:                 pass
+L 388:     
+L 389:     _last_dispatched_events[tid] = dispatched
+L 390:     
+L 391:     # Cleanup old entries (keep max 2000)
+L 392:     if len(_last_dispatched_events) > 2000:
+L 393:         keys = list(_last_dispatched_events.keys())
+L 394:         for k in keys[:500]:
+L 395:             _last_dispatched_events.pop(k, None)
+L 396: 
+L 397: 
+L 398: # Wrap the main _tracking_cycle if it exists
+L 399: try:
+L 400:     if '_run_cycle' in dir():
+L 401:         _original_run_cycle = _run_cycle
+L 402:         
+L 403:         def _run_cycle():
+L 404:             _original_run_cycle()
+L 405:             # After cycle, check active trades for new events
+L 406:             try:
+L 407:                 active = load_active()
+L 408:                 for trade in active.get("active", []):
+L 409:                     _check_and_dispatch_events(trade)
+L 410:             except Exception:
+L 411:                 pass
+L 412: except NameError:
+L 413:     pass
+L 414: 
+L 415: # ═══ END ALERT HOOKS ═════════════════════════════════════════
+L 416: 

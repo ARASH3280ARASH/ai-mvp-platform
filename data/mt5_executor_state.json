@@ -1,0 +1,12 @@
+{
+  "active_trades": {},
+  "trade_history": [],
+  "fresh_start": "2026-02-20T12:06:50.120933",
+  "config": {
+    "risk_per_trade": 0.01,
+    "max_positions": 10,
+    "max_per_symbol": 2,
+    "max_daily_loss": 0.02,
+    "max_drawdown": 0.05
+  }
+}

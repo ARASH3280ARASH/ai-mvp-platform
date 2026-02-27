@@ -1,0 +1,11 @@
+{
+  "symbol": "GBPUSD",
+  "strategies": [
+    "FIB_02_GBPUSD_H1",
+    "FIB_01_GBPUSD_H1",
+    "MA_02_GBPUSD_H1",
+    "ATR_01_GBPUSD_H1",
+    "PVT_04_GBPUSD_H1"
+  ],
+  "count": 5
+}

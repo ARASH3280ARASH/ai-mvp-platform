@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whilber-AI | ورود</title>
+<style>
+:root{--bg:#0a0c10;--bg2:#12151c;--bg3:#1a1e2a;--bg4:#222738;--border:#2a2f42;--text:#e2e5f0;--text2:#7f849c;--text3:#565a6e;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;--cyan:#06b6d4;--purple:#a78bfa;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;}
+
+/* ═══ UNIVERSAL NAV ═══ */
+.wnav{position:sticky;top:0;z-index:1000;background:rgba(8,11,18,.92);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid rgba(30,42,69,.6);padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;}
+.wnav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.wnav-logo-box{width:32px;height:32px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(0,212,255,.25);}
+.wnav-logo-txt{font-size:17px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.3px;}
+.wnav-links{display:flex;align-items:center;gap:1px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.wnav-links::-webkit-scrollbar{display:none;}
+.wnav-links a{color:#8892a8;padding:6px 10px;border-radius:7px;font-size:12.5px;font-weight:500;white-space:nowrap;transition:all .2s;text-decoration:none;}
+.wnav-links a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-links a.wn-active{color:#00d4ff;background:rgba(0,212,255,.08);font-weight:600;}
+.wnav-cta{background:linear-gradient(135deg,#00d4ff,#a855f7) !important;color:#000 !important;font-weight:700 !important;padding:6px 14px !important;border-radius:7px !important;font-size:12px !important;}
+.wnav-back{display:flex;align-items:center;gap:5px;color:#8892a8;font-size:12px;padding:5px 10px;border-radius:7px;cursor:pointer;background:rgba(255,255,255,.03);border:1px solid rgba(30,42,69,.5);transition:all .2s;text-decoration:none;flex-shrink:0;margin-left:6px;}
+.wnav-back:hover{color:#00d4ff;border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);}
+.wnav-ham{display:none;background:none;border:none;color:#e8ecf4;font-size:22px;cursor:pointer;padding:4px;}
+.wnav-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:999;}
+.wnav-mob-overlay.open{display:block;}
+.wnav-mob{position:fixed;top:0;right:0;width:270px;height:100vh;background:#0f1320;border-left:1px solid #1e2a45;z-index:1001;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:64px 14px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.wnav-mob-overlay.open .wnav-mob{transform:translateX(0);}
+.wnav-mob a{display:flex;align-items:center;gap:9px;color:#8892a8;padding:11px 14px;border-radius:9px;font-size:13.5px;text-decoration:none;transition:all .15s;}
+.wnav-mob a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-mob a.wn-active{background:rgba(0,212,255,.08);color:#00d4ff;font-weight:600;}
+.wnav-mob-close{position:absolute;top:14px;left:14px;background:#161b2e;border:1px solid #1e2a45;color:#8892a8;width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+@media(max-width:900px){.wnav-links{display:none;}.wnav-ham{display:block;}.wnav-back{font-size:11px;padding:4px 8px;}}
+
+/* ═══ AUTH FORM ═══ */
+.auth-wrap{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 54px);padding:24px 16px;}
+.auth-box{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:36px 32px;width:100%;max-width:420px;}
+.auth-box h1{font-size:24px;font-weight:800;text-align:center;margin-bottom:6px;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.auth-box .sub{text-align:center;color:var(--text2);font-size:13px;margin-bottom:24px;}
+.form-group{margin-bottom:14px;}
+.form-group label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px;font-weight:600;}
+.form-group input{display:block;width:100%;padding:12px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;font-family:inherit;transition:border-color .2s;}
+.form-group input:focus{outline:none;border-color:var(--cyan);}
+.form-group input[dir=ltr]{text-align:left;}
+.btn-submit{display:block;width:100%;padding:14px;background:linear-gradient(135deg,#00d4ff,#a855f7);color:#000;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:6px;}
+.btn-submit:hover{opacity:.9;transform:translateY(-1px);}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.auth-msg{text-align:center;font-size:13px;margin-top:12px;min-height:18px;}
+.auth-msg.error{color:var(--red);}
+.auth-msg.success{color:var(--green);}
+.auth-links{text-align:center;margin-top:16px;font-size:13px;color:var(--text2);}
+.auth-links a{color:var(--cyan);text-decoration:none;font-weight:600;}
+.auth-links a:hover{text-decoration:underline;}
+.forgot-link{display:block;text-align:left;margin-top:8px;}
+.forgot-link a{color:var(--text3);font-size:12px;text-decoration:none;}
+.forgot-link a:hover{color:var(--cyan);}
+
+/* User bar */
+.user-bar{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;}
+.user-bar .avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#00d4ff,#a855f7);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:#fff;margin:0 auto 10px;}
+.user-bar .uname{font-size:16px;font-weight:700;margin-bottom:4px;}
+.user-bar .uemail{font-size:12px;color:var(--text2);margin-bottom:4px;}
+.user-bar .uplan{font-size:11px;display:inline-block;padding:3px 12px;border-radius:20px;font-weight:600;margin-bottom:14px;}
+.uplan.free{background:rgba(6,182,212,.12);color:var(--cyan);}
+.uplan.pro{background:rgba(167,139,250,.12);color:var(--purple);}
+.uplan.premium{background:rgba(245,158,11,.12);color:var(--yellow);}
+.uplan.enterprise{background:rgba(34,197,94,.12);color:var(--green);}
+.user-bar .btn-dash{display:inline-block;padding:10px 24px;background:linear-gradient(135deg,#00d4ff,#a855f7);color:#000;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;font-family:inherit;transition:all .2s;margin:4px;}
+.user-bar .btn-dash:hover{opacity:.9;}
+.user-bar .btn-logout{display:inline-block;padding:10px 24px;background:var(--bg3);color:var(--red);border:1px solid var(--red);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;font-family:inherit;transition:all .2s;margin:4px;}
+.user-bar .btn-logout:hover{background:rgba(239,68,68,.1);}
+
+/* ═══ FOOTER ═══ */
+.wfooter{background:#0f1320;border-top:1px solid #1e2a45;padding:32px 20px 16px;margin-top:24px;}
+.wfooter-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:28px;}
+.wfooter-brand p{font-size:12px;color:#5a6480;margin-top:8px;line-height:1.8;}
+.wfooter-col h4{font-size:12px;font-weight:700;color:#e8ecf4;margin-bottom:12px;}
+.wfooter-col a{display:block;color:#5a6480;font-size:12px;padding:3px 0;text-decoration:none;transition:color .2s;}
+.wfooter-col a:hover{color:#00d4ff;}
+.wfooter-bottom{max-width:1100px;margin:0 auto;border-top:1px solid #1e2a45;padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.wfooter-bottom p{font-size:11px;color:#5a6480;}
+.wfooter-bottom a{color:#00d4ff;text-decoration:none;font-size:11px;}
+@media(max-width:768px){.wfooter-grid{grid-template-columns:1fr 1fr;gap:20px;}}
+@media(max-width:480px){.wfooter-grid{grid-template-columns:1fr;}.auth-box{padding:24px 18px;}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="wnav">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <a href="/" class="wnav-logo"><div class="wnav-logo-box">W</div><span class="wnav-logo-txt">Whilber-AI</span></a>
+    <a href="javascript:history.back()" class="wnav-back">&#8594; برگشت</a>
+  </div>
+  <div class="wnav-links">
+    <a href="/">خانه</a><a href="/dashboard">تحلیل بازار</a><a href="/track-record">سوابق</a><a href="/builder">استراتژی‌ساز</a><a href="/risk-manager">مدیریت ریسک</a><a href="/journal">ژورنال</a><a href="/performance">عملکرد زنده</a><a href="/alerts">هشدارها</a><a href="/robots">ربات‌ها</a><a href="/guide">راهنما</a><a href="/services">خدمات</a><a href="/pricing">تعرفه‌ها</a><a href="/login" class="wn-active">ورود</a><a href="/register">ثبت‌نام</a><a href="/dashboard" class="wnav-cta">&#x1F680; تحلیل</a>
+  </div>
+  <button class="wnav-ham" onclick="document.getElementById('wMobOverlay').classList.add('open')">&#9776;</button>
+</nav>
+<div class="wnav-mob-overlay" id="wMobOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="wnav-mob">
+    <button class="wnav-mob-close" onclick="document.getElementById('wMobOverlay').classList.remove('open')">&#10005;</button>
+    <a href="/">&#x1F3E0; خانه</a><a href="/dashboard">&#x1F4CA; تحلیل بازار</a><a href="/track-record">&#x1F4DC; سوابق</a><a href="/builder">&#x1F527; استراتژی‌ساز</a><a href="/risk-manager">&#x1F6E1;&#xFE0F; مدیریت ریسک</a><a href="/journal">&#x1F4D2; ژورنال</a><a href="/performance">&#x1F4C8; عملکرد زنده</a><a href="/alerts">&#x1F514; هشدارها</a><a href="/robots">&#x1F916; ربات‌ها</a><a href="/guide">&#x1F4D6; راهنما</a><a href="/services">&#x2B50; خدمات</a><a href="/pricing">تعرفه‌ها</a><a href="/login" class="wn-active">&#x1F511; ورود</a><a href="/register">&#x1F4DD; ثبت‌نام</a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="auth-wrap">
+  <div class="auth-box">
+
+    <!-- Login form -->
+    <div id="loginForm">
+      <h1>&#x1F511; ورود به حساب</h1>
+      <p class="sub">با ایمیل و رمز عبور وارد شوید</p>
+
+      <div class="form-group">
+        <label>ایمیل</label>
+        <input type="email" id="loginEmail" placeholder="example@email.com" dir="ltr">
+      </div>
+      <div class="form-group">
+        <label>رمز عبور</label>
+        <input type="password" id="loginPass" placeholder="رمز عبور" dir="ltr">
+      </div>
+      <button class="btn-submit" id="btnLogin" onclick="doLogin()">&#x1F511; ورود</button>
+      <div class="auth-msg" id="loginMsg"></div>
+      <div class="auth-links">
+        حساب ندارید؟ <a href="/register">ثبت‌نام کنید</a>
+      </div>
+    </div>
+
+    <!-- Logged in view -->
+    <div id="loggedInView" style="display:none;">
+      <div class="user-bar">
+        <div class="avatar" id="userAvatar">U</div>
+        <div class="uname" id="userName">-</div>
+        <div class="uemail" id="userEmail">-</div>
+        <div><span class="uplan free" id="userPlan">Free</span></div>
+        <div style="margin-top:14px;">
+          <a href="/dashboard" class="btn-dash">&#x1F4CA; رفتن به داشبورد</a>
+          <button class="btn-logout" onclick="doLogout()">&#x1F6AA; خروج</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="wfooter">
+  <div class="wfooter-grid">
+    <div class="wfooter-brand">
+      <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:28px;height:28px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;">W</div>
+        <span style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Whilber-AI</span>
+      </a>
+      <p>دستیار هوشمند تحلیل بازارهای مالی. تحلیل لحظه‌ای فارکس، کریپتو، فلزات و شاخص‌ها.</p>
+    </div>
+    <div class="wfooter-col"><h4>ابزارها</h4><a href="/dashboard">&#x1F4CA; تحلیل بازار</a><a href="/track-record">&#x1F4DC; سوابق</a><a href="/builder">&#x1F527; استراتژی‌ساز</a><a href="/risk-manager">&#x1F6E1;&#xFE0F; مدیریت ریسک</a><a href="/journal">&#x1F4D2; ژورنال</a><a href="/alerts">&#x1F514; هشدارها</a></div>
+    <div class="wfooter-col"><h4>اطلاعات</h4><a href="/robots">&#x1F916; ربات‌ها</a><a href="/guide">&#x1F4D6; راهنما</a><a href="/services">&#x2B50; خدمات</a><a href="/about">&#x1F464; درباره ما</a><a href="/contact">&#x1F4DE; تماس</a></div>
+    <div class="wfooter-col"><h4>حساب کاربری</h4><a href="/login">&#x1F511; ورود</a><a href="/register">&#x1F4DD; ثبت‌نام</a><a href="/admin">&#x2699;&#xFE0F; ادمین</a></div>
+  </div>
+  <div class="wfooter-bottom">
+    <p>&copy; 2026 Whilber-AI &mdash; تمامی حقوق محفوظ است.</p>
+    <div style="display:flex;gap:8px;">
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">&#x1F4E7; ایمیل</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+var API='';
+var PLAN_LABELS={'free':'رایگان','pro':'حرفه‌ای','premium':'ویژه','enterprise':'سازمانی'};
+
+async function doLogin(){
+  var email=document.getElementById('loginEmail').value.trim();
+  var pass=document.getElementById('loginPass').value;
+  var msg=document.getElementById('loginMsg');
+  msg.className='auth-msg';msg.textContent='';
+
+  if(!email||!pass){msg.className='auth-msg error';msg.textContent='ایمیل و رمز عبور را وارد کنید';return;}
+
+  var btn=document.getElementById('btnLogin');
+  btn.disabled=true;btn.textContent='در حال ورود...';
+
+  try{
+    var r=await fetch(API+'/api/auth/login',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,password:pass})
+    });
+    var d=await r.json();
+    if(r.ok&&d.success){
+      localStorage.setItem('userToken',d.token);
+      localStorage.setItem('userInfo',JSON.stringify(d.user));
+      showLoggedIn(d.user);
+    }else{
+      msg.className='auth-msg error';
+      msg.textContent=d.detail||d.error||'ایمیل یا رمز عبور اشتباه است';
+    }
+  }catch(e){
+    msg.className='auth-msg error';msg.textContent='خطا در اتصال به سرور';
+  }
+  btn.disabled=false;btn.textContent='\u{1F511} ورود';
+}
+
+function showLoggedIn(user){
+  document.getElementById('loginForm').style.display='none';
+  document.getElementById('loggedInView').style.display='block';
+  document.getElementById('userName').textContent=user.name||'کاربر';
+  document.getElementById('userEmail').textContent=user.email||'';
+  var avatar=document.getElementById('userAvatar');
+  avatar.textContent=(user.name||'U').charAt(0).toUpperCase();
+  var planEl=document.getElementById('userPlan');
+  planEl.textContent=PLAN_LABELS[user.plan]||user.plan;
+  planEl.className='uplan '+(user.plan||'free');
+}
+
+function doLogout(){
+  localStorage.removeItem('userToken');
+  localStorage.removeItem('userInfo');
+  document.getElementById('loginForm').style.display='block';
+  document.getElementById('loggedInView').style.display='none';
+  document.getElementById('loginEmail').value='';
+  document.getElementById('loginPass').value='';
+}
+
+// Check existing session
+(function(){
+  var token=localStorage.getItem('userToken');
+  var info=localStorage.getItem('userInfo');
+  if(token&&info){
+    try{
+      var user=JSON.parse(info);
+      // Verify token is still valid
+      fetch(API+'/api/auth/profile',{headers:{'Authorization':'Bearer '+token}}).then(function(r){
+        if(r.ok){
+          r.json().then(function(d){showLoggedIn(d.user);});
+        }else{
+          localStorage.removeItem('userToken');
+          localStorage.removeItem('userInfo');
+        }
+      }).catch(function(){});
+    }catch(e){}
+  }
+
+  // Enter key handler
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Enter'&&document.getElementById('loginForm').style.display!=='none')doLogin();
+  });
+})();
+</script>
+<script src="/static/plan-ui.js"></script>
+</body>
+</html>

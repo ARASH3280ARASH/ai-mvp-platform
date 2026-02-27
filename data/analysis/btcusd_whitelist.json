@@ -1,0 +1,13 @@
+{
+  "symbol": "BTCUSD",
+  "strategies": [
+    "MA_09_BTCUSD_H1",
+    "MA_12_BTCUSD_H1",
+    "ATR_03_BTCUSD_H1",
+    "ICH_05_BTCUSD_H1",
+    "ICH_01_BTCUSD_H1",
+    "ST_05_BTCUSD_H1",
+    "VOL_03_BTCUSD_H1"
+  ],
+  "count": 7
+}

@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Whilber-AI | راهنمای جامع</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080b12;--bg2:#0f1320;--bg3:#161b2e;--bg4:#1e2540;--border:#1e2a45;--border2:#2a3a5c;--text:#e8ecf4;--text2:#8892a8;--text3:#5a6480;--cyan:#00d4ff;--green:#00e88f;--red:#ff4466;--yellow:#ffbe2e;--purple:#a855f7;--orange:#ff8844;--glow:0 0 20px rgba(0,212,255,.12);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:15px;scroll-behavior:smooth;}
+body{font-family:'Vazirmatn','Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;line-height:1.8;}
+a{color:var(--cyan);text-decoration:none;transition:color .2s;}
+a:hover{color:#0af0ff;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
+
+/* ═══ GUIDE LAYOUT ═══ */
+.guide-wrap{display:flex;max-width:1200px;margin:0 auto;min-height:calc(100vh - 54px);}
+
+/* Sidebar TOC */
+.guide-sidebar{width:260px;flex-shrink:0;background:var(--bg2);border-left:1px solid var(--border);padding:20px 0;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;scrollbar-width:thin;}
+.guide-sidebar h3{font-size:13px;color:var(--text3);padding:0 20px;margin-bottom:12px;font-weight:600;letter-spacing:1px;}
+.toc-item{display:flex;align-items:center;gap:8px;padding:9px 20px;color:var(--text2);font-size:13px;cursor:pointer;transition:all .15s;border-right:3px solid transparent;text-decoration:none;}
+.toc-item:hover{background:rgba(255,255,255,.02);color:var(--text);}
+.toc-item.active{color:var(--cyan);background:rgba(0,212,255,.04);border-right-color:var(--cyan);font-weight:600;}
+.toc-icon{font-size:16px;width:22px;text-align:center;flex-shrink:0;}
+
+/* Mobile TOC Index */
+.mob-toc{display:none;padding:16px;background:var(--bg2);border-bottom:1px solid var(--border);}
+.mob-toc h3{font-size:14px;color:var(--text);margin-bottom:10px;font-weight:700;}
+.mob-toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.mob-toc-grid a{display:flex;align-items:center;gap:6px;padding:8px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text2);font-size:12px;text-decoration:none;transition:all .15s;}
+.mob-toc-grid a:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(0,212,255,.04);}
+
+/* Main Content */
+.guide-content{flex:1;padding:32px 40px 60px;max-width:860px;}
+
+/* Sections */
+.guide-section{margin-bottom:56px;scroll-margin-top:70px;}
+.guide-section h2{font-size:24px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.guide-section h3{font-size:17px;font-weight:700;margin:24px 0 10px;color:var(--cyan);display:flex;align-items:center;gap:8px;}
+.guide-section h4{font-size:14px;font-weight:700;margin:16px 0 8px;color:var(--text);}
+.guide-section p{color:var(--text2);margin-bottom:12px;line-height:1.9;}
+
+/* Info boxes */
+.info-box{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin:16px 0;line-height:1.8;}
+.info-box.tip{border-right:3px solid var(--green);}
+.info-box.warn{border-right:3px solid var(--yellow);}
+.info-box.danger{border-right:3px solid var(--red);}
+.info-box.info{border-right:3px solid var(--cyan);}
+.info-box-title{font-weight:700;font-size:13px;margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+
+/* Steps */
+.steps{counter-reset:step;margin:16px 0;}
+.step{position:relative;padding:12px 16px 12px 0;padding-right:48px;margin-bottom:8px;counter-increment:step;}
+.step::before{content:counter(step);position:absolute;right:0;top:12px;width:32px;height:32px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--cyan);}
+.step-title{font-weight:700;font-size:14px;margin-bottom:4px;}
+.step-desc{font-size:13px;color:var(--text2);line-height:1.8;}
+
+/* Table */
+.guide-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px;}
+.guide-table th{text-align:right;padding:10px 14px;background:var(--bg3);color:var(--text);font-weight:700;border-bottom:1px solid var(--border);font-size:12px;}
+.guide-table td{padding:10px 14px;border-bottom:1px solid rgba(30,42,69,.4);color:var(--text2);vertical-align:top;}
+.guide-table tr:hover td{background:rgba(0,212,255,.02);}
+
+.kbd{display:inline-block;padding:2px 8px;border-radius:5px;background:var(--bg3);border:1px solid var(--border);font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);}
+.code-block{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--cyan);margin:12px 0;overflow-x:auto;direction:ltr;text-align:left;line-height:1.7;}
+.badge{display:inline-block;padding:2px 10px;border-radius:6px;font-size:11px;font-weight:600;}
+.badge-green{background:rgba(0,232,143,.1);color:var(--green);}
+.badge-yellow{background:rgba(255,190,46,.1);color:var(--yellow);}
+.badge-red{background:rgba(255,68,102,.1);color:var(--red);}
+.badge-cyan{background:rgba(0,212,255,.1);color:var(--cyan);}
+.badge-purple{background:rgba(168,85,247,.1);color:var(--purple);}
+
+/* Section action link */
+.section-action{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:10px 20px;background:linear-gradient(135deg,rgba(0,212,255,.08),rgba(168,85,247,.08));border:1px solid rgba(0,212,255,.2);border-radius:10px;color:var(--cyan);font-size:13px;font-weight:600;transition:all .2s;text-decoration:none;}
+.section-action:hover{background:linear-gradient(135deg,rgba(0,212,255,.15),rgba(168,85,247,.15));border-color:var(--cyan);transform:translateY(-1px);box-shadow:var(--glow);}
+
+/* Feature grid */
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;}
+.feat-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.feat-card h4{margin:0 0 6px;font-size:13px;color:var(--text);display:flex;align-items:center;gap:6px;}
+.feat-card p{font-size:12px;color:var(--text2);margin:0;line-height:1.7;}
+
+@media(max-width:900px){
+  .guide-sidebar{display:none;}
+  .mob-toc{display:block;}
+  .guide-content{padding:20px 16px 40px;}
+  .feat-grid{grid-template-columns:1fr;}
+}
+@media(max-width:480px){
+  .guide-content{padding:16px 12px 32px;}
+  .guide-section h2{font-size:20px;}
+  .mob-toc-grid{grid-template-columns:1fr;}
+}
+
+/* ═══ UNIVERSAL NAV ═══ */
+.wnav{position:sticky;top:0;z-index:1000;background:rgba(8,11,18,.92);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid rgba(30,42,69,.6);padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;}
+.wnav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.wnav-logo-box{width:32px;height:32px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(0,212,255,.25);}
+.wnav-logo-txt{font-size:17px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.3px;}
+.wnav-links{display:flex;align-items:center;gap:1px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.wnav-links::-webkit-scrollbar{display:none;}
+.wnav-links a{color:#8892a8;padding:6px 10px;border-radius:7px;font-size:12.5px;font-weight:500;white-space:nowrap;transition:all .2s;text-decoration:none;}
+.wnav-links a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-links a.wn-active{color:#00d4ff;background:rgba(0,212,255,.08);font-weight:600;}
+.wnav-cta{background:linear-gradient(135deg,#00d4ff,#a855f7) !important;color:#000 !important;font-weight:700 !important;padding:6px 14px !important;border-radius:7px !important;font-size:12px !important;}
+.wnav-back{display:flex;align-items:center;gap:5px;color:#8892a8;font-size:12px;padding:5px 10px;border-radius:7px;cursor:pointer;background:rgba(255,255,255,.03);border:1px solid rgba(30,42,69,.5);transition:all .2s;text-decoration:none;flex-shrink:0;margin-left:6px;}
+.wnav-back:hover{color:#00d4ff;border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);}
+.wnav-ham{display:none;background:none;border:none;color:#e8ecf4;font-size:22px;cursor:pointer;padding:4px;}
+.wnav-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:999;}
+.wnav-mob-overlay.open{display:block;}
+.wnav-mob{position:fixed;top:0;right:0;width:270px;height:100vh;background:#0f1320;border-left:1px solid #1e2a45;z-index:1001;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:64px 14px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.wnav-mob-overlay.open .wnav-mob{transform:translateX(0);}
+.wnav-mob a{display:flex;align-items:center;gap:9px;color:#8892a8;padding:11px 14px;border-radius:9px;font-size:13.5px;text-decoration:none;transition:all .15s;}
+.wnav-mob a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-mob a.wn-active{background:rgba(0,212,255,.08);color:#00d4ff;font-weight:600;}
+.wnav-mob-close{position:absolute;top:14px;left:14px;background:#161b2e;border:1px solid #1e2a45;color:#8892a8;width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+@media(max-width:900px){.wnav-links{display:none;}.wnav-ham{display:block;}.wnav-back{font-size:11px;padding:4px 8px;}}
+
+/* ═══ UNIVERSAL FOOTER ═══ */
+.wfooter{background:#0f1320;border-top:1px solid #1e2a45;padding:32px 20px 16px;margin-top:24px;}
+.wfooter-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:28px;}
+.wfooter-brand p{font-size:12px;color:#5a6480;margin-top:8px;line-height:1.8;}
+.wfooter-col h4{font-size:12px;font-weight:700;color:#e8ecf4;margin-bottom:12px;}
+.wfooter-col a{display:block;color:#5a6480;font-size:12px;padding:3px 0;text-decoration:none;transition:color .2s;}
+.wfooter-col a:hover{color:#00d4ff;}
+.wfooter-bottom{max-width:1100px;margin:0 auto;border-top:1px solid #1e2a45;padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.wfooter-bottom p{font-size:11px;color:#5a6480;}
+.wfooter-bottom a{color:#00d4ff;text-decoration:none;font-size:11px;}
+@media(max-width:768px){.wfooter-grid{grid-template-columns:1fr 1fr;gap:20px;}}
+@media(max-width:480px){.wfooter-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<!-- ═══ UNIVERSAL TOP NAV ═══ -->
+<nav class="wnav" id="wTopNav">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <a href="/" class="wnav-logo">
+      <div class="wnav-logo-box">W</div>
+      <span class="wnav-logo-txt">Whilber-AI</span>
+    </a>
+    <a href="javascript:history.back()" class="wnav-back" title="بازگشت">&#8594; برگشت</a>
+  </div>
+  <div class="wnav-links">
+    <a href="/">خانه</a>
+    <a href="/dashboard">تحلیل بازار</a>
+    <a href="/track-record">سوابق</a>
+    <a href="/builder">استراتژی‌ساز</a>
+    <a href="/risk-manager">مدیریت ریسک</a>
+    <a href="/journal">ژورنال</a>
+    <a href="/performance">عملکرد زنده</a>
+    <a href="/alerts">هشدارها</a>
+    <a href="/guide" class="wn-active">راهنما</a>
+    <a href="/services">خدمات</a>
+    <a href="/about">درباره ما</a>
+    <a href="/contact">تماس</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/login">ورود</a>
+    <a href="/register">ثبت‌نام</a>
+    <a href="/dashboard" class="wnav-cta">&#x1F680; تحلیل</a>
+  </div>
+  <button class="wnav-ham" onclick="document.getElementById('wMobOverlay').classList.add('open')">&#9776;</button>
+</nav>
+<div class="wnav-mob-overlay" id="wMobOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="wnav-mob">
+    <button class="wnav-mob-close" onclick="document.getElementById('wMobOverlay').classList.remove('open')">&#10005;</button>
+    <a href="javascript:history.back()" style="color:#00d4ff;border:1px solid rgba(0,212,255,.2);margin-bottom:8px;">&#8594; برگشت به صفحه قبل</a>
+    <a href="/">&#x1F3E0; خانه</a>
+    <a href="/dashboard">&#x1F4CA; تحلیل بازار</a>
+    <a href="/track-record">&#x1F4DC; سوابق</a>
+    <a href="/builder">&#x1F527; استراتژی‌ساز</a>
+    <a href="/risk-manager">&#x1F6E1;&#xFE0F; مدیریت ریسک</a>
+    <a href="/journal">&#x1F4D2; ژورنال</a>
+    <a href="/performance">&#x1F4C8; عملکرد زنده</a>
+    <a href="/alerts">&#x1F514; هشدارها</a>
+    <a href="/guide" class="wn-active">&#x1F4D6; راهنما</a>
+    <a href="/services">&#x2B50; خدمات</a>
+    <a href="/about">&#x1F464; درباره ما</a>
+    <a href="/contact">&#x1F4DE; تماس</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/admin">&#x2699;&#xFE0F; ادمین</a>
+    <a href="/login">&#x1F511; ورود</a>
+    <a href="/register">&#x1F4DD; ثبت‌نام</a>
+  </div>
+</div>
+
+<!-- ═══ MOBILE TOC INDEX ═══ -->
+<div class="mob-toc" id="mobToc">
+  <h3>&#x1F4D6; فهرست سریع</h3>
+  <div class="mob-toc-grid">
+    <a href="#intro">&#x1F3E0; شروع کار</a>
+    <a href="#dashboard">&#x1F4CA; تحلیل بازار</a>
+    <a href="#signals">&#x1F4E1; سیگنال‌ها</a>
+    <a href="#strategies">&#x1F9E0; استراتژی‌ها</a>
+    <a href="#trackrecord">&#x1F4DC; سوابق</a>
+    <a href="#builder">&#x1F527; استراتژی‌ساز</a>
+    <a href="#risk">&#x1F6E1;&#xFE0F; مدیریت ریسک</a>
+    <a href="#journal">&#x1F4D2; ژورنال</a>
+    <a href="#livetracking">&#x1F4C8; ترکینگ زنده</a>
+    <a href="#alerts">&#x1F514; هشدارها</a>
+    <a href="#performance">&#x1F4C8; عملکرد زنده</a>
+    <a href="#telegram">&#x2708;&#xFE0F; تلگرام</a>
+    <a href="#symbols">&#x1F4B1; نمادها</a>
+    <a href="#timeframes">&#x23F0; تایم‌فریم‌ها</a>
+    <a href="#robots">&#x1F916; فروشگاه ربات</a>
+    <a href="#tips">&#x1F4A1; نکات</a>
+    <a href="#faq">&#x2753; سوالات</a>
+    <a href="#shortcuts">&#x2328;&#xFE0F; میانبرها</a>
+    <a href="#admin">&#x2699;&#xFE0F; ادمین</a>
+    <a href="#settings">&#x1F527; تنظیمات</a>
+    <a href="#troubleshoot">&#x1F527; عیب‌یابی</a>
+  </div>
+</div>
+
+<div class="guide-wrap">
+
+<!-- ═══ SIDEBAR TOC ═══ -->
+<aside class="guide-sidebar" id="sidebar">
+  <h3>&#x1F4D6; فهرست راهنما</h3>
+  <a class="toc-item active" href="#intro"><span class="toc-icon">&#x1F3E0;</span> شروع کار</a>
+  <a class="toc-item" href="#dashboard"><span class="toc-icon">&#x1F4CA;</span> تحلیل بازار</a>
+  <a class="toc-item" href="#signals"><span class="toc-icon">&#x1F4E1;</span> خواندن سیگنال‌ها</a>
+  <a class="toc-item" href="#strategies"><span class="toc-icon">&#x1F9E0;</span> استراتژی‌ها</a>
+  <a class="toc-item" href="#trackrecord"><span class="toc-icon">&#x1F4DC;</span> سوابق معاملات</a>
+  <a class="toc-item" href="#builder"><span class="toc-icon">&#x1F527;</span> استراتژی‌ساز</a>
+  <a class="toc-item" href="#risk"><span class="toc-icon">&#x1F6E1;&#xFE0F;</span> مدیریت ریسک</a>
+  <a class="toc-item" href="#journal"><span class="toc-icon">&#x1F4D2;</span> ژورنال</a>
+  <a class="toc-item" href="#livetracking"><span class="toc-icon">&#x1F4C8;</span> ترکینگ زنده</a>
+  <a class="toc-item" href="#alerts"><span class="toc-icon">&#x1F514;</span> هشدارها</a>
+  <a class="toc-item" href="#performance"><span class="toc-icon">&#x1F4C8;</span> عملکرد زنده</a>
+  <a class="toc-item" href="#telegram"><span class="toc-icon">&#x2708;&#xFE0F;</span> تنظیم تلگرام</a>
+  <a class="toc-item" href="#symbols"><span class="toc-icon">&#x1F4B1;</span> نمادها</a>
+  <a class="toc-item" href="#timeframes"><span class="toc-icon">&#x23F0;</span> تایم‌فریم‌ها</a>
+  <a class="toc-item" href="#robots"><span class="toc-icon">&#x1F916;</span> فروشگاه ربات</a>
+  <a class="toc-item" href="#tips"><span class="toc-icon">&#x1F4A1;</span> نکات مهم</a>
+  <a class="toc-item" href="#faq"><span class="toc-icon">&#x2753;</span> سوالات متداول</a>
+  <a class="toc-item" href="#shortcuts"><span class="toc-icon">&#x2328;&#xFE0F;</span> میانبرها</a>
+  <a class="toc-item" href="#admin"><span class="toc-icon">&#x2699;&#xFE0F;</span> پنل ادمین</a>
+  <a class="toc-item" href="#settings"><span class="toc-icon">&#x1F527;</span> تنظیمات</a>
+  <a class="toc-item" href="#troubleshoot"><span class="toc-icon">&#x1F6E0;&#xFE0F;</span> عیب‌یابی</a>
+</aside>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<main class="guide-content">
+
+<!-- 1. INTRO -->
+<section class="guide-section" id="intro">
+  <h2>&#x1F3E0; شروع کار با Whilber-AI</h2>
+  <p>Whilber-AI یک دستیار هوشمند تحلیل بازارهای مالی است که با بیش از <strong>400 استراتژی</strong> در <strong>21 دسته</strong>، اتصال مستقیم به MetaTrader 5 و پوشش <strong>52+ نماد</strong> در فارکس، فلزات، کریپتو و شاخص‌ها، تحلیل لحظه‌ای ارائه می‌دهد.</p>
+
+  <h3>&#x1F680; مراحل شروع</h3>
+  <div class="steps">
+    <div class="step"><div class="step-title">ورود به سایت</div><div class="step-desc">به آدرس سایت بروید. صفحه لندینگ با معرفی امکانات نمایش داده می‌شود. روی &laquo;شروع تحلیل رایگان&raquo; کلیک کنید.</div></div>
+    <div class="step"><div class="step-title">ثبت‌نام</div><div class="step-desc">نام، ایمیل، شماره موبایل و رمز عبور (حداقل 6 کاراکتر) را وارد کنید.</div></div>
+    <div class="step"><div class="step-title">ورود به داشبورد</div><div class="step-desc">بعد از ورود، به صفحه تحلیل بازار هدایت می‌شوید. از اینجا همه ابزارها در دسترس هستند.</div></div>
+  </div>
+
+  <div class="info-box info">
+    <div class="info-box-title">&#x2139;&#xFE0F; نکته</div>
+    استفاده از تمام امکانات در حال حاضر کاملا <strong>رایگان</strong> است. نیازی به کارت اعتباری یا اشتراک نیست.
+  </div>
+
+  <h3>&#x1F4CD; نقشه سایت</h3>
+  <table class="guide-table">
+    <tr><th>صفحه</th><th>آدرس</th><th>کاربرد</th></tr>
+    <tr><td>صفحه اصلی</td><td><code>/</code></td><td>معرفی + رنکینگ + لندینگ</td></tr>
+    <tr><td>تحلیل بازار</td><td><code>/dashboard</code></td><td>تحلیل زنده نمادها با 400+ استراتژی</td></tr>
+    <tr><td>سوابق</td><td><code>/track-record</code></td><td>رنکینگ و تاریخچه عملکرد استراتژی‌ها</td></tr>
+    <tr><td>استراتژی‌ساز</td><td><code>/builder</code></td><td>ساخت استراتژی سفارشی + بک‌تست</td></tr>
+    <tr><td>مدیریت ریسک</td><td><code>/risk-manager</code></td><td>محاسبه حجم، ریسک، ماشین‌حساب پیپ</td></tr>
+    <tr><td>ژورنال</td><td><code>/journal</code></td><td>ثبت، آنالیز و توصیه‌های معاملاتی</td></tr>
+    <tr><td>هشدارها</td><td><code>/alerts</code></td><td>تنظیم نوتیفیکیشن تلگرام/ایمیل/پاپ‌آپ</td></tr>
+    <tr><td>تنظیمات هشدار</td><td><code>/alerts-settings</code></td><td>فیلتر نمادها، رویدادها و کانال‌ها</td></tr>
+    <tr><td>فروشگاه ربات</td><td><code>/robots</code></td><td>ربات‌های معاملاتی آماده</td></tr>
+    <tr><td>خدمات</td><td><code>/services</code></td><td>معرفی کامل 18 سرویس پلتفرم</td></tr>
+    <tr><td>راهنما</td><td><code>/guide</code></td><td>همین صفحه!</td></tr>
+    <tr><td>درباره ما</td><td><code>/about</code></td><td>معرفی تیم و پلتفرم</td></tr>
+    <tr><td>تماس</td><td><code>/contact</code></td><td>فرم تماس و پشتیبانی</td></tr>
+  </table>
+  <a href="/services" class="section-action">&#x2B50; مشاهده لیست کامل خدمات &#8592;</a>
+</section>
+
+
+<!-- 2. DASHBOARD -->
+<section class="guide-section" id="dashboard">
+  <h2>&#x1F4CA; راهنمای تحلیل بازار (داشبورد)</h2>
+  <p>داشبورد قلب Whilber-AI است. اینجا تحلیل زنده نمادها با <strong>400+ استراتژی در 21 دسته</strong> انجام می‌شود.</p>
+
+  <h3>&#x1F4CB; نحوه تحلیل &mdash; گام به گام</h3>
+  <div class="steps">
+    <div class="step"><div class="step-title">انتخاب دسته بازار</div><div class="step-desc">از منوی بالا یکی از 5 دسته را انتخاب کنید: <span class="badge badge-green">فارکس</span> <span class="badge badge-purple">کریپتو</span> <span class="badge badge-yellow">فلزات</span> <span class="badge badge-cyan">شاخص‌ها</span></div></div>
+    <div class="step"><div class="step-title">انتخاب نماد</div><div class="step-desc">52+ نماد در دسترس است. مثلا فارکس: EURUSD، GBPUSD &mdash; کریپتو: BTCUSD، ETHUSD &mdash; فلزات: XAUUSD (طلا).</div></div>
+    <div class="step"><div class="step-title">انتخاب تایم‌فریم</div><div class="step-desc">از 1 دقیقه (M1) تا 1 روزه (D1). هر تایم‌فریم برای سبک خاصی مناسب است.</div></div>
+    <div class="step"><div class="step-title">انتخاب استراتژی (اختیاری)</div><div class="step-desc">حداکثر 5 استراتژی انتخاب کنید یا &laquo;همه&raquo; را بزنید. هر استراتژی مستقل تحلیل می‌کند.</div></div>
+    <div class="step"><div class="step-title">مشاهده نتایج</div><div class="step-desc">سیگنال کلی (خرید/فروش/خنثی) + درصد اطمینان + جزئیات فنی هر استراتژی نمایش داده می‌شود.</div></div>
+  </div>
+
+  <h3>&#x1F3A8; راهنمای رنگ‌ها</h3>
+  <table class="guide-table">
+    <tr><th>رنگ</th><th>معنی</th><th>توضیح</th></tr>
+    <tr><td><span style="color:#00e88f;font-weight:700;">&#x25CF; سبز</span></td><td>سیگنال خرید (BUY)</td><td>اکثر استراتژی‌ها صعودی هستند</td></tr>
+    <tr><td><span style="color:#ff4466;font-weight:700;">&#x25CF; قرمز</span></td><td>سیگنال فروش (SELL)</td><td>اکثر استراتژی‌ها نزولی هستند</td></tr>
+    <tr><td><span style="color:#8892a8;font-weight:700;">&#x25CF; خاکستری</span></td><td>خنثی (NEUTRAL)</td><td>اجماعی وجود ندارد &mdash; صبر کنید</td></tr>
+    <tr><td><span style="color:#ffbe2e;font-weight:700;">&#x25CF; زرد</span></td><td>هشدار</td><td>شرایط خاص یا ریسک بالا</td></tr>
+  </table>
+
+  <h3>&#x1F4C8; اطلاعات فنی نمایش‌داده‌شده</h3>
+  <table class="guide-table">
+    <tr><th>فیلد</th><th>توضیح</th></tr>
+    <tr><td>سیگنال کلی</td><td>ترکیب نظر همه استراتژی‌ها &mdash; خرید/فروش/خنثی با درصد اطمینان</td></tr>
+    <tr><td>قیمت لحظه‌ای</td><td>Bid/Ask/Spread مستقیم از بازار</td></tr>
+    <tr><td>ADX</td><td>قدرت روند (بالای 25 = روند قوی)</td></tr>
+    <tr><td>RSI</td><td>شاخص قدرت نسبی (بالای 70 = اشباع خرید، زیر 30 = اشباع فروش)</td></tr>
+    <tr><td>MACD</td><td>تقاطع خطوط مکدی و هیستوگرام</td></tr>
+    <tr><td>سطوح کلیدی</td><td>حمایت و مقاومت محاسبه‌شده</td></tr>
+    <tr><td>حجم</td><td>حجم معاملات نسبی</td></tr>
+  </table>
+
+  <div class="info-box tip">
+    <div class="info-box-title">&#x1F4A1; نکته عملی</div>
+    برای دقت بیشتر، تحلیل را روی 2 تایم‌فریم بررسی کنید. مثلا H1 + H4. اگر هر دو هم‌جهت بودند، سیگنال قوی‌تر است.
+  </div>
+  <a href="/dashboard" class="section-action">&#x1F4CA; رفتن به تحلیل بازار &#8592;</a>
+</section>
+
+
+<!-- 3. SIGNALS -->
+<section class="guide-section" id="signals">
+  <h2>&#x1F4E1; نحوه خواندن سیگنال‌ها</h2>
+
+  <h3>&#x1F3AF; درصد اطمینان</h3>
+  <table class="guide-table">
+    <tr><th>درصد</th><th>قدرت</th><th>توصیه</th></tr>
+    <tr><td><span class="badge badge-green">80-100%</span></td><td>بسیار قوی</td><td>سیگنال قابل اعتماد &mdash; مناسب ورود</td></tr>
+    <tr><td><span class="badge badge-green">60-80%</span></td><td>قوی</td><td>سیگنال خوب &mdash; با مدیریت ریسک ورود کنید</td></tr>
+    <tr><td><span class="badge badge-yellow">40-60%</span></td><td>متوسط</td><td>سیگنال ضعیف &mdash; صبر برای تایید بیشتر</td></tr>
+    <tr><td><span class="badge badge-red">زیر 40%</span></td><td>ضعیف</td><td>بهتر است وارد نشوید</td></tr>
+  </table>
+
+  <h3>&#x1F3F7;&#xFE0F; Badge سوابق روی هر سیگنال</h3>
+  <p>کنار هر استراتژی در داشبورد یک badge کوچک نمایش داده می‌شود:</p>
+  <table class="guide-table">
+    <tr><th>نمایش</th><th>معنی</th></tr>
+    <tr><td><span class="badge badge-green">72% | 45tr</span></td><td>Win Rate بالای 60% &mdash; قابل اعتماد</td></tr>
+    <tr><td><span class="badge badge-yellow">52% | 28tr</span></td><td>Win Rate متوسط &mdash; با احتیاط</td></tr>
+    <tr><td><span class="badge badge-red">38% | 15tr</span></td><td>Win Rate پایین &mdash; ریسک بالا</td></tr>
+  </table>
+
+  <div class="info-box warn">
+    <div class="info-box-title">&#x26A0;&#xFE0F; هشدار مهم</div>
+    هیچ سیگنالی 100% نیست. همیشه از <strong>مدیریت ریسک</strong> استفاده کنید و بیش از 2% سرمایه در یک معامله ریسک نکنید.
+  </div>
+</section>
+
+
+<!-- 4. STRATEGIES -->
+<section class="guide-section" id="strategies">
+  <h2>&#x1F9E0; معرفی استراتژی‌ها</h2>
+  <p>Whilber-AI از <strong>400+ استراتژی در 21 دسته</strong> برای تحلیل استفاده می‌کند. هر استراتژی مستقل عمل می‌کند و سیگنال نهایی از ترکیب همه آن‌ها به‌دست می‌آید.</p>
+
+  <h3>&#x1F4CB; دسته‌بندی استراتژی‌ها (21 دسته)</h3>
+  <table class="guide-table">
+    <tr><th>دسته</th><th>نمونه استراتژی‌ها</th><th>مناسب برای</th></tr>
+    <tr><td><span class="badge badge-cyan">روندی</span></td><td>MA Cross, MACD, ADX, Ichimoku, Parabolic SAR, SuperTrend</td><td>بازارهای رونددار</td></tr>
+    <tr><td><span class="badge badge-purple">نوسانی</span></td><td>RSI, Stochastic, CCI, Bollinger, Williams %R</td><td>بازارهای رنج</td></tr>
+    <tr><td><span class="badge badge-green">حمایت/مقاومت</span></td><td>Pivot Points, Fibonacci, S/R Breakout, Order Blocks</td><td>نقاط ورود/خروج</td></tr>
+    <tr><td><span class="badge badge-yellow">حجمی</span></td><td>Volume Breakout, OBV, VWAP, MFI</td><td>تایید حرکت</td></tr>
+    <tr><td><span class="badge badge-red">الگویی</span></td><td>Candlestick Patterns, Chart Patterns, Elliott Wave</td><td>شناسایی الگو</td></tr>
+    <tr><td><span class="badge badge-purple">ترکیبی/SMC</span></td><td>Multi-Indicator Confluence, Smart Money Concept, Wyckoff</td><td>دقت بالا</td></tr>
+    <tr><td><span class="badge badge-cyan">مومنتوم</span></td><td>ROC, TSI, Momentum Divergence</td><td>قدرت حرکت</td></tr>
+  </table>
+
+  <div class="info-box tip">
+    <div class="info-box-title">&#x1F4A1; کدام استراتژی بهتر است؟</div>
+    به صفحه <a href="/track-record">سوابق</a> بروید و رنکینگ Win Rate را ببینید. استراتژی‌هایی که Win Rate بالای 60% و تعداد معاملات بالای 20 دارند، قابل‌اعتمادترند.
+  </div>
+  <a href="/track-record" class="section-action">&#x1F4DC; مشاهده رنکینگ استراتژی‌ها &#8592;</a>
+</section>
+
+
+<!-- 5. TRACK RECORD -->
+<section class="guide-section" id="trackrecord">
+  <h2>&#x1F4DC; راهنمای سوابق معاملات</h2>
+  <p>صفحه سوابق عملکرد واقعی استراتژی‌ها را نشان می‌دهد. استراتژی‌ها 24/7 توسط Trade Guardian پایش و ثبت می‌شوند.</p>
+
+  <h3>&#x1F4CA; رنکینگ استراتژی‌ها</h3>
+  <table class="guide-table">
+    <tr><th>ستون</th><th>توضیح</th></tr>
+    <tr><td>#</td><td>رتبه بر اساس معیار انتخابی</td></tr>
+    <tr><td>استراتژی</td><td>نام + دسته‌بندی</td></tr>
+    <tr><td>نماد</td><td>نماد معاملاتی</td></tr>
+    <tr><td>معاملات</td><td>تعداد کل (W = برد، L = باخت)</td></tr>
+    <tr><td>Win Rate</td><td>درصد معاملات موفق</td></tr>
+    <tr><td>PnL</td><td>سود/ضرر کل به دلار</td></tr>
+    <tr><td>آخرین 5</td><td>نتیجه 5 معامله آخر</td></tr>
+    <tr><td>&#x1F514;</td><td>دکمه فعال‌سازی هشدار</td></tr>
+  </table>
+
+  <h3>&#x1F50D; فیلتر پیشرفته</h3>
+  <div class="steps">
+    <div class="step"><div class="step-title">فیلتر نماد</div><div class="step-desc">فقط استراتژی‌های مربوط به یک نماد خاص (مثلا XAUUSD) را ببینید.</div></div>
+    <div class="step"><div class="step-title">فیلتر جهت</div><div class="step-desc">فقط معاملات خرید یا فروش. مفید برای بررسی عملکرد یک‌طرفه.</div></div>
+    <div class="step"><div class="step-title">فیلتر تایم‌فریم</div><div class="step-desc">مقایسه عملکرد روی تایم‌فریم‌های مختلف.</div></div>
+    <div class="step"><div class="step-title">مرتب‌سازی</div><div class="step-desc">کلیک روی هدر ستون‌ها برای مرتب‌سازی صعودی/نزولی.</div></div>
+  </div>
+
+  <h3>&#x1F5FA;&#xFE0F; هیت‌مپ عملکرد</h3>
+  <p>نمودار حرارتی نشان می‌دهد در چه ساعت‌ها و روزهایی عملکرد بهتر بوده. سبز = سود، قرمز = ضرر.</p>
+
+  <a href="/track-record" class="section-action">&#x1F4DC; رفتن به سوابق &#8592;</a>
+</section>
+
+
+<!-- 6. BUILDER -->
+<section class="guide-section" id="builder">
+  <h2>&#x1F527; راهنمای استراتژی‌ساز</h2>
+  <p>با استراتژی‌ساز می‌توانید استراتژی سفارشی خود را از 20+ اندیکاتور بسازید و بک‌تست کنید.</p>
+
+  <h3>&#x1F4CB; ساخت استراتژی &mdash; گام به گام</h3>
+  <div class="steps">
+    <div class="step"><div class="step-title">انتخاب نام</div><div class="step-desc">یک نام توصیفی انتخاب کنید. مثلا: &laquo;RSI+MACD طلا&raquo;.</div></div>
+    <div class="step"><div class="step-title">انتخاب اندیکاتورها</div><div class="step-desc">از لیست (RSI, MACD, MA, Bollinger, ...) انتخاب کنید. حداقل 2 اندیکاتور توصیه می‌شود.</div></div>
+    <div class="step"><div class="step-title">تنظیم پارامترها</div><div class="step-desc">هر اندیکاتور پارامترهای قابل تنظیم دارد. مثلا دوره RSI (پیش‌فرض: 14).</div></div>
+    <div class="step"><div class="step-title">تعریف شرایط ورود</div><div class="step-desc">مثلا: &laquo;RSI زیر 30 AND MACD تقاطع صعودی&raquo;.</div></div>
+    <div class="step"><div class="step-title">بک‌تست</div><div class="step-desc">روی داده‌های تاریخی تست کنید: Win Rate, PnL, Drawdown.</div></div>
+    <div class="step"><div class="step-title">ذخیره و فعال‌سازی</div><div class="step-desc">استراتژی ذخیره شود. هشدار فعال کنید تا هنگام صدور سیگنال مطلع شوید.</div></div>
+  </div>
+
+  <div class="info-box tip">
+    <div class="info-box-title">&#x1F4A1; نکته</div>
+    اگر تازه‌کار هستید، از <strong>قالب‌های آماده</strong> (Templates) شروع کنید.
+  </div>
+  <a href="/builder" class="section-action">&#x1F527; رفتن به استراتژی‌ساز &#8592;</a>
+</section>
+
+
+<!-- 7. RISK MANAGER -->
+<section class="guide-section" id="risk">
+  <h2>&#x1F6E1;&#xFE0F; راهنمای مدیریت ریسک</h2>
+  <p>مدیریت ریسک مهم‌ترین بخش معامله‌گری است. این ابزار شامل محاسبه‌گر حجم، پیشنهاد ورود هوشمند، ماشین‌حساب پیپ، ترکینگ زنده و امتیاز ریسک پورتفولیو است.</p>
+
+  <h3>&#x2699;&#xFE0F; تنظیمات پروفایل ریسک</h3>
+  <table class="guide-table">
+    <tr><th>تنظیم</th><th>توضیح</th><th>مقدار پیشنهادی</th></tr>
+    <tr><td>موجودی حساب</td><td>کل سرمایه معاملاتی شما</td><td>مقدار واقعی</td></tr>
+    <tr><td>ریسک هر معامله (%)</td><td>حداکثر درصد ضرر مجاز در هر معامله</td><td>1-2%</td></tr>
+    <tr><td>لوریج</td><td>اهرم حساب معاملاتی</td><td>1:100</td></tr>
+    <tr><td>اسلیپیج (پیپ)</td><td>لغزش قیمت احتمالی هنگام اجرا</td><td>1-2 پیپ</td></tr>
+    <tr><td>کمیسیون ($/لات)</td><td>هزینه کارمزد بروکر</td><td>3-7 دلار</td></tr>
+  </table>
+
+  <h3>&#x1F522; محاسبه‌گر حجم</h3>
+  <div class="steps">
+    <div class="step"><div class="step-title">ورود اطلاعات</div><div class="step-desc">موجودی، ریسک (%)، قیمت ورود، حد ضرر (SL) و حد سود (TP) را وارد کنید.</div></div>
+    <div class="step"><div class="step-title">محاسبه خودکار</div><div class="step-desc">سیستم حجم مناسب (لات)، مقدار ریسک دلاری و نسبت Risk:Reward را محاسبه می‌کند.</div></div>
+    <div class="step"><div class="step-title">تا 3 تارگت</div><div class="step-desc">TP1, TP2, TP3 وارد کنید. برای هر تارگت R:R جداگانه محاسبه می‌شود.</div></div>
+  </div>
+
+  <h3>&#x1F916; پیشنهاد ورود هوشمند</h3>
+  <p>دکمه &laquo;پیشنهاد ورود&raquo; با تحلیل ATR، سطوح حمایت/مقاومت و داده‌های بازار، نقاط ورود، SL و TP پیشنهادی ارائه می‌دهد:</p>
+  <div class="feat-grid">
+    <div class="feat-card"><h4>&#x1F4CD; قیمت ورود</h4><p>بر اساس قیمت لحظه‌ای و نزدیک‌ترین سطح S/R</p></div>
+    <div class="feat-card"><h4>&#x1F6D1; حد ضرر</h4><p>بر اساس 1.5 برابر ATR یا نزدیک‌ترین سطح حمایت/مقاومت</p></div>
+    <div class="feat-card"><h4>&#x2705; حد سود</h4><p>بر اساس نسبت R:R حداقل 2:1</p></div>
+    <div class="feat-card"><h4>&#x1F4CA; اطلاعات ATR</h4><p>میانگین نوسان و اسپرد فعلی نماد</p></div>
+  </div>
+
+  <h3>&#x1F4B0; ماشین‌حساب پیپ و سود/ضرر</h3>
+  <p>ابزاری برای محاسبه دقیق سود یا ضرر یک معامله با احتساب اسپرد، اسلیپیج و کمیسیون:</p>
+  <table class="guide-table">
+    <tr><th>فیلد</th><th>توضیح</th></tr>
+    <tr><td>پیپ خالص</td><td>تعداد پیپ حرکت قیمت</td></tr>
+    <tr><td>پیپ خالص (بعد هزینه‌ها)</td><td>پیپ منهای اسپرد + اسلیپیج</td></tr>
+    <tr><td>سود/ضرر ناخالص</td><td>بدون احتساب هزینه‌ها</td></tr>
+    <tr><td>سود/ضرر خالص</td><td>بعد از کسر اسپرد + اسلیپیج + کمیسیون</td></tr>
+    <tr><td>جزئیات هزینه‌ها</td><td>هزینه اسپرد، اسلیپیج و کمیسیون به تفکیک</td></tr>
+  </table>
+
+  <h3>&#x1F4CA; امتیاز ریسک پورتفولیو</h3>
+  <table class="guide-table">
+    <tr><th>امتیاز</th><th>وضعیت</th><th>رنگ</th></tr>
+    <tr><td>0-30</td><td>ریسک کم &mdash; عالی</td><td><span class="badge badge-green">سبز</span></td></tr>
+    <tr><td>30-60</td><td>ریسک متوسط &mdash; مراقب باشید</td><td><span class="badge badge-yellow">زرد</span></td></tr>
+    <tr><td>60-100</td><td>ریسک بالا &mdash; خطرناک</td><td><span class="badge badge-red">قرمز</span></td></tr>
+  </table>
+
+  <h3>&#x1F4C9; 6 مدل حد سود + 4 مدل تریلینگ</h3>
+  <p>سیستم مدیریت ریسک شامل 6 روش حد سود (فیکس، درصدی، ATR، فیبوناچی، S/R، زمانی) و 4 مدل تریلینگ استاپ (فیکس، ATR، پله‌ای، هایکن آشی) است.</p>
+
+  <div class="info-box danger">
+    <div class="info-box-title">&#x1F6A8; قانون طلایی</div>
+    هرگز بیش از <strong>2%</strong> سرمایه را در یک معامله ریسک نکنید. این قانون از نابودی حساب جلوگیری می‌کند.
+  </div>
+  <a href="/risk-manager" class="section-action">&#x1F6E1;&#xFE0F; رفتن به مدیریت ریسک &#8592;</a>
+</section>
+
+
+<!-- 8. JOURNAL -->
+<section class="guide-section" id="journal">
+  <h2>&#x1F4D2; راهنمای کامل ژورنال معاملاتی</h2>
+  <p>ژورنال معاملاتی مهم‌ترین ابزار یادگیری تریدر است. با 25 نماد، توصیه‌های هوشمند، نمودار PnL و امکان وارد کردن معاملات زنده.</p>
+
+  <h3>&#x1F4DD; ثبت معامله &mdash; دستی</h3>
+  <div class="steps">
+    <div class="step"><div class="step-title">انتخاب نماد</div><div class="step-desc">25 نماد در 5 گروه (فلزات، فارکس اصلی، فارکس فرعی، کریپتو، شاخص). دکمه &laquo;قیمت لحظه‌ای&raquo; قیمت را از بازار دریافت می‌کند.</div></div>
+    <div class="step"><div class="step-title">اطلاعات معامله</div><div class="step-desc">جهت (BUY/SELL)، قیمت ورود، حجم، SL و TP. سیستم R:R خودکار محاسبه می‌کند.</div></div>
+    <div class="step"><div class="step-title">احساسات و پلن</div><div class="step-desc">احساس قبل و بعد معامله، رعایت پلن (بله/خیر) و امتیاز 1-5.</div></div>
+    <div class="step"><div class="step-title">تگ‌ها و یادداشت</div><div class="step-desc">تگ‌هایی مثل: معامله روند، اسکالپ، عجله، طمع، ورود عالی. یادداشت آزاد.</div></div>
+    <div class="step"><div class="step-title">ذخیره + توصیه</div><div class="step-desc">بعد از ذخیره، سیستم <strong>توصیه‌های هوشمند</strong> بر اساس معامله شما ارائه می‌دهد.</div></div>
+  </div>
+
+  <h3>&#x1F916; توصیه‌های هوشمند (AI Recommendations)</h3>
+  <p>بعد از ثبت هر معامله، سیستم تحلیل می‌کند و بازخورد می‌دهد:</p>
+  <div class="feat-grid">
+    <div class="feat-card"><h4>&#x2705; تحلیل نتیجه</h4><p>بازخورد سود/ضرر با تحلیل دلایل</p></div>
+    <div class="feat-card"><h4>&#x1F9E0; تحلیل احساسات</h4><p>هشدار درباره ورود با ترس، طمع یا عصبانیت</p></div>
+    <div class="feat-card"><h4>&#x1F4D0; تحلیل R:R</h4><p>ارزیابی نسبت ریسک به ریوارد</p></div>
+    <div class="feat-card"><h4>&#x1F6D1; تحلیل تگ‌ها</h4><p>هشدار اورتریدینگ، جابجایی SL، معامله انتقامی</p></div>
+  </div>
+
+  <h3>&#x1F4C8; وارد کردن معاملات زنده</h3>
+  <p>معاملات باز از MT5 را مستقیما به ژورنال وارد کنید. اطلاعات شامل نماد، جهت، قیمت ورود، سود/ضرر فعلی و SL/TP خودکار پر می‌شود.</p>
+
+  <h3>&#x1F4CA; داشبورد آمار</h3>
+  <table class="guide-table">
+    <tr><th>متریک</th><th>توضیح</th><th>هدف</th></tr>
+    <tr><td>Win Rate</td><td>درصد معاملات موفق</td><td>بالای 50%</td></tr>
+    <tr><td>مجموع PnL</td><td>سود/ضرر کل</td><td>مثبت</td></tr>
+    <tr><td>میانگین PnL</td><td>میانگین هر معامله</td><td>مثبت</td></tr>
+    <tr><td>بهترین/بدترین</td><td>بیشترین سود و ضرر تکی</td><td>&mdash;</td></tr>
+    <tr><td>نمودار PnL</td><td>نمودار خطی تجمعی سود/ضرر (Chart.js)</td><td>صعودی</td></tr>
+  </table>
+
+  <h3>&#x1F4E5; فیلتر و خروجی</h3>
+  <p>معاملات را بر اساس نماد، نتیجه (برد/باخت) و جستجوی متن فیلتر کنید. خروجی CSV و JSON برای تحلیل در اکسل.</p>
+
+  <h3>&#x1F4C5; یادداشت روزانه</h3>
+  <div class="info-box info">
+    <div class="info-box-title">&#x1F4CB; الگوی یادداشت روزانه</div>
+    <strong>شرایط بازار:</strong> رونددار / رنج / خبری<br>
+    <strong>نمادهای تحت نظر:</strong> XAUUSD, EURUSD<br>
+    <strong>حالت روحی:</strong> آرام / مضطرب / هیجان‌زده<br>
+    <strong>قوانین امروز:</strong> حداکثر 3 معامله، ریسک 1%<br>
+    <strong>نتیجه پایان روز:</strong> 2 برد، 1 باخت، +$45
+  </div>
+
+  <div class="info-box tip">
+    <div class="info-box-title">&#x1F4A1; نکته طلایی</div>
+    ژورنال‌نویسی را به عادت تبدیل کنید. حتی 2 دقیقه بعد از هر معامله کافی است. تریدرهایی که ژورنال می‌نویسند، بعد از 3 ماه به طور میانگین <strong>20-30%</strong> عملکرد بهتری دارند.
+  </div>
+  <a href="/journal" class="section-action">&#x1F4D2; رفتن به ژورنال &#8592;</a>
+</section>
+
+
+<!-- 9. LIVE TRACKING -->
+<section class="guide-section" id="livetracking">
+  <h2>&#x1F4C8; ترکینگ زنده معاملات</h2>
+  <p>سیستم Trade Guardian به صورت 24/7 معاملات باز را پایش می‌کند و توصیه‌های مدیریت ریسک زنده ارائه می‌دهد.</p>
+
+  <h3>&#x1F50D; اطلاعات نمایش‌داده‌شده برای هر معامله</h3>
+  <table class="guide-table">
+    <tr><th>فیلد</th><th>توضیح</th></tr>
+    <tr><td>نماد + جهت</td><td>مثلا XAUUSD BUY</td></tr>
+    <tr><td>سود/ضرر لحظه‌ای</td><td>P&amp;L بر اساس قیمت بازار</td></tr>
+    <tr><td>پیپ حرکت</td><td>فاصله قیمت فعلی از ورود</td></tr>
+    <tr><td>R:R فعلی</td><td>نسبت ریسک به ریوارد لحظه‌ای</td></tr>
+    <tr><td>فاصله تا SL/TP</td><td>چقدر فاصله تا حد ضرر/سود</td></tr>
+    <tr><td>توصیه‌ها</td><td>پیشنهاد BE، بستن نیمی، یا هشدار</td></tr>
+  </table>
+
+  <h3>&#x1F4AC; انواع توصیه‌های زنده</h3>
+  <div class="feat-grid">
+    <div class="feat-card"><h4>&#x2696;&#xFE0F; انتقال به سربه‌سر</h4><p>وقتی R:R بالای 1.5 باشد، توصیه می‌شود SL به نقطه ورود منتقل شود.</p></div>
+    <div class="feat-card"><h4>&#x26A0;&#xFE0F; نزدیک SL</h4><p>هشدار وقتی قیمت به 80% فاصله SL رسیده باشد.</p></div>
+    <div class="feat-card"><h4>&#x1F3AF; نزدیک TP</h4><p>اطلاع‌رسانی وقتی قیمت به 80% فاصله TP رسیده باشد.</p></div>
+    <div class="feat-card"><h4>&#x1F6D1; هشدار سشن</h4><p>اگر خارج از ساعات فعال نماد معامله باز باشد (نقدینگی کم).</p></div>
+  </div>
+
+  <h3>&#x1F4CA; امتیاز پورتفولیو</h3>
+  <p>سیستم برای کل پورتفولیو یک امتیاز ریسک 0-100 محاسبه می‌کند. فاکتورها: تعداد معاملات باز، همبستگی نمادها، ریسک کل و Drawdown.</p>
+
+  <a href="/track-record" class="section-action">&#x1F4C8; مشاهده معاملات فعال &#8592;</a>
+</section>
+
+
+<!-- PERFORMANCE MONITORING -->
+<section class="guide-section" id="performance">
+  <h2>&#x1F4C8; عملکرد زنده حساب معاملاتی</h2>
+  <p>صفحه عملکرد زنده، اطلاعات لحظه‌ای حساب MetaTrader 5 شما را نمایش می‌دهد: موجودی، اکوئیتی، پوزیشن‌های باز، آمار معاملات بسته و تحلیل هوشمند.</p>
+
+  <h3>&#x1F4CB; بخش‌های صفحه</h3>
+  <table class="guide-table">
+    <tr><th>بخش</th><th>توضیح</th></tr>
+    <tr><td>کارت‌های حساب</td><td>موجودی، اکوئیتی، سود/زیان، مارجین آزاد، لوریج و سطح مارجین</td></tr>
+    <tr><td>متریک‌های کلیدی</td><td>نرخ برد، فاکتور سود، تعداد معاملات، سود خالص، میانگین برد/باخت، انتظار ریاضی، حداکثر افت</td></tr>
+    <tr><td>منحنی اکوئیتی</td><td>نمودار خطی تغییرات اکوئیتی و سود/زیان روزانه</td></tr>
+    <tr><td>نمودار Drawdown</td><td>افت سرمایه از اوج (Peak) به صورت درصد</td></tr>
+    <tr><td>پوزیشن‌های باز</td><td>لیست زنده تمام معاملات باز با سود/زیان لحظه‌ای (بروزرسانی هر 10 ثانیه)</td></tr>
+    <tr><td>عملکرد روزانه</td><td>تعداد معاملات، سود/زیان و نرخ برد به تفکیک روز</td></tr>
+    <tr><td>تاریخچه معاملات</td><td>لیست کامل معاملات بسته شده با صفحه‌بندی</td></tr>
+    <tr><td>توزیع نمادها</td><td>نمودار دونات (تعداد) و نمودار میله‌ای (سود/زیان) به تفکیک نماد</td></tr>
+    <tr><td>تحلیل هوشمند</td><td>بررسی خودکار عملکرد: ارزیابی نرخ برد، فاکتور سود، سری‌های برد/باخت و توصیه‌ها</td></tr>
+  </table>
+
+  <h3>&#x23F0; انتخاب دوره زمانی</h3>
+  <p>با دکمه‌های <strong>7 روز</strong>، <strong>30 روز</strong> و <strong>90 روز</strong> در بالای صفحه، دوره آماری را تغییر دهید. تمام نمودارها و متریک‌ها بر اساس دوره انتخابی بروز می‌شوند.</p>
+
+  <a href="/performance" class="section-action">&#x1F4C8; رفتن به عملکرد زنده &#8592;</a>
+</section>
+
+
+<!-- 10. ALERTS -->
+<section class="guide-section" id="alerts">
+  <h2>&#x1F514; راهنمای کامل سیستم هشدار</h2>
+  <p>سیستم هشدار از 4 کانال مختلف استفاده می‌کند. دو صفحه جداگانه: مدیریت هشدارها و تنظیمات هشدار.</p>
+
+  <h3>&#x1F4E1; کانال‌های هشدار</h3>
+  <table class="guide-table">
+    <tr><th>کانال</th><th>سرعت</th><th>مزیت</th><th>تنظیم</th></tr>
+    <tr><td>&#x1F4F1; تلگرام شخصی</td><td>فوری</td><td>سریع‌ترین + شخصی</td><td>بخش تلگرام</td></tr>
+    <tr><td>&#x1F4E2; کانال تلگرام</td><td>فوری</td><td>عمومی + اشتراکی</td><td>@WhilberAI</td></tr>
+    <tr><td>&#x1F4E7; ایمیل</td><td>1-5 دقیقه</td><td>آرشیو خودکار</td><td>تنظیمات هشدار</td></tr>
+    <tr><td>&#x1F4BB; پاپ‌آپ مرورگر</td><td>فوری</td><td>بدون نیاز به اپ</td><td>اجازه notification</td></tr>
+  </table>
+
+  <h3>&#x1F527; انواع هشدار</h3>
+  <table class="guide-table">
+    <tr><th>نوع</th><th>توضیح</th></tr>
+    <tr><td><span class="badge badge-green">سیگنال استراتژی</span></td><td>وقتی استراتژی خاصی سیگنال صادر می‌کند</td></tr>
+    <tr><td><span class="badge badge-yellow">هشدار قیمتی</span></td><td>وقتی قیمت به سطح مشخصی برسد</td></tr>
+    <tr><td><span class="badge badge-red">هشدار ریسک</span></td><td>وقتی ریسک پورتفولیو از حد بگذرد</td></tr>
+    <tr><td><span class="badge badge-cyan">تغییر روند</span></td><td>وقتی روند کلی بازار تغییر کند</td></tr>
+  </table>
+
+  <h3>&#x1F4CB; تنظیم هشدار &mdash; 3 روش</h3>
+  <div class="steps">
+    <div class="step"><div class="step-title">از داشبورد</div><div class="step-desc">بعد از تحلیل نماد، کنار هر استراتژی &#x1F514; کلیک کنید. کانال‌ها را انتخاب و فعال کنید.</div></div>
+    <div class="step"><div class="step-title">از صفحه سوابق</div><div class="step-desc">در جدول رنکینگ، &#x1F514; ستون آخر را بزنید.</div></div>
+    <div class="step"><div class="step-title">از صفحه هشدارها</div><div class="step-desc">&laquo;+ هشدار جدید&raquo; &rarr; نوع، نماد، استراتژی و کانال مشخص کنید.</div></div>
+  </div>
+
+  <h3>&#x2699;&#xFE0F; تنظیمات پیشرفته هشدار</h3>
+  <p>در صفحه <a href="/alerts-settings">تنظیمات هشدار</a> می‌توانید:</p>
+  <table class="guide-table">
+    <tr><th>قابلیت</th><th>توضیح</th></tr>
+    <tr><td>اتصال حساب</td><td>ایمیل و آیدی تلگرام خود را تنظیم کنید</td></tr>
+    <tr><td>کانال‌های تحویل</td><td>تلگرام/ایمیل/پاپ‌آپ/صدا را فعال/غیرفعال کنید</td></tr>
+    <tr><td>ساعات سکوت</td><td>بازه ساعتی که هشدار ارسال نشود (مثلا شب)</td></tr>
+    <tr><td>فیلتر نمادها</td><td>25 نماد &mdash; فقط نمادهای دلخواه خود را انتخاب کنید</td></tr>
+    <tr><td>فیلتر رویدادها</td><td>14 نوع رویداد &mdash; کدام‌ها مهم‌اند</td></tr>
+    <tr><td>حداقل PnL</td><td>فقط هشدارهای بالاتر از مقدار مشخص دریافت کنید</td></tr>
+  </table>
+
+  <a href="/alerts" class="section-action">&#x1F514; رفتن به هشدارها &#8592;</a>
+  <a href="/alerts-settings" class="section-action" style="margin-right:8px;">&#x2699;&#xFE0F; تنظیمات هشدار &#8592;</a>
+</section>
+
+
+<!-- 11. TELEGRAM -->
+<section class="guide-section" id="telegram">
+  <h2>&#x2708;&#xFE0F; راهنمای تنظیم تلگرام</h2>
+
+  <h3>&#x1F4F1; اتصال تلگرام شخصی</h3>
+  <div class="steps">
+    <div class="step"><div class="step-title">باز کردن ربات</div><div class="step-desc">در تلگرام <code>@WhilberAI_bot</code> را جستجو و <strong>Start</strong> بزنید.</div></div>
+    <div class="step"><div class="step-title">ارسال شماره</div><div class="step-desc">شماره موبایل ثبت‌شده در سایت را بفرستید.</div></div>
+    <div class="step"><div class="step-title">تایید</div><div class="step-desc">کد تایید ارسالی را وارد کنید.</div></div>
+    <div class="step"><div class="step-title">آماده!</div><div class="step-desc">هشدارها مستقیم به تلگرام شما ارسال می‌شوند.</div></div>
+  </div>
+
+  <h3>&#x1F4E2; عضویت کانال عمومی</h3>
+  <p>در تلگرام <code>@WhilberAI</code> را جستجو و <strong>Join</strong> بزنید. سیگنال‌های عمومی خودکار منتشر می‌شوند.</p>
+
+  <h3>&#x1F4CB; فرمت پیام تلگرامی</h3>
+  <div class="code-block">&#x1F7E2; سیگنال خرید &mdash; XAUUSD
+&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;
+&#x1F4CA; استراتژی: RSI Crossover
+&#x23F0; تایم‌فریم: H1
+&#x1F3AF; قیمت ورود: 2645.30
+&#x1F6D1; حد ضرر: 2638.00
+&#x2705; حد سود: 2658.70
+&#x1F4C8; اطمینان: 78%
+&#x1F3C6; سابقه: 72% WR | 45 معامله
+&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;&#x2501;
+&#x1F550; 2026-02-23 15:30 UTC</div>
+
+  <div class="info-box tip">
+    <div class="info-box-title">&#x1F4A1; نکته</div>
+    نوتیفیکیشن کانال تلگرام را <strong>صامت</strong> بگذارید و فقط هشدارهای شخصی را با صدا دریافت کنید.
+  </div>
+</section>
+
+
+<!-- 12. SYMBOLS -->
+<section class="guide-section" id="symbols">
+  <h2>&#x1F4B1; نمادهای معاملاتی</h2>
+  <p>پلتفرم بیش از <strong>52 نماد</strong> را در 5 دسته پوشش می‌دهد:</p>
+
+  <table class="guide-table">
+    <tr><th>دسته</th><th>نمادها</th><th>تعداد</th></tr>
+    <tr><td><span class="badge badge-yellow">فلزات</span></td><td>XAUUSD (طلا), XAGUSD (نقره)</td><td>2</td></tr>
+    <tr><td><span class="badge badge-green">فارکس ماژور</span></td><td>EURUSD, GBPUSD, USDJPY, USDCHF, AUDUSD, NZDUSD, USDCAD</td><td>7</td></tr>
+    <tr><td><span class="badge badge-green">فارکس مینور</span></td><td>EURGBP, EURJPY, GBPJPY, EURAUD, EURCAD, EURCHF, GBPAUD, GBPCAD, AUDJPY, CADJPY و...</td><td>12+</td></tr>
+    <tr><td><span class="badge badge-cyan">شاخص‌ها</span></td><td>US30 (داوجونز), NAS100 (نزدک), US500 (S&amp;P 500)</td><td>3</td></tr>
+    <tr><td><span class="badge badge-purple">کریپتو</span></td><td>BTCUSD, ETHUSD, SOLUSD, ADAUSD, XRPUSD, DOGEUSD و 21 جفت دیگر</td><td>27</td></tr>
+  </table>
+
+  <div class="info-box info">
+    <div class="info-box-title">&#x2139;&#xFE0F; اطلاعات هر نماد</div>
+    در مدیریت ریسک، برای هر نماد اطلاعات کامل نمایش داده می‌شود: pip size, tick value, average spread, ATR, session times, swap rates.
+  </div>
+</section>
+
+
+<!-- 13. TIMEFRAMES -->
+<section class="guide-section" id="timeframes">
+  <h2>&#x23F0; تایم‌فریم‌ها</h2>
+  <table class="guide-table">
+    <tr><th>تایم‌فریم</th><th>کد</th><th>سبک معاملاتی</th><th>مدت نگهداری</th></tr>
+    <tr><td>1 دقیقه</td><td>M1</td><td>اسکالپ</td><td>ثانیه تا دقیقه</td></tr>
+    <tr><td>5 دقیقه</td><td>M5</td><td>اسکالپ/اینتریدی</td><td>چند دقیقه</td></tr>
+    <tr><td>15 دقیقه</td><td>M15</td><td>اینتریدی</td><td>15 دقیقه تا ساعت</td></tr>
+    <tr><td>30 دقیقه</td><td>M30</td><td>اینتریدی</td><td>30 دقیقه تا نیم‌روز</td></tr>
+    <tr><td>1 ساعت</td><td>H1</td><td>اینتریدی/سوینگ</td><td>ساعت تا 1 روز</td></tr>
+    <tr><td>4 ساعت</td><td>H4</td><td>سوینگ</td><td>1 تا چند روز</td></tr>
+    <tr><td>1 روز</td><td>D1</td><td>پوزیشن</td><td>روز تا هفته</td></tr>
+  </table>
+
+  <div class="info-box tip">
+    <div class="info-box-title">&#x1F4A1; پیشنهاد برای مبتدیان</div>
+    با <strong>H1</strong> یا <strong>H4</strong> شروع کنید. تایم‌فریم‌های کوتاه (M1, M5) نویز بیشتری دارند.
+  </div>
+</section>
+
+
+<!-- 14. ROBOTS -->
+<section class="guide-section" id="robots">
+  <h2>&#x1F916; فروشگاه ربات</h2>
+  <p>ربات‌های معاملاتی آماده (Expert Advisors) برای MetaTrader 5 در دسترس هستند.</p>
+
+  <h3>&#x1F4CB; مراحل استفاده</h3>
+  <div class="steps">
+    <div class="step"><div class="step-title">مشاهده لیست</div><div class="step-desc">به صفحه فروشگاه ربات بروید و ربات‌های موجود را بررسی کنید.</div></div>
+    <div class="step"><div class="step-title">بررسی عملکرد</div><div class="step-desc">هر ربات شامل بک‌تست، Win Rate و نمودار عملکرد است.</div></div>
+    <div class="step"><div class="step-title">دانلود و نصب</div><div class="step-desc">فایل EA را دانلود و در پوشه Experts متاتریدر کپی کنید.</div></div>
+    <div class="step"><div class="step-title">تنظیم و اجرا</div><div class="step-desc">پارامترها (لات، ریسک، نماد) را تنظیم و روی چارت بیندازید.</div></div>
+  </div>
+  <a href="/robots" class="section-action">&#x1F916; رفتن به فروشگاه ربات &#8592;</a>
+</section>
+
+
+<!-- 15. TIPS -->
+<section class="guide-section" id="tips">
+  <h2>&#x1F4A1; نکات مهم معامله‌گری</h2>
+
+  <div class="info-box tip">
+    <div class="info-box-title">1. مدیریت ریسک اول</div>
+    قبل از هر معامله، ابتدا حجم و حد ضرر را مشخص کنید. هرگز بدون حد ضرر معامله نکنید. از <a href="/risk-manager">مدیریت ریسک</a> استفاده کنید.
+  </div>
+  <div class="info-box tip">
+    <div class="info-box-title">2. ترکیب تایم‌فریم</div>
+    تحلیل را روی 2 تایم‌فریم بررسی کنید. مثلا: روند کلی در H4 و نقطه ورود در H1.
+  </div>
+  <div class="info-box tip">
+    <div class="info-box-title">3. ژورنال بنویسید</div>
+    هر معامله را ثبت کنید. بعد از 1 ماه الگوهای اشتباه خود را خواهید دید. <a href="/journal">ژورنال</a>
+  </div>
+  <div class="info-box warn">
+    <div class="info-box-title">4. احساسات را کنترل کنید</div>
+    بعد از 2-3 ضرر متوالی استراحت کنید. معامله از روی عصبانیت (Revenge Trading) خطرناک‌ترین اشتباه است.
+  </div>
+  <div class="info-box tip">
+    <div class="info-box-title">5. از توصیه‌های هوشمند استفاده کنید</div>
+    بعد از هر معامله در <a href="/journal">ژورنال</a>، توصیه‌های AI را بخوانید و نقاط ضعف خود را شناسایی کنید.
+  </div>
+  <div class="info-box danger">
+    <div class="info-box-title">6. هیچ سیستمی کامل نیست</div>
+    Whilber-AI ابزار <strong>کمک‌تصمیم</strong> است، نه جایگزین تحلیل شخصی. همیشه خودتان تصمیم نهایی را بگیرید.
+  </div>
+</section>
+
+
+<!-- 16. FAQ -->
+<section class="guide-section" id="faq">
+  <h2>&#x2753; سوالات متداول</h2>
+
+  <h4>آیا استفاده رایگان است؟</h4>
+  <p>بله، در حال حاضر تمام امکانات کاملا رایگان هستند.</p>
+
+  <h4>داده‌ها از کجا می‌آیند؟</h4>
+  <p>مستقیما از MetaTrader 5 و بروکر. داده‌ها Real-time هستند.</p>
+
+  <h4>چند استراتژی دارید؟</h4>
+  <p>بیش از <strong>400 استراتژی در 21 دسته</strong>، شامل: RSI, MACD, MA, Bollinger, Ichimoku, Elliott Wave, Smart Money Concept, Wyckoff و بسیاری دیگر.</p>
+
+  <h4>چرا بعضی وقت‌ها سیگنال خنثی است؟</h4>
+  <p>وقتی استراتژی‌ها نظرات متفاوتی دارند. بهتر است صبر کنید.</p>
+
+  <h4>آیا از موبایل کار می‌کند؟</h4>
+  <p>بله! تمام صفحات ریسپانسیو هستند.</p>
+
+  <h4>چطور هشدار تلگرامی فعال کنم؟</h4>
+  <p>ربات <code>@WhilberAI_bot</code> را Start کنید &rarr; شماره تایید &rarr; در <a href="/alerts-settings">تنظیمات هشدار</a> فعال کنید.</p>
+
+  <h4>ماشین‌حساب پیپ چیست؟</h4>
+  <p>ابزاری در <a href="/risk-manager">مدیریت ریسک</a> برای محاسبه سود/ضرر دقیق با احتساب اسپرد، اسلیپیج و کمیسیون.</p>
+
+  <h4>توصیه‌های هوشمند ژورنال چگونه کار می‌کند؟</h4>
+  <p>بعد از ثبت هر معامله در <a href="/journal">ژورنال</a>، سیستم احساسات، R:R، رعایت پلن و تگ‌ها را تحلیل و بازخورد عملی ارائه می‌دهد.</p>
+
+  <h4>اطلاعات من امن است؟</h4>
+  <p>بله. اطلاعات فقط برای شناسایی و ارسال هشدار استفاده می‌شود.</p>
+</section>
+
+
+<!-- 17. SHORTCUTS -->
+<section class="guide-section" id="shortcuts">
+  <h2>&#x2328;&#xFE0F; میانبرهای کیبورد</h2>
+  <p>در صفحه اصلی از این میانبرها استفاده کنید:</p>
+  <table class="guide-table">
+    <tr><th>کلید</th><th>عمل</th></tr>
+    <tr><td><span class="kbd">D</span></td><td>رفتن به داشبورد تحلیل</td></tr>
+    <tr><td><span class="kbd">L</span></td><td>باز کردن فرم ورود/ثبت‌نام</td></tr>
+    <tr><td><span class="kbd">T</span></td><td>رفتن به سوابق</td></tr>
+    <tr><td><span class="kbd">B</span></td><td>رفتن به استراتژی‌ساز</td></tr>
+    <tr><td><span class="kbd">R</span></td><td>رفتن به مدیریت ریسک</td></tr>
+    <tr><td><span class="kbd">A</span></td><td>رفتن به هشدارها</td></tr>
+    <tr><td><span class="kbd">J</span></td><td>رفتن به ژورنال</td></tr>
+    <tr><td><span class="kbd">H</span></td><td>برگشت به صفحه اصلی</td></tr>
+    <tr><td><span class="kbd">?</span></td><td>نمایش/مخفی‌سازی راهنمای میانبرها</td></tr>
+    <tr><td><span class="kbd">Esc</span></td><td>بستن مودال‌ها</td></tr>
+  </table>
+</section>
+
+
+<!-- 18. ADMIN -->
+<section class="guide-section" id="admin">
+  <h2>&#x2699;&#xFE0F; راهنمای پنل ادمین</h2>
+  <p>پنل ادمین برای مدیریت سیستم، کاربران و نظارت بر سرور طراحی شده است.</p>
+
+  <div class="info-box warn">
+    <div class="info-box-title">&#x1F510; دسترسی</div>
+    پنل ادمین فقط با نام کاربری و رمز مخصوص قابل دسترسی است. رمز SHA-256 هش شده و توکن JWT برای احراز هویت.
+  </div>
+
+  <h3>&#x1F4CA; داشبورد ادمین</h3>
+  <table class="guide-table">
+    <tr><th>بخش</th><th>اطلاعات</th></tr>
+    <tr><td>آمار کلی</td><td>کاربران، تحلیل‌های امروز، هشدارهای ارسالی</td></tr>
+    <tr><td>وضعیت سرور</td><td>CPU, RAM, اتصال MT5, آخرین فعالیت</td></tr>
+    <tr><td>وضعیت Tracker</td><td>استراتژی‌های فعال، آخرین اسکن، معاملات باز</td></tr>
+  </table>
+
+  <h3>&#x1F514; کنترل هشدارها (ادمین)</h3>
+  <p>صفحه <a href="/admin/alerts">کنترل هشدارهای ادمین</a> شامل 5 تب:</p>
+  <table class="guide-table">
+    <tr><th>تب</th><th>کاربرد</th></tr>
+    <tr><td>ارسال هشدار</td><td>ارسال هشدار مستقیم به کاربران (تلگرام/ایمیل)</td></tr>
+    <tr><td>پیام کانال</td><td>ارسال پیام به کانال تلگرام عمومی</td></tr>
+    <tr><td>مشترکین</td><td>لیست کاربران ثبت‌نام شده و تنظیمات آن‌ها</td></tr>
+    <tr><td>سیستم</td><td>روشن/خاموش کردن سیستم هشدار + سلامت سرویس‌ها</td></tr>
+    <tr><td>لاگ</td><td>تاریخچه هشدارهای ارسال‌شده با فیلتر موفق/ناموفق</td></tr>
+  </table>
+  <a href="/admin" class="section-action">&#x2699;&#xFE0F; رفتن به پنل ادمین &#8592;</a>
+</section>
+
+
+<!-- 19. SETTINGS -->
+<section class="guide-section" id="settings">
+  <h2>&#x1F527; تنظیمات و پیکربندی</h2>
+
+  <h3>&#x1F4BB; الزامات سیستمی</h3>
+  <table class="guide-table">
+    <tr><th>مورد</th><th>حداقل</th><th>پیشنهادی</th></tr>
+    <tr><td>سیستم عامل</td><td>Windows 10</td><td>Windows Server 2019+</td></tr>
+    <tr><td>پایتون</td><td>3.10</td><td>3.10.10</td></tr>
+    <tr><td>RAM</td><td>4GB</td><td>8GB+</td></tr>
+    <tr><td>MetaTrader 5</td><td>نصب + لاگین بروکر</td><td>اتصال دائمی</td></tr>
+  </table>
+
+  <h3>&#x1F680; راه‌اندازی سرور</h3>
+  <div class="steps">
+    <div class="step"><div class="step-title">نصب وابستگی‌ها</div><div class="step-desc"><code>pip install -r requirements.txt</code></div></div>
+    <div class="step"><div class="step-title">اجرای سرور</div><div class="step-desc"><code>python -m uvicorn backend.api.server:app --host :: --port 8000</code></div></div>
+    <div class="step"><div class="step-title">بررسی اتصال MT5</div><div class="step-desc">در لاگ سرور باید <code>MT5 connected</code> نمایش داده شود.</div></div>
+    <div class="step"><div class="step-title">باز کردن مرورگر</div><div class="step-desc"><code>http://localhost:8000</code></div></div>
+  </div>
+</section>
+
+
+<!-- 20. TROUBLESHOOT -->
+<section class="guide-section" id="troubleshoot">
+  <h2>&#x1F6E0;&#xFE0F; عیب‌یابی مشکلات رایج</h2>
+
+  <h3>سرور بالا نمی‌آید</h3>
+  <div class="info-box info">
+    <div class="info-box-title">&#x2705; راه‌حل</div>
+    1. پایتون 3.10 نصب باشد: <code>python --version</code><br>
+    2. پکیج‌ها نصب باشند: <code>pip install -r requirements.txt</code><br>
+    3. پورت 8000 آزاد باشد: <code>netstat -an | find "8000"</code>
+  </div>
+
+  <h3>MT5 متصل نمی‌شود</h3>
+  <div class="info-box info">
+    <div class="info-box-title">&#x2705; راه‌حل</div>
+    1. MetaTrader 5 باز و لاگین باشد<br>
+    2. Tools &rarr; Options &rarr; Expert Advisors &rarr; "Allow DLL imports" فعال<br>
+    3. "Allow algo trading" فعال<br>
+    4. سرور را ری‌استارت کنید
+  </div>
+
+  <h3>هشدار تلگرامی نمی‌آید</h3>
+  <div class="info-box info">
+    <div class="info-box-title">&#x2705; راه‌حل</div>
+    1. ربات <code>@WhilberAI_bot</code> Start شده؟<br>
+    2. شماره موبایل تایید شده؟<br>
+    3. هشدار فعال است؟ (<a href="/alerts">بررسی</a>)<br>
+    4. ربات block نشده باشد
+  </div>
+
+  <h3>صفحه کند لود می‌شود</h3>
+  <div class="info-box info">
+    <div class="info-box-title">&#x2705; راه‌حل</div>
+    1. <span class="kbd">Ctrl</span>+<span class="kbd">F5</span> (Hard Refresh)<br>
+    2. کش مرورگر را پاک کنید<br>
+    3. در پنل ادمین CPU/RAM را بررسی کنید
+  </div>
+
+  <h3>رنکینگ خالی است</h3>
+  <div class="info-box info">
+    <div class="info-box-title">&#x2705; راه‌حل</div>
+    1. Trade Guardian فعال باشد<br>
+    2. فایل‌های track_records/ وجود داشته باشند<br>
+    3. حداقل چند معامله ثبت شده باشد
+  </div>
+</section>
+
+</main>
+</div>
+
+<!-- ═══ TOC Active Highlight Script ═══ -->
+<script>
+(function(){
+  var tocLinks=document.querySelectorAll('.toc-item');
+  var sections=[];
+  tocLinks.forEach(function(link){
+    var id=link.getAttribute('href');
+    if(id&&id.startsWith('#')){var el=document.querySelector(id);if(el)sections.push({el:el,link:link});}
+  });
+  function updateTOC(){
+    var scrollPos=window.scrollY+100;
+    var current=null;
+    sections.forEach(function(s){if(s.el.offsetTop<=scrollPos)current=s;});
+    tocLinks.forEach(function(l){l.classList.remove('active');});
+    if(current)current.link.classList.add('active');
+  }
+  window.addEventListener('scroll',updateTOC);
+  updateTOC();
+  tocLinks.forEach(function(link){
+    link.addEventListener('click',function(e){
+      e.preventDefault();
+      var id=this.getAttribute('href');
+      var el=document.querySelector(id);
+      if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+})();
+</script>
+
+<!-- ═══ UNIVERSAL FOOTER ═══ -->
+<footer class="wfooter">
+  <div class="wfooter-grid">
+    <div class="wfooter-brand">
+      <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:28px;height:28px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;">W</div>
+        <span style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Whilber-AI</span>
+      </a>
+      <p>دستیار هوشمند تحلیل بازارهای مالی. تحلیل لحظه‌ای فارکس، کریپتو، فلزات و شاخص‌ها با 400+ استراتژی.</p>
+    </div>
+    <div class="wfooter-col">
+      <h4>ابزارها</h4>
+      <a href="/dashboard">&#x1F4CA; تحلیل بازار</a>
+      <a href="/track-record">&#x1F4DC; سوابق</a>
+      <a href="/builder">&#x1F527; استراتژی‌ساز</a>
+      <a href="/risk-manager">&#x1F6E1;&#xFE0F; مدیریت ریسک</a>
+      <a href="/journal">&#x1F4D2; ژورنال</a>
+      <a href="/alerts">&#x1F514; هشدارها</a>
+      <a href="/performance">&#x1F4C8; عملکرد زنده</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>اطلاعات</h4>
+      <a href="/guide">&#x1F4D6; راهنما</a>
+      <a href="/services">&#x2B50; خدمات</a>
+      <a href="/about">&#x1F464; درباره ما</a>
+      <a href="/contact">&#x1F4DE; تماس</a>
+      <a href="/">&#x1F3E0; صفحه اصلی</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>ارتباط</h4>
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; کانال تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">&#x1F4E7; ایمیل</a>
+      <a href="/contact">&#x1F4AC; پشتیبانی</a>
+      <a href="/admin">&#x2699;&#xFE0F; ادمین</a>
+    </div>
+  </div>
+  <div class="wfooter-bottom">
+    <p>&copy; 2026 Whilber-AI &mdash; تمامی حقوق محفوظ است. تحلیل‌ها جنبه آموزشی دارند و توصیه مالی نیستند.</p>
+    <div style="display:flex;gap:8px;">
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">&#x1F4E7; ایمیل</a>
+    </div>
+  </div>
+</footer>
+<script src="/static/plan-ui.js"></script>
+</body>
+</html>

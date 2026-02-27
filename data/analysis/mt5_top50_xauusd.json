@@ -1,0 +1,983 @@
+{
+  "symbol": "XAUUSD",
+  "broker_symbol": "XAUUSD+",
+  "lot_size": 0.01,
+  "contract_size": 100,
+  "pip_size": 0.1,
+  "spread_pips": 12,
+  "commission_per_lot_per_side": 6.0,
+  "max_concurrent_per_strategy": 1,
+  "min_rr": 1.5,
+  "slippage_pips": 2,
+  "enabled": true,
+  "strategies": [
+    {
+      "rank": 1,
+      "strategy_id": "VOL_03_XAUUSD_H1",
+      "strategy_name": "VOL_03_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 73.4,
+      "avg_rr": 2.41,
+      "avg_risk_pips": 72.5,
+      "backtest_trades": 10,
+      "backtest_net_pips": 733.8,
+      "backtest_net_usd": 72.18,
+      "score": 880.6
+    },
+    {
+      "rank": 2,
+      "strategy_id": "ATR_03_XAUUSD_H1",
+      "strategy_name": "ATR_03_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 104.8,
+      "avg_rr": 1.99,
+      "avg_risk_pips": 84.9,
+      "backtest_trades": 5,
+      "backtest_net_pips": 524.1,
+      "backtest_net_usd": 51.81,
+      "score": 576.5
+    },
+    {
+      "rank": 3,
+      "strategy_id": "SM_08_XAUUSD_H1",
+      "strategy_name": "SM_08_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 67.1,
+      "avg_rr": 2.22,
+      "avg_risk_pips": 76.8,
+      "backtest_trades": 7,
+      "backtest_net_pips": 469.9,
+      "backtest_net_usd": 46.15,
+      "score": 535.7
+    },
+    {
+      "rank": 4,
+      "strategy_id": "MA_10_XAUUSD_H1",
+      "strategy_name": "MA_10_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 116.8,
+      "avg_rr": 2.25,
+      "avg_risk_pips": 82.0,
+      "backtest_trades": 4,
+      "backtest_net_pips": 467.4,
+      "backtest_net_usd": 46.26,
+      "score": 504.8
+    },
+    {
+      "rank": 5,
+      "strategy_id": "ST_02_XAUUSD_H1",
+      "strategy_name": "ST_02_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 90.8,
+      "avg_rr": 2.62,
+      "avg_risk_pips": 66.9,
+      "backtest_trades": 5,
+      "backtest_net_pips": 453.8,
+      "backtest_net_usd": 44.78,
+      "score": 499.2
+    },
+    {
+      "rank": 6,
+      "strategy_id": "STOCH_03_XAUUSD_H1",
+      "strategy_name": "STOCH_03_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 59.5,
+      "avg_rr": 2.48,
+      "avg_risk_pips": 71.2,
+      "backtest_trades": 7,
+      "backtest_net_pips": 416.3,
+      "backtest_net_usd": 40.79,
+      "score": 474.6
+    },
+    {
+      "rank": 7,
+      "strategy_id": "MTF_03_XAUUSD_H1",
+      "strategy_name": "MTF_03_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 107.3,
+      "avg_rr": 2.15,
+      "avg_risk_pips": 79.1,
+      "backtest_trades": 4,
+      "backtest_net_pips": 429.4,
+      "backtest_net_usd": 42.46,
+      "score": 463.8
+    },
+    {
+      "rank": 8,
+      "strategy_id": "MA_02_XAUUSD_H1",
+      "strategy_name": "MA_02_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 53.8,
+      "avg_rr": 2.44,
+      "avg_risk_pips": 73.9,
+      "backtest_trades": 7,
+      "backtest_net_pips": 376.8,
+      "backtest_net_usd": 36.84,
+      "score": 429.6
+    },
+    {
+      "rank": 9,
+      "strategy_id": "DIV_05_XAUUSD_H1",
+      "strategy_name": "DIV_05_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 131.3,
+      "avg_rr": 2.32,
+      "avg_risk_pips": 82.1,
+      "backtest_trades": 3,
+      "backtest_net_pips": 393.8,
+      "backtest_net_usd": 39.02,
+      "score": 417.4
+    },
+    {
+      "rank": 10,
+      "strategy_id": "PVT_01_XAUUSD_H1",
+      "strategy_name": "PVT_01_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 61.3,
+      "avg_rr": 2.63,
+      "avg_risk_pips": 66.7,
+      "backtest_trades": 6,
+      "backtest_net_pips": 367.8,
+      "backtest_net_usd": 36.06,
+      "score": 411.9
+    },
+    {
+      "rank": 11,
+      "strategy_id": "PA_06_XAUUSD_H1",
+      "strategy_name": "PA_06_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 53.8,
+      "avg_rr": 2.54,
+      "avg_risk_pips": 70.2,
+      "backtest_trades": 6,
+      "backtest_net_pips": 322.6,
+      "backtest_net_usd": 31.54,
+      "score": 361.3
+    },
+    {
+      "rank": 12,
+      "strategy_id": "ICH_05_XAUUSD_H1",
+      "strategy_name": "ICH_05_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 64.9,
+      "avg_rr": 2.46,
+      "avg_risk_pips": 69.8,
+      "backtest_trades": 5,
+      "backtest_net_pips": 324.4,
+      "backtest_net_usd": 31.84,
+      "score": 356.8
+    },
+    {
+      "rank": 13,
+      "strategy_id": "VTX_02_XAUUSD_H1",
+      "strategy_name": "VTX_02_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 63.8,
+      "avg_rr": 2.36,
+      "avg_risk_pips": 73.6,
+      "backtest_trades": 5,
+      "backtest_net_pips": 318.8,
+      "backtest_net_usd": 31.28,
+      "score": 350.7
+    },
+    {
+      "rank": 14,
+      "strategy_id": "FIB_07_XAUUSD_H1",
+      "strategy_name": "FIB_07_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 50.7,
+      "avg_rr": 2.5,
+      "avg_risk_pips": 68.3,
+      "backtest_trades": 6,
+      "backtest_net_pips": 304.1,
+      "backtest_net_usd": 29.69,
+      "score": 340.6
+    },
+    {
+      "rank": 15,
+      "strategy_id": "ADX_02_XAUUSD_H1",
+      "strategy_name": "ADX_02_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 61.8,
+      "avg_rr": 1.97,
+      "avg_risk_pips": 83.9,
+      "backtest_trades": 5,
+      "backtest_net_pips": 309.2,
+      "backtest_net_usd": 30.32,
+      "score": 340.1
+    },
+    {
+      "rank": 16,
+      "strategy_id": "VOL_07_XAUUSD_H1",
+      "strategy_name": "VOL_07_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 49.4,
+      "avg_rr": 2.45,
+      "avg_risk_pips": 72.1,
+      "backtest_trades": 6,
+      "backtest_net_pips": 296.4,
+      "backtest_net_usd": 28.92,
+      "score": 332.0
+    },
+    {
+      "rank": 17,
+      "strategy_id": "CP_06_XAUUSD_H1",
+      "strategy_name": "CP_06_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 74.1,
+      "avg_rr": 2.57,
+      "avg_risk_pips": 67.9,
+      "backtest_trades": 4,
+      "backtest_net_pips": 296.4,
+      "backtest_net_usd": 29.16,
+      "score": 320.1
+    },
+    {
+      "rank": 18,
+      "strategy_id": "VTX_04_XAUUSD_H1",
+      "strategy_name": "VTX_04_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 73.9,
+      "avg_rr": 2.23,
+      "avg_risk_pips": 72.0,
+      "backtest_trades": 4,
+      "backtest_net_pips": 295.6,
+      "backtest_net_usd": 29.08,
+      "score": 319.2
+    },
+    {
+      "rank": 19,
+      "strategy_id": "PVT_02_XAUUSD_H1",
+      "strategy_name": "PVT_02_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 57.0,
+      "avg_rr": 2.62,
+      "avg_risk_pips": 66.1,
+      "backtest_trades": 5,
+      "backtest_net_pips": 285.1,
+      "backtest_net_usd": 27.91,
+      "score": 313.6
+    },
+    {
+      "rank": 20,
+      "strategy_id": "ULT_02_XAUUSD_H1",
+      "strategy_name": "ULT_02_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 96.1,
+      "avg_rr": 2.22,
+      "avg_risk_pips": 77.0,
+      "backtest_trades": 3,
+      "backtest_net_pips": 288.4,
+      "backtest_net_usd": 28.48,
+      "score": 305.7
+    },
+    {
+      "rank": 21,
+      "strategy_id": "COR_03_XAUUSD_H1",
+      "strategy_name": "COR_03_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 136.1,
+      "avg_rr": 1.54,
+      "avg_risk_pips": 104.2,
+      "backtest_trades": 2,
+      "backtest_net_pips": 272.3,
+      "backtest_net_usd": 26.99,
+      "score": 283.2
+    },
+    {
+      "rank": 22,
+      "strategy_id": "ADX_06_XAUUSD_H1",
+      "strategy_name": "ADX_06_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 135.2,
+      "avg_rr": 1.65,
+      "avg_risk_pips": 97.6,
+      "backtest_trades": 2,
+      "backtest_net_pips": 270.5,
+      "backtest_net_usd": 26.81,
+      "score": 281.3
+    },
+    {
+      "rank": 23,
+      "strategy_id": "EW_04_XAUUSD_H1",
+      "strategy_name": "EW_04_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 82.9,
+      "avg_rr": 1.97,
+      "avg_risk_pips": 83.2,
+      "backtest_trades": 3,
+      "backtest_net_pips": 248.7,
+      "backtest_net_usd": 24.51,
+      "score": 263.6
+    },
+    {
+      "rank": 24,
+      "strategy_id": "ICH_06_XAUUSD_H1",
+      "strategy_name": "ICH_06_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 60.9,
+      "avg_rr": 1.99,
+      "avg_risk_pips": 82.5,
+      "backtest_trades": 4,
+      "backtest_net_pips": 243.5,
+      "backtest_net_usd": 23.87,
+      "score": 263.0
+    },
+    {
+      "rank": 25,
+      "strategy_id": "ADX_01_XAUUSD_H1",
+      "strategy_name": "ADX_01_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 39.0,
+      "avg_rr": 2.75,
+      "avg_risk_pips": 63.8,
+      "backtest_trades": 6,
+      "backtest_net_pips": 234.2,
+      "backtest_net_usd": 22.7,
+      "score": 262.3
+    },
+    {
+      "rank": 26,
+      "strategy_id": "PVT_03_XAUUSD_H1",
+      "strategy_name": "PVT_03_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 46.8,
+      "avg_rr": 2.69,
+      "avg_risk_pips": 65.7,
+      "backtest_trades": 5,
+      "backtest_net_pips": 234.2,
+      "backtest_net_usd": 22.82,
+      "score": 257.6
+    },
+    {
+      "rank": 27,
+      "strategy_id": "MA_06_XAUUSD_H1",
+      "strategy_name": "MA_06_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 37.2,
+      "avg_rr": 2.72,
+      "avg_risk_pips": 61.1,
+      "backtest_trades": 6,
+      "backtest_net_pips": 223.4,
+      "backtest_net_usd": 21.62,
+      "score": 250.2
+    },
+    {
+      "rank": 28,
+      "strategy_id": "ICH_02_XAUUSD_H1",
+      "strategy_name": "ICH_02_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 75.7,
+      "avg_rr": 2.44,
+      "avg_risk_pips": 72.3,
+      "backtest_trades": 3,
+      "backtest_net_pips": 227.2,
+      "backtest_net_usd": 22.36,
+      "score": 240.8
+    },
+    {
+      "rank": 29,
+      "strategy_id": "MOM_01_XAUUSD_H1",
+      "strategy_name": "MOM_01_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 43.2,
+      "avg_rr": 2.42,
+      "avg_risk_pips": 66.6,
+      "backtest_trades": 5,
+      "backtest_net_pips": 216.2,
+      "backtest_net_usd": 21.02,
+      "score": 237.8
+    },
+    {
+      "rank": 30,
+      "strategy_id": "MACD_04_XAUUSD_H1",
+      "strategy_name": "MACD_04_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 41.5,
+      "avg_rr": 2.77,
+      "avg_risk_pips": 61.8,
+      "backtest_trades": 5,
+      "backtest_net_pips": 207.5,
+      "backtest_net_usd": 20.15,
+      "score": 228.2
+    },
+    {
+      "rank": 31,
+      "strategy_id": "SRSI_03_XAUUSD_H1",
+      "strategy_name": "SRSI_03_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 109.2,
+      "avg_rr": 1.92,
+      "avg_risk_pips": 85.3,
+      "backtest_trades": 2,
+      "backtest_net_pips": 218.5,
+      "backtest_net_usd": 21.61,
+      "score": 227.2
+    },
+    {
+      "rank": 32,
+      "strategy_id": "MTF_04_XAUUSD_H1",
+      "strategy_name": "MTF_04_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 71.0,
+      "avg_rr": 1.76,
+      "avg_risk_pips": 91.6,
+      "backtest_trades": 3,
+      "backtest_net_pips": 213.1,
+      "backtest_net_usd": 20.95,
+      "score": 225.9
+    },
+    {
+      "rank": 33,
+      "strategy_id": "SM_03_XAUUSD_H1",
+      "strategy_name": "SM_03_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 51.0,
+      "avg_rr": 2.39,
+      "avg_risk_pips": 69.5,
+      "backtest_trades": 4,
+      "backtest_net_pips": 203.8,
+      "backtest_net_usd": 19.9,
+      "score": 220.1
+    },
+    {
+      "rank": 34,
+      "strategy_id": "EW_06_XAUUSD_H1",
+      "strategy_name": "EW_06_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 50.7,
+      "avg_rr": 2.3,
+      "avg_risk_pips": 76.7,
+      "backtest_trades": 4,
+      "backtest_net_pips": 202.8,
+      "backtest_net_usd": 19.8,
+      "score": 219.0
+    },
+    {
+      "rank": 35,
+      "strategy_id": "MACD_05_XAUUSD_H1",
+      "strategy_name": "MACD_05_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 100.0,
+      "avg_rr": 2.65,
+      "avg_risk_pips": 60.6,
+      "backtest_trades": 2,
+      "backtest_net_pips": 200.1,
+      "backtest_net_usd": 19.77,
+      "score": 208.1
+    },
+    {
+      "rank": 36,
+      "strategy_id": "MA_05_XAUUSD_H1",
+      "strategy_name": "MA_05_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 97.9,
+      "avg_rr": 1.91,
+      "avg_risk_pips": 85.6,
+      "backtest_trades": 2,
+      "backtest_net_pips": 195.7,
+      "backtest_net_usd": 19.33,
+      "score": 203.5
+    },
+    {
+      "rank": 37,
+      "strategy_id": "ST_05_XAUUSD_H1",
+      "strategy_name": "ST_05_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 61.0,
+      "avg_rr": 2.15,
+      "avg_risk_pips": 79.4,
+      "backtest_trades": 3,
+      "backtest_net_pips": 183.0,
+      "backtest_net_usd": 17.94,
+      "score": 194.0
+    },
+    {
+      "rank": 38,
+      "strategy_id": "FIB_08_XAUUSD_H1",
+      "strategy_name": "FIB_08_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 44.3,
+      "avg_rr": 2.8,
+      "avg_risk_pips": 64.7,
+      "backtest_trades": 4,
+      "backtest_net_pips": 177.3,
+      "backtest_net_usd": 17.25,
+      "score": 191.5
+    },
+    {
+      "rank": 39,
+      "strategy_id": "BB_09_XAUUSD_H1",
+      "strategy_name": "BB_09_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 59.4,
+      "avg_rr": 2.09,
+      "avg_risk_pips": 80.3,
+      "backtest_trades": 3,
+      "backtest_net_pips": 178.2,
+      "backtest_net_usd": 17.46,
+      "score": 188.9
+    },
+    {
+      "rank": 40,
+      "strategy_id": "MTF_01_XAUUSD_H1",
+      "strategy_name": "MTF_01_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 43.2,
+      "avg_rr": 2.38,
+      "avg_risk_pips": 70.1,
+      "backtest_trades": 4,
+      "backtest_net_pips": 172.9,
+      "backtest_net_usd": 16.81,
+      "score": 186.7
+    },
+    {
+      "rank": 41,
+      "strategy_id": "SM_10_XAUUSD_H1",
+      "strategy_name": "SM_10_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 58.3,
+      "avg_rr": 2.38,
+      "avg_risk_pips": 75.8,
+      "backtest_trades": 3,
+      "backtest_net_pips": 174.9,
+      "backtest_net_usd": 17.13,
+      "score": 185.4
+    },
+    {
+      "rank": 42,
+      "strategy_id": "ARN_02_XAUUSD_H1",
+      "strategy_name": "ARN_02_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 56.5,
+      "avg_rr": 2.33,
+      "avg_risk_pips": 80.3,
+      "backtest_trades": 3,
+      "backtest_net_pips": 169.4,
+      "backtest_net_usd": 16.58,
+      "score": 179.6
+    },
+    {
+      "rank": 43,
+      "strategy_id": "MOM_03_XAUUSD_H1",
+      "strategy_name": "MOM_03_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 55.5,
+      "avg_rr": 2.24,
+      "avg_risk_pips": 71.9,
+      "backtest_trades": 3,
+      "backtest_net_pips": 166.6,
+      "backtest_net_usd": 16.3,
+      "score": 176.6
+    },
+    {
+      "rank": 44,
+      "strategy_id": "SM_02_XAUUSD_H1",
+      "strategy_name": "SM_02_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 78.6,
+      "avg_rr": 2.56,
+      "avg_risk_pips": 68.7,
+      "backtest_trades": 2,
+      "backtest_net_pips": 157.2,
+      "backtest_net_usd": 15.48,
+      "score": 163.5
+    },
+    {
+      "rank": 45,
+      "strategy_id": "ST_06_XAUUSD_H1",
+      "strategy_name": "ST_06_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 48.9,
+      "avg_rr": 2.52,
+      "avg_risk_pips": 71.6,
+      "backtest_trades": 3,
+      "backtest_net_pips": 146.6,
+      "backtest_net_usd": 14.3,
+      "score": 155.4
+    },
+    {
+      "rank": 46,
+      "strategy_id": "FIB_02_XAUUSD_H1",
+      "strategy_name": "FIB_02_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 151.8,
+      "avg_rr": 2.82,
+      "avg_risk_pips": 56.8,
+      "backtest_trades": 1,
+      "backtest_net_pips": 151.8,
+      "backtest_net_usd": 15.06,
+      "score": 154.8
+    },
+    {
+      "rank": 47,
+      "strategy_id": "ATR_04_XAUUSD_H1",
+      "strategy_name": "ATR_04_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 150.0,
+      "avg_rr": 2.2,
+      "avg_risk_pips": 72.6,
+      "backtest_trades": 1,
+      "backtest_net_pips": 150.0,
+      "backtest_net_usd": 14.88,
+      "score": 153.0
+    },
+    {
+      "rank": 48,
+      "strategy_id": "STOCH_07_XAUUSD_H1",
+      "strategy_name": "STOCH_07_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 148.8,
+      "avg_rr": 2.21,
+      "avg_risk_pips": 72.5,
+      "backtest_trades": 1,
+      "backtest_net_pips": 148.8,
+      "backtest_net_usd": 14.76,
+      "score": 151.8
+    },
+    {
+      "rank": 49,
+      "strategy_id": "MACD_01_XAUUSD_H1",
+      "strategy_name": "MACD_01_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 147.0,
+      "avg_rr": 2.14,
+      "avg_risk_pips": 74.9,
+      "backtest_trades": 1,
+      "backtest_net_pips": 147.0,
+      "backtest_net_usd": 14.58,
+      "score": 149.9
+    },
+    {
+      "rank": 50,
+      "strategy_id": "MA_12_XAUUSD_H1",
+      "strategy_name": "MA_12_XAUUSD_H1",
+      "enabled": true,
+      "directions": [
+        "BUY",
+        "SELL"
+      ],
+      "timeframes": [
+        "H1"
+      ],
+      "avg_net_pips": 47.0,
+      "avg_rr": 2.37,
+      "avg_risk_pips": 68.6,
+      "backtest_trades": 3,
+      "backtest_net_pips": 141.0,
+      "backtest_net_usd": 13.74,
+      "score": 149.5
+    }
+  ]
+}

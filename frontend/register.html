@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whilber-AI | ثبت‌نام</title>
+<style>
+:root{--bg:#0a0c10;--bg2:#12151c;--bg3:#1a1e2a;--bg4:#222738;--border:#2a2f42;--text:#e2e5f0;--text2:#7f849c;--text3:#565a6e;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;--cyan:#06b6d4;--purple:#a78bfa;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;}
+
+/* ═══ UNIVERSAL NAV ═══ */
+.wnav{position:sticky;top:0;z-index:1000;background:rgba(8,11,18,.92);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid rgba(30,42,69,.6);padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;}
+.wnav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.wnav-logo-box{width:32px;height:32px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(0,212,255,.25);}
+.wnav-logo-txt{font-size:17px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.3px;}
+.wnav-links{display:flex;align-items:center;gap:1px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.wnav-links::-webkit-scrollbar{display:none;}
+.wnav-links a{color:#8892a8;padding:6px 10px;border-radius:7px;font-size:12.5px;font-weight:500;white-space:nowrap;transition:all .2s;text-decoration:none;}
+.wnav-links a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-links a.wn-active{color:#00d4ff;background:rgba(0,212,255,.08);font-weight:600;}
+.wnav-cta{background:linear-gradient(135deg,#00d4ff,#a855f7) !important;color:#000 !important;font-weight:700 !important;padding:6px 14px !important;border-radius:7px !important;font-size:12px !important;}
+.wnav-back{display:flex;align-items:center;gap:5px;color:#8892a8;font-size:12px;padding:5px 10px;border-radius:7px;cursor:pointer;background:rgba(255,255,255,.03);border:1px solid rgba(30,42,69,.5);transition:all .2s;text-decoration:none;flex-shrink:0;margin-left:6px;}
+.wnav-back:hover{color:#00d4ff;border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);}
+.wnav-ham{display:none;background:none;border:none;color:#e8ecf4;font-size:22px;cursor:pointer;padding:4px;}
+.wnav-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:999;}
+.wnav-mob-overlay.open{display:block;}
+.wnav-mob{position:fixed;top:0;right:0;width:270px;height:100vh;background:#0f1320;border-left:1px solid #1e2a45;z-index:1001;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:64px 14px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.wnav-mob-overlay.open .wnav-mob{transform:translateX(0);}
+.wnav-mob a{display:flex;align-items:center;gap:9px;color:#8892a8;padding:11px 14px;border-radius:9px;font-size:13.5px;text-decoration:none;transition:all .15s;}
+.wnav-mob a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-mob a.wn-active{background:rgba(0,212,255,.08);color:#00d4ff;font-weight:600;}
+.wnav-mob-close{position:absolute;top:14px;left:14px;background:#161b2e;border:1px solid #1e2a45;color:#8892a8;width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+@media(max-width:900px){.wnav-links{display:none;}.wnav-ham{display:block;}.wnav-back{font-size:11px;padding:4px 8px;}}
+
+/* ═══ AUTH FORM ═══ */
+.auth-wrap{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 54px);padding:24px 16px;}
+.auth-box{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:36px 32px;width:100%;max-width:420px;}
+.auth-box h1{font-size:24px;font-weight:800;text-align:center;margin-bottom:6px;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.auth-box .sub{text-align:center;color:var(--text2);font-size:13px;margin-bottom:24px;}
+.form-group{margin-bottom:14px;}
+.form-group label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px;font-weight:600;}
+.form-group input{display:block;width:100%;padding:12px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;font-family:inherit;transition:border-color .2s;}
+.form-group input:focus{outline:none;border-color:var(--cyan);}
+.form-group input[dir=ltr]{text-align:left;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.btn-submit{display:block;width:100%;padding:14px;background:linear-gradient(135deg,#00d4ff,#a855f7);color:#000;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:6px;}
+.btn-submit:hover{opacity:.9;transform:translateY(-1px);}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.auth-msg{text-align:center;font-size:13px;margin-top:12px;min-height:18px;}
+.auth-msg.error{color:var(--red);}
+.auth-msg.success{color:var(--green);}
+.auth-links{text-align:center;margin-top:16px;font-size:13px;color:var(--text2);}
+.auth-links a{color:var(--cyan);text-decoration:none;font-weight:600;}
+.auth-links a:hover{text-decoration:underline;}
+
+/* OTP Step */
+.otp-step{display:none;}
+.otp-step.active{display:block;}
+.otp-inputs{display:flex;gap:8px;justify-content:center;direction:ltr;margin-bottom:14px;}
+.otp-inputs input{width:44px;height:50px;text-align:center;font-size:20px;font-weight:700;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;}
+.otp-inputs input:focus{outline:none;border-color:var(--cyan);}
+.otp-info{text-align:center;font-size:12px;color:var(--text3);margin-bottom:14px;}
+
+/* ═══ FOOTER ═══ */
+.wfooter{background:#0f1320;border-top:1px solid #1e2a45;padding:32px 20px 16px;margin-top:24px;}
+.wfooter-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:28px;}
+.wfooter-brand p{font-size:12px;color:#5a6480;margin-top:8px;line-height:1.8;}
+.wfooter-col h4{font-size:12px;font-weight:700;color:#e8ecf4;margin-bottom:12px;}
+.wfooter-col a{display:block;color:#5a6480;font-size:12px;padding:3px 0;text-decoration:none;transition:color .2s;}
+.wfooter-col a:hover{color:#00d4ff;}
+.wfooter-bottom{max-width:1100px;margin:0 auto;border-top:1px solid #1e2a45;padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.wfooter-bottom p{font-size:11px;color:#5a6480;}
+.wfooter-bottom a{color:#00d4ff;text-decoration:none;font-size:11px;}
+@media(max-width:768px){.wfooter-grid{grid-template-columns:1fr 1fr;gap:20px;}.form-row{grid-template-columns:1fr;}}
+@media(max-width:480px){.wfooter-grid{grid-template-columns:1fr;}.auth-box{padding:24px 18px;}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="wnav">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <a href="/" class="wnav-logo"><div class="wnav-logo-box">W</div><span class="wnav-logo-txt">Whilber-AI</span></a>
+    <a href="javascript:history.back()" class="wnav-back">&#8594; برگشت</a>
+  </div>
+  <div class="wnav-links">
+    <a href="/">خانه</a><a href="/dashboard">تحلیل بازار</a><a href="/track-record">سوابق</a><a href="/builder">استراتژی‌ساز</a><a href="/risk-manager">مدیریت ریسک</a><a href="/journal">ژورنال</a><a href="/performance">عملکرد زنده</a><a href="/alerts">هشدارها</a><a href="/robots">ربات‌ها</a><a href="/guide">راهنما</a><a href="/services">خدمات</a><a href="/pricing">تعرفه‌ها</a><a href="/login">ورود</a><a href="/register" class="wn-active">ثبت‌نام</a><a href="/dashboard" class="wnav-cta">&#x1F680; تحلیل</a>
+  </div>
+  <button class="wnav-ham" onclick="document.getElementById('wMobOverlay').classList.add('open')">&#9776;</button>
+</nav>
+<div class="wnav-mob-overlay" id="wMobOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="wnav-mob">
+    <button class="wnav-mob-close" onclick="document.getElementById('wMobOverlay').classList.remove('open')">&#10005;</button>
+    <a href="/">&#x1F3E0; خانه</a><a href="/dashboard">&#x1F4CA; تحلیل بازار</a><a href="/track-record">&#x1F4DC; سوابق</a><a href="/builder">&#x1F527; استراتژی‌ساز</a><a href="/risk-manager">&#x1F6E1;&#xFE0F; مدیریت ریسک</a><a href="/journal">&#x1F4D2; ژورنال</a><a href="/performance">&#x1F4C8; عملکرد زنده</a><a href="/alerts">&#x1F514; هشدارها</a><a href="/robots">&#x1F916; ربات‌ها</a><a href="/guide">&#x1F4D6; راهنما</a><a href="/services">&#x2B50; خدمات</a><a href="/pricing">تعرفه‌ها</a><a href="/login">&#x1F511; ورود</a><a href="/register" class="wn-active">&#x1F4DD; ثبت‌نام</a>
+  </div>
+</div>
+
+<!-- REGISTER FORM -->
+<div class="auth-wrap">
+  <div class="auth-box">
+
+    <!-- Step 1: Register -->
+    <div id="stepRegister" class="otp-step active">
+      <h1>&#x1F4DD; ثبت‌نام</h1>
+      <p class="sub">حساب کاربری خود را بسازید</p>
+
+      <div class="form-group">
+        <label>نام و نام خانوادگی</label>
+        <input type="text" id="regName" placeholder="مثال: علی احمدی">
+      </div>
+      <div class="form-group">
+        <label>ایمیل</label>
+        <input type="email" id="regEmail" placeholder="example@email.com" dir="ltr">
+      </div>
+      <div class="form-group">
+        <label>شماره موبایل (اختیاری)</label>
+        <input type="tel" id="regMobile" placeholder="09123456789" dir="ltr">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>رمز عبور</label>
+          <input type="password" id="regPass" placeholder="حداقل ۸ کاراکتر" dir="ltr">
+        </div>
+        <div class="form-group">
+          <label>تکرار رمز عبور</label>
+          <input type="password" id="regPass2" placeholder="تکرار رمز" dir="ltr">
+        </div>
+      </div>
+      <button class="btn-submit" id="btnRegister" onclick="doRegister()">&#x1F680; ثبت‌نام</button>
+      <div class="auth-msg" id="regMsg"></div>
+      <div class="auth-links">
+        قبلا ثبت‌نام کرده‌اید؟ <a href="/login">ورود به حساب</a>
+      </div>
+    </div>
+
+    <!-- Step 2: OTP -->
+    <div id="stepOtp" class="otp-step">
+      <h1>&#x1F4E7; تایید ایمیل</h1>
+      <p class="sub">کد ۶ رقمی ارسال شده به ایمیل خود را وارد کنید</p>
+      <div class="otp-info" id="otpEmailDisplay"></div>
+      <div class="otp-inputs" id="otpInputs">
+        <input type="text" maxlength="1" oninput="otpNext(this,0)" onkeydown="otpBack(event,0)">
+        <input type="text" maxlength="1" oninput="otpNext(this,1)" onkeydown="otpBack(event,1)">
+        <input type="text" maxlength="1" oninput="otpNext(this,2)" onkeydown="otpBack(event,2)">
+        <input type="text" maxlength="1" oninput="otpNext(this,3)" onkeydown="otpBack(event,3)">
+        <input type="text" maxlength="1" oninput="otpNext(this,4)" onkeydown="otpBack(event,4)">
+        <input type="text" maxlength="1" oninput="otpNext(this,5)" onkeydown="otpBack(event,5)">
+      </div>
+      <button class="btn-submit" id="btnVerify" onclick="doVerify()">&#x2705; تایید</button>
+      <div class="auth-msg" id="otpMsg"></div>
+      <div class="auth-links" style="margin-top:12px;">
+        <a href="javascript:void(0)" onclick="showStep('stepRegister')">&#8594; بازگشت</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="wfooter">
+  <div class="wfooter-grid">
+    <div class="wfooter-brand">
+      <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:28px;height:28px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;">W</div>
+        <span style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Whilber-AI</span>
+      </a>
+      <p>دستیار هوشمند تحلیل بازارهای مالی. تحلیل لحظه‌ای فارکس، کریپتو، فلزات و شاخص‌ها.</p>
+    </div>
+    <div class="wfooter-col"><h4>ابزارها</h4><a href="/dashboard">&#x1F4CA; تحلیل بازار</a><a href="/track-record">&#x1F4DC; سوابق</a><a href="/builder">&#x1F527; استراتژی‌ساز</a><a href="/risk-manager">&#x1F6E1;&#xFE0F; مدیریت ریسک</a><a href="/journal">&#x1F4D2; ژورنال</a><a href="/alerts">&#x1F514; هشدارها</a></div>
+    <div class="wfooter-col"><h4>اطلاعات</h4><a href="/robots">&#x1F916; ربات‌ها</a><a href="/guide">&#x1F4D6; راهنما</a><a href="/services">&#x2B50; خدمات</a><a href="/about">&#x1F464; درباره ما</a><a href="/contact">&#x1F4DE; تماس</a></div>
+    <div class="wfooter-col"><h4>حساب کاربری</h4><a href="/login">&#x1F511; ورود</a><a href="/register">&#x1F4DD; ثبت‌نام</a><a href="/admin">&#x2699;&#xFE0F; ادمین</a></div>
+  </div>
+  <div class="wfooter-bottom">
+    <p>&copy; 2026 Whilber-AI &mdash; تمامی حقوق محفوظ است.</p>
+    <div style="display:flex;gap:8px;">
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">&#x1F4E7; ایمیل</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+var API='';
+var regEmail='';
+var debugOtp='';
+
+function showStep(id){
+  document.querySelectorAll('.otp-step').forEach(function(s){s.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+}
+
+async function doRegister(){
+  var name=document.getElementById('regName').value.trim();
+  var email=document.getElementById('regEmail').value.trim();
+  var mobile=document.getElementById('regMobile').value.trim();
+  var pass=document.getElementById('regPass').value;
+  var pass2=document.getElementById('regPass2').value;
+  var msg=document.getElementById('regMsg');
+  msg.className='auth-msg';msg.textContent='';
+
+  if(!name){msg.className='auth-msg error';msg.textContent='نام الزامی است';return;}
+  if(!email){msg.className='auth-msg error';msg.textContent='ایمیل الزامی است';return;}
+  if(!pass){msg.className='auth-msg error';msg.textContent='رمز عبور الزامی است';return;}
+  if(pass.length<8){msg.className='auth-msg error';msg.textContent='رمز عبور باید حداقل ۸ کاراکتر باشد';return;}
+  if(pass!==pass2){msg.className='auth-msg error';msg.textContent='رمزهای عبور مطابقت ندارند';return;}
+
+  var btn=document.getElementById('btnRegister');
+  btn.disabled=true;btn.textContent='در حال ثبت‌نام...';
+
+  try{
+    var r=await fetch(API+'/api/auth/register',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,password:pass,name:name,mobile:mobile})
+    });
+    var d=await r.json();
+    if(r.ok&&d.success){
+      regEmail=email;
+      if(d._otp_debug)debugOtp=d._otp_debug;
+      document.getElementById('otpEmailDisplay').textContent='کد ارسال شده به: '+email+(debugOtp?' (کد تست: '+debugOtp+')':'');
+      showStep('stepOtp');
+      document.querySelector('#otpInputs input').focus();
+    }else{
+      msg.className='auth-msg error';
+      msg.textContent=d.detail||d.error||'خطا در ثبت‌نام';
+    }
+  }catch(e){
+    msg.className='auth-msg error';msg.textContent='خطا در اتصال به سرور';
+  }
+  btn.disabled=false;btn.textContent='\u{1F680} ثبت‌نام';
+}
+
+function otpNext(el,i){
+  if(el.value.length===1){
+    var inputs=document.querySelectorAll('#otpInputs input');
+    if(i<5)inputs[i+1].focus();
+    if(i===5)doVerify();
+  }
+}
+function otpBack(e,i){
+  if(e.key==='Backspace'&&!e.target.value&&i>0){
+    var inputs=document.querySelectorAll('#otpInputs input');
+    inputs[i-1].focus();
+  }
+}
+
+async function doVerify(){
+  var inputs=document.querySelectorAll('#otpInputs input');
+  var otp='';
+  inputs.forEach(function(inp){otp+=inp.value;});
+  var msg=document.getElementById('otpMsg');
+  msg.className='auth-msg';msg.textContent='';
+
+  if(otp.length!==6){msg.className='auth-msg error';msg.textContent='کد ۶ رقمی را کامل وارد کنید';return;}
+
+  var btn=document.getElementById('btnVerify');
+  btn.disabled=true;
+
+  try{
+    var r=await fetch(API+'/api/auth/verify-otp',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:regEmail,otp:otp})
+    });
+    var d=await r.json();
+    if(r.ok&&d.success){
+      msg.className='auth-msg success';
+      msg.textContent='ایمیل تایید شد! در حال انتقال...';
+      setTimeout(function(){window.location.href='/login';},1500);
+    }else{
+      msg.className='auth-msg error';
+      msg.textContent=d.detail||d.error||'کد اشتباه است';
+    }
+  }catch(e){
+    msg.className='auth-msg error';msg.textContent='خطا در اتصال';
+  }
+  btn.disabled=false;
+}
+
+// Check if already logged in
+(function(){
+  var t=localStorage.getItem('userToken');
+  if(t){window.location.href='/dashboard';}
+})();
+</script>
+<script src="/static/plan-ui.js"></script>
+</body>
+</html>

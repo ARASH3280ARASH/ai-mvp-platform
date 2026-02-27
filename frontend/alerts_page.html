@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Whilber-AI | مدیریت هشدارها</title>
+<style>
+:root{--bg:#0f172a;--bg2:#1e293b;--bg3:#334155;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--border:rgba(255,255,255,.06);--yellow:#f59e0b;--green:#22c55e;--red:#ef4444;--cyan:#06b6d4;--purple:#a855f7;--blue:#3b82f6;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;}
+
+/* ═══ UNIVERSAL NAV ═══ */
+.wnav{position:sticky;top:0;z-index:1000;background:rgba(8,11,18,.92);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid rgba(30,42,69,.6);padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;}
+.wnav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.wnav-logo-box{width:32px;height:32px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(0,212,255,.25);}
+.wnav-logo-txt{font-size:17px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.3px;}
+.wnav-links{display:flex;align-items:center;gap:1px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.wnav-links::-webkit-scrollbar{display:none;}
+.wnav-links a{color:#8892a8;padding:6px 10px;border-radius:7px;font-size:12.5px;font-weight:500;white-space:nowrap;transition:all .2s;text-decoration:none;}
+.wnav-links a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-links a.wn-active{color:#00d4ff;background:rgba(0,212,255,.08);font-weight:600;}
+.wnav-cta{background:linear-gradient(135deg,#00d4ff,#a855f7) !important;color:#000 !important;font-weight:700 !important;padding:6px 14px !important;border-radius:7px !important;font-size:12px !important;}
+.wnav-back{display:flex;align-items:center;gap:5px;color:#8892a8;font-size:12px;padding:5px 10px;border-radius:7px;cursor:pointer;background:rgba(255,255,255,.03);border:1px solid rgba(30,42,69,.5);transition:all .2s;text-decoration:none;flex-shrink:0;margin-left:6px;}
+.wnav-back:hover{color:#00d4ff;border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);}
+.wnav-ham{display:none;background:none;border:none;color:#e8ecf4;font-size:22px;cursor:pointer;padding:4px;}
+.wnav-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:999;}
+.wnav-mob-overlay.open{display:block;}
+.wnav-mob{position:fixed;top:0;right:0;width:270px;height:100vh;background:#0f1320;border-left:1px solid #1e2a45;z-index:1001;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:64px 14px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.wnav-mob-overlay.open .wnav-mob{transform:translateX(0);}
+.wnav-mob a{display:flex;align-items:center;gap:9px;color:#8892a8;padding:11px 14px;border-radius:9px;font-size:13.5px;text-decoration:none;transition:all .15s;}
+.wnav-mob a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-mob a.wn-active{background:rgba(0,212,255,.08);color:#00d4ff;font-weight:600;}
+.wnav-mob-close{position:absolute;top:14px;left:14px;background:#161b2e;border:1px solid #1e2a45;color:#8892a8;width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+@media(max-width:900px){.wnav-links{display:none;}.wnav-ham{display:block;}.wnav-back{font-size:11px;padding:4px 8px;}}
+
+/* ═══ LAYOUT ═══ */
+.container{max-width:1200px;margin:0 auto;padding:16px 20px;}
+.page-title{font-size:18px;font-weight:800;color:var(--yellow);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+
+/* Stats */
+.stats-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 16px;text-align:center;min-width:90px;flex:1;}
+.stat .v{font-size:22px;font-weight:800;}.stat .l{font-size:9px;color:var(--text3);margin-top:2px;}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:16px;border-bottom:2px solid var(--border);padding-bottom:0;}
+.tab{padding:8px 16px;font-size:11px;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.2s;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit;}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--cyan);border-bottom-color:var(--cyan);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px;}
+.card-head{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.card-head h3{font-size:13px;color:var(--yellow);font-weight:700;}
+.card-body{padding:12px 14px;}
+
+/* Grid */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:768px){.grid2{grid-template-columns:1fr;}}
+
+/* Buttons */
+.btn{padding:5px 12px;border-radius:7px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:10px;cursor:pointer;transition:.15s;font-family:inherit;}
+.btn:hover{border-color:var(--text2);}
+.btn-yellow{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.2);color:var(--yellow);}
+.btn-red{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.15);color:var(--red);}
+.btn-green{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.15);color:var(--green);}
+.btn-cyan{background:rgba(6,182,212,.08);border-color:rgba(6,182,212,.15);color:var(--cyan);}
+.btn-sm{padding:3px 8px;font-size:9px;}
+
+/* Forms */
+.form-group{margin-bottom:10px;}
+.form-group label{font-size:10px;color:var(--text3);display:block;margin-bottom:3px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:11px;font-family:inherit;}
+.form-group textarea{resize:vertical;min-height:60px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media(max-width:500px){.form-row{grid-template-columns:1fr;}}
+
+/* Tags */
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:700;}
+.tag-green{background:rgba(34,197,94,.1);color:var(--green);}
+.tag-red{background:rgba(239,68,68,.1);color:var(--red);}
+.tag-yellow{background:rgba(245,158,11,.1);color:var(--yellow);}
+.tag-cyan{background:rgba(6,182,212,.1);color:var(--cyan);}
+.tag-purple{background:rgba(168,85,247,.1);color:var(--purple);}
+
+/* Alert list */
+.alert-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.02);transition:.15s;}
+.alert-item:hover{background:rgba(255,255,255,.02);}
+.alert-icon{font-size:18px;width:28px;text-align:center;flex-shrink:0;}
+.alert-info{flex:1;min-width:0;}
+.alert-info .name{font-size:11px;font-weight:700;color:var(--text);}
+.alert-info .meta{font-size:9px;color:var(--text3);}
+.alert-actions{display:flex;gap:3px;flex-shrink:0;}
+
+/* Channel chips */
+.ch-chip{display:inline-flex;align-items:center;gap:2px;padding:2px 6px;border-radius:4px;font-size:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);}
+.ch-chip.on{background:rgba(6,182,212,.1);border-color:rgba(6,182,212,.2);color:var(--cyan);}
+
+/* Timeline */
+.timeline{border-right:2px solid var(--border);margin-right:8px;padding-right:12px;}
+.tl-item{position:relative;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.02);}
+.tl-item::before{content:'';position:absolute;right:-17px;top:12px;width:8px;height:8px;border-radius:50%;background:var(--yellow);border:2px solid var(--bg2);}
+.tl-item.unread{background:rgba(245,158,11,.03);border-right:2px solid var(--yellow);margin-right:-2px;padding-right:14px;}
+.tl-item.tp::before{background:var(--green);}
+.tl-item.sl::before{background:var(--red);}
+
+/* Toggles */
+.toggle{position:relative;width:34px;height:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:9px;cursor:pointer;transition:.2s;flex-shrink:0;display:inline-block;}
+.toggle.on{background:rgba(34,197,94,.15);border-color:var(--green);}
+.toggle::after{content:"";position:absolute;top:2px;right:2px;width:12px;height:12px;border-radius:50%;background:var(--text3);transition:.2s;}
+.toggle.on::after{right:auto;left:2px;background:var(--green);}
+
+/* Empty state */
+.empty{text-align:center;color:var(--text3);padding:30px;font-size:11px;}
+
+/* Filter */
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:10px;}
+.filter-row select,.filter-row input{padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:10px;font-family:inherit;}
+
+/* Quick setup highlight */
+.setup-box{background:linear-gradient(135deg,rgba(6,182,212,.06),rgba(168,85,247,.06));border:1px solid rgba(6,182,212,.15);border-radius:12px;padding:14px;margin-bottom:14px;}
+.setup-box h4{font-size:12px;color:var(--cyan);margin-bottom:8px;}
+.setup-status{display:flex;align-items:center;gap:6px;font-size:10px;padding:4px 8px;border-radius:6px;margin-top:8px;}
+.setup-status.ok{background:rgba(34,197,94,.08);color:var(--green);}
+.setup-status.warn{background:rgba(245,158,11,.08);color:var(--yellow);}
+
+/* ═══ UNIVERSAL FOOTER ═══ */
+.wfooter{background:#0f1320;border-top:1px solid #1e2a45;padding:32px 20px 16px;margin-top:24px;}
+.wfooter-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:28px;}
+.wfooter-brand p{font-size:12px;color:#5a6480;margin-top:8px;line-height:1.8;}
+.wfooter-col h4{font-size:12px;font-weight:700;color:#e8ecf4;margin-bottom:12px;}
+.wfooter-col a{display:block;color:#5a6480;font-size:12px;padding:3px 0;text-decoration:none;transition:color .2s;}
+.wfooter-col a:hover{color:#00d4ff;}
+.wfooter-bottom{max-width:1100px;margin:0 auto;border-top:1px solid #1e2a45;padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.wfooter-bottom p{font-size:11px;color:#5a6480;}
+.wfooter-bottom a{color:#00d4ff;text-decoration:none;font-size:11px;}
+@media(max-width:768px){.wfooter-grid{grid-template-columns:1fr 1fr;gap:20px;}}
+@media(max-width:480px){.wfooter-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- ═══ UNIVERSAL TOP NAV ═══ -->
+<nav class="wnav" id="wTopNav">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <a href="/" class="wnav-logo">
+      <div class="wnav-logo-box">W</div>
+      <span class="wnav-logo-txt">Whilber-AI</span>
+    </a>
+    <a href="javascript:history.back()" class="wnav-back" title="بازگشت">&#8594; برگشت</a>
+  </div>
+  <div class="wnav-links">
+    <a href="/">خانه</a>
+    <a href="/dashboard">تحلیل بازار</a>
+    <a href="/track-record">سوابق</a>
+    <a href="/builder">استراتژی‌ساز</a>
+    <a href="/risk-manager">مدیریت ریسک</a>
+    <a href="/journal">ژورنال</a>
+    <a href="/performance">عملکرد زنده</a>
+    <a href="/alerts" class="wn-active">هشدارها</a>
+    <a href="/guide">راهنما</a>
+    <a href="/services">خدمات</a>
+    <a href="/about">درباره ما</a>
+    <a href="/contact">تماس</a>
+    <a href="/robots">ربات‌ها</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/login">ورود</a>
+    <a href="/register">ثبت‌نام</a>
+    <a href="/dashboard" class="wnav-cta">&#x1F680; تحلیل</a>
+  </div>
+  <button class="wnav-ham" onclick="document.getElementById('wMobOverlay').classList.add('open')">&#9776;</button>
+</nav>
+<div class="wnav-mob-overlay" id="wMobOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="wnav-mob">
+    <button class="wnav-mob-close" onclick="document.getElementById('wMobOverlay').classList.remove('open')">&#10005;</button>
+    <a href="javascript:history.back()" style="color:#00d4ff;border:1px solid rgba(0,212,255,.2);margin-bottom:8px;">&#8594; برگشت به صفحه قبل</a>
+    <a href="/">&#x1F3E0; خانه</a>
+    <a href="/dashboard">&#x1F4CA; تحلیل بازار</a>
+    <a href="/track-record">&#x1F4DC; سوابق</a>
+    <a href="/builder">&#x1F527; استراتژی‌ساز</a>
+    <a href="/risk-manager">&#x1F6E1;&#xFE0F; مدیریت ریسک</a>
+    <a href="/journal">&#x1F4D2; ژورنال</a>
+    <a href="/performance">&#x1F4C8; عملکرد زنده</a>
+    <a href="/alerts" class="wn-active">&#x1F514; هشدارها</a>
+    <a href="/robots">&#x1F916; ربات‌ها</a>
+    <a href="/guide">&#x1F4D6; راهنما</a>
+    <a href="/services">&#x2B50; خدمات</a>
+    <a href="/about">&#x1F464; درباره ما</a>
+    <a href="/contact">&#x1F4DE; تماس</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/admin">&#x2699;&#xFE0F; ادمین</a>
+    <a href="/login">&#x1F511; ورود</a>
+    <a href="/register">&#x1F4DD; ثبت‌نام</a>
+  </div>
+</div>
+
+
+<div class="container">
+
+<div class="page-title">&#x1F514; مدیریت هشدارها</div>
+
+<!-- ═══ STATS ═══ -->
+<div class="stats-row" id="statsRow">
+  <div class="stat"><div class="v" id="stActive" style="color:var(--cyan);">0</div><div class="l">هشدار فعال</div></div>
+  <div class="stat"><div class="v" id="stTriggered" style="color:var(--green);">0</div><div class="l">فعال‌شده</div></div>
+  <div class="stat"><div class="v" id="stUnread" style="color:var(--yellow);">0</div><div class="l">خوانده‌نشده</div></div>
+  <div class="stat"><div class="v" id="stToday">0</div><div class="l">امروز</div></div>
+  <div class="stat"><div class="v" id="stSubs">0</div><div class="l">اشتراک</div></div>
+</div>
+
+<!-- ═══ TABS ═══ -->
+<div class="tabs">
+  <button class="tab active" data-tab="setup" onclick="switchTab('setup')">&#x2699;&#xFE0F; تنظیم سریع</button>
+  <button class="tab" data-tab="create" onclick="switchTab('create')">&#x2795; ایجاد هشدار</button>
+  <button class="tab" data-tab="active" onclick="switchTab('active')">&#x1F4CB; هشدارهای فعال</button>
+  <button class="tab" data-tab="subs" onclick="switchTab('subs')">&#x1F514; اشتراک‌ها</button>
+  <button class="tab" data-tab="history" onclick="switchTab('history')">&#x1F4DC; تاریخچه</button>
+  <button class="tab" data-tab="templates" onclick="switchTab('templates')">&#x1F4DD; قالب پیام</button>
+</div>
+
+<!-- ═══════ TAB: QUICK SETUP ═══════ -->
+<div class="tab-panel active" id="panel-setup">
+  <div class="grid2">
+    <!-- Quick Setup Card -->
+    <div class="setup-box">
+      <h4>&#x26A1; تنظیم سریع — فقط ایمیل و تلگرام</h4>
+      <p style="font-size:10px;color:var(--text3);margin-bottom:10px;">فقط ایمیل و شناسه تلگرام خود را وارد کنید. سیستم بقیه تنظیمات را خودکار انجام می‌دهد.</p>
+      <div class="form-group">
+        <label>&#x1F4E7; ایمیل شما</label>
+        <input type="email" id="cfgEmail" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label>&#x1F4F1; شناسه چت تلگرام (Chat ID)</label>
+        <input type="text" id="cfgTelegram" placeholder="مثال: 93688216">
+        <span style="font-size:8px;color:var(--text3);">از بات @userinfobot در تلگرام دریافت کنید</span>
+      </div>
+      <div class="form-row" style="margin-top:6px;">
+        <div class="form-group">
+          <label>&#x1F6D1; ساعات بی‌صدا (شروع)</label>
+          <input type="time" id="cfgQuietStart" value="">
+        </div>
+        <div class="form-group">
+          <label>&#x1F6D1; ساعات بی‌صدا (پایان)</label>
+          <input type="time" id="cfgQuietEnd" value="">
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:8px;">
+        <button class="btn btn-cyan" onclick="saveSetup()" style="flex:1;">&#x1F4BE; ذخیره تنظیمات</button>
+        <button class="btn" onclick="testDelivery()">&#x1F4E8; تست ارسال</button>
+      </div>
+      <div id="setupResult" style="font-size:10px;margin-top:6px;text-align:center;"></div>
+      <div id="setupStatus" class="setup-status warn" style="display:none;"></div>
+    </div>
+
+    <!-- Delivery Channels Card -->
+    <div class="card">
+      <div class="card-head"><h3>&#x1F4E3; کانال‌های ارسال</h3></div>
+      <div class="card-body">
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--bg);border-radius:8px;">
+            <div>
+              <span style="font-size:14px;">&#x1F4F1;</span>
+              <span style="font-size:11px;font-weight:700;margin-right:6px;">تلگرام</span>
+              <span style="font-size:9px;color:var(--text3);">پیام مستقیم به شما</span>
+            </div>
+            <div class="toggle on" id="chTelegram" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--bg);border-radius:8px;">
+            <div>
+              <span style="font-size:14px;">&#x1F4E7;</span>
+              <span style="font-size:11px;font-weight:700;margin-right:6px;">ایمیل</span>
+              <span style="font-size:9px;color:var(--text3);">ارسال به ایمیل ثبت‌شده</span>
+            </div>
+            <div class="toggle on" id="chEmail" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--bg);border-radius:8px;">
+            <div>
+              <span style="font-size:14px;">&#x1F4BB;</span>
+              <span style="font-size:11px;font-weight:700;margin-right:6px;">پاپ‌آپ دسکتاپ</span>
+              <span style="font-size:9px;color:var(--text3);">نوتیفیکیشن مرورگر</span>
+            </div>
+            <div class="toggle on" id="chPopup" onclick="this.classList.toggle('on')"></div>
+          </div>
+        </div>
+        <div style="margin-top:10px;padding:8px;background:rgba(6,182,212,.04);border-radius:6px;border:1px solid rgba(6,182,212,.1);">
+          <div style="font-size:10px;color:var(--cyan);font-weight:600;">&#x1F4A1; نکته:</div>
+          <div style="font-size:9px;color:var(--text3);margin-top:2px;">کانال‌های پیش‌فرض برای هشدارهای جدید. هر هشدار می‌تواند کانال جداگانه داشته باشد.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ TAB: CREATE ALERT ═══════ -->
+<div class="tab-panel" id="panel-create">
+  <div class="grid2">
+    <div class="card">
+      <div class="card-head"><h3>&#x2795; ایجاد هشدار جدید</h3></div>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label>&#x1F4CD; نماد</label>
+            <select id="newSymbol"></select>
+          </div>
+          <div class="form-group">
+            <label>&#x1F4CA; نوع هشدار</label>
+            <select id="newType" onchange="onAlertTypeChange()"></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" id="tfGroup">
+            <label>&#x23F0; تایم‌فریم</label>
+            <select id="newTF">
+              <option value="">همه</option>
+              <option value="M5">M5</option>
+              <option value="M15">M15</option>
+              <option value="M30">M30</option>
+              <option value="H1" selected>H1</option>
+              <option value="H4">H4</option>
+              <option value="D1">D1</option>
+            </select>
+          </div>
+          <div class="form-group" id="priceGroup" style="display:none;">
+            <label>&#x1F3AF; قیمت هدف</label>
+            <input type="number" id="newPrice" step="any" placeholder="مثال: 2650.50">
+          </div>
+        </div>
+        <div class="form-group" id="stratGroup">
+          <label>&#x1F4CA; استراتژی (اختیاری)</label>
+          <input type="text" id="newStrat" placeholder="خالی = همه استراتژی‌ها">
+        </div>
+        <div class="form-group">
+          <label>&#x1F4DD; یادداشت</label>
+          <input type="text" id="newNotes" placeholder="اختیاری">
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <label style="font-size:10px;color:var(--text3);display:flex;align-items:center;gap:4px;">
+            <input type="checkbox" id="newRepeat"> تکرار (بعد از فعال شدن دوباره فعال بماند)
+          </label>
+        </div>
+        <div style="display:flex;gap:4px;">
+          <button class="btn btn-green" onclick="createAlert()" style="flex:1;">&#x2705; ایجاد هشدار</button>
+        </div>
+        <div id="createResult" style="font-size:10px;margin-top:6px;text-align:center;"></div>
+      </div>
+    </div>
+
+    <!-- Alert types info -->
+    <div class="card">
+      <div class="card-head"><h3>&#x2139;&#xFE0F; انواع هشدار</h3></div>
+      <div class="card-body" id="alertTypesInfo" style="max-height:400px;overflow-y:auto;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ TAB: ACTIVE ALERTS ═══════ -->
+<div class="tab-panel" id="panel-active">
+  <div class="card">
+    <div class="card-head">
+      <h3>&#x1F4CB; هشدارهای من</h3>
+      <div style="display:flex;gap:4px;">
+        <select id="filterCat" onchange="loadAlerts()" style="padding:3px 6px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:10px;">
+          <option value="">همه دسته‌ها</option>
+          <option value="signal">سیگنال</option>
+          <option value="price">قیمت</option>
+          <option value="trade">معامله</option>
+        </select>
+        <button class="btn" onclick="loadAlerts()">&#x1F504;</button>
+      </div>
+    </div>
+    <div class="card-body" style="padding:0;" id="alertsListBox">
+      <div class="empty">در حال بارگذاری...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ TAB: SUBSCRIPTIONS ═══════ -->
+<div class="tab-panel" id="panel-subs">
+  <div class="card">
+    <div class="card-head">
+      <h3>&#x1F514; اشتراک‌های فعال</h3>
+      <div style="display:flex;gap:4px;">
+        <button class="btn btn-yellow" onclick="waOpenSub('*','همه استراتژی‌ها')">+ اشتراک جدید</button>
+        <button class="btn" onclick="loadSubs()">&#x1F504;</button>
+      </div>
+    </div>
+    <div class="card-body" style="padding:0;">
+      <table style="width:100%;border-collapse:collapse;font-size:10px;">
+        <thead><tr>
+          <th style="background:var(--bg3);padding:6px 8px;text-align:right;border-bottom:1px solid var(--border);color:var(--text2);font-weight:600;">استراتژی</th>
+          <th style="background:var(--bg3);padding:6px 8px;text-align:right;border-bottom:1px solid var(--border);color:var(--text2);font-weight:600;">نمادها</th>
+          <th style="background:var(--bg3);padding:6px 8px;text-align:right;border-bottom:1px solid var(--border);color:var(--text2);font-weight:600;">رویدادها</th>
+          <th style="background:var(--bg3);padding:6px 8px;text-align:right;border-bottom:1px solid var(--border);color:var(--text2);font-weight:600;">هشدارها</th>
+          <th style="background:var(--bg3);padding:6px 8px;text-align:right;border-bottom:1px solid var(--border);color:var(--text2);font-weight:600;"></th>
+        </tr></thead>
+        <tbody id="subsBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ TAB: HISTORY ═══════ -->
+<div class="tab-panel" id="panel-history">
+  <div class="card">
+    <div class="card-head">
+      <h3>&#x1F4DC; تاریخچه هشدارها</h3>
+      <div style="display:flex;gap:4px;">
+        <button class="btn" onclick="markAllRead()">&#x2713; همه خوانده</button>
+        <button class="btn btn-red" onclick="clearAll()">&#x1F5D1;&#xFE0F; پاک همه</button>
+        <button class="btn" onclick="loadHistory()">&#x1F504;</button>
+      </div>
+    </div>
+    <div class="card-body" style="padding:0;">
+      <div class="filter-row" style="padding:8px 12px;">
+        <select id="fType" onchange="loadHistory()">
+          <option value="">همه رویدادها</option>
+          <option value="signal">&#x1F4E1; سیگنال</option>
+          <option value="entry">&#x1F7E2; ورود</option>
+          <option value="be_move">&#x1F49B; BE</option>
+          <option value="partial">&#x1F4B0; سیو</option>
+          <option value="trailing">&#x1F504; Trailing</option>
+          <option value="near_tp">&#x1F3AF; نزدیک TP</option>
+          <option value="near_sl">&#x1F534; نزدیک SL</option>
+          <option value="closed_tp">&#x2705; TP</option>
+          <option value="closed_sl">&#x274C; SL</option>
+        </select>
+        <select id="fRead" onchange="loadHistory()">
+          <option value="">همه</option>
+          <option value="unread">خوانده‌نشده</option>
+          <option value="read">خوانده‌شده</option>
+        </select>
+        <input type="text" id="fSearch" placeholder="جستجو..." onkeyup="loadHistory()" style="min-width:120px;">
+      </div>
+      <div id="historyTimeline" style="padding:8px 12px;max-height:60vh;overflow-y:auto;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ TAB: TEMPLATES ═══════ -->
+<div class="tab-panel" id="panel-templates">
+  <div class="card">
+    <div class="card-head">
+      <h3>&#x1F4DD; قالب پیام‌های هشدار</h3>
+      <span style="font-size:9px;color:var(--text3);">هر نوع هشدار یک قالب پیش‌فرض دارد. می‌توانید آن را ویرایش کنید.</span>
+    </div>
+    <div class="card-body" id="templatesBox">
+      <div class="empty">در حال بارگذاری...</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+
+<script src="/static/alert_system.js"></script>
+<script src="/static/perf.js"></script>
+<script>
+var API = window.location.origin;
+var EMAIL = localStorage.getItem('whilber_email') || 'user@whilber.ai';
+var SYMBOLS = ['XAUUSD','XAGUSD','EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','NZDUSD','USDCAD','EURGBP','EURJPY','GBPJPY','EURAUD','EURCAD','EURCHF','GBPAUD','GBPCAD','AUDJPY','CADJPY','BTCUSD','ETHUSD','SOLUSD','US30','NAS100','US500'];
+var ALERT_TYPES = {};
+var allNotifs = [];
+
+// ══════ TAB SWITCHING ══════
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.getElementById('panel-'+tab).classList.add('active');
+  if(tab==='active') loadAlerts();
+  if(tab==='subs') loadSubs();
+  if(tab==='history') loadHistory();
+  if(tab==='templates') loadTemplates();
+}
+
+// ══════ INIT SYMBOLS DROPDOWN ══════
+function initSymbols(){
+  var sel = document.getElementById('newSymbol');
+  var groups = {
+    'فلزات': ['XAUUSD','XAGUSD'],
+    'فارکس — اصلی': ['EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','NZDUSD','USDCAD'],
+    'فارکس — فرعی': ['EURGBP','EURJPY','GBPJPY','EURAUD','EURCAD','EURCHF','GBPAUD','GBPCAD','AUDJPY','CADJPY'],
+    'کریپتو': ['BTCUSD','ETHUSD','SOLUSD'],
+    'شاخص': ['US30','NAS100','US500'],
+  };
+  for(var g in groups){
+    var og = document.createElement('optgroup');
+    og.label = g;
+    groups[g].forEach(function(s){
+      var o = document.createElement('option');
+      o.value = s; o.textContent = s;
+      og.appendChild(o);
+    });
+    sel.appendChild(og);
+  }
+}
+
+// ══════ INIT ALERT TYPES DROPDOWN ══════
+async function initAlertTypes(){
+  try{
+    var r = await fetch(API+'/api/alert-types');
+    var d = await r.json();
+    ALERT_TYPES = d.types||{};
+  }catch(e){
+    ALERT_TYPES = {};
+  }
+  var sel = document.getElementById('newType');
+  sel.innerHTML = '';
+  var cats = {};
+  for(var k in ALERT_TYPES){
+    var t = ALERT_TYPES[k];
+    var cat = t.category_fa || 'دیگر';
+    if(!cats[cat]) cats[cat] = [];
+    cats[cat].push({id:k, name:t.name_fa, icon:t.icon});
+  }
+  for(var c in cats){
+    var og = document.createElement('optgroup');
+    og.label = c;
+    cats[c].forEach(function(t){
+      var o = document.createElement('option');
+      o.value = t.id; o.textContent = t.icon+' '+t.name;
+      og.appendChild(o);
+    });
+    sel.appendChild(og);
+  }
+
+  // Alert types info panel
+  var box = document.getElementById('alertTypesInfo');
+  var h = '';
+  for(var k in ALERT_TYPES){
+    var t = ALERT_TYPES[k];
+    h += '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.02);">';
+    h += '<span style="font-size:16px;">'+t.icon+'</span>';
+    h += '<div><div style="font-size:11px;font-weight:700;">'+t.name_fa+'</div>';
+    h += '<div style="font-size:9px;color:var(--text3);">'+t.desc_fa+'</div>';
+    h += '<span class="tag tag-cyan" style="margin-top:2px;">'+t.category_fa+'</span>';
+    h += '</div></div>';
+  }
+  box.innerHTML = h;
+}
+
+function onAlertTypeChange(){
+  var t = document.getElementById('newType').value;
+  var isPriceAlert = (t==='price_above'||t==='price_below'||t==='tp1_hit'||t==='tp2_hit'||t==='sl_hit');
+  var isSignal = (t==='signal_change'||t==='signal_buy'||t==='signal_sell'||t==='confidence_high'||t==='master_active'||t==='master_change');
+  document.getElementById('priceGroup').style.display = isPriceAlert ? 'block' : 'none';
+  document.getElementById('tfGroup').style.display = isSignal ? 'block' : 'none';
+  document.getElementById('stratGroup').style.display = isSignal ? 'block' : 'none';
+}
+
+// ══════ QUICK SETUP ══════
+async function loadSetup(){
+  try{
+    var r = await fetch(API+'/api/alert/user-config?email='+encodeURIComponent(EMAIL));
+    var d = await r.json();
+    if(d.email) document.getElementById('cfgEmail').value = d.email;
+    if(d.telegram_chat_id) document.getElementById('cfgTelegram').value = d.telegram_chat_id;
+    if(d.quiet_start) document.getElementById('cfgQuietStart').value = d.quiet_start;
+    if(d.quiet_end) document.getElementById('cfgQuietEnd').value = d.quiet_end;
+    var ch = d.channels||{};
+    if(ch.telegram!==undefined) document.getElementById('chTelegram').classList.toggle('on', ch.telegram);
+    if(ch.email!==undefined) document.getElementById('chEmail').classList.toggle('on', ch.email);
+    if(ch.popup!==undefined) document.getElementById('chPopup').classList.toggle('on', ch.popup);
+
+    // Show status
+    var stEl = document.getElementById('setupStatus');
+    if(d.telegram_chat_id && d.email){
+      stEl.className='setup-status ok';
+      stEl.innerHTML='&#x2705; تنظیمات ذخیره شده — تلگرام: '+d.telegram_chat_id+' | ایمیل: '+d.email;
+      stEl.style.display='flex';
+    } else {
+      stEl.className='setup-status warn';
+      stEl.innerHTML='&#x26A0;&#xFE0F; لطفا ایمیل و شناسه تلگرام را وارد کنید';
+      stEl.style.display='flex';
+    }
+  }catch(e){}
+}
+
+async function saveSetup(){
+  var em = document.getElementById('cfgEmail').value.trim();
+  var tg = document.getElementById('cfgTelegram').value.trim();
+  if(!em){ document.getElementById('setupResult').innerHTML='<span style="color:var(--red);">ایمیل الزامی است</span>'; return; }
+
+  if(em) { EMAIL = em; localStorage.setItem('whilber_email', em); }
+
+  var cfg = {
+    email: em,
+    telegram_chat_id: tg,
+    popup: document.getElementById('chPopup').classList.contains('on'),
+    quiet_start: document.getElementById('cfgQuietStart').value,
+    quiet_end: document.getElementById('cfgQuietEnd').value,
+  };
+  try{
+    var r = await fetch(API+'/api/alert/simple-setup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(cfg)});
+    var d = await r.json();
+    document.getElementById('setupResult').innerHTML = d.success
+      ? '<span style="color:var(--green);">&#x2705; ذخیره شد!</span>'
+      : '<span style="color:var(--red);">خطا</span>';
+    loadSetup();
+  }catch(e){
+    document.getElementById('setupResult').innerHTML='<span style="color:var(--red);">خطای اتصال</span>';
+  }
+}
+
+async function testDelivery(){
+  try{
+    var r = await fetch(API+'/api/alerts/dispatch-test',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({event_type:'entry',trade_data:{symbol:'XAUUSD',direction:'BUY',strategy_name:'Test',strategy_id:'TEST',timeframe:'H1',entry_price:2650,sl_price:2640,tp1_price:2670}})});
+    var d = await r.json();
+    document.getElementById('setupResult').innerHTML = d.ok
+      ? '<span style="color:var(--green);">&#x1F4E8; تست ارسال شد</span>'
+      : '<span style="color:var(--yellow);">&#x26A0; '+(d.error||'خطا')+'</span>';
+  }catch(e){
+    document.getElementById('setupResult').innerHTML='<span style="color:var(--red);">خطای ارسال</span>';
+  }
+}
+
+// ══════ CREATE ALERT ══════
+async function createAlert(){
+  var sym = document.getElementById('newSymbol').value;
+  var atype = document.getElementById('newType').value;
+  var tf = document.getElementById('newTF').value;
+  var price = parseFloat(document.getElementById('newPrice').value)||null;
+  var strat = document.getElementById('newStrat').value.trim()||null;
+  var notes = document.getElementById('newNotes').value;
+  var repeat = document.getElementById('newRepeat').checked;
+
+  var channels = {
+    telegram: document.getElementById('chTelegram').classList.contains('on'),
+    email: document.getElementById('chEmail').classList.contains('on'),
+    popup: document.getElementById('chPopup').classList.contains('on'),
+  };
+
+  try{
+    var hdrs = {'Content-Type':'application/json'};
+    try{var tk=localStorage.getItem('token');if(tk)hdrs['Authorization']='Bearer '+tk;}catch(ex){}
+    var r = await fetch(API+'/api/alerts',{method:'POST',headers:hdrs,body:JSON.stringify({
+      user_email: EMAIL, symbol: sym, timeframe: tf, alert_type: atype,
+      strategy_id: strat, target_price: price, notes: notes,
+      channels: channels, repeat: repeat,
+    })});
+    var res = document.getElementById('createResult');
+    if(r.status===403){var err=await r.json();var detail=err.detail||err;var msg=typeof detail==='object'?detail.error:'محدودیت پلن';res.innerHTML='<span style="color:var(--yellow);">&#x26A0; '+msg+' — <a href="/pricing" style="color:#00d4ff;">ارتقا پلن</a></span>';return;}
+    var d = await r.json();
+    if(d.success){
+      res.innerHTML='<span style="color:var(--green);">&#x2705; هشدار ایجاد شد! ('+d.alert_id+')</span>';
+      document.getElementById('newNotes').value='';
+      document.getElementById('newPrice').value='';
+      loadStats();
+    } else {
+      res.innerHTML='<span style="color:var(--red);">&#x274C; '+(d.error||'خطا')+'</span>';
+    }
+  }catch(e){
+    document.getElementById('createResult').innerHTML='<span style="color:var(--red);">خطای اتصال</span>';
+  }
+}
+
+// ══════ LOAD ACTIVE ALERTS ══════
+async function loadAlerts(){
+  try{
+    var cat = document.getElementById('filterCat').value;
+    var url = API+'/api/alerts?email='+encodeURIComponent(EMAIL)+'&all=true';
+    if(cat) url += '&category='+cat;
+    var r = await fetch(url);
+    var d = await r.json();
+    var alerts = d.alerts||[];
+    var box = document.getElementById('alertsListBox');
+
+    if(!alerts.length){ box.innerHTML='<div class="empty">هشداری ندارید — از تب «ایجاد هشدار» یکی بسازید</div>'; return; }
+
+    var h='';
+    alerts.forEach(function(a){
+      var statusTag = a.active
+        ? '<span class="tag tag-green">فعال</span>'
+        : (a.triggered ? '<span class="tag tag-yellow">فعال‌شده</span>' : '<span class="tag tag-red">غیرفعال</span>');
+      var catTag = '<span class="tag tag-cyan">'+(a.category||'signal')+'</span>';
+      var chHtml = '';
+      var ch = a.channels||{};
+      if(ch.telegram) chHtml+='<span class="ch-chip on">&#x1F4F1;</span>';
+      if(ch.email) chHtml+='<span class="ch-chip on">&#x1F4E7;</span>';
+      if(ch.popup) chHtml+='<span class="ch-chip on">&#x1F4BB;</span>';
+
+      h+='<div class="alert-item">';
+      h+='<div class="alert-icon">'+(a.icon||'&#x1F514;')+'</div>';
+      h+='<div class="alert-info">';
+      h+='<div class="name">'+a.symbol+' — '+(a.alert_type_fa||a.alert_type)+' '+statusTag+' '+catTag+'</div>';
+      h+='<div class="meta">';
+      if(a.target_price) h+='&#x1F3AF; '+a.target_price+' ';
+      if(a.timeframe) h+='&#x23F0; '+a.timeframe+' ';
+      if(a.strategy_id) h+='&#x1F4CA; '+a.strategy_id+' ';
+      if(a.notes) h+='&#x1F4DD; '+a.notes+' ';
+      h+='| '+chHtml;
+      if(a.repeat) h+=' <span class="tag tag-purple">تکرار</span>';
+      if(a.trigger_count) h+=' | &#x1F4E8; '+a.trigger_count+'x';
+      h+='</div>';
+      h+='<div class="meta" style="font-size:8px;">&#x1F4C5; '+(a.created_at||'').substring(0,10);
+      if(a.triggered_at) h+=' | فعال‌شده: '+(a.triggered_at||'').substring(0,19).replace('T',' ');
+      h+='</div>';
+      h+='</div>';
+      h+='<div class="alert-actions">';
+      if(!a.active && a.triggered){
+        h+='<button class="btn btn-green btn-sm" onclick="reactivateAlert(\''+a.id+'\')">&#x1F504; مجدد</button>';
+      }
+      h+='<button class="btn btn-sm" onclick="toggleAlert(\''+a.id+'\')">'+( a.active ? '&#x23F8; توقف' : '&#x25B6; فعال')+'</button>';
+      h+='<button class="btn btn-red btn-sm" onclick="deleteAlert(\''+a.id+'\')">&#x1F5D1;</button>';
+      h+='</div>';
+      h+='</div>';
+    });
+    box.innerHTML = h;
+  }catch(e){
+    document.getElementById('alertsListBox').innerHTML='<div class="empty">خطا در بارگذاری</div>';
+  }
+}
+
+async function toggleAlert(id){
+  await fetch(API+'/api/alerts/'+id+'/toggle',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:EMAIL})});
+  loadAlerts(); loadStats();
+}
+
+async function deleteAlert(id){
+  if(!confirm('حذف هشدار?')) return;
+  await fetch(API+'/api/alerts/'+id+'?email='+encodeURIComponent(EMAIL),{method:'DELETE'});
+  loadAlerts(); loadStats();
+}
+
+async function reactivateAlert(id){
+  await fetch(API+'/api/alerts/'+id+'/reactivate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user_email:EMAIL})});
+  loadAlerts(); loadStats();
+}
+
+// ══════ LOAD SUBSCRIPTIONS ══════
+async function loadSubs(){
+  try{
+    var r=await fetch(API+'/api/alert/subscriptions?email='+encodeURIComponent(EMAIL));
+    var d=await r.json();
+    var subs=d.subscriptions||[];
+    document.getElementById('stSubs').textContent=subs.length;
+    var body=document.getElementById('subsBody');
+    if(!subs.length){body.innerHTML='<tr><td colspan="5" class="empty">هنوز اشتراکی ندارید — از صفحه سوابق &#x1F514; بزنید</td></tr>';return;}
+    var h='';
+    subs.forEach(function(s){
+      var syms=(s.symbols||[]).join(', ');
+      var evts='';
+      var emap={signal:'&#x1F4E1;',entry:'&#x1F7E2;',be_move:'&#x1F49B;',partial:'&#x1F4B0;',trailing:'&#x1F504;',near_tp:'&#x1F3AF;',near_sl:'&#x1F534;',closed_tp:'&#x2705;',closed_sl:'&#x274C;'};
+      Object.keys(s.alert_on||{}).forEach(function(k){
+        var on=s.alert_on[k];
+        evts+='<span style="font-size:10px;padding:1px 3px;border-radius:3px;'+(on?'background:rgba(34,197,94,.06);color:var(--green);':'color:var(--text3);')+'" title="'+k+'">'+(emap[k]||k)+'</span>';
+      });
+      h+='<tr>';
+      h+='<td style="font-weight:700;color:var(--cyan);font-size:11px;padding:5px 8px;">'+(s.strategy_name||'همه')+'</td>';
+      h+='<td style="font-size:9px;padding:5px 8px;">'+syms+'</td>';
+      h+='<td style="padding:5px 8px;">'+evts+'</td>';
+      h+='<td style="text-align:center;font-weight:700;padding:5px 8px;">'+(s.alert_count||0)+'</td>';
+      h+='<td style="padding:5px 8px;"><button class="btn btn-red btn-sm" onclick="removeSub(\''+s.id+'\')">حذف</button></td>';
+      h+='</tr>';
+    });
+    body.innerHTML=h;
+  }catch(e){}
+}
+
+async function removeSub(id){
+  await fetch(API+'/api/alert/unsubscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:EMAIL,sub_id:id})});
+  loadSubs();
+}
+
+// ══════ LOAD HISTORY ══════
+async function loadHistory(){
+  try{
+    var unread=document.getElementById('fRead').value==='unread';
+    // Load from both notification sources
+    var r1=fetch(API+'/api/alert/notifications?email='+encodeURIComponent(EMAIL)+'&limit=200'+(unread?'&unread=true':''));
+    var r2=fetch(API+'/api/notifications?email='+encodeURIComponent(EMAIL)+'&limit=200'+(unread?'&unread=true':''));
+    var [d1,d2] = await Promise.all([r1.then(function(r){return r.json();}),r2.then(function(r){return r.json();})]);
+
+    // Merge notifications from both sources
+    var subNotifs = (d1.notifications||[]).map(function(n){ n._source='sub'; return n; });
+    var coreNotifs = (d2.notifications||[]).map(function(n){ n._source='core'; return n; });
+    allNotifs = subNotifs.concat(coreNotifs);
+    // Sort by time descending
+    allNotifs.sort(function(a,b){ return (b.time||b.created_at||'').localeCompare(a.time||a.created_at||''); });
+
+    // Filter
+    var fType=document.getElementById('fType').value;
+    var fRead=document.getElementById('fRead').value;
+    var fSearch=(document.getElementById('fSearch').value||'').toLowerCase();
+
+    var filtered=allNotifs.filter(function(n){
+      if(fType && (n.event_type||n.data&&n.data.alert_type||'')!==fType) return false;
+      if(fRead==='read' && !n.read) return false;
+      if(fSearch){
+        var txt=((n.strategy_name||'')+(n.symbol||n.data&&n.data.symbol||'')+(n.title_fa||n.title||'')).toLowerCase();
+        if(txt.indexOf(fSearch)<0)return false;
+      }
+      return true;
+    });
+
+    // Stats
+    document.getElementById('stUnread').textContent=allNotifs.filter(function(n){return !n.read;}).length;
+    var today=new Date().toISOString().substring(0,10);
+    document.getElementById('stToday').textContent=allNotifs.filter(function(n){return ((n.time||n.created_at||'')).substring(0,10)===today;}).length;
+
+    // Render timeline
+    var box=document.getElementById('historyTimeline');
+    if(!filtered.length){box.innerHTML='<div class="empty">بدون هشدار</div>';return;}
+
+    var h='<div class="timeline">';
+    filtered.slice(0,100).forEach(function(n){
+      var isUnread = !n.read;
+      var evtType = n.event_type || (n.data && n.data.alert_type) || '';
+      var cls = isUnread ? 'unread' : '';
+      if(evtType==='closed_tp'||evtType==='tp1_hit'||evtType==='tp2_hit') cls+=' tp';
+      else if(evtType==='closed_sl'||evtType==='sl_hit') cls+=' sl';
+
+      var tagMap={signal:'tag-cyan',entry:'tag-green',be_move:'tag-yellow',partial:'tag-green',trailing:'tag-purple',near_tp:'tag-green',near_sl:'tag-red',closed_tp:'tag-green',closed_sl:'tag-red',price_above:'tag-cyan',price_below:'tag-cyan',trade_update:'tag-yellow'};
+
+      h+='<div class="tl-item '+cls+'">';
+      h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">';
+      h+='<div>';
+      if(isUnread) h+='<span class="tag tag-yellow" style="margin-left:4px;">جدید</span>';
+      h+='<span class="tag '+(tagMap[evtType]||'tag-cyan')+'">'+(n.icon||'&#x1F514;')+' '+(n.title_fa||n.title||evtType)+'</span>';
+      h+='</div>';
+      h+='<span style="font-size:8px;color:var(--text3);">'+((n.time||n.created_at||'')).substring(0,19).replace('T',' ')+'</span>';
+      h+='</div>';
+      if(n.strategy_name) h+='<div style="font-size:11px;font-weight:700;color:var(--cyan);">'+n.strategy_name+'</div>';
+      h+='<div style="font-size:10px;color:var(--text2);">'+(n.symbol||n.data&&n.data.symbol||'')+' '+(n.direction||'');
+      if(n.price||n.data&&n.data.price) h+=' @ '+(n.price||n.data.price);
+      h+='</div>';
+      if(n.body) h+='<div style="font-size:9px;color:var(--text3);margin-top:2px;">'+n.body.substring(0,120)+'</div>';
+      if(n.action_fa) h+='<div style="font-size:9px;color:var(--text3);margin-top:1px;">&#x1F4CC; '+n.action_fa+'</div>';
+      if(n.pnl) h+='<div style="font-size:10px;font-weight:700;color:'+(n.pnl>=0?'var(--green)':'var(--red)')+';">PnL: '+(n.pnl>=0?'+':'')+n.pnl+'$</div>';
+      if(n.channels_used&&n.channels_used.length) h+='<div style="font-size:8px;color:var(--text3);margin-top:2px;">&#x1F4E3; '+n.channels_used.join(', ')+'</div>';
+      h+='</div>';
+    });
+    h+='</div>';
+    box.innerHTML=h;
+  }catch(e){
+    document.getElementById('historyTimeline').innerHTML='<div class="empty">خطا</div>';
+  }
+}
+
+async function markAllRead(){
+  await Promise.all([
+    fetch(API+'/api/alert/mark-read',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:EMAIL})}),
+    fetch(API+'/api/notifications/read?email='+encodeURIComponent(EMAIL),{method:'POST'}),
+  ]);
+  loadHistory(); loadStats();
+}
+
+async function clearAll(){
+  if(!confirm('همه هشدارها پاک شوند؟'))return;
+  await Promise.all([
+    fetch(API+'/api/alert/clear',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:EMAIL})}),
+  ]);
+  loadHistory(); loadStats();
+}
+
+// ══════ TEMPLATES ══════
+async function loadTemplates(){
+  try{
+    var r = await fetch(API+'/api/alert/templates?email='+encodeURIComponent(EMAIL));
+    var d = await r.json();
+    var tpls = d.templates||{};
+    var box = document.getElementById('templatesBox');
+    var h = '';
+    for(var k in tpls){
+      var t = ALERT_TYPES[k]||{};
+      h+='<div style="margin-bottom:12px;padding:10px;background:var(--bg);border-radius:8px;border:1px solid var(--border);">';
+      h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">';
+      h+='<span style="font-size:11px;font-weight:700;color:var(--cyan);">'+(t.icon||'')+' '+(t.name_fa||k)+'</span>';
+      h+='<div><button class="btn btn-sm btn-green" onclick="saveTemplateFor(\''+k+'\')">&#x1F4BE; ذخیره</button> ';
+      h+='<button class="btn btn-sm" onclick="resetTemplateFor(\''+k+'\')">&#x1F504; پیش‌فرض</button></div>';
+      h+='</div>';
+      h+='<textarea id="tpl_'+k+'" style="width:100%;min-height:45px;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:10px;font-family:inherit;resize:vertical;">'+tpls[k]+'</textarea>';
+      h+='<div style="font-size:8px;color:var(--text3);margin-top:2px;">متغیرها: {icon} {symbol} {strategy} {confidence} {direction_fa} {price} {target} {entry} {sl} {tp1} {detail}</div>';
+      h+='</div>';
+    }
+    box.innerHTML = h;
+  }catch(e){
+    document.getElementById('templatesBox').innerHTML='<div class="empty">خطا</div>';
+  }
+}
+
+async function saveTemplateFor(atype){
+  var el = document.getElementById('tpl_'+atype);
+  if(!el) return;
+  try{
+    var r = await fetch(API+'/api/alert/templates',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:EMAIL,alert_type:atype,template:el.value})});
+    var d = await r.json();
+    if(d.success) el.style.borderColor='var(--green)';
+    setTimeout(function(){el.style.borderColor='';},2000);
+  }catch(e){}
+}
+
+async function resetTemplateFor(atype){
+  try{
+    await fetch(API+'/api/alert/templates/reset',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:EMAIL,alert_type:atype})});
+    loadTemplates();
+  }catch(e){}
+}
+
+// ══════ STATS ══════
+async function loadStats(){
+  try{
+    var r = await fetch(API+'/api/alert/stats?email='+encodeURIComponent(EMAIL));
+    var d = await r.json();
+    document.getElementById('stActive').textContent = d.active_alerts||0;
+    document.getElementById('stTriggered').textContent = d.triggered_alerts||0;
+    document.getElementById('stUnread').textContent = d.unread||0;
+    document.getElementById('stToday').textContent = d.today||0;
+  }catch(e){}
+}
+
+// ══════ INIT ══════
+initSymbols();
+initAlertTypes();
+loadSetup();
+loadStats();
+loadSubs();
+
+// Auto-refresh
+setInterval(function(){
+  if(document.hidden) return;
+  loadStats();
+  if(document.getElementById('panel-history').classList.contains('active')) loadHistory();
+  if(document.getElementById('panel-active').classList.contains('active')) loadAlerts();
+}, 15000);
+
+document.addEventListener('visibilitychange', function(){
+  if(!document.hidden){ loadStats(); }
+});
+</script>
+
+<script src="/static/plan-ui.js"></script>
+<script>
+document.addEventListener('whilber-plan-ready', function(){
+  var P = window.WHILBER_PLAN; if(!P||!P.loggedIn) return;
+  var L = P.limits, U = P.usage;
+
+  // Alert count stat in stats row
+  var sr = document.getElementById('statsRow');
+  if(sr){
+    var s = document.createElement('div');
+    s.className = 'stat';
+    s.innerHTML = '<div class="v" style="color:var(--purple);">' + (U.active_alerts||0) + '/' + (L.max_alerts||2) + '</div><div class="l">\u0638\u0631\u0641\u06CC\u062A \u0647\u0634\u062F\u0627\u0631</div>';
+    sr.appendChild(s);
+  }
+
+  // Block createAlert if at limit
+  if(L.max_alerts && U.active_alerts >= L.max_alerts){
+    var _origCreate = window.createAlert;
+    window.createAlert = function(){
+      var res = document.getElementById('createResult');
+      if(res) res.innerHTML = '<span style="color:var(--yellow);">\u0638\u0631\u0641\u06CC\u062A \u0647\u0634\u062F\u0627\u0631 \u067E\u0631 \u0634\u062F\u0647 \u0627\u0633\u062A. <a href="/pricing" style="color:var(--cyan);font-weight:700;">\u0627\u0631\u062A\u0642\u0627 \u067E\u0644\u0646</a></span>';
+    };
+  }
+
+  // Telegram lock for free plans
+  if(!L.telegram_alerts){
+    var tg = document.getElementById('chTelegram');
+    if(tg){
+      tg.style.opacity = '0.4';
+      tg.style.pointerEvents = 'none';
+      tg.classList.remove('on');
+      var lbl = document.createElement('span');
+      lbl.style.cssText = 'font-size:9px;color:var(--yellow);margin-right:6px;';
+      lbl.textContent = '\uD83D\uDD12 \u0645\u062E\u0635\u0648\u0635 \u067E\u0644\u0646 \u0648\u06CC\u0698\u0647';
+      tg.parentElement.appendChild(lbl);
+    }
+  }
+});
+</script>
+
+<!-- ═══ UNIVERSAL FOOTER ═══ -->
+<footer class="wfooter">
+  <div class="wfooter-grid">
+    <div class="wfooter-brand">
+      <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:28px;height:28px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;">W</div>
+        <span style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Whilber-AI</span>
+      </a>
+      <p>دستیار هوشمند تحلیل بازارهای مالی. تحلیل لحظه‌ای فارکس، کریپتو، فلزات و شاخص‌ها.</p>
+    </div>
+    <div class="wfooter-col">
+      <h4>ابزارها</h4>
+      <a href="/dashboard">&#x1F4CA; تحلیل بازار</a>
+      <a href="/track-record">&#x1F4DC; سوابق</a>
+      <a href="/builder">&#x1F527; استراتژی‌ساز</a>
+      <a href="/risk-manager">&#x1F6E1;&#xFE0F; مدیریت ریسک</a>
+      <a href="/journal">&#x1F4D2; ژورنال</a>
+      <a href="/alerts">&#x1F514; هشدارها</a>
+      <a href="/performance">&#x1F4C8; عملکرد زنده</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>اطلاعات</h4>
+      <a href="/guide">&#x1F4D6; راهنما</a>
+      <a href="/services">&#x2B50; خدمات</a>
+      <a href="/about">&#x1F464; درباره ما</a>
+      <a href="/contact">&#x1F4DE; تماس</a>
+      <a href="/">&#x1F3E0; صفحه اصلی</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>ارتباط</h4>
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; کانال تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">&#x1F4E7; ایمیل</a>
+      <a href="/contact">&#x1F4AC; پشتیبانی</a>
+      <a href="/admin">&#x2699;&#xFE0F; ادمین</a>
+    </div>
+  </div>
+  <div class="wfooter-bottom">
+    <p>&copy; 2026 Whilber-AI — تمامی حقوق محفوظ است. تحلیل‌ها جنبه آموزشی دارند و توصیه مالی نیستند.</p>
+    <div style="display:flex;gap:8px;">
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; تلگرام</a>
+      <a href="mailto:support@whilber-ai.com">&#x1F4E7; ایمیل</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

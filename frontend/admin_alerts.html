@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Whilber-AI | &#x1F6E1; &#1662;&#1606;&#1604; &#1605;&#1583;&#1740;&#1585;&#1740;&#1578; &#1607;&#1588;&#1583;&#1575;&#1585; (&#1575;&#1583;&#1605;&#1740;&#1606;)</title>
+<style>
+:root{--bg:#0f172a;--bg2:#1e293b;--bg3:#334155;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--border:rgba(255,255,255,.06);--yellow:#f59e0b;--green:#22c55e;--red:#ef4444;--cyan:#06b6d4;--purple:#a855f7;--blue:#3b82f6;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Tahoma,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;}
+
+/* ═══ UNIVERSAL NAV ═══ */
+.wnav{position:sticky;top:0;z-index:1000;background:rgba(8,11,18,.92);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid rgba(30,42,69,.6);padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;}
+.wnav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.wnav-logo-box{width:32px;height:32px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(0,212,255,.25);}
+.wnav-logo-txt{font-size:17px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.3px;}
+.wnav-links{display:flex;align-items:center;gap:1px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.wnav-links::-webkit-scrollbar{display:none;}
+.wnav-links a{color:#8892a8;padding:6px 10px;border-radius:7px;font-size:12.5px;font-weight:500;white-space:nowrap;transition:all .2s;text-decoration:none;}
+.wnav-links a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-links a.wn-active{color:#00d4ff;background:rgba(0,212,255,.08);font-weight:600;}
+.wnav-cta{background:linear-gradient(135deg,#00d4ff,#a855f7) !important;color:#000 !important;font-weight:700 !important;padding:6px 14px !important;border-radius:7px !important;font-size:12px !important;}
+.wnav-back{display:flex;align-items:center;gap:5px;color:#8892a8;font-size:12px;padding:5px 10px;border-radius:7px;cursor:pointer;background:rgba(255,255,255,.03);border:1px solid rgba(30,42,69,.5);transition:all .2s;text-decoration:none;flex-shrink:0;margin-left:6px;}
+.wnav-back:hover{color:#00d4ff;border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);}
+.wnav-ham{display:none;background:none;border:none;color:#e8ecf4;font-size:22px;cursor:pointer;padding:4px;}
+.wnav-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:999;}
+.wnav-mob-overlay.open{display:block;}
+.wnav-mob{position:fixed;top:0;right:0;width:270px;height:100vh;background:#0f1320;border-left:1px solid #1e2a45;z-index:1001;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:64px 14px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.wnav-mob-overlay.open .wnav-mob{transform:translateX(0);}
+.wnav-mob a{display:flex;align-items:center;gap:9px;color:#8892a8;padding:11px 14px;border-radius:9px;font-size:13.5px;text-decoration:none;transition:all .15s;}
+.wnav-mob a:hover{background:rgba(255,255,255,.04);color:#e8ecf4;}
+.wnav-mob a.wn-active{background:rgba(0,212,255,.08);color:#00d4ff;font-weight:600;}
+.wnav-mob-close{position:absolute;top:14px;left:14px;background:#161b2e;border:1px solid #1e2a45;color:#8892a8;width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+@media(max-width:900px){.wnav-links{display:none;}.wnav-ham{display:block;}.wnav-back{font-size:11px;padding:4px 8px;}}
+
+/* ═══ LAYOUT ═══ */
+.container{max-width:1100px;margin:0 auto;padding:16px 20px;}
+.page-title{font-size:18px;font-weight:800;color:var(--purple);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.page-title .badge{font-size:9px;padding:2px 8px;border-radius:4px;background:rgba(168,85,247,.15);color:var(--purple);font-weight:700;}
+
+/* Stats grid */
+.stats-row{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px;}
+@media(max-width:768px){.stats-row{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:480px){.stats-row{grid-template-columns:repeat(2,1fr);}}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center;}
+.stat .v{font-size:22px;font-weight:800;}.stat .l{font-size:9px;color:var(--text3);margin-top:2px;}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:16px;border-bottom:2px solid var(--border);padding-bottom:0;overflow-x:auto;}
+.tab{padding:8px 14px;font-size:11px;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.2s;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit;white-space:nowrap;}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--purple);border-bottom-color:var(--purple);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px;}
+.card-head{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.card-head h3{font-size:13px;color:var(--purple);font-weight:700;}
+.card-body{padding:12px 14px;}
+
+/* Grid */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:768px){.grid2{grid-template-columns:1fr;}}
+
+/* Buttons */
+.btn{padding:5px 12px;border-radius:7px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:10px;cursor:pointer;transition:.15s;font-family:inherit;font-weight:600;}
+.btn:hover{border-color:var(--text2);transform:translateY(-1px);}
+.btn-purple{background:rgba(168,85,247,.1);border-color:rgba(168,85,247,.2);color:var(--purple);}
+.btn-green{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.15);color:var(--green);}
+.btn-red{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.15);color:var(--red);}
+.btn-cyan{background:rgba(6,182,212,.08);border-color:rgba(6,182,212,.15);color:var(--cyan);}
+.btn-sm{padding:3px 8px;font-size:9px;}
+
+/* Forms */
+.form-group{margin-bottom:10px;}
+.form-group label{font-size:10px;color:var(--text3);display:block;margin-bottom:3px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:11px;font-family:inherit;}
+.form-group textarea{resize:vertical;min-height:70px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media(max-width:500px){.form-row{grid-template-columns:1fr;}}
+
+/* Table */
+table{width:100%;border-collapse:collapse;font-size:10px;}
+th,td{padding:6px 8px;text-align:right;border-bottom:1px solid rgba(255,255,255,.03);}
+th{color:var(--purple);font-weight:700;background:var(--bg3);font-size:9px;text-transform:uppercase;}
+tr:hover td{background:rgba(255,255,255,.015);}
+
+/* Status/msg */
+.msg{padding:6px 10px;border-radius:6px;font-size:10px;margin-top:6px;}
+.msg.ok{background:rgba(34,197,94,.06);color:var(--green);}
+.msg.err{background:rgba(239,68,68,.06);color:var(--red);}
+.msg.warn{background:rgba(245,158,11,.06);color:var(--yellow);}
+
+/* Tags */
+.tag{display:inline-block;padding:2px 6px;border-radius:4px;font-size:8px;font-weight:700;}
+.tag-green{background:rgba(34,197,94,.1);color:var(--green);}
+.tag-red{background:rgba(239,68,68,.1);color:var(--red);}
+.tag-yellow{background:rgba(245,158,11,.1);color:var(--yellow);}
+.tag-cyan{background:rgba(6,182,212,.1);color:var(--cyan);}
+.tag-purple{background:rgba(168,85,247,.1);color:var(--purple);}
+
+/* Toggles */
+.toggle{position:relative;width:34px;height:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:9px;cursor:pointer;transition:.2s;flex-shrink:0;display:inline-block;}
+.toggle.on{background:rgba(34,197,94,.15);border-color:var(--green);}
+.toggle::after{content:"";position:absolute;top:2px;right:2px;width:12px;height:12px;border-radius:50%;background:var(--text3);transition:.2s;}
+.toggle.on::after{right:auto;left:2px;background:var(--green);}
+
+/* Event flow */
+.event-flow{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0;}
+.ef{padding:4px 9px;border-radius:12px;font-size:10px;border:1px solid var(--border);cursor:pointer;background:var(--bg3);transition:.15s;user-select:none;}
+.ef.on{background:rgba(168,85,247,.12);border-color:rgba(168,85,247,.3);color:var(--purple);}
+.ef:hover{border-color:var(--purple);}
+
+/* Preview */
+.preview{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px;margin:8px 0;font-size:11px;direction:rtl;white-space:pre-wrap;line-height:1.7;}
+
+/* Check */
+.check{display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer;}
+.check input{width:14px;height:14px;accent-color:var(--purple);}
+
+/* Health indicators */
+.health-item{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.02);}
+.health-item .label{font-size:11px;color:var(--text2);}
+.health-item .value{font-size:11px;font-weight:700;}
+.health-item .value.ok{color:var(--green);}
+.health-item .value.warn{color:var(--yellow);}
+.health-item .value.err{color:var(--red);}
+
+/* ═══ UNIVERSAL FOOTER ═══ */
+.wfooter{background:#0f1320;border-top:1px solid #1e2a45;padding:32px 20px 16px;margin-top:24px;}
+.wfooter-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:28px;}
+.wfooter-brand p{font-size:12px;color:#5a6480;margin-top:8px;line-height:1.8;}
+.wfooter-col h4{font-size:12px;font-weight:700;color:#e8ecf4;margin-bottom:12px;}
+.wfooter-col a{display:block;color:#5a6480;font-size:12px;padding:3px 0;text-decoration:none;transition:color .2s;}
+.wfooter-col a:hover{color:#00d4ff;}
+.wfooter-bottom{max-width:1100px;margin:0 auto;border-top:1px solid #1e2a45;padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.wfooter-bottom p{font-size:11px;color:#5a6480;}
+.wfooter-bottom a{color:#00d4ff;text-decoration:none;font-size:11px;}
+@media(max-width:768px){.wfooter-grid{grid-template-columns:1fr 1fr;gap:20px;}}
+@media(max-width:480px){.wfooter-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- ═══ UNIVERSAL TOP NAV ═══ -->
+<nav class="wnav" id="wTopNav">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <a href="/" class="wnav-logo">
+      <div class="wnav-logo-box">W</div>
+      <span class="wnav-logo-txt">Whilber-AI</span>
+    </a>
+    <a href="/admin" class="wnav-back" title="&#1576;&#1575;&#1586;&#1711;&#1588;&#1578;">&#8594; &#1662;&#1606;&#1604; &#1575;&#1583;&#1605;&#1740;&#1606;</a>
+  </div>
+  <div class="wnav-links">
+    <a href="/">&#1582;&#1575;&#1606;&#1607;</a>
+    <a href="/dashboard">&#1578;&#1581;&#1604;&#1740;&#1604; &#1576;&#1575;&#1586;&#1575;&#1585;</a>
+    <a href="/track-record">&#1587;&#1608;&#1575;&#1576;&#1602;</a>
+    <a href="/builder">&#1575;&#1587;&#1578;&#1585;&#1575;&#1578;&#1688;&#1740;&#8204;&#1587;&#1575;&#1586;</a>
+    <a href="/risk-manager">&#1605;&#1583;&#1740;&#1585;&#1740;&#1578; &#1585;&#1740;&#1587;&#1705;</a>
+    <a href="/journal">&#1688;&#1608;&#1585;&#1606;&#1575;&#1604;</a>
+    <a href="/performance">عملکرد زنده</a>
+    <a href="/alerts">&#1607;&#1588;&#1583;&#1575;&#1585;&#1607;&#1575;</a>
+    <a href="/guide">&#1585;&#1575;&#1607;&#1606;&#1605;&#1575;</a>
+    <a href="/services">&#1582;&#1583;&#1605;&#1575;&#1578;</a>
+    <a href="/about">&#1583;&#1585;&#1576;&#1575;&#1585;&#1607; &#1605;&#1575;</a>
+    <a href="/contact">&#1578;&#1605;&#1575;&#1587;</a>
+    <a href="/robots">ربات‌ها</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/login">ورود</a>
+    <a href="/register">ثبت‌نام</a>
+    <a href="/dashboard" class="wnav-cta">&#x1F680; &#1578;&#1581;&#1604;&#1740;&#1604;</a>
+  </div>
+  <button class="wnav-ham" onclick="document.getElementById('wMobOverlay').classList.add('open')">&#9776;</button>
+</nav>
+<div class="wnav-mob-overlay" id="wMobOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="wnav-mob">
+    <button class="wnav-mob-close" onclick="document.getElementById('wMobOverlay').classList.remove('open')">&#10005;</button>
+    <a href="/admin" style="color:#a855f7;border:1px solid rgba(168,85,247,.2);margin-bottom:8px;">&#8594; &#1662;&#1606;&#1604; &#1575;&#1583;&#1605;&#1740;&#1606;</a>
+    <a href="/">&#x1F3E0; &#1582;&#1575;&#1606;&#1607;</a>
+    <a href="/dashboard">&#x1F4CA; &#1578;&#1581;&#1604;&#1740;&#1604; &#1576;&#1575;&#1586;&#1575;&#1585;</a>
+    <a href="/track-record">&#x1F4DC; &#1587;&#1608;&#1575;&#1576;&#1602;</a>
+    <a href="/builder">&#x1F527; &#1575;&#1587;&#1578;&#1585;&#1575;&#1578;&#1688;&#1740;&#8204;&#1587;&#1575;&#1586;</a>
+    <a href="/risk-manager">&#x1F6E1;&#xFE0F; &#1605;&#1583;&#1740;&#1585;&#1740;&#1578; &#1585;&#1740;&#1587;&#1705;</a>
+    <a href="/journal">&#x1F4D2; &#1688;&#1608;&#1585;&#1606;&#1575;&#1604;</a>
+    <a href="/performance">&#x1F4C8; عملکرد زنده</a>
+    <a href="/alerts">&#x1F514; &#1607;&#1588;&#1583;&#1575;&#1585;&#1607;&#1575;</a>
+    <a href="/robots">&#x1F916; ربات‌ها</a>
+    <a href="/guide">&#x1F4D6; &#1585;&#1575;&#1607;&#1606;&#1605;&#1575;</a>
+    <a href="/services">&#x2B50; &#1582;&#1583;&#1605;&#1575;&#1578;</a>
+    <a href="/about">&#x1F464; &#1583;&#1585;&#1576;&#1575;&#1585;&#1607; &#1605;&#1575;</a>
+    <a href="/contact">&#x1F4DE; &#1578;&#1605;&#1575;&#1587;</a>
+    <a href="/admin" class="wn-active">&#x2699;&#xFE0F; &#1575;&#1583;&#1605;&#1740;&#1606;</a>
+    <a href="/pricing">تعرفه‌ها</a>
+    <a href="/login">&#x1F511; ورود</a>
+    <a href="/register">&#x1F4DD; ثبت‌نام</a>
+  </div>
+</div>
+
+
+<div class="container">
+
+<div class="page-title">
+  &#x1F6E1; &#1662;&#1606;&#1604; &#1605;&#1583;&#1740;&#1585;&#1740;&#1578; &#1607;&#1588;&#1583;&#1575;&#1585;
+  <span class="badge">ADMIN</span>
+</div>
+
+<!-- ═══ STATS ═══ -->
+<div class="stats-row">
+  <div class="stat"><div class="v" id="sSubs" style="color:var(--cyan);">-</div><div class="l">&#1605;&#1588;&#1578;&#1585;&#1705; &#1601;&#1593;&#1575;&#1604;</div></div>
+  <div class="stat"><div class="v" id="sSent" style="color:var(--green);">-</div><div class="l">&#1575;&#1585;&#1587;&#1575;&#1604; &#1588;&#1583;&#1607;</div></div>
+  <div class="stat"><div class="v" id="sAlerts" style="color:var(--yellow);">-</div><div class="l">&#1607;&#1588;&#1583;&#1575;&#1585; &#1601;&#1593;&#1575;&#1604;</div></div>
+  <div class="stat"><div class="v" id="sCh" style="color:var(--purple);">-</div><div class="l">&#1705;&#1575;&#1606;&#1575;&#1604;</div></div>
+  <div class="stat"><div class="v" id="sPoll">-</div><div class="l">Polling</div></div>
+  <div class="stat"><div class="v" id="sEmail">-</div><div class="l">Email</div></div>
+</div>
+
+<!-- ═══ TABS ═══ -->
+<div class="tabs">
+  <button class="tab active" data-tab="alert" onclick="switchTab('alert')">&#x1F514; &#1575;&#1585;&#1587;&#1575;&#1604; &#1607;&#1588;&#1583;&#1575;&#1585;</button>
+  <button class="tab" data-tab="channel" onclick="switchTab('channel')">&#x1F4E2; &#1662;&#1740;&#1575;&#1605; &#1705;&#1575;&#1606;&#1575;&#1604;</button>
+  <button class="tab" data-tab="subs" onclick="switchTab('subs')">&#x1F465; &#1605;&#1588;&#1578;&#1585;&#1705;&#1740;&#1606;</button>
+  <button class="tab" data-tab="system" onclick="switchTab('system')">&#x2699;&#xFE0F; &#1587;&#1740;&#1587;&#1578;&#1605;</button>
+  <button class="tab" data-tab="log" onclick="switchTab('log')">&#x1F4CB; &#1604;&#1575;&#1711;</button>
+</div>
+
+
+<!-- ═══════ TAB: SEND ALERT ═══════ -->
+<div class="tab-panel active" id="panel-alert">
+<div class="grid2">
+  <div class="card">
+    <div class="card-head"><h3>&#x1F514; &#1575;&#1585;&#1587;&#1575;&#1604; &#1607;&#1588;&#1583;&#1575;&#1585; &#1605;&#1593;&#1575;&#1605;&#1604;&#1575;&#1578;&#1740;</h3></div>
+    <div class="card-body">
+      <p style="font-size:10px;color:var(--text2);margin-bottom:8px;">&#x26A1; &#1605;&#1585;&#1575;&#1581;&#1604; &#1607;&#1588;&#1583;&#1575;&#1585; (&#1608;&#1585;&#1608;&#1583; &#1578;&#1575; &#1582;&#1585;&#1608;&#1580;):</p>
+      <div class="event-flow" id="eventFlow"></div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>&#1606;&#1605;&#1575;&#1583;</label>
+          <select id="aSymbol"></select>
+        </div>
+        <div class="form-group">
+          <label>&#1580;&#1607;&#1578;</label>
+          <select id="aDir"><option value="BUY">&#x1F7E9; BUY</option><option value="SELL">&#x1F7E5; SELL</option></select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>&#1578;&#1575;&#1740;&#1605;&#8204;&#1601;&#1585;&#1740;&#1605;</label>
+          <select id="aTF"><option>M15</option><option>M30</option><option selected>H1</option><option>H4</option><option>D1</option></select>
+        </div>
+        <div class="form-group">
+          <label>&#1575;&#1587;&#1578;&#1585;&#1575;&#1578;&#1688;&#1740;</label>
+          <input type="text" id="aStrat" value="Manual Alert">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>&#1608;&#1585;&#1608;&#1583;</label><input type="number" id="aEntry" step="any"></div>
+        <div class="form-group"><label>TP</label><input type="number" id="aTP" step="any"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>SL</label><input type="number" id="aSL" step="any"></div>
+        <div class="form-group"><label>&#1582;&#1585;&#1608;&#1580;</label><input type="number" id="aExit" step="any"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>PnL pips</label><input type="number" id="aPips" step="any"></div>
+        <div class="form-group"><label>PnL $</label><input type="number" id="aPnl" step="any"></div>
+      </div>
+      <div class="form-group"><label>&#1605;&#1583;&#1578; (&#1583;&#1602;&#1740;&#1602;&#1607;)</label><input type="number" id="aDur" style="width:120px;"></div>
+
+      <hr style="border-color:rgba(255,255,255,.03);margin:10px 0;">
+      <p style="font-size:10px;color:var(--text2);margin-bottom:6px;">&#x1F4E3; &#1705;&#1575;&#1606;&#1575;&#1604; &#1575;&#1585;&#1587;&#1575;&#1604;:</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <div class="check"><input type="checkbox" id="sendTG" checked><label>&#x1F4F1; &#1578;&#1604;&#1711;&#1585;&#1575;&#1605; &#1705;&#1575;&#1585;&#1576;&#1585;&#1575;&#1606;</label></div>
+        <div class="check"><input type="checkbox" id="sendCH" checked><label>&#x1F4E2; &#1705;&#1575;&#1606;&#1575;&#1604; &#1593;&#1605;&#1608;&#1605;&#1740;</label></div>
+        <div class="check"><input type="checkbox" id="sendEM"><label>&#x1F4E7; &#1575;&#1740;&#1605;&#1740;&#1604;</label></div>
+        <div class="check"><input type="checkbox" id="sendPOP" checked><label>&#x1F4BB; &#1662;&#1575;&#1662;&#8204;&#1570;&#1662;</label></div>
+      </div>
+
+      <div style="display:flex;gap:6px;margin-top:10px;">
+        <button class="btn btn-green" onclick="sendAlert()">&#x1F514; &#1575;&#1585;&#1587;&#1575;&#1604;</button>
+        <button class="btn" onclick="previewAlert()">&#x1F441; &#1662;&#1740;&#1588;&#8204;&#1606;&#1605;&#1575;&#1740;&#1588;</button>
+      </div>
+      <div id="alertPreview"></div>
+      <div id="alertResult"></div>
+    </div>
+  </div>
+
+  <!-- Quick actions -->
+  <div>
+    <div class="card">
+      <div class="card-head"><h3>&#x26A1; &#1575;&#1602;&#1583;&#1575;&#1605;&#1575;&#1578; &#1587;&#1585;&#1740;&#1593;</h3></div>
+      <div class="card-body" style="display:flex;flex-direction:column;gap:6px;">
+        <button class="btn btn-purple" onclick="sendTestAlert()" style="width:100%;">&#x1F4E8; &#1575;&#1585;&#1587;&#1575;&#1604; &#1578;&#1587;&#1578;</button>
+        <button class="btn btn-cyan" onclick="refreshAll()" style="width:100%;">&#x1F504; &#1576;&#1585;&#1608;&#1586;&#1585;&#1587;&#1575;&#1606;&#1740; &#1570;&#1605;&#1575;&#1585;</button>
+        <a href="/alerts" class="btn" style="text-align:center;text-decoration:none;display:block;width:100%;">&#x1F514; &#1589;&#1601;&#1581;&#1607; &#1607;&#1588;&#1583;&#1575;&#1585;&#1607;&#1575;</a>
+        <a href="/alerts-settings" class="btn" style="text-align:center;text-decoration:none;display:block;width:100%;">&#x2699;&#xFE0F; &#1578;&#1606;&#1592;&#1740;&#1605;&#1575;&#1578; &#1705;&#1575;&#1585;&#1576;&#1585;</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>&#x1F49A; &#1587;&#1604;&#1575;&#1605;&#1578; &#1587;&#1740;&#1587;&#1578;&#1605;</h3></div>
+      <div class="card-body" id="healthBox">
+        <div class="health-item"><span class="label">&#x1F4F1; &#1576;&#1575;&#1578; &#1578;&#1604;&#1711;&#1585;&#1575;&#1605;</span><span class="value" id="hTelegram">...</span></div>
+        <div class="health-item"><span class="label">&#x1F4E2; &#1705;&#1575;&#1606;&#1575;&#1604;</span><span class="value" id="hChannel">...</span></div>
+        <div class="health-item"><span class="label">&#x1F4E7; SMTP &#1575;&#1740;&#1605;&#1740;&#1604;</span><span class="value" id="hEmail">...</span></div>
+        <div class="health-item"><span class="label">&#x1F4E1; Dispatcher</span><span class="value" id="hDispatcher">...</span></div>
+        <div class="health-item"><span class="label">&#x1F4DD; Alert Manager</span><span class="value" id="hAlertMgr">...</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- ═══════ TAB: CHANNEL MESSAGE ═══════ -->
+<div class="tab-panel" id="panel-channel">
+<div class="card">
+  <div class="card-head"><h3>&#x1F4E2; &#1575;&#1585;&#1587;&#1575;&#1604; &#1662;&#1740;&#1575;&#1605; &#1570;&#1586;&#1575;&#1583; &#1576;&#1607; &#1705;&#1575;&#1606;&#1575;&#1604;</h3></div>
+  <div class="card-body">
+    <div class="form-group">
+      <label>&#1662;&#1740;&#1575;&#1605; (HTML)</label>
+      <textarea id="chMsg" placeholder="&#1662;&#1740;&#1575;&#1605; HTML...&#10;&#1605;&#1579;&#1575;&#1604;: <b>&#1576;&#1608;&#1604;&#1583;</b> &#1740;&#1575; <i>&#1575;&#1740;&#1578;&#1575;&#1604;&#1740;&#1705;</i>"></textarea>
+    </div>
+    <div class="check" style="margin-bottom:8px;"><input type="checkbox" id="chAlsoUsers"><label>&#1607;&#1605;&#1670;&#1606;&#1740;&#1606; &#1576;&#1607; &#1705;&#1575;&#1585;&#1576;&#1585;&#1575;&#1606; &#1601;&#1593;&#1575;&#1604;</label></div>
+    <div style="display:flex;gap:6px;">
+      <button class="btn btn-cyan" onclick="sendChannelMsg()">&#x1F4E2; &#1575;&#1585;&#1587;&#1575;&#1604;</button>
+      <button class="btn" onclick="previewChannel()">&#x1F441; &#1662;&#1740;&#1588;&#8204;&#1606;&#1605;&#1575;&#1740;&#1588;</button>
+    </div>
+    <div id="chPreview"></div>
+    <div id="chResult"></div>
+  </div>
+</div>
+</div>
+
+
+<!-- ═══════ TAB: SUBSCRIBERS ═══════ -->
+<div class="tab-panel" id="panel-subs">
+<div class="card">
+  <div class="card-head">
+    <h3>&#x1F465; &#1605;&#1588;&#1578;&#1585;&#1705;&#1740;&#1606;</h3>
+    <button class="btn btn-sm" onclick="loadSubscribers()">&#x1F504;</button>
+  </div>
+  <div class="card-body" style="padding:0;overflow-x:auto;">
+    <table>
+      <thead><tr>
+        <th>#</th>
+        <th>&#1606;&#1575;&#1605;</th>
+        <th>&#1740;&#1608;&#1586;&#1585;&#1606;&#1740;&#1605;</th>
+        <th>Chat ID</th>
+        <th>&#x1F4F1;</th>
+        <th>&#x1F4E7;</th>
+        <th>&#1606;&#1605;&#1575;&#1583;&#1607;&#1575;</th>
+        <th>&#1585;&#1608;&#1740;&#1583;&#1575;&#1583;&#1607;&#1575;</th>
+        <th>&#1578;&#1575;&#1585;&#1740;&#1582;</th>
+      </tr></thead>
+      <tbody id="subsBody"></tbody>
+    </table>
+    <div id="subsEmpty" class="msg warn" style="display:none;text-align:center;margin:10px;">&#1607;&#1606;&#1608;&#1586; &#1605;&#1588;&#1578;&#1585;&#1705;&#1740; &#1579;&#1576;&#1578; &#1606;&#1588;&#1583;&#1607;</div>
+  </div>
+</div>
+
+<!-- User configs from new alert_manager -->
+<div class="card">
+  <div class="card-head">
+    <h3>&#x2699;&#xFE0F; &#1578;&#1606;&#1592;&#1740;&#1605;&#1575;&#1578; &#1705;&#1575;&#1585;&#1576;&#1585;&#1575;&#1606; (&#1587;&#1740;&#1587;&#1578;&#1605; &#1580;&#1583;&#1740;&#1583;)</h3>
+    <button class="btn btn-sm" onclick="loadUserConfigs()">&#x1F504;</button>
+  </div>
+  <div class="card-body" style="padding:0;overflow-x:auto;">
+    <table>
+      <thead><tr>
+        <th>&#1575;&#1740;&#1605;&#1740;&#1604;</th>
+        <th>Chat ID</th>
+        <th>&#1705;&#1575;&#1606;&#1575;&#1604;&#8204;&#1607;&#1575;</th>
+        <th>&#1587;&#1575;&#1593;&#1575;&#1578; &#1587;&#1705;&#1608;&#1578;</th>
+        <th>&#1578;&#1575;&#1585;&#1740;&#1582;</th>
+      </tr></thead>
+      <tbody id="userConfigsBody"></tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+
+<!-- ═══════ TAB: SYSTEM ═══════ -->
+<div class="tab-panel" id="panel-system">
+<div class="grid2">
+  <!-- Global Settings -->
+  <div class="card">
+    <div class="card-head"><h3>&#x2699;&#xFE0F; &#1578;&#1606;&#1592;&#1740;&#1605;&#1575;&#1578; &#1705;&#1604;&#1740; &#1607;&#1588;&#1583;&#1575;&#1585;</h3></div>
+    <div class="card-body">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--bg);border-radius:8px;margin-bottom:6px;">
+        <div>
+          <div style="font-size:11px;font-weight:700;">&#1587;&#1740;&#1587;&#1578;&#1605; &#1607;&#1588;&#1583;&#1575;&#1585; &#1601;&#1593;&#1575;&#1604;</div>
+          <div style="font-size:9px;color:var(--text3);">&#1594;&#1740;&#1585;&#1601;&#1593;&#1575;&#1604; &#1705;&#1585;&#1583;&#1606; &#1607;&#1605;&#1607; &#1607;&#1588;&#1583;&#1575;&#1585;&#1607;&#1575; &#1576;&#1585;&#1575;&#1740; &#1607;&#1605;&#1607; &#1705;&#1575;&#1585;&#1576;&#1585;&#1575;&#1606;</div>
+        </div>
+        <div class="toggle on" id="sysAlertActive" onclick="this.classList.toggle('on');saveGlobalSettings()"></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--bg);border-radius:8px;margin-bottom:6px;">
+        <div>
+          <div style="font-size:11px;font-weight:700;">&#1575;&#1585;&#1587;&#1575;&#1604; &#1576;&#1607; &#1705;&#1575;&#1606;&#1575;&#1604;</div>
+          <div style="font-size:9px;color:var(--text3);">&#1575;&#1585;&#1587;&#1575;&#1604; &#1582;&#1608;&#1583;&#1705;&#1575;&#1585; &#1607;&#1588;&#1583;&#1575;&#1585;&#1607;&#1575; &#1576;&#1607; &#1705;&#1575;&#1606;&#1575;&#1604; &#1593;&#1605;&#1608;&#1605;&#1740;</div>
+        </div>
+        <div class="toggle on" id="sysChannelActive" onclick="this.classList.toggle('on');saveGlobalSettings()"></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--bg);border-radius:8px;margin-bottom:6px;">
+        <div>
+          <div style="font-size:11px;font-weight:700;">&#1575;&#1585;&#1587;&#1575;&#1604; &#1575;&#1740;&#1605;&#1740;&#1604;</div>
+          <div style="font-size:9px;color:var(--text3);">&#1575;&#1585;&#1587;&#1575;&#1604; &#1607;&#1588;&#1583;&#1575;&#1585; &#1576;&#1607; &#1575;&#1740;&#1605;&#1740;&#1604; &#1705;&#1575;&#1585;&#1576;&#1585;&#1575;&#1606;</div>
+        </div>
+        <div class="toggle on" id="sysEmailActive" onclick="this.classList.toggle('on');saveGlobalSettings()"></div>
+      </div>
+      <div id="globalSaveResult"></div>
+    </div>
+  </div>
+
+  <!-- Rate Limits & Info -->
+  <div class="card">
+    <div class="card-head"><h3>&#x1F4CA; &#1575;&#1591;&#1604;&#1575;&#1593;&#1575;&#1578; &#1587;&#1740;&#1587;&#1578;&#1605;</h3></div>
+    <div class="card-body">
+      <div class="health-item"><span class="label">&#x1F4E6; Rate Limit</span><span class="value" id="sRateLimit">20/min</span></div>
+      <div class="health-item"><span class="label">&#x1F5C4; &#1601;&#1575;&#1740;&#1604;&#8204;&#1607;&#1575;&#1740; &#1607;&#1588;&#1583;&#1575;&#1585;</span><span class="value" id="sFiles">-</span></div>
+      <div class="health-item"><span class="label">&#x1F4C1; &#1605;&#1587;&#1740;&#1585; &#1584;&#1582;&#1740;&#1585;&#1607;</span><span class="value" style="font-size:9px;direction:ltr;">data/</span></div>
+      <div class="health-item"><span class="label">&#x1F4CB; &#1575;&#1606;&#1608;&#1575;&#1593; &#1607;&#1588;&#1583;&#1575;&#1585;</span><span class="value" id="sAlertTypes">-</span></div>
+      <div class="health-item"><span class="label">&#x1F4CA; &#1606;&#1605;&#1575;&#1583;&#1607;&#1575;</span><span class="value">25</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Default Templates Management -->
+<div class="card">
+  <div class="card-head">
+    <h3>&#x1F4DD; &#1602;&#1575;&#1604;&#1576; &#1662;&#1740;&#1588;&#8204;&#1601;&#1585;&#1590; &#1662;&#1740;&#1575;&#1605;&#8204;&#1607;&#1575;</h3>
+    <span style="font-size:9px;color:var(--text3);">&#1602;&#1575;&#1604;&#1576;&#8204;&#1607;&#1575;&#1740; &#1662;&#1740;&#1588;&#8204;&#1601;&#1585;&#1590; &#1587;&#1740;&#1587;&#1578;&#1605;. &#1705;&#1575;&#1585;&#1576;&#1585;&#1575;&#1606; &#1605;&#1740;&#8204;&#1578;&#1608;&#1575;&#1606;&#1606;&#1583; &#1602;&#1575;&#1604;&#1576; &#1582;&#1608;&#1583; &#1585;&#1575; &#1576;&#1587;&#1575;&#1586;&#1606;&#1583;.</span>
+  </div>
+  <div class="card-body" id="systemTemplatesBox">
+    <div style="text-align:center;color:var(--text3);font-size:10px;">&#1583;&#1585; &#1581;&#1575;&#1604; &#1576;&#1575;&#1585;&#1711;&#1584;&#1575;&#1585;&#1740;...</div>
+  </div>
+</div>
+</div>
+
+
+<!-- ═══════ TAB: LOG ═══════ -->
+<div class="tab-panel" id="panel-log">
+<div class="card">
+  <div class="card-head">
+    <h3>&#x1F4CB; &#1604;&#1575;&#1711; &#1607;&#1588;&#1583;&#1575;&#1585;&#1607;&#1575;</h3>
+    <div style="display:flex;gap:4px;">
+      <select id="logFilter" onchange="loadLog()" style="padding:3px 6px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:10px;">
+        <option value="">&#1607;&#1605;&#1607;</option>
+        <option value="sent">&#x2705; &#1575;&#1585;&#1587;&#1575;&#1604;&#8204;&#1588;&#1583;&#1607;</option>
+        <option value="failed">&#x274C; &#1606;&#1575;&#1605;&#1608;&#1601;&#1602;</option>
+      </select>
+      <button class="btn btn-sm" onclick="loadLog()">&#x1F504;</button>
+    </div>
+  </div>
+  <div class="card-body" style="padding:0;overflow-x:auto;">
+    <table>
+      <thead><tr>
+        <th>&#1586;&#1605;&#1575;&#1606;</th>
+        <th>&#1705;&#1575;&#1606;&#1575;&#1604;</th>
+        <th>&#1606;&#1608;&#1593;</th>
+        <th>&#1606;&#1605;&#1575;&#1583;</th>
+        <th>&#1608;&#1590;&#1593;&#1740;&#1578;</th>
+        <th>&#1580;&#1586;&#1574;&#1740;&#1575;&#1578;</th>
+      </tr></thead>
+      <tbody id="logBody"></tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+
+</div><!-- /container -->
+
+
+<script src="/static/alert_system.js"></script>
+<script>
+var TOKEN = localStorage.getItem('admin_token') || '';
+var API = window.location.origin;
+
+var SYMBOLS = ['XAUUSD','XAGUSD','EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','NZDUSD','USDCAD','EURGBP','EURJPY','GBPJPY','EURAUD','EURCAD','EURCHF','GBPAUD','GBPCAD','AUDJPY','CADJPY','BTCUSD','ETHUSD','SOLUSD','US30','NAS100','US500'];
+var SYMBOL_GROUPS = {
+  '\u0641\u0644\u0632\u0627\u062a': ['XAUUSD','XAGUSD'],
+  '\u0641\u0627\u0631\u06a9\u0633 \u0627\u0635\u0644\u06cc': ['EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','NZDUSD','USDCAD'],
+  '\u0641\u0627\u0631\u06a9\u0633 \u0641\u0631\u0639\u06cc': ['EURGBP','EURJPY','GBPJPY','EURAUD','EURCAD','EURCHF','GBPAUD','GBPCAD','AUDJPY','CADJPY'],
+  '\u06a9\u0631\u06cc\u067e\u062a\u0648': ['BTCUSD','ETHUSD','SOLUSD'],
+  '\u0634\u0627\u062e\u0635': ['US30','NAS100','US500'],
+};
+
+var EVENTS = [
+  {id:'entry',icon:'\uD83D\uDCE1',label:'\u0633\u06cc\u06af\u0646\u0627\u0644 \u062c\u062f\u06cc\u062f',desc:'\u0633\u062a\u0627\u067e \u0634\u0646\u0627\u0633\u0627\u06cc\u06cc \u0634\u062f'},
+  {id:'entry',icon:'\uD83D\uDFE2',label:'\u0648\u0631\u0648\u062f',desc:'\u0642\u06cc\u0645\u062a \u0628\u0647 \u0646\u0642\u0637\u0647 \u0648\u0631\u0648\u062f \u0631\u0633\u06cc\u062f'},
+  {id:'be_activated',icon:'\uD83D\uDC9B',label:'SL \u0628\u0647 BE',desc:'SL \u0628\u0647 \u0646\u0642\u0637\u0647 \u0648\u0631\u0648\u062f \u0631\u0641\u062a'},
+  {id:'partial_close',icon:'\uD83D\uDCB0',label:'\u0633\u06cc\u0648 \u0633\u0648\u062f',desc:'\u0628\u062e\u0634\u06cc \u0627\u0632 \u0633\u0648\u062f \u0630\u062e\u06cc\u0631\u0647 \u0634\u062f'},
+  {id:'trailing_active',icon:'\uD83D\uDD04',label:'Trailing \u0641\u0639\u0627\u0644',desc:'SL \u062f\u0646\u0628\u0627\u0644 \u0642\u06cc\u0645\u062a'},
+  {id:'near_tp',icon:'\uD83C\uDFAF',label:'\u0646\u0632\u062f\u06cc\u06a9 TP',desc:'\u0646\u0632\u062f\u06cc\u06a9 \u062d\u062f \u0633\u0648\u062f'},
+  {id:'near_sl',icon:'\uD83D\uDD34',label:'\u0646\u0632\u062f\u06cc\u06a9 SL',desc:'\u0646\u0632\u062f\u06cc\u06a9 \u062d\u062f \u0636\u0631\u0631'},
+  {id:'closed_tp',icon:'\u2705',label:'\u0628\u0633\u062a\u0647 \u2014 TP',desc:'\u0628\u0627 \u0633\u0648\u062f \u0628\u0633\u062a\u0647 \u0634\u062f'},
+  {id:'closed_sl',icon:'\u274C',label:'\u0628\u0633\u062a\u0647 \u2014 SL',desc:'\u0628\u0627 \u0636\u0631\u0631 \u0628\u0633\u062a\u0647 \u0634\u062f'},
+  {id:'closed_trailing',icon:'\uD83D\uDD04',label:'\u0628\u0633\u062a\u0647 \u2014 Trail',desc:'\u0628\u0627 trailing \u0628\u0633\u062a\u0647 \u0634\u062f'},
+  {id:'closed_be',icon:'\uD83D\uDFE1',label:'\u0628\u0633\u062a\u0647 \u2014 BE',desc:'\u062f\u0631 break even \u0628\u0633\u062a\u0647 \u0634\u062f'},
+];
+var selectedEvent = 'entry';
+
+// ═══ Init ═══
+function initSymbolDropdown(){
+  var sel = document.getElementById('aSymbol');
+  sel.innerHTML = '';
+  for(var g in SYMBOL_GROUPS){
+    var og = document.createElement('optgroup');
+    og.label = g;
+    SYMBOL_GROUPS[g].forEach(function(s){
+      var o = document.createElement('option');
+      o.value = s; o.textContent = s;
+      og.appendChild(o);
+    });
+    sel.appendChild(og);
+  }
+}
+
+function buildEventFlow(){
+  var el = document.getElementById('eventFlow');
+  el.innerHTML = '';
+  EVENTS.forEach(function(e){
+    var d = document.createElement('div');
+    d.className = 'ef' + (e.id === selectedEvent ? ' on' : '');
+    d.innerHTML = e.icon + ' ' + e.label;
+    d.title = e.desc;
+    d.onclick = function(){selectedEvent = e.id; buildEventFlow();};
+    el.appendChild(d);
+  });
+}
+
+// ═══ Tab Switch ═══
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelector('[data-tab="'+name+'"]').classList.add('active');
+  document.getElementById('panel-'+name).classList.add('active');
+  if(name==='subs'){loadSubscribers();loadUserConfigs();}
+  if(name==='log') loadLog();
+  if(name==='system') loadSystemTemplates();
+}
+
+// ═══ API helper ═══
+async function api(method, path, body){
+  var opts = {method:method, headers:{'Content-Type':'application/json','Authorization':'Bearer '+TOKEN}};
+  if(body) opts.body = JSON.stringify(body);
+  try{var r = await fetch(path, opts); return r.json();}catch(e){return {error:e.message};}
+}
+
+// ═══ Load Stats ═══
+async function loadStats(){
+  try{
+    var s = await api('GET','/api/alerts/subscribers');
+    var subs = s.subscribers || [];
+    document.getElementById('sSubs').textContent = subs.filter(function(u){return u.telegram_active;}).length;
+
+    var st = await api('GET','/api/alerts/stats');
+    document.getElementById('sSent').textContent = st.sent || st.total_sent || 0;
+
+    var tg = await api('GET','/api/telegram/status');
+    document.getElementById('sPoll').textContent = tg.polling_active ? '\u2705' : '\u274C';
+
+    var ch = await api('GET','/api/admin/channel-status');
+    document.getElementById('sCh').textContent = ch.configured ? '\u2705' : '\u274C';
+
+    var em = await api('GET','/api/email/status');
+    document.getElementById('sEmail').textContent = (em.configured || em.smtp_configured) ? '\u2705' : '\u274C';
+  }catch(e){}
+
+  // Alert stats from alert_manager
+  try{
+    var as = await api('GET','/api/alert/stats?email=');
+    document.getElementById('sAlerts').textContent = as.active_alerts || 0;
+  }catch(e){}
+}
+
+// ═══ Health ═══
+async function loadHealth(){
+  try{
+    var tg = await api('GET','/api/telegram/status');
+    var hTg = document.getElementById('hTelegram');
+    hTg.textContent = tg.polling_active ? '\u2705 \u0641\u0639\u0627\u0644' : '\u274C \u063a\u06cc\u0631\u0641\u0639\u0627\u0644';
+    hTg.className = 'value ' + (tg.polling_active ? 'ok' : 'err');
+  }catch(e){document.getElementById('hTelegram').textContent='\u274C';document.getElementById('hTelegram').className='value err';}
+
+  try{
+    var ch = await api('GET','/api/admin/channel-status');
+    var hCh = document.getElementById('hChannel');
+    hCh.textContent = ch.configured ? '\u2705 \u067e\u06cc\u06a9\u0631\u0628\u0646\u062f\u06cc \u0634\u062f\u0647' : '\u26A0 \u067e\u06cc\u06a9\u0631\u0628\u0646\u062f\u06cc \u0646\u0634\u062f\u0647';
+    hCh.className = 'value ' + (ch.configured ? 'ok' : 'warn');
+  }catch(e){document.getElementById('hChannel').textContent='\u274C';document.getElementById('hChannel').className='value err';}
+
+  try{
+    var em = await api('GET','/api/email/status');
+    var hEm = document.getElementById('hEmail');
+    hEm.textContent = (em.configured || em.smtp_configured) ? '\u2705 \u0641\u0639\u0627\u0644' : '\u26A0 \u067e\u06cc\u06a9\u0631\u0628\u0646\u062f\u06cc \u0646\u0634\u062f\u0647';
+    hEm.className = 'value ' + ((em.configured || em.smtp_configured) ? 'ok' : 'warn');
+  }catch(e){document.getElementById('hEmail').textContent='\u274C';document.getElementById('hEmail').className='value err';}
+
+  try{
+    var ds = await api('GET','/api/alerts/stats');
+    var hDs = document.getElementById('hDispatcher');
+    hDs.textContent = ds.error ? '\u274C \u063a\u06cc\u0631\u0641\u0639\u0627\u0644' : '\u2705 \u0641\u0639\u0627\u0644';
+    hDs.className = 'value ' + (ds.error ? 'err' : 'ok');
+  }catch(e){document.getElementById('hDispatcher').textContent='\u274C';document.getElementById('hDispatcher').className='value err';}
+
+  try{
+    var at = await api('GET','/api/alert-types');
+    var hAm = document.getElementById('hAlertMgr');
+    var count = Object.keys(at.types || {}).length;
+    hAm.textContent = count > 0 ? '\u2705 ' + count + ' \u0646\u0648\u0639' : '\u274C';
+    hAm.className = 'value ' + (count > 0 ? 'ok' : 'err');
+    document.getElementById('sAlertTypes').textContent = count;
+  }catch(e){document.getElementById('hAlertMgr').textContent='\u274C';document.getElementById('hAlertMgr').className='value err';}
+}
+
+// ═══ Subscribers Table ═══
+async function loadSubscribers(){
+  var s = await api('GET','/api/alerts/subscribers');
+  var subs = s.subscribers || [];
+  var b = document.getElementById('subsBody');
+  b.innerHTML = '';
+  if(!subs.length){document.getElementById('subsEmpty').style.display='block';return;}
+  document.getElementById('subsEmpty').style.display='none';
+  subs.forEach(function(u, i){
+    var syms = u.symbols === '*' ? '\u0647\u0645\u0647' : u.symbols;
+    var evts = u.events === '*' ? '\u0647\u0645\u0647' : u.events;
+    var r = '<tr>';
+    r += '<td>' + (i+1) + '</td>';
+    r += '<td style="font-weight:700;">' + (u.telegram_first_name || '-') + '</td>';
+    r += '<td>@' + (u.telegram_username || '-') + '</td>';
+    r += '<td style="font-family:monospace;font-size:9px;">' + (u.telegram_chat_id || '-') + '</td>';
+    r += '<td>' + (u.telegram_active ? '<span class="tag tag-green">\u2705</span>' : '<span class="tag tag-red">\uD83D\uDD15</span>') + '</td>';
+    r += '<td>' + (u.email_active ? '<span class="tag tag-green">\u2705</span>' : '<span class="tag tag-red">\uD83D\uDD15</span>') + '</td>';
+    r += '<td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;font-size:9px;">' + syms + '</td>';
+    r += '<td style="max-width:100px;font-size:9px;">' + evts + '</td>';
+    r += '<td style="font-size:9px;">' + ((u.created_at||'').substring(0,10)) + '</td>';
+    r += '</tr>';
+    b.innerHTML += r;
+  });
+}
+
+// ═══ User Configs (new alert_manager) ═══
+async function loadUserConfigs(){
+  try{
+    // We don't have a direct "list all user configs" endpoint, so we load what we have
+    var r = await api('GET','/api/alert/user-config?email=');
+    var body = document.getElementById('userConfigsBody');
+    if(r.email){
+      var ch = r.channels || {};
+      var channels = [];
+      if(ch.telegram) channels.push('\uD83D\uDCF1');
+      if(ch.email) channels.push('\uD83D\uDCE7');
+      if(ch.popup) channels.push('\uD83D\uDCBB');
+      body.innerHTML = '<tr><td>' + r.email + '</td><td style="font-family:monospace;">' + (r.telegram_chat_id||'-') + '</td><td>' + channels.join(' ') + '</td><td>' + (r.quiet_start||'-') + ' - ' + (r.quiet_end||'-') + '</td><td style="font-size:9px;">' + ((r.updated_at||'').substring(0,10)) + '</td></tr>';
+    } else {
+      body.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text3);">\u0647\u0646\u0648\u0632 \u062a\u0646\u0638\u06cc\u0645\u0627\u062a\u06cc \u062b\u0628\u062a \u0646\u0634\u062f\u0647</td></tr>';
+    }
+  }catch(e){
+    document.getElementById('userConfigsBody').innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--red);">\u062e\u0637\u0627</td></tr>';
+  }
+}
+
+// ═══ Log ═══
+async function loadLog(){
+  var filter = document.getElementById('logFilter').value;
+  var d = await api('GET','/api/alerts/log?limit=100');
+  var b = document.getElementById('logBody');
+  b.innerHTML = '';
+  var icons = {entry:'\uD83D\uDFE2',closed_tp:'\u2705',closed_sl:'\u274C',be_activated:'\uD83D\uDEE1\uFE0F',trailing_active:'\uD83D\uDCC8',near_tp:'\uD83C\uDFAF',near_sl:'\u26A0\uFE0F'};
+  (d.logs || []).forEach(function(l){
+    if(filter && l.status !== filter) return;
+    var r = '<tr>';
+    r += '<td style="font-size:9px;white-space:nowrap;">' + ((l.created_at||'').substring(0,19).replace('T',' ')) + '</td>';
+    r += '<td>' + (l.channel==='telegram' ? '\uD83D\uDCF1' : l.channel==='email' ? '\uD83D\uDCE7' : '\uD83D\uDCBB') + '</td>';
+    r += '<td>' + (icons[l.event_type] || '\uD83D\uDCCC') + ' ' + l.event_type + '</td>';
+    r += '<td style="font-weight:700;">' + (l.symbol||'-') + '</td>';
+    r += '<td>' + (l.status==='sent' ? '<span class="tag tag-green">\u2705</span>' : '<span class="tag tag-red">\u274C</span>') + '</td>';
+    r += '<td style="font-size:9px;max-width:150px;overflow:hidden;text-overflow:ellipsis;">' + (l.message||'-') + '</td>';
+    r += '</tr>';
+    b.innerHTML += r;
+  });
+  if(!b.innerHTML) b.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text3);">\u0628\u062f\u0648\u0646 \u0644\u0627\u06af</td></tr>';
+}
+
+// ═══ System Templates ═══
+async function loadSystemTemplates(){
+  try{
+    var r = await api('GET','/api/alert/templates?email=');
+    var tpls = r.templates || {};
+    var at = await api('GET','/api/alert-types');
+    var types = at.types || {};
+    var box = document.getElementById('systemTemplatesBox');
+    var h = '';
+    for(var k in tpls){
+      var t = types[k] || {};
+      h += '<div style="margin-bottom:10px;padding:8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);">';
+      h += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">';
+      h += '<span style="font-size:11px;font-weight:700;color:var(--purple);">' + (t.icon||'') + ' ' + (t.name_fa||k) + '</span>';
+      h += '</div>';
+      h += '<div style="font-size:9px;color:var(--text3);padding:4px 6px;background:var(--bg3);border-radius:4px;font-family:monospace;white-space:pre-wrap;">' + tpls[k] + '</div>';
+      h += '</div>';
+    }
+    box.innerHTML = h || '<div style="text-align:center;color:var(--text3);font-size:10px;">\u0642\u0627\u0644\u0628\u06cc \u06cc\u0627\u0641\u062a \u0646\u0634\u062f</div>';
+  }catch(e){
+    document.getElementById('systemTemplatesBox').innerHTML = '<div style="text-align:center;color:var(--red);font-size:10px;">\u062e\u0637\u0627</div>';
+  }
+}
+
+// ═══ Send Alert ═══
+function buildTradeData(){
+  return {
+    symbol: document.getElementById('aSymbol').value,
+    direction: document.getElementById('aDir').value,
+    strategy_name: document.getElementById('aStrat').value,
+    timeframe: document.getElementById('aTF').value,
+    entry_price: parseFloat(document.getElementById('aEntry').value) || 0,
+    tp1_price: parseFloat(document.getElementById('aTP').value) || 0,
+    sl_price: parseFloat(document.getElementById('aSL').value) || 0,
+    exit_price: parseFloat(document.getElementById('aExit').value) || 0,
+    pnl_pips: parseFloat(document.getElementById('aPips').value) || 0,
+    pnl_usd: parseFloat(document.getElementById('aPnl').value) || 0,
+    duration_minutes: parseInt(document.getElementById('aDur').value) || 0,
+  };
+}
+
+function previewAlert(){
+  var td = buildTradeData();
+  var ev = EVENTS.find(function(e){return e.id === selectedEvent;});
+  var msg = ev.icon + ' <b>' + ev.label + '</b> \u2014 ' + td.symbol + ' ' + (td.direction==='BUY'?'\uD83D\uDFE9':'\uD83D\uDFE5') + ' ' + td.direction + '\n\n';
+  msg += '\uD83D\uDCCA \u0627\u0633\u062a\u0631\u0627\u062a\u0698\u06cc: ' + td.strategy_name + '\n\u23F1 \u062a\u0627\u06cc\u0645\u200c\u0641\u0631\u06cc\u0645: ' + td.timeframe + '\n';
+  if(td.entry_price) msg += '\uD83D\uDCB0 \u0648\u0631\u0648\u062f: ' + td.entry_price + '\n';
+  if(td.tp1_price) msg += '\uD83C\uDFAF TP: ' + td.tp1_price + '\n';
+  if(td.sl_price) msg += '\uD83D\uDED1 SL: ' + td.sl_price + '\n';
+  if(td.exit_price) msg += '\uD83D\uDCCD \u062e\u0631\u0648\u062c: ' + td.exit_price + '\n';
+  if(td.pnl_pips) msg += '\uD83D\uDCC8 \u0633\u0648\u062f: ' + (td.pnl_pips>0?'+':'') + td.pnl_pips + ' pips ($' + td.pnl_usd + ')\n';
+  if(td.duration_minutes) msg += '\u23F1 \u0645\u062f\u062a: ' + td.duration_minutes + ' \u062f\u0642\u06cc\u0642\u0647\n';
+  document.getElementById('alertPreview').innerHTML = '<div class="preview">' + msg.replace(/\n/g,'<br>') + '</div>';
+}
+
+async function sendAlert(){
+  var td = buildTradeData();
+  var channels = {to_channel:document.getElementById('sendCH').checked, to_users:document.getElementById('sendTG').checked};
+  var r = await api('POST','/api/admin/send-alert', {event_type:selectedEvent, trade_data:td, ...channels});
+  var parts = [];
+  if(r.channel && r.channel.ok) parts.push('\uD83D\uDCE2 \u06a9\u0627\u0646\u0627\u0644 \u2705');
+  if(r.users > 0) parts.push('\uD83D\uDCF1 ' + r.users + ' \u06a9\u0627\u0631\u0628\u0631 \u2705');
+  if(r.error) parts.push('\u274C ' + r.error);
+  document.getElementById('alertResult').innerHTML = '<div class="msg ok">' + (parts.join(' | ') || '\u2705 \u0627\u0631\u0633\u0627\u0644 \u0634\u062f') + '</div>';
+  loadStats(); loadLog();
+}
+
+async function sendTestAlert(){
+  var r = await api('POST','/api/alerts/dispatch-test', {
+    event_type: 'entry',
+    trade_data: {symbol:'XAUUSD', direction:'BUY', strategy_name:'Test Admin', strategy_id:'TEST_ADMIN', timeframe:'H1', entry_price:2650, sl_price:2640, tp1_price:2670}
+  });
+  document.getElementById('alertResult').innerHTML = '<div class="msg ' + (r.ok ? 'ok' : 'err') + '">' + (r.ok ? '\u2705 \u062a\u0633\u062a \u0627\u0631\u0633\u0627\u0644 \u0634\u062f' : '\u274C ' + (r.error||'\u062e\u0637\u0627')) + '</div>';
+}
+
+// ═══ Channel Message ═══
+async function sendChannelMsg(){
+  var msg = document.getElementById('chMsg').value;
+  if(!msg){alert('\u067e\u06cc\u0627\u0645 \u062e\u0627\u0644\u06cc'); return;}
+  var r = await api('POST','/api/admin/send-channel', {message:msg, send_to_users:document.getElementById('chAlsoUsers').checked});
+  var parts = [];
+  if(r.channel && r.channel.ok) parts.push('\uD83D\uDCE2 \u06a9\u0627\u0646\u0627\u0644 \u2705');
+  if(r.users > 0) parts.push('\uD83D\uDCF1 ' + r.users + ' \u06a9\u0627\u0631\u0628\u0631');
+  document.getElementById('chResult').innerHTML = '<div class="msg ok">' + parts.join(' | ') + '</div>';
+  loadLog();
+}
+
+function previewChannel(){
+  var msg = document.getElementById('chMsg').value;
+  document.getElementById('chPreview').innerHTML = '<div class="preview">' + msg + '</div>';
+}
+
+// ═══ Global Settings ═══
+async function saveGlobalSettings(){
+  var settings = {
+    alert_system_active: document.getElementById('sysAlertActive').classList.contains('on') ? 'true' : 'false',
+    alert_channel_active: document.getElementById('sysChannelActive').classList.contains('on') ? 'true' : 'false',
+    alert_email_active: document.getElementById('sysEmailActive').classList.contains('on') ? 'true' : 'false',
+  };
+  var r = await api('POST','/api/admin/settings', settings);
+  var el = document.getElementById('globalSaveResult');
+  el.innerHTML = '<div class="msg ok">\u2705 \u0630\u062e\u06cc\u0631\u0647 \u0634\u062f</div>';
+  setTimeout(function(){el.innerHTML='';}, 3000);
+}
+
+async function loadGlobalSettings(){
+  try{
+    var r = await api('GET','/api/admin/settings');
+    var s = r.settings || {};
+    document.getElementById('sysAlertActive').classList.toggle('on', s.alert_system_active !== 'false');
+    document.getElementById('sysChannelActive').classList.toggle('on', s.alert_channel_active !== 'false');
+    document.getElementById('sysEmailActive').classList.toggle('on', s.alert_email_active !== 'false');
+  }catch(e){}
+}
+
+function refreshAll(){
+  loadStats();
+  loadHealth();
+}
+
+// ═══ INIT ═══
+initSymbolDropdown();
+buildEventFlow();
+loadStats();
+loadHealth();
+loadLog();
+loadGlobalSettings();
+</script>
+
+
+<!-- ═══ UNIVERSAL FOOTER ═══ -->
+<footer class="wfooter">
+  <div class="wfooter-grid">
+    <div class="wfooter-brand">
+      <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:28px;height:28px;background:linear-gradient(135deg,#00d4ff,#a855f7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;">W</div>
+        <span style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#00d4ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Whilber-AI</span>
+      </a>
+      <p>&#1583;&#1587;&#1578;&#1740;&#1575;&#1585; &#1607;&#1608;&#1588;&#1605;&#1606;&#1583; &#1578;&#1581;&#1604;&#1740;&#1604; &#1576;&#1575;&#1586;&#1575;&#1585;&#1607;&#1575;&#1740; &#1605;&#1575;&#1604;&#1740;. &#1578;&#1581;&#1604;&#1740;&#1604; &#1604;&#1581;&#1592;&#1607;&#8204;&#1575;&#1740; &#1601;&#1575;&#1585;&#1705;&#1587;&#1548; &#1705;&#1585;&#1740;&#1662;&#1578;&#1608;&#1548; &#1601;&#1604;&#1586;&#1575;&#1578; &#1608; &#1588;&#1575;&#1582;&#1589;&#8204;&#1607;&#1575;.</p>
+    </div>
+    <div class="wfooter-col">
+      <h4>&#1575;&#1576;&#1586;&#1575;&#1585;&#1607;&#1575;</h4>
+      <a href="/dashboard">&#x1F4CA; &#1578;&#1581;&#1604;&#1740;&#1604; &#1576;&#1575;&#1586;&#1575;&#1585;</a>
+      <a href="/track-record">&#x1F4DC; &#1587;&#1608;&#1575;&#1576;&#1602;</a>
+      <a href="/builder">&#x1F527; &#1575;&#1587;&#1578;&#1585;&#1575;&#1578;&#1688;&#1740;&#8204;&#1587;&#1575;&#1586;</a>
+      <a href="/risk-manager">&#x1F6E1;&#xFE0F; &#1605;&#1583;&#1740;&#1585;&#1740;&#1578; &#1585;&#1740;&#1587;&#1705;</a>
+      <a href="/journal">&#x1F4D2; &#1688;&#1608;&#1585;&#1606;&#1575;&#1604;</a>
+      <a href="/alerts">&#x1F514; &#1607;&#1588;&#1583;&#1575;&#1585;&#1607;&#1575;</a>
+      <a href="/performance">&#x1F4C8; عملکرد زنده</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>&#1575;&#1591;&#1604;&#1575;&#1593;&#1575;&#1578;</h4>
+      <a href="/guide">&#x1F4D6; &#1585;&#1575;&#1607;&#1606;&#1605;&#1575;</a>
+      <a href="/services">&#x2B50; &#1582;&#1583;&#1605;&#1575;&#1578;</a>
+      <a href="/about">&#x1F464; &#1583;&#1585;&#1576;&#1575;&#1585;&#1607; &#1605;&#1575;</a>
+      <a href="/contact">&#x1F4DE; &#1578;&#1605;&#1575;&#1587;</a>
+      <a href="/">&#x1F3E0; &#1589;&#1601;&#1581;&#1607; &#1575;&#1589;&#1604;&#1740;</a>
+    </div>
+    <div class="wfooter-col">
+      <h4>&#1575;&#1585;&#1578;&#1576;&#1575;&#1591;</h4>
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; &#1705;&#1575;&#1606;&#1575;&#1604; &#1578;&#1604;&#1711;&#1585;&#1575;&#1605;</a>
+      <a href="mailto:support@whilber-ai.com">&#x1F4E7; &#1575;&#1740;&#1605;&#1740;&#1604;</a>
+      <a href="/contact">&#x1F4AC; &#1662;&#1588;&#1578;&#1740;&#1576;&#1575;&#1606;&#1740;</a>
+      <a href="/admin">&#x2699;&#xFE0F; &#1575;&#1583;&#1605;&#1740;&#1606;</a>
+    </div>
+  </div>
+  <div class="wfooter-bottom">
+    <p>&copy; 2026 Whilber-AI &mdash; &#1578;&#1605;&#1575;&#1605;&#1740; &#1581;&#1602;&#1608;&#1602; &#1605;&#1581;&#1601;&#1608;&#1592; &#1575;&#1587;&#1578;. &#1578;&#1581;&#1604;&#1740;&#1604;&#8204;&#1607;&#1575; &#1580;&#1606;&#1576;&#1607; &#1570;&#1605;&#1608;&#1586;&#1588;&#1740; &#1583;&#1575;&#1585;&#1606;&#1583; &#1608; &#1578;&#1608;&#1589;&#1740;&#1607; &#1605;&#1575;&#1604;&#1740; &#1606;&#1740;&#1587;&#1578;&#1606;&#1583;.</p>
+    <div style="display:flex;gap:8px;">
+      <a href="https://t.me/WhilberAI" target="_blank">&#x2708;&#xFE0F; &#1578;&#1604;&#1711;&#1585;&#1575;&#1605;</a>
+      <a href="mailto:support@whilber-ai.com">&#x1F4E7; &#1575;&#1740;&#1605;&#1740;&#1604;</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

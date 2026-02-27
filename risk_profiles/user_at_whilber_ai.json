@@ -1,0 +1,16 @@
+{
+  "updated_at": "2026-02-14T02:43:13.796502+00:00",
+  "balance": 10000,
+  "account_type": "standard",
+  "account_currency": "USD",
+  "risk_preset": "conservative",
+  "risk_pct": 1.0,
+  "max_daily_dd_pct": 3.0,
+  "max_total_dd_pct": 10.0,
+  "max_open_trades": 2,
+  "max_daily_trades": 3,
+  "leverage": 100,
+  "daily_trades_today": 0,
+  "daily_pnl_today": 0,
+  "trade_history": []
+}

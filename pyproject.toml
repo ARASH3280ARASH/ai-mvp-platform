@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "ai-mvp-platform"
+version = "1.0.0"
+description = "AI-powered algorithmic trading platform with ML signal generation, NLP sentiment analysis, and intelligent trade optimization"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Arash", email = "arashsadeghzadehmanagement@gmail.com"},
+]
+keywords = [
+    "algorithmic-trading",
+    "machine-learning",
+    "quantitative-finance",
+    "signal-generation",
+    "fastapi",
+    "metatrader5",
+    "sentiment-analysis",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Office/Business :: Financial :: Investment",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+    "pandas>=2.0.0",
+    "numpy>=1.23.0",
+    "scikit-learn>=1.2.0",
+    "xgboost>=1.7.0",
+    "lightgbm>=3.3.0",
+    "ta>=0.11.0",
+    "sqlalchemy>=2.0.0",
+    "pydantic>=2.0.0",
+    "loguru>=0.7.0",
+    "joblib>=1.2.0",
+    "scipy>=1.10.0",
+]
+
+[project.optional-dependencies]
+ml = ["optuna>=3.1.0", "matplotlib>=3.6.0", "seaborn>=0.12.0"]
+dev = ["pytest>=7.2.0", "pytest-cov>=4.0.0"]
+all = ["optuna>=3.1.0", "matplotlib>=3.6.0", "seaborn>=0.12.0", "pytest>=7.2.0"]
+
+[project.urls]
+Homepage = "https://github.com/ARASH3280ARASH/ai-mvp-platform"
+Repository = "https://github.com/ARASH3280ARASH/ai-mvp-platform"
+Issues = "https://github.com/ARASH3280ARASH/ai-mvp-platform/issues"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --tb=short"
+
+[tool.setuptools.packages.find]
+include = ["ai_core*", "backend*", "config*"]
